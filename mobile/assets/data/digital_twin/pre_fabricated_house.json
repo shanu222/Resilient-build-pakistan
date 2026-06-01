@@ -1,0 +1,247 @@
+{
+  "modelId": "pre_fabricated_house",
+  "displayName": "Pre-Fabricated House",
+  "archetype": "prefab",
+  "masterGlb": "assets/models/pre_fabricated_house/construction_master.glb",
+  "stageCount": 8,
+  "stages": [
+    {
+      "index": 0,
+      "key": "site",
+      "title": "Site Layout",
+      "timelineLabel": "Animation 1 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_00_site.glb",
+      "narration": "Stage 1. Site Layout. Site layout establishes grid, drainage and load zones before excavation.",
+      "explanation": "Site layout establishes grid, drainage and load zones before excavation.",
+      "engineeringPrinciple": "Site layout establishes grid, drainage and load zones before excavation.",
+      "constructionActivity": "Site Layout",
+      "inspectionChecklist": "Verify setbacks, north orientation and surface runoff paths.",
+      "commonMistakes": [
+        "Wrong setback",
+        "Poor drainage slope"
+      ],
+      "resilienceBenefits": [
+        "Clear build zone",
+        "Documented layout"
+      ],
+      "highlights": [
+        "Clear build zone",
+        "Documented layout"
+      ]
+    },
+    {
+      "index": 1,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Animation 2 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_01_excavation.glb",
+      "narration": "Stage 2. Excavation. Excavation reaches competent bearing stratum for safe load transfer.",
+      "explanation": "Excavation reaches competent bearing stratum for safe load transfer.",
+      "engineeringPrinciple": "Excavation reaches competent bearing stratum for safe load transfer.",
+      "constructionActivity": "Excavation",
+      "inspectionChecklist": "Check trench depth, soil class and dewatering if required.",
+      "commonMistakes": [
+        "Shallow trench",
+        "Sloping sides unstable"
+      ],
+      "resilienceBenefits": [
+        "Bearing capacity",
+        "Dry trench base"
+      ],
+      "highlights": [
+        "Bearing capacity",
+        "Dry trench base"
+      ]
+    },
+    {
+      "index": 2,
+      "key": "foundation",
+      "title": "Foundation",
+      "timelineLabel": "Animation 3 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_02_foundation.glb",
+      "narration": "Stage 3. Foundation. Foundation spreads loads to soil through footings and plinth continuity.",
+      "explanation": "Foundation spreads loads to soil through footings and plinth continuity.",
+      "engineeringPrinciple": "Foundation spreads loads to soil through footings and plinth continuity.",
+      "constructionActivity": "Foundation",
+      "inspectionChecklist": "Inspect rebar cover, concrete grade and plinth beam continuity.",
+      "commonMistakes": [
+        "Cold joints",
+        "Insufficient cover"
+      ],
+      "resilienceBenefits": [
+        "Load dispersion",
+        "Settlement control"
+      ],
+      "highlights": [
+        "Load dispersion",
+        "Settlement control"
+      ]
+    },
+    {
+      "index": 3,
+      "key": "structural_frame",
+      "title": "Structural Frame",
+      "timelineLabel": "Animation 4 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_03_structural_frame.glb",
+      "narration": "Stage 4. Structural Frame. Primary structural frame defines load paths for roof and walls.",
+      "explanation": "Primary structural frame defines load paths for roof and walls.",
+      "engineeringPrinciple": "Primary structural frame defines load paths for roof and walls.",
+      "constructionActivity": "Structural Frame",
+      "inspectionChecklist": "Confirm verticality, connections and temporary bracing.",
+      "commonMistakes": [
+        "Misaligned frame",
+        "Missing ties"
+      ],
+      "resilienceBenefits": [
+        "Ductile frame",
+        "Continuous load path"
+      ],
+      "highlights": [
+        "Ductile frame",
+        "Continuous load path"
+      ]
+    },
+    {
+      "index": 4,
+      "key": "walls",
+      "title": "Walls",
+      "timelineLabel": "Animation 5 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_04_walls.glb",
+      "narration": "Stage 5. Walls. Wall systems enclose the structure and transfer lateral loads.",
+      "explanation": "Wall systems enclose the structure and transfer lateral loads.",
+      "engineeringPrinciple": "Wall systems enclose the structure and transfer lateral loads.",
+      "constructionActivity": "Walls",
+      "inspectionChecklist": "Check interlocking, grout cells and vertical reinforcement.",
+      "commonMistakes": [
+        "Dry joints weak",
+        "Missing grout"
+      ],
+      "resilienceBenefits": [
+        "Composite action",
+        "Reduced mass"
+      ],
+      "highlights": [
+        "Composite action",
+        "Reduced mass"
+      ]
+    },
+    {
+      "index": 5,
+      "key": "bands",
+      "title": "Lintel & Roof Bands",
+      "timelineLabel": "Animation 6 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_05_bands.glb",
+      "narration": "Stage 6. Lintel & Roof Bands. RC bands tie walls for seismic box action.",
+      "explanation": "RC bands tie walls for seismic box action.",
+      "engineeringPrinciple": "RC bands tie walls for seismic box action.",
+      "constructionActivity": "Lintel & Roof Bands",
+      "inspectionChecklist": "Continuous pour; no gaps at corners.",
+      "commonMistakes": [
+        "Discontinuous band",
+        "Poor anchorage"
+      ],
+      "resilienceBenefits": [
+        "Box action",
+        "Force redistribution"
+      ],
+      "highlights": [
+        "Box action",
+        "Force redistribution"
+      ]
+    },
+    {
+      "index": 6,
+      "key": "roof",
+      "title": "Roof",
+      "timelineLabel": "Animation 7 of 8",
+      "durationMs": 5500,
+      "glb": "assets/models/pre_fabricated_house/stage_06_roof.glb",
+      "narration": "Stage 7. Roof. Roof diaphragm distributes gravity and seismic loads to walls.",
+      "explanation": "Roof diaphragm distributes gravity and seismic loads to walls.",
+      "engineeringPrinciple": "Roof diaphragm distributes gravity and seismic loads to walls.",
+      "constructionActivity": "Roof",
+      "inspectionChecklist": "Curing, formwork removal sequence, anchor bolts.",
+      "commonMistakes": [
+        "Inadequate curing",
+        "Missing anchors"
+      ],
+      "resilienceBenefits": [
+        "Diaphragm action",
+        "Uniform load transfer"
+      ],
+      "highlights": [
+        "Diaphragm action",
+        "Uniform load transfer"
+      ]
+    },
+    {
+      "index": 7,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Animation 8 of 8",
+      "durationMs": 6500,
+      "glb": "assets/models/pre_fabricated_house/stage_07_complete.glb",
+      "narration": "Stage 8. Completed Structure. Completed resilient house ready for services and occupancy.",
+      "explanation": "Completed resilient house ready for services and occupancy.",
+      "engineeringPrinciple": "Completed resilient house ready for services and occupancy.",
+      "constructionActivity": "Completed Structure",
+      "inspectionChecklist": "Final waterproofing, openings, and quality checklist.",
+      "commonMistakes": [
+        "Skipped DPC",
+        "Unprotected openings"
+      ],
+      "resilienceBenefits": [
+        "Durability",
+        "Occupancy readiness"
+      ],
+      "highlights": [
+        "Durability",
+        "Occupancy readiness"
+      ]
+    }
+  ],
+  "hazardSimulations": {
+    "earthquake": {
+      "title": "Earthquake Simulation",
+      "explanation": "Structural frame and bands redistribute inertia forces; flexible connections limit damage.",
+      "animationKey": "earthquake"
+    },
+    "wind": {
+      "title": "Wind Simulation",
+      "explanation": "Roof anchorage and wall ties resist uplift and racking.",
+      "animationKey": "wind"
+    }
+  },
+  "components": {
+    "foundation": {
+      "title": "Foundation",
+      "loadTransfer": "Spreads loads to bearing soil"
+    },
+    "plinth_band": {
+      "title": "Plinth Band",
+      "continuity": "Ties wall bases"
+    },
+    "vertical_reinforcement": {
+      "title": "Vertical Reinforcement",
+      "seismicResistance": "Ductility and tie-down"
+    },
+    "lintel_band": {
+      "title": "Lintel Band",
+      "earthquakeResistance": "Prevents wall separation"
+    },
+    "roof_band": {
+      "title": "Roof Band",
+      "boxAction": "Ring beam box action"
+    },
+    "roof_slab": {
+      "title": "Roof",
+      "loadTransfer": "Diaphragm to walls"
+    }
+  }
+}

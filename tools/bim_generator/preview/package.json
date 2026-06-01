@@ -1,0 +1,12 @@
+{
+  "name": "rbp-bim-preview",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Three.js preview for generated GLB construction sequences",
+  "scripts": {
+    "preview": "node server.js"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  }
+}

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/admin/admin_dashboard_screen.dart';
 import '../../features/academy/construction_academy_screen.dart';
-import '../../features/bim_simulation/ui/bim_simulation_screen.dart';
+import '../../features/construction/construction_guide_screen.dart';
 import '../../features/construction/construction_guide_screen.dart';
 import '../../features/downloads/download_center_screen.dart';
 import '../../features/engineering/engineering_detail_screen.dart';
@@ -59,7 +59,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/bim/:id',
-            builder: (_, state) => BimSimulationScreen(
+            builder: (_, state) => ConstructionGuideScreen(
               modelId: state.pathParameters['id']!,
             ),
           ),
