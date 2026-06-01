@@ -12,24 +12,39 @@ class CameraControllerPro {
 
   BimCamera get camera => _camera;
 
-  double _viewportFillTarget = 0.78;
+  double _viewportFillTarget = 0.85;
 
   void setViewportFill(double fraction) {
-    _viewportFillTarget = fraction.clamp(0.65, 0.88);
+    _viewportFillTarget = fraction.clamp(0.72, 0.92);
+  }
+
+  /// Desktop 80–90%, tablet 75–85%, mobile maximum practical fill.
+  void setViewportClass({required double width}) {
+    if (width >= 1024) {
+      setViewportFill(0.85);
+    } else if (width >= 600) {
+      setViewportFill(0.80);
+    } else {
+      setViewportFill(0.90);
+    }
   }
 
   void fitToBounds(BimSceneBounds bounds, {double? viewportWidth, double? viewportHeight}) {
+    if (viewportWidth != null) {
+      setViewportClass(width: viewportWidth);
+    }
+
     _camera.target = bounds.center;
     _camera.panX = 0;
     _camera.panY = 0;
 
-    var scale = 2.4;
+    final fill = _viewportFillTarget;
+    var scale = 1.85 / fill;
     if (viewportWidth != null && viewportHeight != null && viewportWidth > 0) {
       final aspect = viewportWidth / viewportHeight;
-      final fill = _viewportFillTarget;
-      scale = aspect > 1.2 ? 2.6 / fill : 2.2 / fill;
+      scale = aspect > 1.2 ? 2.0 / fill : 1.75 / fill;
     }
-    _camera.distance = (bounds.radius * scale).clamp(8.0, 42.0);
+    _camera.distance = (bounds.radius * scale).clamp(5.5, 36.0);
     _camera.pitch = 0.42;
     _camera.yaw = 0.72;
   }
@@ -49,14 +64,14 @@ class CameraControllerPro {
 
   void focusOn(BimVec3 point, {double radius = 2.0}) {
     _camera.target = point;
-    _camera.distance = (radius * 3.2).clamp(6.0, 28.0);
+    _camera.distance = (radius * 2.8).clamp(5.0, 24.0);
   }
 
   void applyPreset(CameraPreset preset, BimVec3 center, double radius) {
     _camera.target = center;
     _camera.panX = 0;
     _camera.panY = 0;
-    _camera.distance = (radius * 2.8).clamp(10.0, 40.0);
+    _camera.distance = (radius * 2.4).clamp(8.0, 32.0);
 
     switch (preset) {
       case CameraPreset.top:
@@ -77,7 +92,7 @@ class CameraControllerPro {
       case CameraPreset.structural:
         _camera.pitch = 0.25;
         _camera.yaw = 0.4;
-        _camera.distance = (radius * 3.4).clamp(12.0, 36.0);
+        _camera.distance = (radius * 2.9).clamp(10.0, 30.0);
     }
   }
 

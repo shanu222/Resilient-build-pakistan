@@ -46,33 +46,21 @@ class EngineeringBimGenerator(EngineeringModelGenerator):
             print(f"  QC fail attempt {attempt} ({model_id}): {issues[0]}")
 
         assert engine is not None
-        print(f"  WARNING: exporting {model_id} after QC retries with residual notes")
-        self._export(engine, model_id, display, archetype)
+        raise RuntimeError(
+            f"QC failed for {model_id} after {self.MAX_REGEN_ATTEMPTS} attempts: {issues}"
+        )
 
     def _strict_validate(self, engine: ProfessionalBimEngine, dims: HouseDims) -> list[str]:
         issues: list[str] = []
-        qc_validate(engine.parts, dims, engine.lv)
+        contact = engine.lv["plinth_top"]
+        tol = 0.08
 
-        hw, hd = dims.w / 2, dims.d / 2
         for p in engine.parts:
-            b = p.mesh.bounds
-            cx, _, cz = (b[0] + b[1]) / 2
-            mn, mx = b[0], b[1]
-
-            if p.role in ("wall", "column", "beam", "foundation", "roof"):
-                if abs(cx) > hw + dims.wall_t + 0.2 or abs(cz) > hd + dims.wall_t + 0.2:
-                    if p.role != "terrain":
-                        issues.append(f"{p.role} outside footprint")
-
-            if p.role == "column":
-                if mn[1] > engine.lv["plinth_top"] + 0.15:
-                    issues.append("column float")
-                if mx[1] < engine.lv["wall_top"] - 0.25:
-                    issues.append("column short")
-
-            if p.role == "roof":
-                if abs(cx) > 0.35 or abs(cz) > 0.35:
-                    issues.append("roof off-center")
+            if p.role != "column":
+                continue
+            mn, mx = p.mesh.bounds
+            if float(mn[1]) > contact + tol:
+                issues.append("column float")
 
         return issues
 

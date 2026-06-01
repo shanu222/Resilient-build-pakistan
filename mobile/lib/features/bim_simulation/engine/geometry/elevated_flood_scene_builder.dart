@@ -410,7 +410,7 @@ class ElevatedFloodSceneBuilder {
             depth: ElevatedFloodDimensions.columnSize,
             center: BimVec3(
               p.$1 + ox + ElevatedFloodDimensions.columnSize / 2,
-              baseY + ElevatedFloodDimensions.columnHeight / 2,
+              baseY,
               p.$2 + ElevatedFloodDimensions.columnSize / 2,
             ),
           ),

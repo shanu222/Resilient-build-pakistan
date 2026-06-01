@@ -9,6 +9,7 @@ import '../bim_simulation_controller.dart';
 import '../bim_visualization_mode.dart';
 import '../../ui/bim_toolbar.dart';
 import '../../../bim/camera_controller_pro.dart';
+import '../../../bim/engineering_constraint_engine.dart';
 import '../math/bim_vec3.dart';
 import 'bim_camera.dart';
 import 'bim_projector.dart';
@@ -28,6 +29,7 @@ class _BimViewportState extends State<BimViewport>
   Duration? _lastTick;
   Offset? _lastPan;
   Offset? _lastTap;
+  Size? _lastFitSize;
 
   CameraControllerPro get _cameraPro => widget.controller.cameraPro;
 
@@ -67,6 +69,16 @@ class _BimViewportState extends State<BimViewport>
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = Size(constraints.maxWidth, constraints.maxHeight);
+        if (_lastFitSize != size && size.width > 0 && size.height > 0) {
+          _lastFitSize = size;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            widget.controller.fitCamera(
+              viewportWidth: size.width,
+              viewportHeight: size.height,
+            );
+          });
+        }
         return Stack(
           fit: StackFit.expand,
           children: [
@@ -153,6 +165,13 @@ class _BimPainter extends CustomPainter {
     );
 
     _drawGrid(canvas, size, projector);
+
+    final validation = controller.validationResult;
+    if (validation != null && !validation.passed) {
+      _drawValidationBlocked(canvas, size, validation);
+      _drawHud(canvas, size);
+      return;
+    }
 
     if (controller.showStructuralGrid) {
       _drawStructuralGrid(canvas, size, projector);
@@ -264,6 +283,7 @@ class _BimPainter extends CustomPainter {
         timberFrameLath: controller.isTimberFrameLath,
         advancedInterlocking: controller.isAdvancedInterlocking,
       );
+      _drawFoundationReactions(canvas, projector);
     }
 
     if (controller.viewMode == BimVisualizationMode.timberSkeleton &&
@@ -415,11 +435,99 @@ class _BimPainter extends CustomPainter {
     BimVec3 explode,
     double scaleY,
   ) {
+    var local = BimVec3(v.x, v.y * scaleY, v.z);
+    final rot = controller.assemblyRotation(e);
+    if (rot.abs() > 0.001) {
+      final b = e.bounds;
+      final center = BimVec3(
+        b.center.x - e.position.x,
+        b.center.y - e.position.y,
+        b.center.z - e.position.z,
+      );
+      final dx = local.x - center.x;
+      final dz = local.z - center.z;
+      final cosR = math.cos(rot);
+      final sinR = math.sin(rot);
+      local = BimVec3(
+        center.x + dx * cosR - dz * sinR,
+        local.y,
+        center.z + dx * sinR + dz * cosR,
+      );
+    }
     return BimVec3(
-      e.position.x + v.x + explode.x,
-      e.position.y + v.y * scaleY + explode.y,
-      e.position.z + v.z + explode.z,
+      e.position.x + local.x + explode.x,
+      e.position.y + local.y + explode.y,
+      e.position.z + local.z + explode.z,
     );
+  }
+
+  void _drawValidationBlocked(Canvas canvas, Size size, ConstraintValidationResult result) {
+    final panel = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(size.width / 2, size.height / 2),
+        width: math.min(size.width - 32, 420),
+        height: math.min(size.height * 0.45, 260),
+      ),
+      const Radius.circular(12),
+    );
+    canvas.drawRRect(
+      panel,
+      Paint()..color = const Color(0xFFFEE2E2),
+    );
+    canvas.drawRRect(
+      panel,
+      Paint()
+        ..color = const Color(0xFFDC2626)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+
+    final title = TextPainter(
+      text: const TextSpan(
+        text: 'Engineering validation failed',
+        style: TextStyle(
+          color: Color(0xFF991B1B),
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: panel.width - 24);
+    title.paint(canvas, Offset(panel.left + 16, panel.top + 16));
+
+    final body = result.errors.take(4).join('\n');
+    final detail = TextPainter(
+      text: TextSpan(
+        text: body.isEmpty ? 'Column float or alignment check failed.' : body,
+        style: const TextStyle(color: Color(0xFF7F1D1D), fontSize: 12, height: 1.4),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: panel.width - 32);
+    detail.paint(canvas, Offset(panel.left + 16, panel.top + 48));
+  }
+
+  void _drawFoundationReactions(Canvas canvas, BimProjector projector) {
+    final c = controller.sceneCenter;
+    final corners = [
+      BimVec3(c.x - 1.8, 0.05, c.z - 1.2),
+      BimVec3(c.x + 1.8, 0.05, c.z - 1.2),
+      BimVec3(c.x + 1.8, 0.05, c.z + 1.2),
+      BimVec3(c.x - 1.8, 0.05, c.z + 1.2),
+    ];
+    for (final corner in corners) {
+      final top = projector.project(corner + const BimVec3(0, 0.35, 0));
+      final base = projector.project(corner);
+      _arrow(canvas, top, base, '', const Color(0xFF22C55E));
+    }
+    final labelPt = projector.project(BimVec3(c.x, 0.15, c.z + 2.2));
+    final tp = TextPainter(
+      text: const TextSpan(
+        text: 'Foundation reactions ↑',
+        style: TextStyle(color: Color(0xFF15803D), fontSize: 11, fontWeight: FontWeight.w600),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, labelPt - Offset(tp.width / 2, 0));
   }
 
   Color _structuralTint(BimEntity e, Color c) {

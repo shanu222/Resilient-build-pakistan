@@ -73,6 +73,8 @@ class BimSimulationController extends ChangeNotifier {
   double _sceneRadius = 8;
   late List<BimEntity> _entities;
 
+  bool get canRenderScene => validationResult?.passed ?? false;
+
   BimVec3 get sceneCenter => _sceneCenter;
   double get sceneRadius => _sceneRadius;
 
@@ -119,15 +121,19 @@ class BimSimulationController extends ChangeNotifier {
     validationResult = EngineeringConstraintEngine.validate(_entities);
   }
 
-  void _fitCameraToScene({double? viewportWidth}) {
-    final bounds = BimSceneBounds.fromEntities(_entities);
+  void _fitCameraToScene({double? viewportWidth, double? viewportHeight}) {
+    final bounds = BimSceneBounds.fromEntities(_entities, structuralOnly: true);
     _sceneCenter = bounds.center;
     _sceneRadius = bounds.radius;
-    cameraPro.fitToBounds(bounds, viewportWidth: viewportWidth);
+    cameraPro.fitToBounds(
+      bounds,
+      viewportWidth: viewportWidth,
+      viewportHeight: viewportHeight,
+    );
   }
 
   void fitCamera({double? viewportWidth, double? viewportHeight}) {
-    final bounds = BimSceneBounds.fromEntities(_entities);
+    final bounds = BimSceneBounds.fromEntities(_entities, structuralOnly: true);
     cameraPro.fitToBounds(
       bounds,
       viewportWidth: viewportWidth,
@@ -144,6 +150,11 @@ class BimSimulationController extends ChangeNotifier {
   BimVec3 assemblyOffset(BimEntity e) {
     if (!assemblyAnimationEnabled) return BimVec3.zero;
     return ConstructionAssemblyAnimator.assemblyOffset(e, e.buildProgress);
+  }
+
+  double assemblyRotation(BimEntity e) {
+    if (!assemblyAnimationEnabled) return 0;
+    return ConstructionAssemblyAnimator.assemblyRotation(e, e.buildProgress);
   }
 
   void setStage(int index, {double progress = 0}) {

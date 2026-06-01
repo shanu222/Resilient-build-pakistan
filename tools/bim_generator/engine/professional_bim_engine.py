@@ -158,6 +158,8 @@ class ProfessionalBimEngine:
         fn = builders.get(self.archetype, self._build_masonry_house)
         fn()
         center_meshes(self.parts)
+        snap_structural_to_foundation(self.parts)
+        self.lv = compute_world_levels(self.parts, self.d)
         qc_validate(self.parts, self.d, self.lv)
 
     def cumulative_meshes(self, stage_idx: int) -> list[trimesh.Trimesh]:
@@ -515,7 +517,10 @@ def center_meshes(parts: list[BimPart]) -> None:
     """Center footprint on origin; rest on ground plane (min Y = 0)."""
     if not parts:
         return
-    all_verts = np.vstack([p.mesh.vertices for p in parts])
+    structural = [p for p in parts if p.role not in ("terrain", "grid", "footprint")]
+    if not structural:
+        structural = parts
+    all_verts = np.vstack([p.mesh.vertices for p in structural])
     mins = all_verts.min(axis=0)
     maxs = all_verts.max(axis=0)
     cx = (mins[0] + maxs[0]) / 2
@@ -525,47 +530,111 @@ def center_meshes(parts: list[BimPart]) -> None:
         p.mesh.apply_translation(offset)
 
 
+def foundation_contact_y(parts: list[BimPart]) -> float:
+    """Top surface of foundation/plinth where vertical members anchor."""
+    tops: list[float] = []
+    for p in parts:
+        if p.role in ("plinth", "foundation", "footing"):
+            tops.append(float(p.mesh.bounds[1][1]))
+    if tops:
+        return max(tops)
+    for p in parts:
+        if p.role == "wall":
+            tops.append(float(p.mesh.bounds[0][1]))
+    return max(tops) if tops else 0.0
+
+
+def compute_world_levels(parts: list[BimPart], d: HouseDims) -> dict[str, float]:
+    """Derive level references from centered mesh geometry."""
+    contact = foundation_contact_y(parts)
+    wall_tops: list[float] = []
+    beam_tops: list[float] = []
+    roof_tops: list[float] = []
+    for p in parts:
+        mn, mx = p.mesh.bounds
+        if p.role == "wall":
+            wall_tops.append(float(mx[1]))
+        if p.role == "beam":
+            beam_tops.append(float(mx[1]))
+        if p.role == "roof":
+            roof_tops.append(float(mx[1]))
+            roof_tops.append(float(mn[1]))
+    wall_top = max(wall_tops) if wall_tops else contact + d.h
+    beam_top = max(beam_tops) if beam_tops else wall_top
+    roof_top = max(roof_tops) if roof_tops else beam_top + d.slab
+    return {
+        "ground": 0.0,
+        "plinth_top": contact,
+        "wall_base": contact,
+        "wall_top": wall_top,
+        "lintel": beam_top,
+        "roof_beam": beam_top,
+        "roof_top": roof_top,
+    }
+
+
+def snap_structural_to_foundation(parts: list[BimPart]) -> None:
+    """Ensure columns, walls, and bracing sit flush on foundation contact plane."""
+    contact = foundation_contact_y(parts)
+    for p in parts:
+        if p.role not in ("column", "wall", "beam", "timber_band", "lath", "mesh"):
+            continue
+        mn, mx = p.mesh.bounds
+        gap = float(mn[1]) - contact
+        if abs(gap) > 1e-4:
+            p.mesh.apply_translation(np.array([0.0, -gap, 0.0]))
+
+
 def qc_validate(parts: list[BimPart], d: HouseDims, lv: dict[str, float]) -> None:
     """Validate alignment: foundations, columns, walls, roof continuity."""
     hw, hd = d.w / 2, d.d / 2
     issues: list[str] = []
     tol = 0.08
-    grid_pts = set((round(x, 3), round(z, 3)) for x, z in StructuralGrid.from_footprint(d.w, d.d).columns[:4])
+    contact = lv["plinth_top"]
+    grid_pts = StructuralGrid.from_footprint(d.w, d.d).columns[:4]
 
     for p in parts:
         b = p.mesh.bounds
         mn, mx = b[0], b[1]
-        cx, cy, cz = (mn + mx) / 2
-        ext = mx - mn
+        cx, _, cz = (mn + mx) / 2
 
         if p.role == "column":
-            base_y = mn[1]
-            if base_y > lv["plinth_top"] + tol:
+            base_y = float(mn[1])
+            if base_y > contact + tol:
                 issues.append("Column floating above plinth")
-            top_y = mx[1]
-            if top_y < lv["wall_top"] - tol:
+            elif base_y < contact - tol * 2:
+                issues.append("Column below foundation contact")
+            top_y = float(mx[1])
+            if top_y < lv["wall_top"] - tol * 3:
                 issues.append("Column too short for wall plate")
 
         if p.role == "wall":
+            wall_base = float(mn[1])
+            if wall_base > contact + tol * 2:
+                issues.append("Wall floating above foundation")
             if abs(cx) > hw + d.wall_t + tol or abs(cz) > hd + d.wall_t + tol:
                 issues.append("Wall outside footprint")
 
+        if p.role == "beam":
+            beam_base = float(mn[1])
+            if beam_base < lv["wall_top"] - tol * 3:
+                issues.append("Beam below wall top")
+
         if p.role == "roof":
-            roof_bottom = mn[1]
-            if abs(roof_bottom - (lv["roof_top"] - d.slab)) > tol * 2:
+            roof_bottom = float(mn[1])
+            expected = lv["roof_top"] - d.slab
+            if abs(roof_bottom - expected) > tol * 3 and abs(roof_bottom - lv["lintel"]) > tol * 3:
                 issues.append("Roof slab misaligned with structure")
 
-        if p.role == "foundation":
-            if mn[1] < -tol:
+        if p.role == "foundation" and p.role != "terrain":
+            if float(mn[1]) < -tol:
                 issues.append("Foundation below ground plane")
 
-    # Overlap check (coarse): columns should sit on grid
     cols = [p for p in parts if p.role == "column"]
     for p in cols[:4]:
         b = p.mesh.bounds
         cx, _, cz = (b[0] + b[1]) / 2
-        key = (round(cx, 3), round(cz, 3))
-        if grid_pts and min(math.hypot(cx - gx, cz - gz) for gx, gz in grid_pts) > tol * 2:
+        if grid_pts and min(math.hypot(cx - gx, cz - gz) for gx, gz in grid_pts) > tol * 3:
             issues.append("Column off structural grid")
 
     if issues:

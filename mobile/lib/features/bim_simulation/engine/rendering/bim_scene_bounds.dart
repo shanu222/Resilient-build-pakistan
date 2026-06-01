@@ -17,7 +17,10 @@ class BimSceneBounds {
   final BimVec3 center;
   final double radius;
 
-  static BimSceneBounds fromEntities(Iterable<BimEntity> entities) {
+  static BimSceneBounds fromEntities(
+    Iterable<BimEntity> entities, {
+    bool structuralOnly = false,
+  }) {
     var minX = double.infinity;
     var minY = double.infinity;
     var minZ = double.infinity;
@@ -26,7 +29,8 @@ class BimSceneBounds {
     var maxZ = -double.infinity;
 
     for (final e in entities) {
-      if (!e.visible) continue;
+      if (structuralOnly && _isExcludedFromFit(e)) continue;
+      if (!e.visible && structuralOnly) continue;
       final b = e.bounds;
       minX = minX < b.min.x ? minX : b.min.x;
       minY = minY < b.min.y ? minY : b.min.y;
@@ -55,7 +59,16 @@ class BimSceneBounds {
     final dx = maxX - minX;
     final dy = maxY - minY;
     final dz = maxZ - minZ;
-    final radius = math.sqrt(dx * dx + dy * dy + dz * dz) / 2 + 0.5;
+    final radius = math.sqrt(dx * dx + dy * dy + dz * dz) / 2 + 0.35;
     return BimSceneBounds(min: min, max: max, center: center, radius: radius);
   }
+
+  static bool _isExcludedFromFit(BimEntity e) =>
+      e.category == BimEntityCategory.terrain ||
+      e.category == BimEntityCategory.excavation ||
+      e.category == BimEntityCategory.grid ||
+      e.category == BimEntityCategory.survey ||
+      e.id.contains('ghost') ||
+      e.id.contains('river') ||
+      e.id.contains('flood_water');
 }

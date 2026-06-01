@@ -302,7 +302,7 @@ class TimberFrameSceneBuilder {
             depth: TimberFrameDimensions.columnSize,
             center: BimVec3(
               p.$1,
-              TimberFrameDimensions.wallBaseY + TimberFrameDimensions.wallHeight / 2,
+              TimberFrameDimensions.wallBaseY,
               p.$2,
             ),
           ),
