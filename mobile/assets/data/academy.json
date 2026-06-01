@@ -1,0 +1,68 @@
+{
+  "learningModes": [
+    {
+      "id": "citizen",
+      "title": "Citizen Mode",
+      "description": "Learn construction basics for homeowners",
+      "color": "#2563EB",
+      "lessonCount": 12
+    },
+    {
+      "id": "mason",
+      "title": "Mason Mode",
+      "description": "Technical training for construction workers",
+      "color": "#F97316",
+      "lessonCount": 24
+    },
+    {
+      "id": "contractor",
+      "title": "Contractor Mode",
+      "description": "Project management and quality control",
+      "color": "#9333EA",
+      "lessonCount": 18
+    },
+    {
+      "id": "engineer",
+      "title": "Engineer Mode",
+      "description": "Advanced structural engineering concepts",
+      "color": "#16A34A",
+      "lessonCount": 32
+    },
+    {
+      "id": "inspector",
+      "title": "Government Inspector Mode",
+      "description": "Code compliance and safety inspection",
+      "color": "#DC2626",
+      "lessonCount": 15
+    }
+  ],
+  "courses": [
+    {
+      "id": "foundation_basics",
+      "title": "Foundation Construction Basics",
+      "duration": "45 min",
+      "lessonCount": 8,
+      "level": "Beginner",
+      "modes": ["citizen", "mason"],
+      "hasQuiz": true
+    },
+    {
+      "id": "earthquake_design",
+      "title": "Earthquake-Resistant Design",
+      "duration": "2 hours",
+      "lessonCount": 12,
+      "level": "Intermediate",
+      "modes": ["engineer", "contractor"],
+      "hasQuiz": true
+    },
+    {
+      "id": "flood_mitigation",
+      "title": "Flood Mitigation Techniques",
+      "duration": "1.5 hours",
+      "lessonCount": 10,
+      "level": "Intermediate",
+      "modes": ["citizen", "contractor", "inspector"],
+      "hasQuiz": true
+    }
+  ]
+}

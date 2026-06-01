@@ -1,0 +1,58 @@
+name: resilientbuild_pakistan
+description: Pakistan's resilient construction advisory platform — Choose Location. Build Safe.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+  go_router: ^14.6.2
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.5
+  path: ^1.9.0
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.6.0
+  firebase_storage: ^12.3.7
+  model_viewer_plus: ^1.9.0
+  syncfusion_flutter_pdfviewer: ^28.1.33
+  syncfusion_flutter_gauges: ^28.1.33
+  http: ^1.2.2
+  uuid: ^4.5.1
+  intl: ^0.19.0
+  image_picker: ^1.1.2
+  share_plus: ^10.1.3
+  connectivity_plus: ^6.1.1
+  cached_network_image: ^3.4.1
+  flutter_animate: ^4.5.2
+  collection: ^1.19.0
+  equatable: ^2.0.7
+  vector_math: ^2.1.4
+  flutter_tts: ^4.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  riverpod_generator: ^2.6.3
+  hive_generator: ^2.0.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/
+    - assets/models/
+    - assets/pdfs/
+    - assets/images/

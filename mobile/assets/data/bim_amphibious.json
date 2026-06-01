@@ -1,0 +1,194 @@
+{
+  "modelId": "floating_amphibious_structure",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "floodResistance": 98,
+    "windResistance": 75,
+    "earthquakeResistance": 72,
+    "adaptability": 100,
+    "overall": 91
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Amphibious houses are designed for areas that experience periodic flooding.",
+      "explanation": "Amphibious houses are designed for areas that experience periodic flooding.",
+      "highlights": ["Flood zones", "Historical flood levels", "Safe anchorage zones"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Guide post locations and foundation pad positions are marked on the floodplain.",
+      "explanation": "Guide posts and foundation pads determine the future movement path of the floating structure.",
+      "highlights": ["Guide rail layout", "Platform boundary"]
+    },
+    {
+      "index": 2,
+      "key": "foundation_pads",
+      "title": "Foundation Pad Construction",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 3. Foundation pads are excavated, reinforced, and cast in concrete to anchor the amphibious system.",
+      "explanation": "Foundation pads anchor the floating structure and transfer forces into the ground.",
+      "highlights": ["Load transfer", "Anchorage system"]
+    },
+    {
+      "index": 3,
+      "key": "guide_posts",
+      "title": "Guide Post Installation",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 4. Steel guide posts are erected and anchored into the foundation pads with alignment checks.",
+      "explanation": "Guide posts allow vertical movement while preventing horizontal drift.",
+      "highlights": ["Movement constraints", "Flood behavior"]
+    },
+    {
+      "index": 4,
+      "key": "floating_platform",
+      "title": "Floating Platform Construction",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 5. The buoyant platform frame and floating deck are assembled to support the house.",
+      "explanation": "The floating platform provides buoyancy and supports the entire house.",
+      "highlights": ["Buoyant force", "Load distribution"]
+    },
+    {
+      "index": 5,
+      "key": "buoyancy_elements",
+      "title": "Buoyancy Element Installation",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 6. Buoyancy drums are now installed beneath the platform. These sealed elements displace water and generate the uplift force necessary for flotation.",
+      "explanation": "Buoyancy elements displace water and generate uplift forces.",
+      "highlights": ["Archimedes principle", "Water displacement", "Buoyant force vectors"]
+    },
+    {
+      "index": 6,
+      "key": "structural_frame",
+      "title": "Structural Frame Erection",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 7. A lightweight timber and bamboo frame is erected on the floating platform.",
+      "explanation": "Lightweight structural systems maximize buoyancy efficiency.",
+      "highlights": ["Load path", "Frame behavior"]
+    },
+    {
+      "index": 7,
+      "key": "floor_system",
+      "title": "Floor System Installation",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 8. Deck panels and moisture-resistant flooring complete the habitable floor system.",
+      "explanation": "The floor system distributes loads uniformly across the floating platform.",
+      "highlights": ["Load distribution"]
+    },
+    {
+      "index": 8,
+      "key": "walls",
+      "title": "Wall Construction",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 9. Lightweight wall panels are installed with openings formed for doors and windows.",
+      "explanation": "Lightweight wall systems reduce overall dead load.",
+      "highlights": ["Weight comparison"]
+    },
+    {
+      "index": 9,
+      "key": "openings",
+      "title": "Window and Door Installation",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 10. Door and window frames are installed above expected flood levels.",
+      "explanation": "Openings are designed to remain above expected flood levels.",
+      "highlights": ["Flood elevation reference"]
+    },
+    {
+      "index": 10,
+      "key": "roof_structure",
+      "title": "Roof Structure",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 11. Lightweight roof trusses are assembled on the floating structure.",
+      "explanation": "Lightweight roofing improves buoyancy performance.",
+      "highlights": ["Weight reduction", "Load path"]
+    },
+    {
+      "index": 11,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 12. CGI sheets are installed and fastened to improve wind resistance.",
+      "explanation": "Proper roof anchorage improves wind resistance.",
+      "highlights": ["Wind uplift", "Anchorage"]
+    },
+    {
+      "index": 12,
+      "key": "utilities",
+      "title": "Utility Connections",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 13. Flexible water, electrical, and drainage connections accommodate vertical movement during flooding.",
+      "explanation": "Utilities must accommodate vertical movement during flooding.",
+      "highlights": ["Connection flexibility", "Movement allowance"]
+    },
+    {
+      "index": 13,
+      "key": "anchorage",
+      "title": "Anchorage System",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 14. Guide collars and anchors are installed to restrain horizontal drift while allowing vertical travel.",
+      "explanation": "The anchorage system prevents drifting while allowing vertical movement.",
+      "highlights": ["Horizontal restraint", "Vertical freedom"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 7000,
+      "narration": "Construction complete. The amphibious system allows the structure to rise with floodwaters while remaining anchored to its original location.",
+      "explanation": "Normal grounded condition ready; activates flotation during design flood events.",
+      "highlights": ["Resilience scores", "Flood simulation"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "Foundation Pad",
+      "anchorageFunction": "Transfers vertical and horizontal loads to bearing soil.",
+      "loadTransfer": "Anchors guide posts and resists uplift during low water."
+    },
+    "guide_post": {
+      "title": "Guide Post",
+      "verticalMovement": "Provides sliding guidance for collars during rise and fall.",
+      "horizontalRestraint": "Prevents lateral drift of the floating house."
+    },
+    "buoyant_drum": {
+      "title": "Buoyant Drum",
+      "waterDisplacement": "Sealed volume displaces water per Archimedes principle.",
+      "buoyancyGeneration": "Uplift equals weight of displaced water when submerged."
+    },
+    "floating_platform": {
+      "title": "Floating Platform",
+      "loadDistribution": "Distributes house loads to buoyancy elements uniformly.",
+      "structuralStability": "Integrates frame, deck, and drum connections."
+    },
+    "flexible_utilities": {
+      "title": "Flexible Utilities",
+      "movementAccommodation": "Coiled/flexible connections allow vertical travel.",
+      "floodPerformance": "Maintain services during moderate flood rise."
+    },
+    "roof_system": {
+      "title": "Roof System",
+      "weightReductionBenefits": "Lightweight CGI roof minimizes dead load for buoyancy margin."
+    }
+  }
+}

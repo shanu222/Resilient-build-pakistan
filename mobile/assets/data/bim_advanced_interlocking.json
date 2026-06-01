@@ -1,0 +1,205 @@
+{
+  "modelId": "advanced_interlocking_brick_masonry",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "earthquakeResistance": 92,
+    "constructionSpeed": 95,
+    "materialEfficiency": 90,
+    "durability": 88,
+    "overall": 91
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Construction begins with site planning, orientation and hazard assessment.",
+      "explanation": "Construction begins with site planning, orientation and hazard assessment.",
+      "highlights": ["Building layout", "Drainage direction", "Load zones"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. The building grid and wall centerlines are established on site.",
+      "explanation": "Accurate setting out ensures correct alignment of interlocking blocks.",
+      "highlights": ["Building grid", "Corners", "Wall centerlines"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 3. Excavation. Foundation trenches are cut to competent bearing strata.",
+      "explanation": "Excavation reaches competent bearing strata capable of supporting structural loads.",
+      "highlights": ["Soil profile", "Bearing layer"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_layer",
+      "title": "PCC Layer",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 4. Plain cement concrete is placed to level and protect the trench base.",
+      "explanation": "PCC provides a stable working surface and prevents contamination of structural concrete.",
+      "highlights": ["Level platform", "Trench protection"]
+    },
+    {
+      "index": 4,
+      "key": "rcc_footings",
+      "title": "RCC Footings",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 7000,
+      "narration": "Stage 5. Reinforcement cages are assembled and footings are cast in reinforced concrete.",
+      "explanation": "Footings safely distribute building loads into the soil.",
+      "highlights": ["Load dispersion", "Soil reaction"]
+    },
+    {
+      "index": 5,
+      "key": "plinth_band",
+      "title": "Plinth Band",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 6. The reinforced concrete plinth band is cast continuously around the structure.",
+      "explanation": "The plinth band improves continuity and controls differential settlement.",
+      "highlights": ["Load redistribution", "Band continuity"]
+    },
+    {
+      "index": 6,
+      "key": "first_block_course",
+      "title": "First Interlocking Block Course",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 7. The first course of interlocking hollow blocks is laid. Blocks lock together automatically.",
+      "explanation": "Interlocking geometry ensures alignment and reduces construction errors.",
+      "highlights": ["Locking mechanism", "Block geometry"]
+    },
+    {
+      "index": 7,
+      "key": "vertical_reinforcement",
+      "title": "Vertical Reinforcement",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 8. Steel bars are inserted through hollow block cores and anchored into the plinth beam.",
+      "explanation": "Vertical reinforcement improves earthquake resistance and wall stability.",
+      "highlights": ["Lateral force resistance", "Anchorage"]
+    },
+    {
+      "index": 8,
+      "key": "wall_construction",
+      "title": "Wall Construction",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 9000,
+      "narration": "Stage 9. Interlocking blocks are placed course by course. Interlocking action improves load transfer.",
+      "explanation": "Interlocking blocks improve load transfer while reducing mortar usage.",
+      "highlights": ["Compression path", "Load flow"]
+    },
+    {
+      "index": 9,
+      "key": "grouting",
+      "title": "Grouting of Reinforced Cells",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 10. Grout is now being poured into reinforced block cores. These reinforced zones significantly increase strength and earthquake resistance.",
+      "explanation": "Grouted cells create reinforced masonry zones capable of resisting seismic forces.",
+      "highlights": ["Reinforced core", "Structural action"]
+    },
+    {
+      "index": 10,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 11. Door and window frames are installed. Reinforced jambs strengthen interrupted load paths.",
+      "explanation": "Openings require strengthening because they interrupt structural load paths.",
+      "highlights": ["Stress redistribution", "Reinforced jambs"]
+    },
+    {
+      "index": 11,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 12. The reinforced concrete lintel band is cast continuously around the structure.",
+      "explanation": "The lintel band ties walls together and prevents separation during earthquakes.",
+      "highlights": ["Seismic force redistribution"]
+    },
+    {
+      "index": 12,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 13. Roof-level reinforcement is cast to complete the ring beam.",
+      "explanation": "The roof band creates box action behavior and improves lateral stability.",
+      "highlights": ["Box action mechanism"]
+    },
+    {
+      "index": 13,
+      "key": "roof_construction",
+      "title": "Roof Construction",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 8000,
+      "narration": "Stage 14. Roof formwork, reinforcement and concrete complete the structural diaphragm.",
+      "explanation": "The roof transfers loads uniformly into supporting walls.",
+      "highlights": ["Roof to walls", "Walls to foundation", "Foundation to soil"]
+    },
+    {
+      "index": 14,
+      "key": "finishing",
+      "title": "Finishing Works",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 15. Waterproofing, doors, windows and finishes improve durability and weather resistance.",
+      "explanation": "Finishing improves durability and weather resistance.",
+      "highlights": ["DPC", "Waterproofing", "Openings"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Interlocking reinforced masonry provides improved structural continuity and seismic resistance.",
+      "explanation": "Completed advanced interlocking brick masonry house ready for occupancy.",
+      "highlights": ["Resilience scores", "Quality inspection"]
+    }
+  ],
+  "components": {
+    "interlocking_block": {
+      "title": "Interlocking Hollow Block",
+      "geometry": "Mechanical keys align courses and reduce mortar dependence.",
+      "loadTransfer": "Compression transferred through interlock keys and grouted cores.",
+      "materialEfficiency": "Hollow cores reduce weight; minimal mortar joints."
+    },
+    "vertical_reinforcement": {
+      "title": "Vertical Reinforcement",
+      "seismicResistance": "Provides ductility and ties walls to plinth and bands.",
+      "anchorage": "L-bar into plinth beam with adequate development length."
+    },
+    "grouted_core": {
+      "title": "Grouted Reinforcement Cell",
+      "structuralStrength": "Concrete-grouted core with bar creates reinforced pier.",
+      "loadTransfer": "Transfers lateral and vertical loads to foundation."
+    },
+    "plinth_band": {
+      "title": "Plinth Band",
+      "settlementControl": "Continuous RC band reduces differential settlement.",
+      "continuity": "Ties wall bases and anchors vertical reinforcement."
+    },
+    "lintel_band": {
+      "title": "Lintel Band",
+      "earthquakeResistance": "Horizontal tie prevents wall separation under shaking."
+    },
+    "roof_band": {
+      "title": "Roof Band",
+      "boxAction": "Ring beam with lintel band creates box action.",
+      "lateralStability": "Walls act together under seismic inertia forces."
+    }
+  }
+}

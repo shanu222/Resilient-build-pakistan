@@ -1,0 +1,181 @@
+{
+  "modelId": "geogrid_reinforced_retaining_wall",
+  "stageCount": 14,
+  "resilienceSummary": {
+    "slopeStability": 96,
+    "drainagePerformance": 95,
+    "landslideResistance": 97,
+    "durability": 90,
+    "overall": 95
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 14",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Geogrid retaining walls are constructed where unstable slopes threaten infrastructure.",
+      "explanation": "Geogrid retaining walls are constructed where unstable slopes threaten infrastructure.",
+      "highlights": ["Slope angle", "Failure surface", "Road corridor"]
+    },
+    {
+      "index": 1,
+      "key": "geotechnical_investigation",
+      "title": "Geotechnical Investigation",
+      "timelineLabel": "Stage 2 of 14",
+      "durationMs": 5000,
+      "narration": "Stage 2. Boreholes are drilled and soil profiles are interpreted to define reinforcement requirements.",
+      "explanation": "Soil investigation determines stability requirements and reinforcement lengths.",
+      "highlights": ["Soil profile", "Groundwater table", "Bearing strata"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 14",
+      "durationMs": 6000,
+      "narration": "Stage 3. Slope excavation and bench cuts create a stable platform for reinforced soil construction.",
+      "explanation": "Excavation creates a stable platform for reinforced soil construction.",
+      "highlights": ["Temporary slope", "Excavation limits"]
+    },
+    {
+      "index": 3,
+      "key": "foundation_preparation",
+      "title": "Foundation Preparation",
+      "timelineLabel": "Stage 4 of 14",
+      "durationMs": 5000,
+      "narration": "Stage 4. A leveling pad and compacted granular foundation layer are placed.",
+      "explanation": "The foundation layer provides uniform support for the retaining system.",
+      "highlights": ["Compaction density", "Load distribution"]
+    },
+    {
+      "index": 4,
+      "key": "first_wall_course",
+      "title": "First Wall Course",
+      "timelineLabel": "Stage 5 of 14",
+      "durationMs": 4500,
+      "narration": "Stage 5. The first course of segmental facing blocks is installed and aligned.",
+      "explanation": "The first course controls alignment of the entire retaining structure.",
+      "highlights": ["Survey controls", "Level indicators"]
+    },
+    {
+      "index": 5,
+      "key": "first_geogrid",
+      "title": "First Geogrid Installation",
+      "timelineLabel": "Stage 6 of 14",
+      "durationMs": 6500,
+      "narration": "Stage 6. The first geogrid layer is now installed. The reinforcement extends into the retained soil mass and develops tensile resistance against lateral earth pressure.",
+      "explanation": "Geogrids transfer tensile forces into the reinforced soil mass.",
+      "highlights": ["Tension forces", "Anchorage length"]
+    },
+    {
+      "index": 6,
+      "key": "backfill_placement",
+      "title": "Backfill Placement",
+      "timelineLabel": "Stage 7 of 14",
+      "durationMs": 5000,
+      "narration": "Stage 7. Free-draining granular backfill is placed behind the facing units.",
+      "explanation": "Backfill must be free-draining and properly graded.",
+      "highlights": ["Material properties", "Drainage characteristics"]
+    },
+    {
+      "index": 7,
+      "key": "compaction",
+      "title": "Compaction",
+      "timelineLabel": "Stage 8 of 14",
+      "durationMs": 5000,
+      "narration": "Stage 8. Compaction rollers increase soil density and develop reinforced soil strength.",
+      "explanation": "Compaction is critical for developing reinforced soil strength.",
+      "highlights": ["Density increase", "Void reduction"]
+    },
+    {
+      "index": 8,
+      "key": "multiple_geogrids",
+      "title": "Multiple Geogrid Layers",
+      "timelineLabel": "Stage 9 of 14",
+      "durationMs": 7000,
+      "narration": "Stage 9. Additional geogrid layers and facing courses build the reinforced soil block.",
+      "explanation": "Each reinforcement layer increases stability and resistance to earth pressure.",
+      "highlights": ["Reinforced zone", "Load transfer"]
+    },
+    {
+      "index": 9,
+      "key": "drainage_pipe",
+      "title": "Drainage Pipe Installation",
+      "timelineLabel": "Stage 10 of 14",
+      "durationMs": 5500,
+      "narration": "Stage 10. Perforated drainage pipes, filter layers, and drainage blankets are installed.",
+      "explanation": "Drainage prevents hydrostatic pressure buildup behind the wall.",
+      "highlights": ["Water flow paths", "Pressure reduction"]
+    },
+    {
+      "index": 10,
+      "key": "weep_holes",
+      "title": "Weep Hole System",
+      "timelineLabel": "Stage 11 of 14",
+      "durationMs": 4500,
+      "narration": "Stage 11. Weep holes are formed to safely release trapped pore water.",
+      "explanation": "Weep holes safely release trapped water.",
+      "highlights": ["Groundwater movement", "Hydraulic pressure relief"]
+    },
+    {
+      "index": 11,
+      "key": "wall_completion",
+      "title": "Wall Completion",
+      "timelineLabel": "Stage 12 of 14",
+      "durationMs": 5500,
+      "narration": "Stage 12. The wall reaches final height with coping and completed facing panels.",
+      "explanation": "The reinforced soil mass and facing act together as a stable retaining system.",
+      "highlights": ["Completed reinforced block"]
+    },
+    {
+      "index": 12,
+      "key": "erosion_control",
+      "title": "Erosion Control",
+      "timelineLabel": "Stage 13 of 14",
+      "durationMs": 5000,
+      "narration": "Stage 13. Surface protection and vegetation control long-term slope erosion.",
+      "explanation": "Erosion control prevents long-term degradation.",
+      "highlights": ["Rainfall simulation", "Surface runoff control"]
+    },
+    {
+      "index": 13,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The geogrid reinforced retaining wall protects the road corridor from landslide failure.",
+      "explanation": "Mechanically stabilized earth system suitable for hillside infrastructure protection.",
+      "highlights": ["Resilience scores", "National deployment"]
+    }
+  ],
+  "components": {
+    "geogrid": {
+      "title": "Geogrid Layer",
+      "tensileResistance": "Mobilizes tensile capacity in reinforced soil.",
+      "anchorageMechanism": "Friction and bearing against compacted fill.",
+      "loadTransfer": "Transfers lateral thrust to resistant soil mass."
+    },
+    "backfill": {
+      "title": "Granular Backfill",
+      "compactionRequirements": "Layer-wise compaction to specified density.",
+      "drainageFunction": "Free-draining fill limits pore pressure."
+    },
+    "drainage_pipe": {
+      "title": "Drainage Pipe",
+      "waterRemoval": "Collects and conveys seepage to outlets.",
+      "pressureReduction": "Lowers hydrostatic load on facing."
+    },
+    "facing_block": {
+      "title": "Facing Block",
+      "alignmentFunction": "Controls verticality and horizontal alignment.",
+      "loadTransfer": "Transfers facing loads to geogrid connections."
+    },
+    "reinforced_soil_zone": {
+      "title": "Reinforced Soil Zone",
+      "compositeBehavior": "Soil-geogrid composite acts as coherent mass.",
+      "stabilityMechanism": "Increases factor of safety against sliding."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd mobile && flutter pub get && flutter build web --release --dart-define=ENV=production",
+  "outputDirectory": "mobile/build/web",
+  "framework": null,
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

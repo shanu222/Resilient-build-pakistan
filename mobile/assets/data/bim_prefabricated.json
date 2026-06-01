@@ -1,0 +1,190 @@
+{
+  "modelId": "pre_fabricated_house",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 90,
+    "windResistance": 82,
+    "thermalPerformance": 92,
+    "constructionSpeed": 100,
+    "overall": 91
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Prefabricated structures require precise planning because components are manufactured off-site.",
+      "explanation": "Prefabricated structures require precise planning because components are manufactured off-site.",
+      "highlights": ["Building boundary", "Foundation grid"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Grid lines and panel positions are marked for modular installation.",
+      "explanation": "Accurate layout ensures correct installation of factory-produced components.",
+      "highlights": ["Grid lines", "Panel positions"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing soil.",
+      "explanation": "Foundations provide support for the prefabricated structural system.",
+      "highlights": ["Bearing soil", "Load transfer path"]
+    },
+    {
+      "index": 3,
+      "key": "foundation",
+      "title": "Foundation Construction",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 4. PCC, reinforced footings, and the foundation beam are constructed.",
+      "explanation": "The foundation distributes structural loads safely into the soil.",
+      "highlights": ["Load distribution"]
+    },
+    {
+      "index": 4,
+      "key": "anchor_bolts",
+      "title": "Anchor Bolt Installation",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 5. Anchor bolts are installed and aligned to connect prefabricated components to the foundation.",
+      "explanation": "Anchor bolts connect prefabricated components to the foundation.",
+      "highlights": ["Load transfer mechanism"]
+    },
+    {
+      "index": 5,
+      "key": "floor_panels",
+      "title": "Floor Panel Installation",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 7000,
+      "narration": "Stage 6. Factory-manufactured floor panels are lifted into position and locked to the foundation.",
+      "explanation": "Factory-manufactured floor panels create a precise structural platform.",
+      "highlights": ["Panel alignment", "Connection system"]
+    },
+    {
+      "index": 6,
+      "key": "wall_panels",
+      "title": "Wall Panel Installation",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 7500,
+      "narration": "Stage 7. Factory-manufactured wall panels are now being installed. Precision manufacturing improves quality, reduces waste and accelerates construction.",
+      "explanation": "Wall panels are manufactured under controlled conditions for improved quality.",
+      "highlights": ["Panel joints", "Connection behavior"]
+    },
+    {
+      "index": 7,
+      "key": "corner_connections",
+      "title": "Corner Connections",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 8. Steel connectors lock panels at corners and stabilize the modular frame.",
+      "explanation": "Panel connections are critical because they transfer structural forces.",
+      "highlights": ["Force transfer", "Connection detailing"]
+    },
+    {
+      "index": 8,
+      "key": "openings",
+      "title": "Window and Door Modules",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 9. Preassembled door and window modules are inserted into wall openings.",
+      "explanation": "Factory-built openings improve dimensional accuracy.",
+      "highlights": ["Modular openings"]
+    },
+    {
+      "index": 9,
+      "key": "roof_panels",
+      "title": "Roof Panel Installation",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 10. Insulated roof panels are lifted and connected to complete the building envelope.",
+      "explanation": "Lightweight roof panels reduce structural demand.",
+      "highlights": ["Weight comparison"]
+    },
+    {
+      "index": 10,
+      "key": "insulation",
+      "title": "Insulation System",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 11. Sandwich panel insulation cores and thermal barriers improve energy performance.",
+      "explanation": "Insulated panels improve thermal performance and energy efficiency.",
+      "highlights": ["Heat transfer reduction"]
+    },
+    {
+      "index": 11,
+      "key": "connection_check",
+      "title": "Mechanical Connection Check",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 12. Connection inspection verifies bolts and panel locking systems.",
+      "explanation": "Proper connection installation is essential for structural performance.",
+      "highlights": ["Bolts", "Locking systems"]
+    },
+    {
+      "index": 12,
+      "key": "services",
+      "title": "Services Installation",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 13. Electrical and water services are routed through preformed panel openings.",
+      "explanation": "Prefabrication simplifies utility installation.",
+      "highlights": ["Preformed openings"]
+    },
+    {
+      "index": 13,
+      "key": "finishing",
+      "title": "Finishing Works",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 14. Exterior and interior finishes complete the habitable prefabricated house.",
+      "explanation": "Minimal finishing work is required because many components are factory finished.",
+      "highlights": ["Factory finish"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Prefabricated construction reduces construction time by manufacturing components before site installation.",
+      "explanation": "Fully assembled modular resilient house ready for occupancy.",
+      "highlights": ["Resilience scores", "Rapid deployment"]
+    }
+  ],
+  "components": {
+    "floor_panel": {
+      "title": "Precast Floor Panel",
+      "structuralRole": "Provides rigid platform for wall and roof modules.",
+      "loadDistribution": "Distributes gravity loads to foundation beam and footings."
+    },
+    "wall_panel": {
+      "title": "Sandwich Wall Panel",
+      "compositeAction": "Steel skins with insulation core act as composite wall.",
+      "thermalPerformance": "Insulated core reduces heat transfer through envelope."
+    },
+    "steel_connector": {
+      "title": "Steel Connector",
+      "forceTransfer": "Transfers shear and tension between adjacent panels.",
+      "connectionFunction": "Mechanical locking maintains panel alignment."
+    },
+    "roof_panel": {
+      "title": "Insulated Roof Panel",
+      "weightReduction": "Lightweight panels reduce seismic base shear.",
+      "thermalProtection": "Insulated roof improves comfort and efficiency."
+    },
+    "insulation_core": {
+      "title": "Insulation Core",
+      "energyEfficiency": "Reduces heating and cooling energy demand.",
+      "heatTransferResistance": "Thermal barrier limits conduction through walls."
+    }
+  }
+}

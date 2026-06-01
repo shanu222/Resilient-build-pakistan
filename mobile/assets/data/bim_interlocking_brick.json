@@ -1,0 +1,179 @@
+{
+  "modelId": "interlocking_brick_masonry",
+  "stageCount": 12,
+  "resilienceSummary": {
+    "earthquakeResistance": 85,
+    "floodResistance": 45,
+    "windResistance": 70,
+    "overall": 78
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 11",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Construction begins with site selection and layout. Proper orientation, drainage, and bearing capacity are verified before construction.",
+      "explanation": "Construction begins with site selection and layout. Proper orientation, drainage and bearing capacity are verified before construction.",
+      "highlights": ["North Arrow", "Building Grid", "Property Boundary"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 11",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Grid lines and building corners are established on site.",
+      "explanation": "Setting out transfers design dimensions from drawings to the field.",
+      "highlights": ["Right angles", "Wall centerlines", "Foundation lines"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 11",
+      "durationMs": 6000,
+      "narration": "Stage 3. Excavation. Foundation trenches are cut to competent bearing strata.",
+      "explanation": "Excavation reaches competent bearing strata capable of supporting structural loads.",
+      "highlights": ["Load transfer arrows", "Soil bearing layer"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_layer",
+      "title": "PCC Layer",
+      "timelineLabel": "Stage 4 of 11",
+      "durationMs": 4000,
+      "narration": "Stage 4. Plain cement concrete is placed to form a level working platform in the trenches.",
+      "explanation": "PCC creates a clean, level and stable working platform while preventing contamination of structural concrete.",
+      "highlights": ["Concrete thickness", "Level indicators"]
+    },
+    {
+      "index": 4,
+      "key": "foundation_construction",
+      "title": "Foundation Construction",
+      "timelineLabel": "Stage 5 of 11",
+      "durationMs": 7000,
+      "narration": "Stage 5. Foundation masonry and footings transfer building loads to the soil.",
+      "explanation": "The foundation transfers all structural loads into the supporting soil.",
+      "highlights": ["Roof load", "Wall load", "Foundation load", "Soil reaction"]
+    },
+    {
+      "index": 5,
+      "key": "plinth_beam",
+      "title": "Plinth Beam",
+      "timelineLabel": "Stage 6 of 11",
+      "durationMs": 6500,
+      "narration": "Stage 6. Plinth beam reinforcement and concrete tie the foundation system together.",
+      "explanation": "Plinth beams tie the structure together and reduce differential settlement.",
+      "highlights": ["Reinforcement details", "Concrete cover", "Load path"]
+    },
+    {
+      "index": 6,
+      "key": "vertical_reinforcement",
+      "title": "Vertical Reinforcement",
+      "timelineLabel": "Stage 7 of 11",
+      "durationMs": 5000,
+      "narration": "Stage 7. Twelve millimeter vertical bars are placed and anchored into the plinth beam.",
+      "explanation": "Vertical reinforcement improves seismic performance and prevents wall separation.",
+      "highlights": ["Earthquake forces", "Lateral load arrows", "Resistance mechanism"]
+    },
+    {
+      "index": 7,
+      "key": "interlocking_walls",
+      "title": "Interlocking Brick Walls",
+      "timelineLabel": "Stage 8 of 11",
+      "durationMs": 9000,
+      "narration": "Stage 8. Interlocking brick masonry walls are now being constructed. The interlocking geometry improves alignment, reduces mortar consumption and enhances structural stability.",
+      "explanation": "Interlocking masonry improves load transfer and reduces dependence on mortar joints.",
+      "highlights": ["Interlocking mechanism", "Compression force paths", "Stress distribution"]
+    },
+    {
+      "index": 8,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 9 of 11",
+      "durationMs": 5500,
+      "narration": "Stage 9. Reinforced concrete lintel band is cast around the structure at opening level.",
+      "explanation": "Lintel bands provide continuity and significantly improve earthquake performance.",
+      "highlights": ["Wall separation prevention", "Band continuity"]
+    },
+    {
+      "index": 9,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 10 of 11",
+      "durationMs": 5500,
+      "narration": "Stage 10. Roof band reinforcement creates box action for seismic load sharing.",
+      "explanation": "Roof bands create box action behavior which allows walls to work together during seismic loading.",
+      "highlights": ["Box action", "Load redistribution"]
+    },
+    {
+      "index": 10,
+      "key": "roof_slab",
+      "title": "Roof Slab",
+      "timelineLabel": "Stage 11 of 11",
+      "durationMs": 8000,
+      "narration": "Stage 11. Roof slab shuttering, reinforcement and concrete complete the structural frame.",
+      "explanation": "The roof slab distributes loads uniformly to supporting walls and reinforcement.",
+      "highlights": ["Roof to walls", "Walls to foundation", "Foundation to soil"]
+    },
+    {
+      "index": 11,
+      "key": "complete",
+      "title": "Complete Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6000,
+      "narration": "Construction complete. The interlocking brick masonry structure is ready for finishing and occupancy.",
+      "explanation": "Fully assembled resilient single-storey house with engineered bands and roof diaphragm.",
+      "highlights": ["Resilience score", "Quality inspection"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "Foundation System",
+      "purpose": "Transfers vertical loads from walls and roof to bearing soil.",
+      "loadMechanism": "Strip footing spreads pressure; PCC provides uniform bearing plane.",
+      "failureModes": ["Bearing failure", "Differential settlement", "Moisture ingress"],
+      "inspection": ["Trench depth", "PCC thickness", "Footing width", "Soil bearing test"]
+    },
+    "plinth_beam": {
+      "title": "Plinth Beam",
+      "purpose": "Ties foundation elements and supports wall loads.",
+      "reinforcement": "4–6 bars 12–16mm with stirrups @ 150mm c/c",
+      "function": "Reduces cracking and aligns wall base",
+      "mistakes": ["Insufficient cover", "Open stirraps", "Cold joints"]
+    },
+    "vertical_reinforcement": {
+      "title": "Vertical Reinforcement",
+      "purpose": "Provides ductility and holds walls together under earthquake.",
+      "anchorage": "L-bar into plinth beam with 40× bar diameter development length",
+      "developmentLength": "≥ 480mm for 12mm bar",
+      "seismicRole": "Prevents out-of-plane collapse and corner separation"
+    },
+    "interlocking_brick": {
+      "title": "Interlocking Masonry Unit",
+      "purpose": "Primary load-bearing wall with mechanical interlock.",
+      "compression": "Bearing stress distributed through interlock keys",
+      "jointMechanism": "Dry-stack keys reduce sliding between courses",
+      "loadTransfer": "Compression arching to bands at lintel and roof levels"
+    },
+    "lintel_band": {
+      "title": "Lintel Band",
+      "purpose": "Horizontal tie resisting wall separation during seismic shaking.",
+      "earthquakeMechanism": "Continuous ring beam keeps walls acting as a box"
+    },
+    "roof_band": {
+      "title": "Roof Band",
+      "purpose": "Creates box action with lintel band under roof diaphragm.",
+      "boxAction": "Walls cannot move independently; inertia forces shared"
+    },
+    "roof_slab": {
+      "title": "Roof Slab",
+      "purpose": "Rigid diaphragm distributing lateral and gravity loads.",
+      "rebarLayout": "Main bars along short span; distribution bars @ 2× slab thickness",
+      "concreteCover": "20mm bottom, 15mm top (exposure class moderate)",
+      "loadTransfer": "Slab → walls → plinth → foundation → soil"
+    }
+  }
+}

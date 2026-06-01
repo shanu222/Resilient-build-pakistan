@@ -1,0 +1,70 @@
+{
+  "hazardTypes": [
+    {
+      "id": "flood",
+      "name": "Flood Risk",
+      "icon": "waves",
+      "color": "#2563EB",
+      "description": "Riverine, pluvial, and flash flood exposure"
+    },
+    {
+      "id": "earthquake",
+      "name": "Earthquake Risk",
+      "icon": "activity",
+      "color": "#F97316",
+      "description": "Seismic hazard per NDMA/PMD zones"
+    },
+    {
+      "id": "landslide",
+      "name": "Landslide Risk",
+      "icon": "mountain",
+      "color": "#16A34A",
+      "description": "Slope instability and debris flow"
+    },
+    {
+      "id": "glof",
+      "name": "GLOF Risk",
+      "icon": "droplets",
+      "color": "#0891B2",
+      "description": "Glacial lake outburst flood exposure"
+    },
+    {
+      "id": "wind",
+      "name": "Wind Exposure",
+      "icon": "wind",
+      "color": "#9333EA",
+      "description": "Cyclonic and monsoon wind loads"
+    },
+    {
+      "id": "river_proximity",
+      "name": "River Proximity",
+      "icon": "map_pin",
+      "color": "#0F172A",
+      "description": "Distance to major river channels"
+    },
+    {
+      "id": "terrain_slope",
+      "name": "Terrain Slope",
+      "icon": "trending_up",
+      "color": "#64748B",
+      "description": "Topographic slope percentage"
+    },
+    {
+      "id": "climate",
+      "name": "Regional Climate",
+      "icon": "thermometer",
+      "color": "#22C55E",
+      "description": "Temperature, rainfall, and humidity profile"
+    }
+  ],
+  "scoringWeights": {
+    "flood": 0.2,
+    "earthquake": 0.2,
+    "landslide": 0.15,
+    "glof": 0.1,
+    "wind": 0.15,
+    "river_proximity": 0.1,
+    "terrain_slope": 0.05,
+    "climate": 0.05
+  }
+}

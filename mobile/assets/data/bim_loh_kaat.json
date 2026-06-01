@@ -1,0 +1,191 @@
+{
+  "modelId": "loh_kaat_timber_house",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 92,
+    "windResistance": 78,
+    "floodResistance": 55,
+    "thermalPerformance": 88,
+    "overall": 87
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Loh-Kaat houses are traditionally built in seismic mountainous regions where flexibility is essential.",
+      "explanation": "Loh-Kaat houses are traditionally built in seismic mountainous regions where flexibility is essential.",
+      "highlights": ["Terrain", "Slope angle", "Drainage paths"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Building grid and wall centerlines are established on the mountain platform.",
+      "explanation": "Accurate layout ensures proper alignment of timber bands and masonry walls.",
+      "highlights": ["Building grid", "Wall centerlines", "Foundation corners"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing soil.",
+      "explanation": "Foundations transfer structural loads into competent ground.",
+      "highlights": ["Bearing soil", "Load transfer path"]
+    },
+    {
+      "index": 3,
+      "key": "stone_foundation",
+      "title": "Stone Foundation",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 4. Stone masonry foundation courses are laid in mud mortar.",
+      "explanation": "Stone foundations provide stability and distribute loads to the soil.",
+      "highlights": ["Load dispersion"]
+    },
+    {
+      "index": 4,
+      "key": "timber_treatment",
+      "title": "Timber Treatment",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 5. Timber members receive protective treatment and seasoning for durability.",
+      "explanation": "Proper timber treatment improves durability and resistance to insects and moisture.",
+      "highlights": ["Untreated vs treated timber"]
+    },
+    {
+      "index": 5,
+      "key": "plinth_band",
+      "title": "Plinth Timber Band",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 6. The plinth timber band is installed continuously around the structure with interlocked corners.",
+      "explanation": "The plinth timber band ties the entire structure together.",
+      "highlights": ["Structural continuity", "Load distribution"]
+    },
+    {
+      "index": 6,
+      "key": "masonry_walls",
+      "title": "Masonry Wall Construction",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 7000,
+      "narration": "Stage 7. Stone and brick masonry walls rise in mud mortar to support gravity loads.",
+      "explanation": "The masonry provides gravity load support while timber bands improve seismic performance.",
+      "highlights": ["Compression forces", "Load path"]
+    },
+    {
+      "index": 7,
+      "key": "mid_band",
+      "title": "Mid-Height Timber Band",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 8. The mid-height timber band is now installed. This continuous timber element ties the masonry walls together and improves resistance against earthquake-induced cracking.",
+      "explanation": "Mid-height bands improve wall integrity and prevent cracking.",
+      "highlights": ["Wall restraint mechanism"]
+    },
+    {
+      "index": 8,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 9. Door and window frames are installed with timber reinforcement around openings.",
+      "explanation": "Openings are weak points and require additional strengthening.",
+      "highlights": ["Stress concentration", "Load redistribution"]
+    },
+    {
+      "index": 9,
+      "key": "lintel_band",
+      "title": "Lintel Timber Band",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 10. The lintel timber band is installed above openings to tie the structure together.",
+      "explanation": "The lintel band prevents wall separation during earthquakes.",
+      "highlights": ["Force redistribution"]
+    },
+    {
+      "index": 10,
+      "key": "corner_reinforcement",
+      "title": "Timber Columns and Corner Reinforcement",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 11. Timber columns and corner reinforcements improve ductility and lateral stability.",
+      "explanation": "Timber reinforcement improves ductility and earthquake resistance.",
+      "highlights": ["Lateral force resistance"]
+    },
+    {
+      "index": 11,
+      "key": "roof_frame",
+      "title": "Roof Frame Construction",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 12. Timber rafters and purlins form a lightweight roof frame.",
+      "explanation": "Lightweight timber roofs reduce earthquake loads.",
+      "highlights": ["Load transfer", "Weight comparison"]
+    },
+    {
+      "index": 12,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 13. CGI or timber roof sheeting is installed with proper fasteners.",
+      "explanation": "Proper roof anchorage improves resistance to wind and seismic forces.",
+      "highlights": ["Anchorage"]
+    },
+    {
+      "index": 13,
+      "key": "finishing",
+      "title": "Finishing Works",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 14. Wall finishes, doors, windows, and flooring are completed.",
+      "explanation": "Finishing improves durability and serviceability.",
+      "highlights": ["Plaster", "Doors", "Windows"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The timber bands provide continuity and ductility, significantly improving earthquake performance of traditional Loh-Kaat construction.",
+      "explanation": "Traditional mountainous house with continuous Kaat timber band network.",
+      "highlights": ["Resilience scores", "Heritage resilience"]
+    }
+  ],
+  "components": {
+    "stone_foundation": {
+      "title": "Stone Foundation",
+      "loadDistribution": "Spreads wall loads over bearing area on mountain soil.",
+      "settlementControl": "Wide stone base reduces differential settlement."
+    },
+    "timber_band": {
+      "title": "Timber Band (Kaat)",
+      "ductility": "Allows controlled deformation without brittle separation.",
+      "continuity": "Continuous ring ties walls at plinth, mid, and lintel levels.",
+      "earthquakeResistance": "Prevents out-of-plane wall failure during shaking."
+    },
+    "masonry_wall": {
+      "title": "Masonry Wall",
+      "compressionBehavior": "Bearing walls work primarily in compression.",
+      "loadTransfer": "Gravity loads pass to stone foundation and bands."
+    },
+    "corner_reinforcement": {
+      "title": "Corner Reinforcement",
+      "lateralStability": "Stiffens corners against racking drift.",
+      "connectionDetails": "Traditional joinery with metal connectors where used."
+    },
+    "roof_frame": {
+      "title": "Timber Roof Frame",
+      "forceDistribution": "Triangulated frame spreads loads to wall bands.",
+      "loadPath": "Roof → bands → walls → stone foundation"
+    }
+  }
+}

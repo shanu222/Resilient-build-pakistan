@@ -1,0 +1,199 @@
+{
+  "modelId": "earthbag_masonry",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 92,
+    "floodResistance": 60,
+    "windResistance": 80,
+    "thermalEfficiency": 90,
+    "overall": 88
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Earthbag structures perform best when drainage is carefully planned. Water must always be directed away from the foundation.",
+      "explanation": "Earthbag structures perform best when drainage is carefully planned. Water must always be directed away from the foundation.",
+      "highlights": ["Surface runoff", "Slope direction", "Safe building platform"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Survey grid and wall centerlines are established on the building platform.",
+      "explanation": "Accurate layout ensures proper geometry and structural stability.",
+      "highlights": ["Survey grid", "Wall centerlines", "Door and window openings"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Excavation. Foundation trench is cut to expose competent bearing soil.",
+      "explanation": "Foundation excavation removes weak surface material and provides a stable base.",
+      "highlights": ["Bearing soil", "Load transfer zone"]
+    },
+    {
+      "index": 3,
+      "key": "rubble_trench",
+      "title": "Rubble Trench Foundation",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 4. Rubble trench foundation. Large stones and compacted gravel improve drainage beneath the earthbag walls.",
+      "explanation": "Rubble trench foundations improve drainage and reduce moisture-related damage.",
+      "highlights": ["Water flow through foundation", "Drainage mechanism"]
+    },
+    {
+      "index": 4,
+      "key": "first_earthbag_course",
+      "title": "First Earthbag Course",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 7000,
+      "narration": "Stage 5. The first earthbag course. Polypropylene bags are filled with soil, compacted, and placed in the foundation trench.",
+      "explanation": "The first earthbag layer forms the structural base of the wall.",
+      "highlights": ["Compaction process", "Density increase", "Load bearing capacity"]
+    },
+    {
+      "index": 5,
+      "key": "barbed_wire",
+      "title": "Barbed Wire Reinforcement",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 6. Two strands of barbed wire are now installed between earthbag courses. These strands act as horizontal reinforcement and prevent sliding between layers during seismic loading.",
+      "explanation": "Barbed wire prevents sliding between bag layers during earthquake shaking.",
+      "highlights": ["Shear resistance", "Earthquake forces"]
+    },
+    {
+      "index": 6,
+      "key": "earthbag_walls",
+      "title": "Earthbag Wall Construction",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 9500,
+      "narration": "Stage 7. Earthbag walls rise course by course. Each layer is compacted and reinforced with barbed wire.",
+      "explanation": "Each compacted layer acts as a structural ring. Together they form a monolithic wall system.",
+      "highlights": ["Compaction energy", "Wall stability", "Load path"]
+    },
+    {
+      "index": 7,
+      "key": "vertical_reinforcement",
+      "title": "Vertical Reinforcement",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 8. Vertical reinforcement bars are inserted through multiple bag courses and anchored at the base.",
+      "explanation": "Vertical reinforcement improves resistance against overturning and seismic forces.",
+      "highlights": ["Lateral earthquake loading", "Resistance mechanism"]
+    },
+    {
+      "index": 8,
+      "key": "openings",
+      "title": "Window and Door Frames",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 9. Door and window frames are set. Walls continue around openings with additional care at corners.",
+      "explanation": "Openings are structural weak points and require additional reinforcement.",
+      "highlights": ["Stress concentrations", "Load redistribution"]
+    },
+    {
+      "index": 9,
+      "key": "lintel_band",
+      "title": "RC Lintel Band",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 10. Reinforced concrete lintel band is cast. The band wraps the structure and ties all walls together.",
+      "explanation": "The lintel band ties all walls together and significantly improves seismic performance.",
+      "highlights": ["Wall tying", "Earthquake comparison"]
+    },
+    {
+      "index": 10,
+      "key": "roof_anchorage",
+      "title": "Roof Anchorage System",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 11. Roof anchor bolts and tie-down connectors secure the roof to the wall system.",
+      "explanation": "The roof must be securely connected to prevent separation during earthquakes and wind events.",
+      "highlights": ["Uplift forces", "Anchorage resistance"]
+    },
+    {
+      "index": 11,
+      "key": "roof_construction",
+      "title": "Roof Construction",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 12. Lightweight timber roof trusses and sheeting are installed to minimize seismic demand.",
+      "explanation": "Lightweight roofs reduce seismic loads acting on the structure.",
+      "highlights": ["Heavy vs lightweight roof", "Seismic mass reduction"]
+    },
+    {
+      "index": 12,
+      "key": "plaster_protection",
+      "title": "Plaster and Weather Protection",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 13. Wire mesh, plaster, and waterproof coating protect earthbag walls from moisture.",
+      "explanation": "Earthbag walls require protection from prolonged moisture exposure.",
+      "highlights": ["Water infiltration", "Protection mechanism"]
+    },
+    {
+      "index": 13,
+      "key": "drainage_apron",
+      "title": "Drainage Apron",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 14. Drainage apron and surface grading direct rainwater away from the structure.",
+      "explanation": "Proper drainage dramatically increases the service life of earthbag structures.",
+      "highlights": ["Rainfall paths", "Water diversion"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The earthbag masonry structure is a flexible, energy-dissipating system suitable for mountainous and seismic regions.",
+      "explanation": "Fully assembled earthquake-resistant earthbag house with bands, anchors, and weather protection.",
+      "highlights": ["Resilience scores", "Service life"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "Rubble Trench Foundation",
+      "purpose": "Drained bearing platform that keeps earthbag walls dry and stable.",
+      "loadMechanism": "Rubble and gravel disperse water; compacted base supports wall loads.",
+      "failureModes": ["Saturation softening", "Scour", "Uneven settlement"],
+      "inspection": ["Trench depth", "Stone grading", "Drainage fall", "Compaction"]
+    },
+    "earthbag": {
+      "title": "Earthbag Unit",
+      "materialComposition": "Woven polypropylene bag filled with moist stabilized soil (often 5–10% cement or lime in wet climates).",
+      "compactionProcess": "Manual tamping in 10–15 cm lifts until bag is firm and crease-free.",
+      "strengthMechanism": "High density soil develops passive earth pressure; interlock between courses resists sliding."
+    },
+    "barbed_wire": {
+      "title": "Barbed Wire Reinforcement",
+      "interlayerFriction": "Barbs embed in bag fabric increasing friction between courses.",
+      "shearResistance": "Two strands per course act as horizontal shear keys under seismic loading.",
+      "seismicBehavior": "Prevents independent layer sliding during cyclic shaking."
+    },
+    "vertical_reinforcement": {
+      "title": "Vertical Reinforcement",
+      "anchorage": "Bars lapped into plinth or foundation with minimum development length.",
+      "lateralResistance": "Connects courses against overturning at wall ends and openings."
+    },
+    "lintel_band": {
+      "title": "RC Lintel Band",
+      "wallTying": "Continuous ring beam at top of wall ties orthogonal walls.",
+      "loadRedistribution": "Redistributes seismic inertia to all walls as a box."
+    },
+    "roof_anchorage": {
+      "title": "Roof Anchorage",
+      "upliftResistance": "Anchor bolts resist wind and seismic uplift on roof diaphragm.",
+      "earthquakePerformance": "Prevents roof separation which causes progressive collapse."
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "modelId": "timber_frame_lath_plaster",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "earthquakeResistance": 93,
+    "windResistance": 82,
+    "thermalPerformance": 85,
+    "durability": 84,
+    "overall": 89
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Timber frame structures are particularly suitable for seismic mountainous regions due to their lightweight and flexible behavior.",
+      "explanation": "Timber frame structures are particularly suitable for seismic mountainous regions due to their lightweight and flexible behavior.",
+      "highlights": ["Terrain", "Drainage", "Slope angle"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Column locations and wall centerlines are marked.",
+      "explanation": "Accurate layout ensures correct frame geometry and load transfer.",
+      "highlights": ["Column grid", "Wall centerlines"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing strata.",
+      "explanation": "Excavation reaches competent bearing strata for safe load transfer.",
+      "highlights": ["Bearing layer", "Load path"]
+    },
+    {
+      "index": 3,
+      "key": "foundation",
+      "title": "Foundation Construction",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 4. PCC, stone foundation, and the RCC plinth beam are constructed.",
+      "explanation": "The foundation distributes structural loads and provides a stable base.",
+      "highlights": ["Load dispersion", "Soil pressure"]
+    },
+    {
+      "index": 4,
+      "key": "timber_treatment",
+      "title": "Timber Treatment",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 5. Timber members receive preservative treatment and protective coating.",
+      "explanation": "Timber treatment improves durability and protects against moisture, insects and fungal attack.",
+      "highlights": ["Untreated vs treated timber"]
+    },
+    {
+      "index": 5,
+      "key": "columns",
+      "title": "Timber Column Installation",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 6. Timber columns are erected and connected to the plinth beam.",
+      "explanation": "Timber columns form the primary vertical load-carrying system.",
+      "highlights": ["Compression forces", "Load path"]
+    },
+    {
+      "index": 6,
+      "key": "beams",
+      "title": "Timber Beam Installation",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 7. Timber beams connect columns and form the primary frame grid.",
+      "explanation": "Beams transfer roof and wall loads into supporting columns.",
+      "highlights": ["Load transfer", "Joint behavior"]
+    },
+    {
+      "index": 7,
+      "key": "bracing",
+      "title": "Timber Bracing System",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 8. Timber bracing members are now being installed. These diagonal elements resist horizontal earthquake forces and significantly improve frame stability.",
+      "explanation": "Bracing resists horizontal earthquake and wind forces.",
+      "highlights": ["Without bracing vs with bracing"]
+    },
+    {
+      "index": 8,
+      "key": "wall_frame",
+      "title": "Timber Wall Frame",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 9. Secondary wall framing is installed to support laths and plaster.",
+      "explanation": "The wall frame supports laths and plaster while contributing to lateral stability.",
+      "highlights": ["Frame geometry", "Structural continuity"]
+    },
+    {
+      "index": 9,
+      "key": "laths",
+      "title": "Timber Lath Installation",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 10. Horizontal timber laths are installed across the wall frame.",
+      "explanation": "Laths provide support for plaster and improve wall integrity.",
+      "highlights": ["Lath layout", "Spacing pattern"]
+    },
+    {
+      "index": 10,
+      "key": "wire_mesh",
+      "title": "Wire Mesh Installation",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 11. Wire mesh is attached to laths to control cracking and improve composite action.",
+      "explanation": "Wire mesh controls cracking and improves composite action.",
+      "highlights": ["Crack control mechanism"]
+    },
+    {
+      "index": 11,
+      "key": "plaster",
+      "title": "Plaster Application",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 12. Cement-lime plaster is applied in base and finish coats.",
+      "explanation": "Plaster forms a lightweight enclosure while protecting the structure.",
+      "highlights": ["Composite wall action"]
+    },
+    {
+      "index": 12,
+      "key": "roof_frame",
+      "title": "Roof Frame Construction",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 13. Timber trusses, rafters and purlins form the lightweight roof frame.",
+      "explanation": "Lightweight roof systems reduce seismic demand.",
+      "highlights": ["Load transfer", "Force distribution"]
+    },
+    {
+      "index": 13,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 14. CGI roofing sheets are installed and fastened to the frame.",
+      "explanation": "Proper anchorage protects against wind uplift.",
+      "highlights": ["Uplift forces", "Connection resistance"]
+    },
+    {
+      "index": 14,
+      "key": "finishing",
+      "title": "Doors, Windows and Finishing",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 15. Door and window frames and final finishes are completed.",
+      "explanation": "Finishing improves durability and serviceability.",
+      "highlights": ["Openings", "Finishes"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The timber frame absorbs and redistributes earthquake energy through flexible deformation.",
+      "explanation": "Completed timber frame with lath and plaster house ready for occupancy.",
+      "highlights": ["Resilience scores", "Seismic flexibility"]
+    }
+  ],
+  "components": {
+    "timber_column": {
+      "title": "Timber Column",
+      "compressionBehavior": "Carries vertical loads from beams and roof to foundation.",
+      "loadTransfer": "Transfers compression through base connection to plinth beam."
+    },
+    "timber_beam": {
+      "title": "Timber Beam",
+      "bendingBehavior": "Resists bending from roof and wall loads.",
+      "structuralRole": "Connects columns and distributes loads horizontally."
+    },
+    "timber_brace": {
+      "title": "Timber Brace",
+      "earthquakeResistance": "Provides diagonal resistance to lateral seismic forces.",
+      "lateralStability": "Stabilizes frame against sway and racking."
+    },
+    "timber_lath": {
+      "title": "Timber Lath",
+      "wallSupportFunction": "Supports plaster layers and maintains spacing for composite wall."
+    },
+    "wire_mesh": {
+      "title": "Wire Mesh",
+      "crackControl": "Limits plaster cracking under movement and shrinkage.",
+      "compositeAction": "Improves bond between plaster and timber substrate."
+    },
+    "roof_truss": {
+      "title": "Roof Truss",
+      "forceDistribution": "Triangulated members distribute roof loads to wall plate.",
+      "triangulation": "Truss action provides efficient span and stability."
+    }
+  }
+}

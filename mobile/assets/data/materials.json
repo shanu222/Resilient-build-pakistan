@@ -1,0 +1,70 @@
+{
+  "materials": [
+    {
+      "id": "burnt_brick",
+      "name": "Burnt Clay Brick",
+      "image": "assets/images/materials/brick.png",
+      "specification": "Class A, 9\" x 4.5\" x 3\", crushing strength ≥ 3.5 MPa",
+      "engineeringPurpose": "Primary masonry unit for load-bearing walls",
+      "advantages": ["Widely available", "Good compressive strength", "Durable"],
+      "disadvantages": ["High embodied energy", "Quality varies by kiln"],
+      "expectedLifeYears": 50,
+      "maintenance": "Repoint mortar every 15–20 years; inspect for efflorescence"
+    },
+    {
+      "id": "cement",
+      "name": "Portland Cement",
+      "image": "assets/images/materials/cement.png",
+      "specification": "OPC 43/53 Grade per PS 2320",
+      "engineeringPurpose": "Binder for mortar, concrete, and plaster",
+      "advantages": ["Strong bond", "Versatile"],
+      "disadvantages": ["Carbon intensive", "Requires proper curing"],
+      "expectedLifeYears": 40,
+      "maintenance": "Store dry; use within shelf life"
+    },
+    {
+      "id": "steel_rebar",
+      "name": "Steel Reinforcement",
+      "image": "assets/images/materials/rebar.png",
+      "specification": "Grade 60, deformed bars per ASTM/BS",
+      "engineeringPurpose": "Tensile reinforcement in RC elements",
+      "advantages": ["High tensile strength", "Ductile seismic performance"],
+      "disadvantages": ["Corrosion if cover inadequate"],
+      "expectedLifeYears": 50,
+      "maintenance": "Ensure cover ≥ 40mm; inspect for rust at cracks"
+    },
+    {
+      "id": "bamboo",
+      "name": "Treated Bamboo",
+      "image": "assets/images/materials/bamboo.png",
+      "specification": "Bambusa bambos or Dendrocalamus, boron treatment",
+      "engineeringPurpose": "Structural frame members",
+      "advantages": ["Renewable", "High strength-to-weight"],
+      "disadvantages": ["Moisture and pest sensitive without treatment"],
+      "expectedLifeYears": 25,
+      "maintenance": "Re-treat if exposed; inspect joints annually"
+    },
+    {
+      "id": "fly_ash_block",
+      "name": "Fly Ash Block",
+      "image": "assets/images/materials/fly_ash_block.png",
+      "specification": "Compressed stabilized blocks, 7 MPa min",
+      "engineeringPurpose": "Sustainable masonry unit",
+      "advantages": ["Low carbon", "Uniform dimensions"],
+      "disadvantages": ["Requires curing; not for direct ground contact"],
+      "expectedLifeYears": 45,
+      "maintenance": "Protect from rain during storage and curing"
+    },
+    {
+      "id": "rc_frame",
+      "name": "Reinforced Concrete Frame",
+      "image": "assets/images/materials/concrete.png",
+      "specification": "M20–M25 concrete, Fe415/500 steel",
+      "engineeringPurpose": "Primary structural frame for elevated buildings",
+      "advantages": ["High strength", "Flood-resistant if designed"],
+      "disadvantages": ["Higher cost and embodied carbon"],
+      "expectedLifeYears": 60,
+      "maintenance": "Inspect for cracks; repair spalling promptly"
+    }
+  ]
+}

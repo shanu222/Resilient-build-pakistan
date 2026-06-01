@@ -1,0 +1,92 @@
+{
+  "components": [
+    {
+      "id": "footing",
+      "name": "Footing",
+      "purpose": "Spreads structural loads from columns/walls into the soil below safe bearing capacity.",
+      "function": "Distributes point and line loads over a wider area to prevent bearing failure.",
+      "engineeringPrinciple": "Bearing capacity q = Nc·c + Nq·γ·Df + 0.5·Nγ·γ·B",
+      "failureModes": ["Punching shear", "Settlement", "Overturning on slopes"],
+      "inspectionChecklist": ["Excavation to design depth", "Rebar spacing and cover", "Concrete grade and slump", "Compaction of base"],
+      "constructionTips": ["Keep footing dry during pour", "Use formwork alignment checks", "Vibrate concrete adequately"],
+      "resilienceBenefit": "Proper footing prevents differential settlement during floods and earthquakes."
+    },
+    {
+      "id": "foundation",
+      "name": "Foundation",
+      "purpose": "Transfers entire building load to ground; includes footings, raft, or piles.",
+      "function": "Anchors structure against uplift and lateral loads.",
+      "engineeringPrinciple": "Load path continuity from superstructure to bearing stratum.",
+      "failureModes": ["Scour", "Liquefaction", "Frost heave"],
+      "inspectionChecklist": ["Soil investigation report match", "Waterproofing on grade", "Anchor bolt placement"],
+      "constructionTips": ["Never backfill before curing", "Install drainage before walls"],
+      "resilienceBenefit": "Flood-resilient foundations use piles or deep footings above scour depth."
+    },
+    {
+      "id": "plinth",
+      "name": "Plinth",
+      "purpose": "Raises living floor above ground moisture and flood level.",
+      "function": "Damp-proof course and level transfer between foundation and walls.",
+      "engineeringPrinciple": "Hydrostatic pressure blocked by DPC and height above BFE.",
+      "failureModes": ["DPC breach", "Cracking from differential settlement"],
+      "inspectionChecklist": ["Plinth height per flood map", "DPC continuity", "Plinth band reinforcement"],
+      "constructionTips": ["Slope ground away from plinth", "Integrate plinth band with walls"],
+      "resilienceBenefit": "Primary flood defense in raised plinth designs."
+    },
+    {
+      "id": "column",
+      "name": "Column",
+      "purpose": "Vertical load-bearing member transferring loads from beams/slabs to foundation.",
+      "function": "Carries axial compression and resists lateral seismic/wind forces.",
+      "engineeringPrinciple": "Euler buckling and moment capacity per IS/BS codes.",
+      "failureModes": ["Short column failure", "Lap splice in plastic hinge zone", "Inadequate ties"],
+      "inspectionChecklist": ["Bar diameter and spacing", "Tie spacing in confinement zone", "Verticality tolerance"],
+      "constructionTips": ["Stagger splices away from beam-column joints", "Use spacer blocks for cover"],
+      "resilienceBenefit": "Ductile columns with ties improve earthquake survival."
+    },
+    {
+      "id": "beam",
+      "name": "Beam",
+      "purpose": "Horizontal member spanning openings and supporting slabs/roof.",
+      "function": "Resists bending and shear; ties structure together as frame.",
+      "engineeringPrinciple": "Flexural capacity Mu = As·fy·jd",
+      "failureModes": ["Shear failure", "Deflection excess", "Connection failure"],
+      "inspectionChecklist": ["Main bar continuity", "Stirrup spacing at supports", "Lap length"],
+      "constructionTips": ["Support formwork until design strength", "Cast beam-column joints monolithically where possible"],
+      "resilienceBenefit": "Continuous beam bands improve seismic load path."
+    },
+    {
+      "id": "lintel_band",
+      "name": "Lintel Band",
+      "purpose": "Horizontal reinforcement band at opening heads tying walls together.",
+      "function": "Distributes seismic forces around openings.",
+      "engineeringPrinciple": "Confined masonry requires continuous horizontal bands at sill, lintel, and roof levels.",
+      "failureModes": ["Discontinuity at corners", "Inadequate anchorage"],
+      "inspectionChecklist": ["Band continuity", "Overlap length ≥ 40× bar dia", "Connection to columns"],
+      "constructionTips": ["Cast before wall above opening", "Use U-bars into columns"],
+      "resilienceBenefit": "Critical for earthquake resistance in masonry houses."
+    },
+    {
+      "id": "wall",
+      "name": "Wall",
+      "purpose": "Vertical enclosure and load-bearing or shear element.",
+      "function": "Resists gravity and in-plane lateral loads.",
+      "engineeringPrinciple": "Slenderness ratio and aspect ratio govern failure mode.",
+      "failureModes": ["Out-of-plane collapse", "Diagonal cracking", "Delamination"],
+      "inspectionChecklist": ["Bond pattern", "Vertical alignment", "Connection to bands"],
+      "constructionTips": ["Cure masonry 7 days before loading", "Use level courses"],
+      "resilienceBenefit": "Confined panels improve ductility under seismic load."
+    },
+    {
+      "id": "roof_joint",
+      "name": "Roof Joint",
+      "purpose": "Connects roof diaphragm to walls for lateral load transfer.",
+      "function": "Transfers wind/seismic inertia to shear walls.",
+      "engineeringPrinciple": "Diaphragm action requires positive connection at eaves.",
+      "failureModes": ["Roof blow-off", "Diaphragm discontinuity"],
+      "inspectionChecklist": ["Anchor spacing", "Roof weight (light vs heavy)", "Gable bracing"],
+      "constructionTips": ["Use hurricane ties in wind zones", "Keep roof light in seismic zones"],
+      "resilienceBenefit": "Light roof reduces seismic demand on structure."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "modelId": "rat_trap_bond_masonry",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 82,
+    "thermalEfficiency": 94,
+    "materialEfficiency": 96,
+    "floodResistance": 58,
+    "overall": 87
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Rat Trap Bond construction begins with proper site planning and foundation design.",
+      "explanation": "Rat Trap Bond construction begins with proper site planning and foundation design.",
+      "highlights": ["Site boundary", "Building footprint"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Wall centerlines and corners are established for cavity alignment.",
+      "explanation": "Accurate setting out ensures correct cavity alignment throughout the structure.",
+      "highlights": ["Grid lines", "Wall centerlines"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to suitable bearing strata.",
+      "explanation": "Excavation reaches suitable bearing strata for safe load transfer.",
+      "highlights": ["Bearing soil", "Load transfer path"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_footings",
+      "title": "PCC and Footings",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 4. PCC blinding and reinforced concrete footings are constructed.",
+      "explanation": "Footings distribute structural loads safely into the ground.",
+      "highlights": ["Load dispersion", "Soil reaction"]
+    },
+    {
+      "index": 4,
+      "key": "foundation_masonry",
+      "title": "Foundation Masonry",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 5. Foundation masonry is built to support the superstructure.",
+      "explanation": "Foundation masonry supports the superstructure and transfers loads into the footing system.",
+      "highlights": ["Foundation wall"]
+    },
+    {
+      "index": 5,
+      "key": "plinth_band",
+      "title": "Plinth Band",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 6. The reinforced concrete plinth band is cast for structural continuity.",
+      "explanation": "Plinth bands improve structural continuity and control settlement effects.",
+      "highlights": ["Continuous band"]
+    },
+    {
+      "index": 6,
+      "key": "first_rtb_course",
+      "title": "First Rat Trap Bond Course",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 7. Bricks are now being placed on edge to create the characteristic Rat Trap Bond cavity system. These cavities reduce material consumption while improving thermal insulation.",
+      "explanation": "Unlike conventional masonry, bricks are placed on edge creating internal air cavities.",
+      "highlights": ["Cavity formation", "Brick orientation"]
+    },
+    {
+      "index": 7,
+      "key": "wall_construction",
+      "title": "Wall Construction",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 7500,
+      "narration": "Stage 8. Rat Trap Bond walls rise course by course with internal cavities maintained at corners.",
+      "explanation": "The cavity system reduces material consumption while maintaining structural performance.",
+      "highlights": ["Load transfer", "Compression zones"]
+    },
+    {
+      "index": 8,
+      "key": "seismic_reinforcement",
+      "title": "Seismic Reinforcement Option",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 9. Vertical reinforcement is placed through cavities and grouted for seismic resistance.",
+      "explanation": "Internal cavities allow easy integration of seismic reinforcement.",
+      "highlights": ["Rebar placement", "Confinement zones"]
+    },
+    {
+      "index": 9,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 10. Door and window frames are installed with reinforcement around openings.",
+      "explanation": "Openings require strengthening because they interrupt normal load paths.",
+      "highlights": ["Stress redistribution"]
+    },
+    {
+      "index": 10,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 11. The reinforced lintel band is cast to tie walls together.",
+      "explanation": "Lintel bands tie walls together and improve earthquake performance.",
+      "highlights": ["Wall integration", "Load redistribution"]
+    },
+    {
+      "index": 11,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 12. The roof-level ring beam is cast to create box action.",
+      "explanation": "Roof bands create box action behavior and improve lateral resistance.",
+      "highlights": ["Box action mechanism"]
+    },
+    {
+      "index": 12,
+      "key": "roof_slab",
+      "title": "RCC Roof Slab",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 13. The reinforced roof slab is cast to distribute loads to the walls.",
+      "explanation": "The roof slab distributes loads uniformly throughout the structure.",
+      "highlights": ["Roof to wall load path"]
+    },
+    {
+      "index": 13,
+      "key": "dpc",
+      "title": "Damp Proof Course",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 14. The damp proof course and waterproof membrane are installed.",
+      "explanation": "The damp proof course prevents moisture migration into walls.",
+      "highlights": ["Moisture barrier"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Rat Trap Bond construction reduces brick and mortar usage while maintaining structural efficiency and improved thermal performance.",
+      "explanation": "Completed Rat Trap Bond resilient house ready for occupancy.",
+      "highlights": ["Resilience scores", "Material efficiency"]
+    }
+  ],
+  "components": {
+    "rat_trap_brick": {
+      "title": "Rat Trap Bond Brick",
+      "orientation": "Placed on edge to form load-bearing wythes and cavity boundaries.",
+      "loadTransfer": "Compression transferred through brick webs to foundation and bands.",
+      "materialEfficiency": "Approximately 25% fewer bricks than conventional stretcher bond."
+    },
+    "air_cavity": {
+      "title": "Internal Air Cavity",
+      "thermalPerformance": "Air pockets reduce conductive heat transfer through the wall.",
+      "weightReduction": "Reduced masonry mass lowers seismic inertia."
+    },
+    "seismic_reinforcement": {
+      "title": "Seismic Reinforcement",
+      "earthquakeResistance": "Vertical bars grouted in cavities improve ductility and confinement.",
+      "rebarDetailing": "Placed at corners and critical wall segments through RTB cavities."
+    },
+    "plinth_band": {
+      "title": "RCC Plinth Band",
+      "structuralContinuity": "Ties walls at base and improves load redistribution.",
+      "settlementControl": "Helps distribute differential settlement effects."
+    },
+    "lintel_band": {
+      "title": "RCC Lintel Band",
+      "wallIntegration": "Continuous tie beam integrates wall segments at opening level.",
+      "seismicProtection": "Improves box action and reduces out-of-plane failure."
+    }
+  }
+}
