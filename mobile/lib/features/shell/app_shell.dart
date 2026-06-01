@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 
+/// Public education navigation — no profile or admin.
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.child});
 
@@ -17,25 +18,47 @@ class AppShell extends StatelessWidget {
         selectedIndex: _indexForPath(path),
         onDestinationSelected: (i) => context.go(_paths[i]),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.layers_outlined), selectedIcon: Icon(Icons.layers), label: 'Models'),
-          NavigationDestination(icon: Icon(Icons.school_outlined), selectedIcon: Icon(Icons.school), label: 'Academy'),
-          NavigationDestination(icon: Icon(Icons.folder_outlined), selectedIcon: Icon(Icons.folder), label: 'Projects'),
-          NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person), label: 'Profile'),
+          NavigationDestination(
+            icon: Icon(Icons.location_on_outlined),
+            selectedIcon: Icon(Icons.location_on),
+            label: 'Location',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.home_work_outlined),
+            selectedIcon: Icon(Icons.home_work),
+            label: 'Models',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.view_in_ar_outlined),
+            selectedIcon: Icon(Icons.view_in_ar),
+            label: 'Learn',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
+            label: 'Library',
+          ),
         ],
         indicatorColor: AppColors.orange.withValues(alpha: 0.15),
       ),
     );
   }
 
-  static const _paths = ['/home', '/models', '/academy', '/projects', '/profile'];
+  static const _paths = ['/home', '/models', '/academy', '/library'];
 
   int _indexForPath(String path) {
     if (path.startsWith('/home') || path.startsWith('/location')) return 0;
     if (path.startsWith('/model') || path == '/models') return 1;
-    if (path.startsWith('/academy')) return 2;
-    if (path.startsWith('/projects') || path.startsWith('/report')) return 3;
-    if (path.startsWith('/profile')) return 4;
+    if (path.startsWith('/academy') ||
+        path.startsWith('/construction') ||
+        path.startsWith('/bim')) {
+      return 2;
+    }
+    if (path.startsWith('/library') ||
+        path.startsWith('/materials') ||
+        path.startsWith('/downloads')) {
+      return 3;
+    }
     return 0;
   }
 }

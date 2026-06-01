@@ -9,40 +9,38 @@ import '../math/bim_vec3.dart';
 class ElevatedFloodSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = ElevatedFloodDimensions;
-
-    _siteAndRiver(e, d);
-    _settingOut(e, d);
-    _excavation(e, d);
-    _footings(e, d);
-    _scourProtection(e, d);
-    _columns(e, d);
-    _platformBeams(e, d);
-    _elevatedSlab(e, d);
-    _walls(e, d);
-    _openings(e, d);
-    _roofStructure(e, d);
-    _roofCovering(e, d);
-    _stairs(e, d);
-    _waterproofing(e, d);
-    _drainage(e, d);
-    _finishing(e, d);
-    _landscape(e, d);
-    _comparisons(e, d);
+        _siteAndRiver(e);
+    _settingOut(e);
+    _excavation(e);
+    _footings(e);
+    _scourProtection(e);
+    _columns(e);
+    _platformBeams(e);
+    _elevatedSlab(e);
+    _walls(e);
+    _openings(e);
+    _roofStructure(e);
+    _roofCovering(e);
+    _stairs(e);
+    _waterproofing(e);
+    _drainage(e);
+    _finishing(e);
+    _landscape(e);
+    _comparisons(e);
 
     return e;
   }
 
-  void _siteAndRiver(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _siteAndRiver(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'floodplain',
         label: 'Floodplain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: ElevatedFloodDimensions.plotWidth,
           height: 0.12,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.06, d.plotDepth / 2),
+          depth: ElevatedFloodDimensions.plotDepth,
+          center: BimVec3(ElevatedFloodDimensions.plotWidth / 2, -0.06, ElevatedFloodDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF86EFAC),
         category: BimEntityCategory.terrain,
@@ -54,10 +52,10 @@ class ElevatedFloodSceneBuilder {
         id: 'river_channel',
         label: 'River',
         mesh: BimMesh.box(
-          width: d.riverWidth,
+          width: ElevatedFloodDimensions.riverWidth,
           height: 0.08,
-          depth: d.plotDepth,
-          center: BimVec3(d.riverWidth / 2, -0.02, d.plotDepth / 2),
+          depth: ElevatedFloodDimensions.plotDepth,
+          center: BimVec3(ElevatedFloodDimensions.riverWidth / 2, -0.02, ElevatedFloodDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.drainage,
@@ -69,10 +67,10 @@ class ElevatedFloodSceneBuilder {
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1.2,
+          width: ElevatedFloodDimensions.buildingWidth + 1.2,
           height: 0.02,
-          depth: d.buildingDepth + 1.2,
-          center: BimVec3(d.centerX + 1.5, 0.04, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth + 1.2,
+          center: BimVec3(ElevatedFloodDimensions.centerX + 1.5, 0.04, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -85,13 +83,13 @@ class ElevatedFloodSceneBuilder {
         id: 'flood_zone_marker',
         label: 'Flood Zone',
         mesh: BimMesh.box(
-          width: d.plotWidth - d.riverWidth,
+          width: ElevatedFloodDimensions.plotWidth - ElevatedFloodDimensions.riverWidth,
           height: 0.015,
-          depth: d.plotDepth,
+          depth: ElevatedFloodDimensions.plotDepth,
           center: BimVec3(
-            d.riverWidth + (d.plotWidth - d.riverWidth) / 2,
+            ElevatedFloodDimensions.riverWidth + (ElevatedFloodDimensions.plotWidth - ElevatedFloodDimensions.riverWidth) / 2,
             0.03,
-            d.plotDepth / 2,
+            ElevatedFloodDimensions.plotDepth / 2,
           ),
         ),
         color: const Color(0xFF38BDF8),
@@ -105,10 +103,10 @@ class ElevatedFloodSceneBuilder {
       BimEntity(
         id: 'high_flood_mark',
         label: 'High Flood Mark',
-        mesh: BimMesh.box(width: 0.08, height: 0.04, depth: d.buildingDepth + 2),
+        mesh: BimMesh.box(width: 0.08, height: 0.04, depth: ElevatedFloodDimensions.buildingDepth + 2),
         color: const Color(0xFFDC2626),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.buildingWidth + 2.2, d.highFloodMark, -0.5),
+        position: BimVec3(ElevatedFloodDimensions.buildingWidth + 2.2, ElevatedFloodDimensions.highFloodMark, -0.5),
         minStage: 0,
         buildProgress: 0,
       ),
@@ -117,10 +115,10 @@ class ElevatedFloodSceneBuilder {
       BimEntity(
         id: 'safe_level_mark',
         label: 'Safe Occupancy Level',
-        mesh: BimMesh.box(width: 0.08, height: 0.04, depth: d.buildingDepth + 2),
+        mesh: BimMesh.box(width: 0.08, height: 0.04, depth: ElevatedFloodDimensions.buildingDepth + 2),
         color: const Color(0xFF22C55E),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.buildingWidth + 2.5, d.platformElevation, -0.5),
+        position: BimVec3(ElevatedFloodDimensions.buildingWidth + 2.5, ElevatedFloodDimensions.platformElevation, -0.5),
         minStage: 0,
         buildProgress: 0,
       ),
@@ -130,13 +128,13 @@ class ElevatedFloodSceneBuilder {
         id: 'flood_water',
         label: 'Flood Water',
         mesh: BimMesh.box(
-          width: d.plotWidth - d.riverWidth + 0.5,
-          height: d.designFloodLevel,
-          depth: d.plotDepth,
+          width: ElevatedFloodDimensions.plotWidth - ElevatedFloodDimensions.riverWidth + 0.5,
+          height: ElevatedFloodDimensions.designFloodLevel,
+          depth: ElevatedFloodDimensions.plotDepth,
           center: BimVec3(
-            d.riverWidth + (d.plotWidth - d.riverWidth) / 2,
-            d.designFloodLevel / 2,
-            d.plotDepth / 2,
+            ElevatedFloodDimensions.riverWidth + (ElevatedFloodDimensions.plotWidth - ElevatedFloodDimensions.riverWidth) / 2,
+            ElevatedFloodDimensions.designFloodLevel / 2,
+            ElevatedFloodDimensions.plotDepth / 2,
           ),
         ),
         color: const Color(0xFF0284C7),
@@ -148,22 +146,22 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _settingOut(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _settingOut(List<BimEntity> e) {
     for (var i = 0; i <= 5; i++) {
       e.add(
         BimEntity(
           id: 'grid_x_$i',
           label: 'Survey Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth + 1.5),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: ElevatedFloodDimensions.buildingDepth + 1.5),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(1.2 + i * (d.buildingWidth / 5), 0.06, 0),
+          position: BimVec3(1.2 + i * (ElevatedFloodDimensions.buildingWidth / 5), 0.06, 0),
           minStage: 1,
           buildProgress: 0,
         ),
       );
     }
-    final cols = _columnPositions(d);
+    final cols = _columnPositions();
     for (var i = 0; i < cols.length; i++) {
       final p = cols[i];
       e.add(
@@ -171,9 +169,9 @@ class ElevatedFloodSceneBuilder {
           id: 'col_marker_$i',
           label: 'Column Location',
           mesh: BimMesh.box(
-            width: d.columnSize,
+            width: ElevatedFloodDimensions.columnSize,
             height: 0.04,
-            depth: d.columnSize,
+            depth: ElevatedFloodDimensions.columnSize,
           ),
           color: const Color(0xFFF97316),
           category: BimEntityCategory.survey,
@@ -188,10 +186,10 @@ class ElevatedFloodSceneBuilder {
         id: 'platform_boundary',
         label: 'Platform Boundary',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.4,
+          width: ElevatedFloodDimensions.buildingWidth + 0.4,
           height: 0.015,
-          depth: d.buildingDepth + 0.4,
-          center: BimVec3(d.centerX + 1.2, 0.07, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth + 0.4,
+          center: BimVec3(ElevatedFloodDimensions.centerX + 1.2, 0.07, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -202,20 +200,20 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _excavation(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _excavation(List<BimEntity> e) {
     final ox = 1.2;
     e.add(
       BimEntity(
         id: 'excavation',
         label: 'Footing Excavation',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1.0,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 1.0,
+          width: ElevatedFloodDimensions.buildingWidth + 1.0,
+          height: ElevatedFloodDimensions.trenchDepth,
+          depth: ElevatedFloodDimensions.buildingDepth + 1.0,
           center: BimVec3(
-            d.centerX + ox,
-            -d.trenchDepth / 2 + 0.05,
-            d.centerZ,
+            ElevatedFloodDimensions.centerX + ox,
+            -ElevatedFloodDimensions.trenchDepth / 2 + 0.05,
+            ElevatedFloodDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF92400E),
@@ -230,10 +228,10 @@ class ElevatedFloodSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
+          width: ElevatedFloodDimensions.buildingWidth + 0.8,
           height: 0.15,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX + ox, -d.trenchDepth + 0.08, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth + 0.8,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, -ElevatedFloodDimensions.trenchDepth + 0.08, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -246,10 +244,10 @@ class ElevatedFloodSceneBuilder {
         id: 'scour_zone',
         label: 'Potential Scour Zone',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1.4,
+          width: ElevatedFloodDimensions.buildingWidth + 1.4,
           height: 0.25,
           depth: 0.6,
-          center: BimVec3(d.centerX + ox, 0.02, -0.35),
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, 0.02, -0.35),
         ),
         color: const Color(0xFFF59E0B),
         category: BimEntityCategory.annotation,
@@ -260,10 +258,10 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _footings(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _footings(List<BimEntity> e) {
     final ox = 1.2;
-    final baseY = -d.trenchDepth + 0.05;
-    final cols = _columnPositions(d);
+    final baseY = -ElevatedFloodDimensions.trenchDepth + 0.05;
+    final cols = _columnPositions();
     for (var i = 0; i < cols.length; i++) {
       final p = cols[i];
       final wx = p.$1 + ox;
@@ -273,9 +271,9 @@ class ElevatedFloodSceneBuilder {
           id: 'footing_rebar_$i',
           label: 'Footing Rebar Cage',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth * 0.75,
-            depth: d.footingWidth,
+            width: ElevatedFloodDimensions.footingWidth,
+            height: ElevatedFloodDimensions.footingDepth * 0.75,
+            depth: ElevatedFloodDimensions.footingWidth,
           ),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
@@ -292,13 +290,13 @@ class ElevatedFloodSceneBuilder {
           id: 'footing_concrete_$i',
           label: 'RCC Footing',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth,
-            depth: d.footingWidth,
+            width: ElevatedFloodDimensions.footingWidth,
+            height: ElevatedFloodDimensions.footingDepth,
+            depth: ElevatedFloodDimensions.footingWidth,
             center: BimVec3(
-              wx + d.footingWidth / 2,
-              baseY + d.footingDepth / 2,
-              wz + d.footingWidth / 2,
+              wx + ElevatedFloodDimensions.footingWidth / 2,
+              baseY + ElevatedFloodDimensions.footingDepth / 2,
+              wz + ElevatedFloodDimensions.footingWidth / 2,
             ),
           ),
           color: const Color(0xFF9CA3AF),
@@ -314,13 +312,13 @@ class ElevatedFloodSceneBuilder {
           id: 'pedestal_$i',
           label: 'RCC Pedestal',
           mesh: BimMesh.box(
-            width: d.columnSize + 0.05,
-            height: d.pedestalHeight,
-            depth: d.columnSize + 0.05,
+            width: ElevatedFloodDimensions.columnSize + 0.05,
+            height: ElevatedFloodDimensions.pedestalHeight,
+            depth: ElevatedFloodDimensions.columnSize + 0.05,
             center: BimVec3(
-              wx + d.footingWidth / 2,
-              baseY + d.footingDepth + d.pedestalHeight / 2,
-              wz + d.footingWidth / 2,
+              wx + ElevatedFloodDimensions.footingWidth / 2,
+              baseY + ElevatedFloodDimensions.footingDepth + ElevatedFloodDimensions.pedestalHeight / 2,
+              wz + ElevatedFloodDimensions.footingWidth / 2,
             ),
           ),
           color: const Color(0xFF6B7280),
@@ -333,9 +331,9 @@ class ElevatedFloodSceneBuilder {
     }
   }
 
-  void _scourProtection(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _scourProtection(List<BimEntity> e) {
     final ox = 1.2;
-    final baseY = -d.trenchDepth + 0.05;
+    final baseY = -ElevatedFloodDimensions.trenchDepth + 0.05;
     for (var i = 0; i < 14; i++) {
       e.add(
         BimEntity(
@@ -363,10 +361,10 @@ class ElevatedFloodSceneBuilder {
     }
   }
 
-  void _columns(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _columns(List<BimEntity> e) {
     final ox = 1.2;
-    final baseY = -d.trenchDepth + d.footingDepth + d.pedestalHeight + 0.05;
-    final cols = _columnPositions(d);
+    final baseY = -ElevatedFloodDimensions.trenchDepth + ElevatedFloodDimensions.footingDepth + ElevatedFloodDimensions.pedestalHeight + 0.05;
+    final cols = _columnPositions();
     for (var i = 0; i < cols.length; i++) {
       final p = cols[i];
       e.add(
@@ -374,9 +372,9 @@ class ElevatedFloodSceneBuilder {
           id: 'col_cage_$i',
           label: 'Column Rebar Cage',
           mesh: BimMesh.box(
-            width: d.columnSize * 0.8,
-            height: d.columnHeight,
-            depth: d.columnSize * 0.8,
+            width: ElevatedFloodDimensions.columnSize * 0.8,
+            height: ElevatedFloodDimensions.columnHeight,
+            depth: ElevatedFloodDimensions.columnSize * 0.8,
           ),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
@@ -391,9 +389,9 @@ class ElevatedFloodSceneBuilder {
           id: 'col_formwork_$i',
           label: 'Column Formwork',
           mesh: BimMesh.box(
-            width: d.columnSize + 0.06,
-            height: d.columnHeight + 0.04,
-            depth: d.columnSize + 0.06,
+            width: ElevatedFloodDimensions.columnSize + 0.06,
+            height: ElevatedFloodDimensions.columnHeight + 0.04,
+            depth: ElevatedFloodDimensions.columnSize + 0.06,
           ),
           color: const Color(0xFFDEB887),
           category: BimEntityCategory.formwork,
@@ -407,13 +405,13 @@ class ElevatedFloodSceneBuilder {
           id: 'col_concrete_$i',
           label: 'RCC Column',
           mesh: BimMesh.box(
-            width: d.columnSize,
-            height: d.columnHeight,
-            depth: d.columnSize,
+            width: ElevatedFloodDimensions.columnSize,
+            height: ElevatedFloodDimensions.columnHeight,
+            depth: ElevatedFloodDimensions.columnSize,
             center: BimVec3(
-              p.$1 + ox + d.columnSize / 2,
-              baseY + d.columnHeight / 2,
-              p.$2 + d.columnSize / 2,
+              p.$1 + ox + ElevatedFloodDimensions.columnSize / 2,
+              baseY + ElevatedFloodDimensions.columnHeight / 2,
+              p.$2 + ElevatedFloodDimensions.columnSize / 2,
             ),
           ),
           color: const Color(0xFF6B7280),
@@ -428,18 +426,18 @@ class ElevatedFloodSceneBuilder {
     }
   }
 
-  void _platformBeams(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _platformBeams(List<BimEntity> e) {
     final ox = 1.2;
-    final y = -d.trenchDepth + d.footingDepth + d.pedestalHeight + d.columnHeight;
+    final y = -ElevatedFloodDimensions.trenchDepth + ElevatedFloodDimensions.footingDepth + ElevatedFloodDimensions.pedestalHeight + ElevatedFloodDimensions.columnHeight;
     e.add(
       BimEntity(
         id: 'beam_rebar_x',
         label: 'Platform Beam Rebar',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.platformBeamHeight * 0.65,
-          depth: d.platformBeamWidth,
-          center: BimVec3(d.centerX + ox, y + d.platformBeamHeight * 0.32, 0),
+          width: ElevatedFloodDimensions.buildingWidth,
+          height: ElevatedFloodDimensions.platformBeamHeight * 0.65,
+          depth: ElevatedFloodDimensions.platformBeamWidth,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y + ElevatedFloodDimensions.platformBeamHeight * 0.32, 0),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -452,10 +450,10 @@ class ElevatedFloodSceneBuilder {
         id: 'beam_rebar_z',
         label: 'Platform Beam Rebar',
         mesh: BimMesh.box(
-          width: d.platformBeamWidth,
-          height: d.platformBeamHeight * 0.65,
-          depth: d.buildingDepth,
-          center: BimVec3(0, y + d.platformBeamHeight * 0.32, d.centerZ),
+          width: ElevatedFloodDimensions.platformBeamWidth,
+          height: ElevatedFloodDimensions.platformBeamHeight * 0.65,
+          depth: ElevatedFloodDimensions.buildingDepth,
+          center: BimVec3(0, y + ElevatedFloodDimensions.platformBeamHeight * 0.32, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -468,10 +466,10 @@ class ElevatedFloodSceneBuilder {
         id: 'platform_beam_x',
         label: 'Platform Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.columnSize,
-          height: d.platformBeamHeight,
-          depth: d.platformBeamWidth,
-          center: BimVec3(d.centerX + ox, y + d.platformBeamHeight / 2, 0),
+          width: ElevatedFloodDimensions.buildingWidth + ElevatedFloodDimensions.columnSize,
+          height: ElevatedFloodDimensions.platformBeamHeight,
+          depth: ElevatedFloodDimensions.platformBeamWidth,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y + ElevatedFloodDimensions.platformBeamHeight / 2, 0),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -487,10 +485,10 @@ class ElevatedFloodSceneBuilder {
         id: 'platform_beam_z',
         label: 'Platform Beam',
         mesh: BimMesh.box(
-          width: d.platformBeamWidth,
-          height: d.platformBeamHeight,
-          depth: d.buildingDepth + d.columnSize,
-          center: BimVec3(ox, y + d.platformBeamHeight / 2, d.centerZ),
+          width: ElevatedFloodDimensions.platformBeamWidth,
+          height: ElevatedFloodDimensions.platformBeamHeight,
+          depth: ElevatedFloodDimensions.buildingDepth + ElevatedFloodDimensions.columnSize,
+          center: BimVec3(ox, y + ElevatedFloodDimensions.platformBeamHeight / 2, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -502,18 +500,18 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _elevatedSlab(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _elevatedSlab(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.platformElevation;
+    final y = ElevatedFloodDimensions.platformElevation;
     e.add(
       BimEntity(
         id: 'slab_formwork',
         label: 'Slab Formwork',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.3,
+          width: ElevatedFloodDimensions.buildingWidth + 0.3,
           height: 0.08,
-          depth: d.buildingDepth + 0.3,
-          center: BimVec3(d.centerX + ox, y - 0.04, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth + 0.3,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y - 0.04, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFFDEB887),
         category: BimEntityCategory.formwork,
@@ -526,10 +524,10 @@ class ElevatedFloodSceneBuilder {
         id: 'slab_rebar_bottom',
         label: 'Slab Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: ElevatedFloodDimensions.buildingWidth,
           height: 0.02,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX + ox, y + 0.02, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y + 0.02, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -542,13 +540,13 @@ class ElevatedFloodSceneBuilder {
         id: 'elevated_slab',
         label: 'Elevated Floor Slab',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.2,
-          height: d.slabThickness,
-          depth: d.buildingDepth + 0.2,
+          width: ElevatedFloodDimensions.buildingWidth + 0.2,
+          height: ElevatedFloodDimensions.slabThickness,
+          depth: ElevatedFloodDimensions.buildingDepth + 0.2,
           center: BimVec3(
-            d.centerX + ox,
-            y + d.slabThickness / 2,
-            d.centerZ,
+            ElevatedFloodDimensions.centerX + ox,
+            y + ElevatedFloodDimensions.slabThickness / 2,
+            ElevatedFloodDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF9CA3AF),
@@ -565,10 +563,10 @@ class ElevatedFloodSceneBuilder {
         id: 'flood_level_ref',
         label: 'Design Flood Level',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 2,
+          width: ElevatedFloodDimensions.buildingWidth + 2,
           height: 0.03,
           depth: 0.05,
-          center: BimVec3(d.centerX + ox, d.designFloodLevel, d.buildingDepth + 0.8),
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, ElevatedFloodDimensions.designFloodLevel, ElevatedFloodDimensions.buildingDepth + 0.8),
         ),
         color: const Color(0xFF0284C7),
         category: BimEntityCategory.annotation,
@@ -579,28 +577,28 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _walls(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _walls(List<BimEntity> e) {
     final ox = 1.2;
-    final baseY = d.platformTopY;
+    final baseY = ElevatedFloodDimensions.platformTopY;
     var idx = 0;
     for (var course = 0; course < 8; course++) {
-      final y = baseY + course * (d.wallPanelThickness + 0.02);
+      final y = baseY + course * (ElevatedFloodDimensions.wallPanelThickness + 0.02);
       for (var seg = 0; seg < 6; seg++) {
         final alongX = seg < 3;
         final t = seg % 3;
-        final px = alongX ? ox + t * 1.6 : (seg == 3 ? ox : ox + d.buildingWidth - d.wallPanelThickness);
-        final pz = alongX ? (seg == 0 ? 0 : d.buildingDepth - d.wallPanelThickness) : t * 1.3;
-        final w = alongX ? 1.55 : d.wallPanelThickness;
-        final dep = alongX ? d.wallPanelThickness : 1.2;
+        final px = alongX ? ox + t * 1.6 : (seg == 3 ? ox : ox + ElevatedFloodDimensions.buildingWidth - ElevatedFloodDimensions.wallPanelThickness);
+        final pz = alongX ? (seg == 0 ? 0 : ElevatedFloodDimensions.buildingDepth - ElevatedFloodDimensions.wallPanelThickness) : t * 1.3;
+        final w = alongX ? 1.55 : ElevatedFloodDimensions.wallPanelThickness;
+        final dep = alongX ? ElevatedFloodDimensions.wallPanelThickness : 1.2;
         e.add(
           BimEntity(
             id: 'wall_panel_$idx',
             label: 'Lightweight Wall Panel',
             mesh: BimMesh.box(
               width: w,
-              height: d.wallPanelThickness,
+              height: ElevatedFloodDimensions.wallPanelThickness,
               depth: dep,
-              center: BimVec3(px + w / 2, y + d.wallPanelThickness / 2, pz + dep / 2),
+              center: BimVec3(px + w / 2, y + ElevatedFloodDimensions.wallPanelThickness / 2, pz + dep / 2),
             ),
             color: const Color(0xFFE7E5E4),
             category: BimEntityCategory.masonry,
@@ -618,9 +616,9 @@ class ElevatedFloodSceneBuilder {
         label: 'Heavy Masonry (comparison)',
         mesh: BimMesh.box(
           width: 1.2,
-          height: d.wallHeight,
-          depth: d.wallPanelThickness,
-          center: BimVec3(ox - 0.8, baseY + d.wallHeight / 2, d.centerZ),
+          height: ElevatedFloodDimensions.wallHeight,
+          depth: ElevatedFloodDimensions.wallPanelThickness,
+          center: BimVec3(ox - 0.8, baseY + ElevatedFloodDimensions.wallHeight / 2, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.annotation,
@@ -631,9 +629,9 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _openings(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _openings(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.platformTopY + 0.9;
+    final y = ElevatedFloodDimensions.platformTopY + 0.9;
     e.add(
       BimEntity(
         id: 'door_frame',
@@ -653,7 +651,7 @@ class ElevatedFloodSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 1.0, depth: 0.05),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.timber,
-        position: BimVec3(ox + 0.4, y + 0.5, d.buildingDepth - 0.05),
+        position: BimVec3(ox + 0.4, y + 0.5, ElevatedFloodDimensions.buildingDepth - 0.05),
         minStage: 9,
         buildProgress: 0,
       ),
@@ -665,7 +663,7 @@ class ElevatedFloodSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 1.0, depth: 0.05),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.timber,
-        position: BimVec3(ox + d.buildingWidth - 1.4, y + 0.5, d.buildingDepth - 0.05),
+        position: BimVec3(ox + ElevatedFloodDimensions.buildingWidth - 1.4, y + 0.5, ElevatedFloodDimensions.buildingDepth - 0.05),
         minStage: 9,
         buildProgress: 0,
       ),
@@ -677,7 +675,7 @@ class ElevatedFloodSceneBuilder {
         mesh: BimMesh.box(width: 0.05, height: 1.2, depth: 0.05),
         color: const Color(0xFF0284C7),
         category: BimEntityCategory.annotation,
-        position: BimVec3(ox - 0.3, d.designFloodLevel, d.centerZ),
+        position: BimVec3(ox - 0.3, ElevatedFloodDimensions.designFloodLevel, ElevatedFloodDimensions.centerZ),
         minStage: 9,
         opacity: 0.8,
         buildProgress: 0,
@@ -685,15 +683,15 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _roofStructure(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _roofStructure(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.roofBaseY;
+    final y = ElevatedFloodDimensions.roofBaseY;
     final trussSpans = [
-      (ox + 0.5, d.centerZ, ox + 4.5, d.centerZ),
-      (ox + 0.5, d.centerZ, ox + 2.5, d.centerZ + 1.2),
-      (ox + 4.5, d.centerZ, ox + 2.5, d.centerZ + 1.2),
+      (ox + 0.5, ElevatedFloodDimensions.centerZ, ox + 4.5, ElevatedFloodDimensions.centerZ),
+      (ox + 0.5, ElevatedFloodDimensions.centerZ, ox + 2.5, ElevatedFloodDimensions.centerZ + 1.2),
+      (ox + 4.5, ElevatedFloodDimensions.centerZ, ox + 2.5, ElevatedFloodDimensions.centerZ + 1.2),
       (ox + 1.0, 0.3, ox + 4.0, 0.3),
-      (ox + 1.0, d.buildingDepth - 0.3, ox + 4.0, d.buildingDepth - 0.3),
+      (ox + 1.0, ElevatedFloodDimensions.buildingDepth - 0.3, ox + 4.0, ElevatedFloodDimensions.buildingDepth - 0.3),
     ];
     for (var i = 0; i < trussSpans.length; i++) {
       final s = trussSpans[i];
@@ -718,10 +716,10 @@ class ElevatedFloodSceneBuilder {
         id: 'ridge_beam',
         label: 'Ridge Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: ElevatedFloodDimensions.buildingWidth,
           height: 0.1,
           depth: 0.12,
-          center: BimVec3(d.centerX + ox, y + 0.35, d.centerZ),
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y + 0.35, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.timber,
@@ -731,9 +729,9 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _roofCovering(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _roofCovering(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.roofBaseY + 0.25;
+    final y = ElevatedFloodDimensions.roofBaseY + 0.25;
     for (var i = 0; i < 6; i++) {
       e.add(
         BimEntity(
@@ -765,9 +763,9 @@ class ElevatedFloodSceneBuilder {
     }
   }
 
-  void _stairs(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _stairs(List<BimEntity> e) {
     final ox = 0.4;
-    final rise = d.platformElevation / 12;
+    final rise = ElevatedFloodDimensions.platformElevation / 12;
     for (var i = 0; i < 12; i++) {
       e.add(
         BimEntity(
@@ -786,7 +784,7 @@ class ElevatedFloodSceneBuilder {
       BimEntity(
         id: 'stair_handrail',
         label: 'Handrail',
-        mesh: BimMesh.box(width: 0.04, height: d.platformElevation + 0.5, depth: 0.04),
+        mesh: BimMesh.box(width: 0.04, height: ElevatedFloodDimensions.platformElevation + 0.5, depth: 0.04),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.timber,
         position: BimVec3(ox + 0.95, 0, 3.2),
@@ -800,9 +798,9 @@ class ElevatedFloodSceneBuilder {
         label: 'Landing at Platform',
         mesh: BimMesh.box(
           width: 1.2,
-          height: d.slabThickness,
+          height: ElevatedFloodDimensions.slabThickness,
           depth: 0.8,
-          center: BimVec3(ox + 0.6, d.platformTopY, 3.5),
+          center: BimVec3(ox + 0.6, ElevatedFloodDimensions.platformTopY, 3.5),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -812,18 +810,18 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _waterproofing(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _waterproofing(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.platformTopY;
+    final y = ElevatedFloodDimensions.platformTopY;
     e.add(
       BimEntity(
         id: 'moisture_barrier',
         label: 'Moisture Barrier',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.1,
+          width: ElevatedFloodDimensions.buildingWidth + 0.1,
           height: 0.01,
-          depth: d.buildingDepth + 0.1,
-          center: BimVec3(d.centerX + ox, y - 0.02, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth + 0.1,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y - 0.02, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF22D3EE),
         category: BimEntityCategory.finishing,
@@ -839,10 +837,10 @@ class ElevatedFloodSceneBuilder {
         id: 'protective_coating',
         label: 'Protective Coating',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.wallHeight,
+          width: ElevatedFloodDimensions.buildingWidth,
+          height: ElevatedFloodDimensions.wallHeight,
           depth: 0.02,
-          center: BimVec3(ox - 0.02, y + d.wallHeight / 2, d.centerZ),
+          center: BimVec3(ox - 0.02, y + ElevatedFloodDimensions.wallHeight / 2, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF06B6D4),
         category: BimEntityCategory.finishing,
@@ -854,7 +852,7 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _drainage(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _drainage(List<BimEntity> e) {
     final ox = 1.2;
     for (var i = 0; i < 4; i++) {
       e.add(
@@ -864,7 +862,7 @@ class ElevatedFloodSceneBuilder {
           mesh: BimMesh.box(width: 0.25, height: 0.08, depth: 1.8),
           color: const Color(0xFF475569),
           category: BimEntityCategory.drainage,
-          position: BimVec3(ox + 1.0 + i * 1.1, d.platformTopY + 0.02, -0.35),
+          position: BimVec3(ox + 1.0 + i * 1.1, ElevatedFloodDimensions.platformTopY + 0.02, -0.35),
           minStage: 14,
           buildProgress: 0,
         ),
@@ -875,10 +873,10 @@ class ElevatedFloodSceneBuilder {
         id: 'drain_channel',
         label: 'Drainage Channel',
         mesh: BimMesh.box(
-          width: d.plotWidth - d.riverWidth - 1,
+          width: ElevatedFloodDimensions.plotWidth - ElevatedFloodDimensions.riverWidth - 1,
           height: 0.1,
           depth: 0.35,
-          center: BimVec3(d.riverWidth + 4, 0.05, d.plotDepth - 0.5),
+          center: BimVec3(ElevatedFloodDimensions.riverWidth + 4, 0.05, ElevatedFloodDimensions.plotDepth - 0.5),
         ),
         color: const Color(0xFF64748B),
         category: BimEntityCategory.drainage,
@@ -888,18 +886,18 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _finishing(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _finishing(List<BimEntity> e) {
     final ox = 1.2;
-    final y = d.platformTopY;
+    final y = ElevatedFloodDimensions.platformTopY;
     e.add(
       BimEntity(
         id: 'floor_finish',
         label: 'Floor Finish',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.2,
+          width: ElevatedFloodDimensions.buildingWidth - 0.2,
           height: 0.02,
-          depth: d.buildingDepth - 0.2,
-          center: BimVec3(d.centerX + ox, y + d.slabThickness + 0.01, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth - 0.2,
+          center: BimVec3(ElevatedFloodDimensions.centerX + ox, y + ElevatedFloodDimensions.slabThickness + 0.01, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFFD6D3D1),
         category: BimEntityCategory.finishing,
@@ -913,9 +911,9 @@ class ElevatedFloodSceneBuilder {
         label: 'Exterior Paint',
         mesh: BimMesh.box(
           width: 0.02,
-          height: d.wallHeight * 0.9,
-          depth: d.buildingDepth,
-          center: BimVec3(ox + d.buildingWidth + 0.02, y + d.wallHeight / 2, d.centerZ),
+          height: ElevatedFloodDimensions.wallHeight * 0.9,
+          depth: ElevatedFloodDimensions.buildingDepth,
+          center: BimVec3(ox + ElevatedFloodDimensions.buildingWidth + 0.02, y + ElevatedFloodDimensions.wallHeight / 2, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFFF97316),
         category: BimEntityCategory.finishing,
@@ -926,7 +924,7 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 5; i++) {
       e.add(
         BimEntity(
@@ -943,16 +941,16 @@ class ElevatedFloodSceneBuilder {
     }
   }
 
-  void _comparisons(List<BimEntity> e, ElevatedFloodDimensions d) {
+  void _comparisons(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'ground_storey_open',
         label: 'Open Ground Storey (flood flow)',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: ElevatedFloodDimensions.buildingWidth,
           height: 0.02,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX + 1.2, 0.08, d.centerZ),
+          depth: ElevatedFloodDimensions.buildingDepth,
+          center: BimVec3(ElevatedFloodDimensions.centerX + 1.2, 0.08, ElevatedFloodDimensions.centerZ),
         ),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.annotation,
@@ -963,14 +961,14 @@ class ElevatedFloodSceneBuilder {
     );
   }
 
-  List<(double, double)> _columnPositions(ElevatedFloodDimensions d) {
+  List<(double, double)> _columnPositions() {
     return [
       (0, 0),
-      (d.buildingWidth - d.columnSize, 0),
-      (0, d.buildingDepth - d.columnSize),
-      (d.buildingWidth - d.columnSize, d.buildingDepth - d.columnSize),
-      (d.buildingWidth / 2 - d.columnSize / 2, 0),
-      (d.buildingWidth / 2 - d.columnSize / 2, d.buildingDepth - d.columnSize),
+      (ElevatedFloodDimensions.buildingWidth - ElevatedFloodDimensions.columnSize, 0),
+      (0, ElevatedFloodDimensions.buildingDepth - ElevatedFloodDimensions.columnSize),
+      (ElevatedFloodDimensions.buildingWidth - ElevatedFloodDimensions.columnSize, ElevatedFloodDimensions.buildingDepth - ElevatedFloodDimensions.columnSize),
+      (ElevatedFloodDimensions.buildingWidth / 2 - ElevatedFloodDimensions.columnSize / 2, 0),
+      (ElevatedFloodDimensions.buildingWidth / 2 - ElevatedFloodDimensions.columnSize / 2, ElevatedFloodDimensions.buildingDepth - ElevatedFloodDimensions.columnSize),
     ];
   }
 }

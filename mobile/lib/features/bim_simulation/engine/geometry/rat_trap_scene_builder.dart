@@ -9,37 +9,35 @@ import '../math/bim_vec3.dart';
 class RatTrapSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = RatTrapDimensions;
-
-    _site(e, d);
-    _settingOut(e, d);
-    _excavation(e, d);
-    _footings(e, d);
-    _foundationMasonry(e, d);
-    _plinthBand(e, d);
-    _ratTrapWalls(e, d);
-    _seismicReinforcement(e, d);
-    _openings(e, d);
-    _lintelBand(e, d);
-    _roofBand(e, d);
-    _roofSlab(e, d);
-    _dpcWaterproof(e, d);
-    _comparisons(e, d);
-    _landscape(e, d);
+        _site(e);
+    _settingOut(e);
+    _excavation(e);
+    _footings(e);
+    _foundationMasonry(e);
+    _plinthBand(e);
+    _ratTrapWalls(e);
+    _seismicReinforcement(e);
+    _openings(e);
+    _lintelBand(e);
+    _roofBand(e);
+    _roofSlab(e);
+    _dpcWaterproof(e);
+    _comparisons(e);
+    _landscape(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, RatTrapDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'terrain',
         label: 'Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: RatTrapDimensions.plotWidth,
           height: 0.15,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.075, d.plotDepth / 2),
+          depth: RatTrapDimensions.plotDepth,
+          center: BimVec3(RatTrapDimensions.plotWidth / 2, -0.075, RatTrapDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -51,10 +49,10 @@ class RatTrapSceneBuilder {
         id: 'site_boundary',
         label: 'Site Boundary',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: RatTrapDimensions.plotWidth,
           height: 0.02,
           depth: 0.05,
-          center: BimVec3(d.plotWidth / 2, 0.02, 0.025),
+          center: BimVec3(RatTrapDimensions.plotWidth / 2, 0.02, 0.025),
         ),
         color: const Color(0xFF64748B),
         category: BimEntityCategory.survey,
@@ -67,10 +65,10 @@ class RatTrapSceneBuilder {
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: RatTrapDimensions.buildingWidth,
           height: 0.03,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, 0.04, d.centerZ),
+          depth: RatTrapDimensions.buildingDepth,
+          center: BimVec3(RatTrapDimensions.centerX, 0.04, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -83,10 +81,10 @@ class RatTrapSceneBuilder {
         BimEntity(
           id: 'site_grid_$i',
           label: 'Site Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: RatTrapDimensions.buildingDepth),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.05, 0),
+          position: BimVec3(i * (RatTrapDimensions.buildingWidth / 6), 0.05, 0),
           minStage: 0,
           buildProgress: 0,
         ),
@@ -94,16 +92,16 @@ class RatTrapSceneBuilder {
     }
   }
 
-  void _settingOut(List<BimEntity> e, RatTrapDimensions d) {
+  void _settingOut(List<BimEntity> e) {
     for (var i = 0; i <= 6; i++) {
       e.add(
         BimEntity(
           id: 'setout_grid_$i',
           label: 'Setting Out Grid',
-          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: RatTrapDimensions.buildingDepth),
           color: const Color(0xFF0F172A),
           category: BimEntityCategory.survey,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.06, 0),
+          position: BimVec3(i * (RatTrapDimensions.buildingWidth / 6), 0.06, 0),
           minStage: 1,
           buildProgress: 0,
         ),
@@ -114,10 +112,10 @@ class RatTrapSceneBuilder {
         id: 'wall_centerline',
         label: 'Wall Centerline',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: RatTrapDimensions.buildingWidth,
           height: 0.008,
           depth: 0.02,
-          center: BimVec3(d.centerX, 0.055, d.centerZ),
+          center: BimVec3(RatTrapDimensions.centerX, 0.055, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF2563EB),
         category: BimEntityCategory.annotation,
@@ -128,9 +126,9 @@ class RatTrapSceneBuilder {
     for (var i = 0; i < 4; i++) {
       final corners = [
         (0.0, 0.0),
-        (d.buildingWidth - 0.15, 0.0),
-        (0.0, d.buildingDepth - 0.15),
-        (d.buildingWidth - 0.15, d.buildingDepth - 0.15),
+        (RatTrapDimensions.buildingWidth - 0.15, 0.0),
+        (0.0, RatTrapDimensions.buildingDepth - 0.15),
+        (RatTrapDimensions.buildingWidth - 0.15, RatTrapDimensions.buildingDepth - 0.15),
       ];
       e.add(
         BimEntity(
@@ -147,16 +145,16 @@ class RatTrapSceneBuilder {
     }
   }
 
-  void _excavation(List<BimEntity> e, RatTrapDimensions d) {
+  void _excavation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'excavation',
         label: 'Excavation',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.6,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 0.6,
-          center: BimVec3(d.centerX, -d.trenchDepth / 2 + 0.05, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.6,
+          height: RatTrapDimensions.trenchDepth,
+          depth: RatTrapDimensions.buildingDepth + 0.6,
+          center: BimVec3(RatTrapDimensions.centerX, -RatTrapDimensions.trenchDepth / 2 + 0.05, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -170,10 +168,10 @@ class RatTrapSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Strata',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
+          width: RatTrapDimensions.buildingWidth + 0.8,
           height: 0.12,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.06, d.centerZ),
+          depth: RatTrapDimensions.buildingDepth + 0.8,
+          center: BimVec3(RatTrapDimensions.centerX, -RatTrapDimensions.trenchDepth + 0.06, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -186,27 +184,27 @@ class RatTrapSceneBuilder {
       BimEntity(
         id: 'soil_profile',
         label: 'Soil Profile',
-        mesh: BimMesh.box(width: 0.04, height: d.trenchDepth + 0.15, depth: 0.45),
+        mesh: BimMesh.box(width: 0.04, height: RatTrapDimensions.trenchDepth + 0.15, depth: 0.45),
         color: const Color(0xFFA16207),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.25, -d.trenchDepth / 2, d.centerZ),
+        position: BimVec3(-0.25, -RatTrapDimensions.trenchDepth / 2, RatTrapDimensions.centerZ),
         minStage: 2,
         buildProgress: 0,
       ),
     );
   }
 
-  void _footings(List<BimEntity> e, RatTrapDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness;
+  void _footings(List<BimEntity> e) {
+    final baseY = -RatTrapDimensions.trenchDepth + RatTrapDimensions.pccThickness;
     e.add(
       BimEntity(
         id: 'pcc_layer',
         label: 'PCC Blinding',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.35,
-          height: d.pccThickness,
-          depth: d.buildingDepth + 0.35,
-          center: BimVec3(d.centerX, -d.trenchDepth + d.pccThickness / 2, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.35,
+          height: RatTrapDimensions.pccThickness,
+          depth: RatTrapDimensions.buildingDepth + 0.35,
+          center: BimVec3(RatTrapDimensions.centerX, -RatTrapDimensions.trenchDepth + RatTrapDimensions.pccThickness / 2, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -215,7 +213,7 @@ class RatTrapSceneBuilder {
         buildProgress: 0,
       ),
     );
-    final positions = _footingPositions(d);
+    final positions = _footingPositions();
     for (var i = 0; i < positions.length; i++) {
       final p = positions[i];
       e.add(
@@ -223,9 +221,9 @@ class RatTrapSceneBuilder {
           id: 'footing_rebar_$i',
           label: 'Footing Reinforcement',
           mesh: BimMesh.box(
-            width: d.footingWidth - 0.06,
-            height: d.footingDepth * 0.65,
-            depth: d.footingWidth - 0.06,
+            width: RatTrapDimensions.footingWidth - 0.06,
+            height: RatTrapDimensions.footingDepth * 0.65,
+            depth: RatTrapDimensions.footingWidth - 0.06,
           ),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
@@ -240,13 +238,13 @@ class RatTrapSceneBuilder {
           id: 'footing_concrete_$i',
           label: 'RCC Footing',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth,
-            depth: d.footingWidth,
+            width: RatTrapDimensions.footingWidth,
+            height: RatTrapDimensions.footingDepth,
+            depth: RatTrapDimensions.footingWidth,
             center: BimVec3(
-              p.$1 + d.footingWidth / 2,
-              baseY + d.footingDepth / 2,
-              p.$2 + d.footingWidth / 2,
+              p.$1 + RatTrapDimensions.footingWidth / 2,
+              baseY + RatTrapDimensions.footingDepth / 2,
+              p.$2 + RatTrapDimensions.footingWidth / 2,
             ),
           ),
           color: const Color(0xFF64748B),
@@ -259,20 +257,20 @@ class RatTrapSceneBuilder {
     }
   }
 
-  void _foundationMasonry(List<BimEntity> e, RatTrapDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness + d.footingDepth;
+  void _foundationMasonry(List<BimEntity> e) {
+    final baseY = -RatTrapDimensions.trenchDepth + RatTrapDimensions.pccThickness + RatTrapDimensions.footingDepth;
     var idx = 0;
-    for (var c = 0; c < d.foundationCourses; c++) {
-      final y = baseY + c * (d.courseHeight + d.mortarJoint);
-      for (final p in _perimeterPositions(d, 0.1)) {
+    for (var c = 0; c < RatTrapDimensions.foundationCourses; c++) {
+      final y = baseY + c * (RatTrapDimensions.courseHeight + RatTrapDimensions.mortarJoint);
+      for (final p in _perimeterPositions(0.1)) {
         e.add(
           BimEntity(
             id: 'found_brick_$idx',
             label: 'Foundation Masonry',
             mesh: BimMesh.box(
-              width: d.brickLength * 0.95,
-              height: d.courseHeight,
-              depth: d.brickWidth * 0.95,
+              width: RatTrapDimensions.brickLength * 0.95,
+              height: RatTrapDimensions.courseHeight,
+              depth: RatTrapDimensions.brickWidth * 0.95,
             ),
             color: const Color(0xFF78716C),
             category: BimEntityCategory.masonry,
@@ -287,20 +285,20 @@ class RatTrapSceneBuilder {
     }
   }
 
-  void _plinthBand(List<BimEntity> e, RatTrapDimensions d) {
-    final y = -d.trenchDepth +
-        d.pccThickness +
-        d.footingDepth +
-        d.foundationCourses * (d.courseHeight + d.mortarJoint);
+  void _plinthBand(List<BimEntity> e) {
+    final y = -RatTrapDimensions.trenchDepth +
+        RatTrapDimensions.pccThickness +
+        RatTrapDimensions.footingDepth +
+        RatTrapDimensions.foundationCourses * (RatTrapDimensions.courseHeight + RatTrapDimensions.mortarJoint);
     e.add(
       BimEntity(
         id: 'plinth_rebar',
         label: 'Plinth Band Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.plinthBeamHeight * 0.6,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, y + d.plinthBeamHeight * 0.3, d.centerZ),
+          width: RatTrapDimensions.buildingWidth,
+          height: RatTrapDimensions.plinthBeamHeight * 0.6,
+          depth: RatTrapDimensions.buildingDepth,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.plinthBeamHeight * 0.3, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -313,10 +311,10 @@ class RatTrapSceneBuilder {
         id: 'plinth_band',
         label: 'RCC Plinth Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.12,
-          height: d.plinthBeamHeight,
-          depth: d.buildingDepth + 0.12,
-          center: BimVec3(d.centerX, y + d.plinthBeamHeight / 2, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.12,
+          height: RatTrapDimensions.plinthBeamHeight,
+          depth: RatTrapDimensions.buildingDepth + 0.12,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.plinthBeamHeight / 2, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -329,15 +327,14 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _ratTrapWalls(List<BimEntity> e, RatTrapDimensions d) {
-    final baseY = d.wallBaseY;
+  void _ratTrapWalls(List<BimEntity> e) {
+    final baseY = RatTrapDimensions.wallBaseY;
     var idx = 0;
-    for (var course = 0; course < d.wallCourses; course++) {
-      final y = baseY + course * (d.courseHeight + d.mortarJoint);
+    for (var course = 0; course < RatTrapDimensions.wallCourses; course++) {
+      final y = baseY + course * (RatTrapDimensions.courseHeight + RatTrapDimensions.mortarJoint);
       final minStage = course == 0 ? 6 : 7;
       _rtbFace(
         e,
-        d,
         face: 'front',
         course: course,
         y: y,
@@ -345,10 +342,9 @@ class RatTrapSceneBuilder {
         idxStart: idx,
         detailed: true,
       );
-      idx += d.baysAlongWidth * 2;
+      idx += RatTrapDimensions.baysAlongWidth * 2;
       _rtbFace(
         e,
-        d,
         face: 'left',
         course: course,
         y: y,
@@ -356,10 +352,9 @@ class RatTrapSceneBuilder {
         idxStart: idx,
         detailed: true,
       );
-      idx += d.baysAlongDepth * 2;
+      idx += RatTrapDimensions.baysAlongDepth * 2;
       _rtbFace(
         e,
-        d,
         face: 'rear',
         course: course,
         y: y,
@@ -367,10 +362,9 @@ class RatTrapSceneBuilder {
         idxStart: idx,
         detailed: false,
       );
-      idx += d.baysAlongWidth;
+      idx += RatTrapDimensions.baysAlongWidth;
       _rtbFace(
         e,
-        d,
         face: 'right',
         course: course,
         y: y,
@@ -378,13 +372,12 @@ class RatTrapSceneBuilder {
         idxStart: idx,
         detailed: false,
       );
-      idx += d.baysAlongDepth;
+      idx += RatTrapDimensions.baysAlongDepth;
     }
   }
 
   void _rtbFace(
-    List<BimEntity> e,
-    RatTrapDimensions d, {
+    List<BimEntity> e, {
     required String face,
     required int course,
     required double y,
@@ -393,25 +386,25 @@ class RatTrapSceneBuilder {
     required bool detailed,
   }) {
     final bays = face == 'front' || face == 'rear'
-        ? d.baysAlongWidth
-        : d.baysAlongDepth;
+        ? RatTrapDimensions.baysAlongWidth
+        : RatTrapDimensions.baysAlongDepth;
     for (var bay = 0; bay < bays; bay++) {
       final isCavity = detailed && (course + bay) % 2 == 1;
       final id = 'rtb_${face}_${course}_$bay';
       if (isCavity) {
-        final (x, z) = _bayPosition(d, face, bay);
+        final (x, z) = _bayPosition(face, bay);
         e.add(
           BimEntity(
             id: '${id}_cavity',
             label: 'Air Cavity',
             mesh: BimMesh.box(
-              width: d.cavityWidth,
-              height: d.courseHeight * 0.92,
-              depth: d.brickLength * 0.55,
+              width: RatTrapDimensions.cavityWidth,
+              height: RatTrapDimensions.courseHeight * 0.92,
+              depth: RatTrapDimensions.brickLength * 0.55,
               center: BimVec3(
-                x + d.cavityWidth / 2,
-                y + d.courseHeight / 2,
-                z + d.brickLength * 0.28,
+                x + RatTrapDimensions.cavityWidth / 2,
+                y + RatTrapDimensions.courseHeight / 2,
+                z + RatTrapDimensions.brickLength * 0.28,
               ),
             ),
             color: const Color(0xFFBAE6FD),
@@ -425,19 +418,19 @@ class RatTrapSceneBuilder {
           ),
         );
       } else {
-        final (x, z) = _bayPosition(d, face, bay);
+        final (x, z) = _bayPosition(face, bay);
         e.add(
           BimEntity(
             id: '${id}_brick',
             label: 'Rat Trap Bond Brick',
             mesh: BimMesh.box(
-              width: d.brickLength * 0.94,
-              height: d.courseHeight,
-              depth: d.brickWidth,
+              width: RatTrapDimensions.brickLength * 0.94,
+              height: RatTrapDimensions.courseHeight,
+              depth: RatTrapDimensions.brickWidth,
               center: BimVec3(
-                x + d.brickLength / 2,
-                y + d.courseHeight / 2,
-                z + d.brickWidth / 2,
+                x + RatTrapDimensions.brickLength / 2,
+                y + RatTrapDimensions.courseHeight / 2,
+                z + RatTrapDimensions.brickWidth / 2,
               ),
             ),
             color: Color.lerp(
@@ -457,32 +450,32 @@ class RatTrapSceneBuilder {
     }
   }
 
-  (double, double) _bayPosition(RatTrapDimensions d, String face, int bay) {
-    final offset = bay * d.baySpacing;
+  (double, double) _bayPosition(String face, int bay) {
+    final offset = bay * RatTrapDimensions.baySpacing;
     return switch (face) {
       'front' => (offset + 0.05, 0.0),
-      'rear' => (offset + 0.05, d.buildingDepth - d.brickWidth),
+      'rear' => (offset + 0.05, RatTrapDimensions.buildingDepth - RatTrapDimensions.brickWidth),
       'left' => (0.0, offset + 0.05),
-      _ => (d.buildingWidth - d.brickWidth, offset + 0.05),
+      _ => (RatTrapDimensions.buildingWidth - RatTrapDimensions.brickWidth, offset + 0.05),
     };
   }
 
-  void _seismicReinforcement(List<BimEntity> e, RatTrapDimensions d) {
+  void _seismicReinforcement(List<BimEntity> e) {
     final corners = [
       (0.12, 0.12),
-      (d.buildingWidth - 0.2, 0.12),
-      (0.12, d.buildingDepth - 0.2),
-      (d.buildingWidth - 0.2, d.buildingDepth - 0.2),
+      (RatTrapDimensions.buildingWidth - 0.2, 0.12),
+      (0.12, RatTrapDimensions.buildingDepth - 0.2),
+      (RatTrapDimensions.buildingWidth - 0.2, RatTrapDimensions.buildingDepth - 0.2),
     ];
     for (var i = 0; i < corners.length; i++) {
       e.add(
         BimEntity(
           id: 'seismic_bar_$i',
           label: 'Vertical Seismic Bar',
-          mesh: BimMesh.cylinder(radius: 0.008, height: d.wallHeight * 0.85),
+          mesh: BimMesh.cylinder(radius: 0.008, height: RatTrapDimensions.wallHeight * 0.85),
           color: const Color(0xFF1E293B),
           category: BimEntityCategory.rebar,
-          position: BimVec3(corners[i].$1, d.wallBaseY + 0.1, corners[i].$2),
+          position: BimVec3(corners[i].$1, RatTrapDimensions.wallBaseY + 0.1, corners[i].$2),
           explodeGroup: 3,
           minStage: 8,
           pickable: i == 0,
@@ -494,12 +487,12 @@ class RatTrapSceneBuilder {
         BimEntity(
           id: 'grout_fill_$i',
           label: 'Grout Fill',
-          mesh: BimMesh.box(width: 0.06, height: d.wallHeight * 0.5, depth: 0.06),
+          mesh: BimMesh.box(width: 0.06, height: RatTrapDimensions.wallHeight * 0.5, depth: 0.06),
           color: const Color(0xFF9CA3AF),
           category: BimEntityCategory.concrete,
           position: BimVec3(
             corners[i].$1,
-            d.wallBaseY + d.wallHeight * 0.25,
+            RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight * 0.25,
             corners[i].$2,
           ),
           explodeGroup: 3,
@@ -510,8 +503,8 @@ class RatTrapSceneBuilder {
     }
   }
 
-  void _openings(List<BimEntity> e, RatTrapDimensions d) {
-    final y = d.wallBaseY + 0.05;
+  void _openings(List<BimEntity> e) {
+    final y = RatTrapDimensions.wallBaseY + 0.05;
     e.add(
       BimEntity(
         id: 'door_frame',
@@ -519,7 +512,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.95, height: 2.05, depth: 0.1),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.centerX - 0.475, y, 0.02),
+        position: BimVec3(RatTrapDimensions.centerX - 0.475, y, 0.02),
         explodeGroup: 4,
         minStage: 9,
         buildProgress: 0,
@@ -532,7 +525,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 1.05, height: 0.95, depth: 0.08),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.finishing,
-        position: BimVec3(0.55, y + 0.75, d.buildingDepth - 0.05),
+        position: BimVec3(0.55, y + 0.75, RatTrapDimensions.buildingDepth - 0.05),
         explodeGroup: 4,
         minStage: 9,
         buildProgress: 0,
@@ -545,7 +538,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 1.2, height: 0.08, depth: 0.12),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
-        position: BimVec3(0.5, y + 1.75, d.buildingDepth - 0.06),
+        position: BimVec3(0.5, y + 1.75, RatTrapDimensions.buildingDepth - 0.06),
         explodeGroup: 4,
         minStage: 9,
         buildProgress: 0,
@@ -558,7 +551,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.5, height: 0.03, depth: 0.5),
         color: const Color(0xFFF97316),
         category: BimEntityCategory.annotation,
-        position: BimVec3(0.45, y + 1.65, d.buildingDepth + 0.15),
+        position: BimVec3(0.45, y + 1.65, RatTrapDimensions.buildingDepth + 0.15),
         minStage: 9,
         opacity: 0.85,
         buildProgress: 0,
@@ -566,17 +559,17 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _lintelBand(List<BimEntity> e, RatTrapDimensions d) {
-    final y = d.wallBaseY + d.wallHeight - d.bandHeight;
+  void _lintelBand(List<BimEntity> e) {
+    final y = RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight - RatTrapDimensions.bandHeight;
     e.add(
       BimEntity(
         id: 'lintel_rebar',
         label: 'Lintel Band Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.1,
-          height: d.bandHeight * 0.55,
-          depth: d.buildingDepth + 0.1,
-          center: BimVec3(d.centerX, y + d.bandHeight * 0.28, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.1,
+          height: RatTrapDimensions.bandHeight * 0.55,
+          depth: RatTrapDimensions.buildingDepth + 0.1,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.bandHeight * 0.28, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -589,10 +582,10 @@ class RatTrapSceneBuilder {
         id: 'lintel_band',
         label: 'RCC Lintel Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.14,
-          height: d.bandHeight,
-          depth: d.buildingDepth + 0.14,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.14,
+          height: RatTrapDimensions.bandHeight,
+          depth: RatTrapDimensions.buildingDepth + 0.14,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.bandHeight / 2, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF475569),
         category: BimEntityCategory.concrete,
@@ -605,17 +598,17 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _roofBand(List<BimEntity> e, RatTrapDimensions d) {
-    final y = d.wallBaseY + d.wallHeight;
+  void _roofBand(List<BimEntity> e) {
+    final y = RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight;
     e.add(
       BimEntity(
         id: 'roof_band_rebar',
         label: 'Roof Band Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.1,
-          height: d.bandHeight * 0.55,
-          depth: d.buildingDepth + 0.1,
-          center: BimVec3(d.centerX, y + d.bandHeight * 0.28, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.1,
+          height: RatTrapDimensions.bandHeight * 0.55,
+          depth: RatTrapDimensions.buildingDepth + 0.1,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.bandHeight * 0.28, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -628,10 +621,10 @@ class RatTrapSceneBuilder {
         id: 'roof_band',
         label: 'RCC Roof Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.14,
-          height: d.bandHeight,
-          depth: d.buildingDepth + 0.14,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.14,
+          height: RatTrapDimensions.bandHeight,
+          depth: RatTrapDimensions.buildingDepth + 0.14,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.bandHeight / 2, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF475569),
         category: BimEntityCategory.concrete,
@@ -647,7 +640,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.6, height: 0.03, depth: 0.6),
         color: const Color(0xFF22C55E),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX - 0.3, y + d.bandHeight + 0.05, d.centerZ),
+        position: BimVec3(RatTrapDimensions.centerX - 0.3, y + RatTrapDimensions.bandHeight + 0.05, RatTrapDimensions.centerZ),
         minStage: 11,
         opacity: 0.8,
         buildProgress: 0,
@@ -655,17 +648,17 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _roofSlab(List<BimEntity> e, RatTrapDimensions d) {
-    final y = d.wallBaseY + d.wallHeight + d.bandHeight;
+  void _roofSlab(List<BimEntity> e) {
+    final y = RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight + RatTrapDimensions.bandHeight;
     e.add(
       BimEntity(
         id: 'slab_formwork',
         label: 'Slab Formwork',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.2,
+          width: RatTrapDimensions.buildingWidth + 0.2,
           height: 0.05,
-          depth: d.buildingDepth + 0.2,
-          center: BimVec3(d.centerX, y + 0.025, d.centerZ),
+          depth: RatTrapDimensions.buildingDepth + 0.2,
+          center: BimVec3(RatTrapDimensions.centerX, y + 0.025, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFFD97706),
         category: BimEntityCategory.formwork,
@@ -679,10 +672,10 @@ class RatTrapSceneBuilder {
         id: 'slab_rebar_bottom',
         label: 'Bottom Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.2,
+          width: RatTrapDimensions.buildingWidth - 0.2,
           height: 0.03,
-          depth: d.buildingDepth - 0.2,
-          center: BimVec3(d.centerX, y + 0.06, d.centerZ),
+          depth: RatTrapDimensions.buildingDepth - 0.2,
+          center: BimVec3(RatTrapDimensions.centerX, y + 0.06, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -696,13 +689,13 @@ class RatTrapSceneBuilder {
         id: 'slab_rebar_top',
         label: 'Top Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.35,
+          width: RatTrapDimensions.buildingWidth - 0.35,
           height: 0.03,
-          depth: d.buildingDepth - 0.35,
+          depth: RatTrapDimensions.buildingDepth - 0.35,
           center: BimVec3(
-            d.centerX,
-            y + d.slabThickness - 0.04,
-            d.centerZ,
+            RatTrapDimensions.centerX,
+            y + RatTrapDimensions.slabThickness - 0.04,
+            RatTrapDimensions.centerZ,
           ),
         ),
         color: const Color(0xFFEA580C),
@@ -717,10 +710,10 @@ class RatTrapSceneBuilder {
         id: 'roof_slab',
         label: 'RCC Roof Slab',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.slabThickness,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, y + d.slabThickness / 2, d.centerZ),
+          width: RatTrapDimensions.buildingWidth,
+          height: RatTrapDimensions.slabThickness,
+          depth: RatTrapDimensions.buildingDepth,
+          center: BimVec3(RatTrapDimensions.centerX, y + RatTrapDimensions.slabThickness / 2, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -736,7 +729,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.08, height: 0.5, depth: 0.08),
         color: const Color(0xFFEF4444),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX, y - 0.2, d.centerZ + 0.8),
+        position: BimVec3(RatTrapDimensions.centerX, y - 0.2, RatTrapDimensions.centerZ + 0.8),
         minStage: 12,
         opacity: 0.85,
         buildProgress: 0,
@@ -744,17 +737,17 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _dpcWaterproof(List<BimEntity> e, RatTrapDimensions d) {
-    final y = d.wallBaseY - 0.02;
+  void _dpcWaterproof(List<BimEntity> e) {
+    final y = RatTrapDimensions.wallBaseY - 0.02;
     e.add(
       BimEntity(
         id: 'dpc_course',
         label: 'Damp Proof Course',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.15,
-          height: d.dpcThickness,
-          depth: d.buildingDepth + 0.15,
-          center: BimVec3(d.centerX, y, d.centerZ),
+          width: RatTrapDimensions.buildingWidth + 0.15,
+          height: RatTrapDimensions.dpcThickness,
+          depth: RatTrapDimensions.buildingDepth + 0.15,
+          center: BimVec3(RatTrapDimensions.centerX, y, RatTrapDimensions.centerZ),
         ),
         color: const Color(0xFF06B6D4),
         category: BimEntityCategory.finishing,
@@ -768,10 +761,10 @@ class RatTrapSceneBuilder {
         id: 'waterproof_membrane',
         label: 'Waterproof Membrane',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.08,
-          height: d.wallHeight * 0.55,
+          width: RatTrapDimensions.buildingWidth + 0.08,
+          height: RatTrapDimensions.wallHeight * 0.55,
           depth: 0.015,
-          center: BimVec3(d.centerX, d.wallBaseY + d.wallHeight * 0.3, -0.008),
+          center: BimVec3(RatTrapDimensions.centerX, RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight * 0.3, -0.008),
         ),
         color: const Color(0xFF22C55E),
         category: BimEntityCategory.finishing,
@@ -787,7 +780,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.4, height: 0.03, depth: 0.4),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.35, y, d.centerZ),
+        position: BimVec3(-0.35, y, RatTrapDimensions.centerZ),
         minStage: 13,
         opacity: 0.8,
         buildProgress: 0,
@@ -795,19 +788,19 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _comparisons(List<BimEntity> e, RatTrapDimensions d) {
+  void _comparisons(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'conventional_wall_ghost',
         label: 'Conventional Solid Wall (reference)',
         mesh: BimMesh.box(
-          width: d.brickLength,
-          height: d.wallHeight * 0.85,
-          depth: d.brickLength,
+          width: RatTrapDimensions.brickLength,
+          height: RatTrapDimensions.wallHeight * 0.85,
+          depth: RatTrapDimensions.brickLength,
           center: BimVec3(
-            d.buildingWidth + 0.9,
-            d.wallBaseY + d.wallHeight * 0.42,
-            d.centerZ,
+            RatTrapDimensions.buildingWidth + 0.9,
+            RatTrapDimensions.wallBaseY + RatTrapDimensions.wallHeight * 0.42,
+            RatTrapDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF94A3B8),
@@ -824,7 +817,7 @@ class RatTrapSceneBuilder {
         mesh: BimMesh.box(width: 0.55, height: 0.03, depth: 0.55),
         color: const Color(0xFF16A34A),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.buildingWidth + 0.65, d.wallBaseY + 1.2, d.centerZ),
+        position: BimVec3(RatTrapDimensions.buildingWidth + 0.65, RatTrapDimensions.wallBaseY + 1.2, RatTrapDimensions.centerZ),
         minStage: 14,
         opacity: 0.9,
         buildProgress: 0,
@@ -832,7 +825,7 @@ class RatTrapSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, RatTrapDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 4; i++) {
       e.add(
         BimEntity(
@@ -842,9 +835,9 @@ class RatTrapSceneBuilder {
           color: const Color(0xFF16A34A),
           category: BimEntityCategory.terrain,
           position: BimVec3(
-            i < 2 ? 0.5 + i * 2.2 : d.buildingWidth - 0.5,
+            i < 2 ? 0.5 + i * 2.2 : RatTrapDimensions.buildingWidth - 0.5,
             0.11,
-            i % 2 == 0 ? 0.5 : d.plotDepth - 1.2,
+            i % 2 == 0 ? 0.5 : RatTrapDimensions.plotDepth - 1.2,
           ),
           minStage: 14,
           buildProgress: 0,
@@ -853,22 +846,22 @@ class RatTrapSceneBuilder {
     }
   }
 
-  List<(double, double)> _footingPositions(RatTrapDimensions d) {
+  List<(double, double)> _footingPositions() {
     return [
       (0.35, 0.35),
-      (d.buildingWidth - 0.35 - d.footingWidth, 0.35),
-      (0.35, d.buildingDepth - 0.35 - d.footingWidth),
-      (d.buildingWidth - 0.35 - d.footingWidth, d.buildingDepth - 0.35 - d.footingWidth),
-      (d.centerX - d.footingWidth / 2, 0.35),
-      (d.centerX - d.footingWidth / 2, d.buildingDepth - 0.35 - d.footingWidth),
+      (RatTrapDimensions.buildingWidth - 0.35 - RatTrapDimensions.footingWidth, 0.35),
+      (0.35, RatTrapDimensions.buildingDepth - 0.35 - RatTrapDimensions.footingWidth),
+      (RatTrapDimensions.buildingWidth - 0.35 - RatTrapDimensions.footingWidth, RatTrapDimensions.buildingDepth - 0.35 - RatTrapDimensions.footingWidth),
+      (RatTrapDimensions.centerX - RatTrapDimensions.footingWidth / 2, 0.35),
+      (RatTrapDimensions.centerX - RatTrapDimensions.footingWidth / 2, RatTrapDimensions.buildingDepth - 0.35 - RatTrapDimensions.footingWidth),
     ];
   }
 
-  List<(double, double)> _perimeterPositions(RatTrapDimensions d, double inset) {
-    final w = d.buildingWidth;
-    final dep = d.buildingDepth;
-    final bl = d.brickLength;
-    final bw = d.brickWidth;
+  List<(double, double)> _perimeterPositions(double inset) {
+    final w = RatTrapDimensions.buildingWidth;
+    final dep = RatTrapDimensions.buildingDepth;
+    final bl = RatTrapDimensions.brickLength;
+    final bw = RatTrapDimensions.brickWidth;
     final out = <(double, double)>[];
     for (var x = inset; x < w - bl; x += bl * 0.98) {
       out.add((x, inset));

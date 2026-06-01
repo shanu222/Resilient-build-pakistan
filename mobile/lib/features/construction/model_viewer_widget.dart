@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/web_asset_url.dart';
 
 /// BIM-style 3D viewer (GLB/GLTF). Shows engineering placeholder if asset is not bundled yet.
 class ModelViewerWidget extends StatelessWidget {
@@ -95,52 +96,50 @@ class _ModelViewerOrPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ModelViewer(
-      src: path,
-      alt: stageName,
-      ar: false,
-      autoRotate: true,
-      cameraControls: true,
-      backgroundColor: const Color(0xFFE2E8F0),
-      loading: Loading.lazy,
-      relatedCss: '''
-        .userInputWrapper { display: none; }
-      ''',
-      relatedJs: '''
-        document.addEventListener('DOMContentLoaded', function() {
-          const mv = document.querySelector('model-viewer');
-          if (mv) {
-            mv.addEventListener('error', function() {
-              console.log('Model load fallback');
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        ModelViewer(
+          src: webAssetUrl(path),
+          alt: stageName,
+          ar: false,
+          autoRotate: true,
+          cameraControls: true,
+          backgroundColor: const Color(0xFFE2E8F0),
+          loading: Loading.lazy,
+          relatedCss: '''
+            .userInputWrapper { display: none; }
+          ''',
+          relatedJs: '''
+            document.addEventListener('DOMContentLoaded', function() {
+              const mv = document.querySelector('model-viewer');
+              if (mv) {
+                mv.addEventListener('error', function() {
+                  console.log('Model load fallback');
+                });
+              }
             });
-          }
-        });
-      ''',
-      onWebViewCreated: (_) {},
-      child: Container(
-        color: const Color(0xFFE2E8F0),
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.view_in_ar, size: 72, color: AppColors.navy.withValues(alpha: 0.4)),
-            const SizedBox(height: 12),
-            Text(
-              stageName,
-              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.navy),
-            ),
-            const SizedBox(height: 4),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                'Add GLB to assets/models/ for live 3D. Tap components below for engineering details.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
-              ),
-            ),
-          ],
+          ''',
+          onWebViewCreated: (_) {},
         ),
-      ),
+        IgnorePointer(
+          child: Container(
+            color: const Color(0x33E2E8F0),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.view_in_ar, size: 72, color: AppColors.navy.withValues(alpha: 0.4)),
+                const SizedBox(height: 12),
+                Text(
+                  stageName,
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.navy),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

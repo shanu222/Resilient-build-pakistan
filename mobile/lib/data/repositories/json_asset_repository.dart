@@ -93,6 +93,21 @@ class JsonAssetRepository {
     return _academy!;
   }
 
+  Future<List<Map<String, dynamic>>> getDistricts() async {
+    final raw = await rootBundle.loadString('assets/data/districts.json');
+    final json = jsonDecode(raw) as Map<String, dynamic>;
+    final list = <Map<String, dynamic>>[];
+    for (final province in json['provinces'] as List) {
+      final p = province as Map<String, dynamic>;
+      for (final d in p['districts'] as List) {
+        final district = Map<String, dynamic>.from(d as Map<String, dynamic>);
+        district['provinceName'] = p['name'];
+        list.add(district);
+      }
+    }
+    return list;
+  }
+
   String getStageModelPath(String modelId, String stageKey) {
     final steps = _constructionSteps;
     if (steps == null) return 'assets/models/generic/stage_01_site.glb';

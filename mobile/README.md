@@ -2,13 +2,12 @@
 
 **Tagline:** Choose Location. Build Safe.
 
-Production-grade Flutter mobile app integrating location intelligence, model recommendations, BIM-style 3D construction simulation, PDF guidelines, Construction Academy, and AI inspection framework.
+Offline-first public engineering education app: location hazards → model recommendations → BIM digital twin → hazard simulation. **Not** a SaaS platform, admin portal, or user management system.
 
 ## Prerequisites
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) (latest stable)
 - Android Studio / Xcode for device builds
-- Optional: Firebase project for Auth, Firestore, Storage, and admin content sync
 
 ## Quick start
 
@@ -18,86 +17,57 @@ flutter pub get
 flutter run
 ```
 
+## Navigation
+
+| Tab | Purpose |
+|-----|---------|
+| Location | District picker + hazard assessment |
+| Models | Recommended & full model library |
+| Learn | Construction academy |
+| Library | Bundled PDFs + materials reference |
+
 ## Project structure
 
 ```
 lib/
-  core/           Theme, router (GoRouter), shared widgets
-  data/           Models, JSON + Hive + Firebase repositories
+  core/           Theme, router (GoRouter), config
+  data/           Models, JSON assets, Hive offline storage
   domain/         Location intelligence & recommendation engines
-  features/       Screens (matching existing UI design)
+  features/
+    digital_twin/ GLB construction sequence + engineering UI
+    bim_simulation/ Procedural BIM viewport (structural, exploded, load path)
+    location/     Hazard profile screen
+    models/       Model library & details
+    library/      Offline PDF guidance
   providers/      Riverpod state
-assets/data/      JSON content repositories (admin-syncable)
-assets/models/    GLB/GLTF per construction stage
+assets/data/      JSON (houses, regions, districts, digital_twin manifests)
+assets/models/    Per-stage GLB files
 assets/pdfs/      Model guideline PDFs
 ```
 
-## Content management (no app redeploy)
+## Digital Twin
 
-1. **Bundled JSON** — Edit `assets/data/*.json` for defaults.
-2. **Firebase Firestore** — `FirebaseAdminRepository` streams `houses`, `regions`, `materials`, `hazards`, `construction_simulations`. Seed once via admin tooling.
-3. **Offline** — Hive stores locations, projects, PDF bookmarks, and download paths.
+- Route: `/bim/<model_id>` or **Enter Digital Twin Mode** on model details  
+- **GLB layer:** `model_viewer_plus` — orbit, zoom, pan; stage mesh swap on timeline  
+- **Engineering layer:** procedural `BimViewport` — structural, exploded, cross-section, load transfer  
+- Hazard menu: earthquake, flood, wind, landslide (model-dependent)  
+- Component chips: foundation, walls, roof, etc. with bundled explanations  
 
-## BIM construction simulation (Models 01–16)
-
-Procedural BIM 4D engine (engineering viewport — not game-style placeholders):
-
-| Model | ID | Stages |
-|-------|-----|--------|
-| Interlocking Brick Masonry | `interlocking_brick_masonry` | 12 |
-| Earthbag Masonry | `earthbag_masonry` | 15 |
-| Cement Bamboo Frame | `cement_bamboo_frame` | 16 |
-| Confined Concrete Block | `confined_concrete_block_masonry` | 16 |
-| Elevated Flood Resilient House | `elevated_flood_resilient_house` | 16 |
-| Floating Amphibious Structure | `floating_amphibious_structure` | 15 |
-| Fly Ash Masonry | `fly_ash_masonry` | 15 |
-| Geogrid Retaining Wall | `geogrid_reinforced_retaining_wall` | 14 |
-| Light Gauge Steel House | `light_gauge_steel_house` | 15 |
-| Loh-Kaat Timber House | `loh_kaat_timber_house` | 15 |
-| Pre-Fabricated House | `pre_fabricated_house` | 15 |
-| Raised Plinth Flood Resilient House | `raised_plinth_flood_resilient_house` | 15 |
-| Rat Trap Bond Masonry | `rat_trap_bond_masonry` | 15 |
-| Reinforced Adobe Brick | `reinforced_adobe_brick_structure` | 16 |
-| Timber Frame Lath & Plaster | `timber_frame_lath_plaster` | 16 |
-| Advanced Interlocking Brick | `advanced_interlocking_brick_masonry` | 16 |
-
-- Route: `/bim/<model_id>` or **Start Construction Guide** on supported models
-- TTS narration, timeline scrubber, exploded / structural / **reinforcement** / **cavity wall** / **material comparison** / **modular assembly** / **block assembly** / **steel frame** / **timber band** / **timber skeleton** / **connection** / rebar / load / **thermal** / **earth pressure** / **landslide** / **groundwater** / **drainage** / **flood** / **buoyancy** / **hydraulic** / **seismic** views
-- Tap components for engineering explanations
-- GLB swap: implement `GlbSceneAdapter` when assets are ready
-
-Code: `lib/features/bim_simulation/`
-
-## 3D models & PDFs
-
-Place files under:
-
-- `assets/models/<model_id>/stage_XX_*.glb`
-- `assets/pdfs/<model_id>_guidelines.pdf`
-
-Paths are referenced in `houses.json` and `construction_steps.json`. Until assets are added, the 3D viewer shows the WebView placeholder; PDF viewer shows a load-failed snackbar.
-
-## Firebase setup
+Generate/update GLBs:
 
 ```bash
-dart pub global activate flutterfire_cli
-flutterfire configure
+cd tools/bim_generator
+pip install -r requirements.txt
+python generate_all.py
 ```
 
-This generates `lib/firebase_options.dart` (gitignored). Without it, the app runs offline with bundled JSON only.
+## Content
 
-## Mapbox (optional)
+All content ships in `assets/`. Edit JSON under `assets/data/` and rebuild the app. Hive caches last location and downloads on device.
 
-The stack uses **flutter_map** + **geolocator** by default. To add Mapbox tiles, set `MAPBOX_ACCESS_TOKEN` and extend `HomeDashboardScreen` with a `FlutterMap` layer.
-
-## Regenerate platform folders
-
-If `android/` or `ios/` are missing:
+## Tests
 
 ```bash
-flutter create . --project-name resilientbuild_pakistan
+flutter test
+flutter analyze
 ```
-
-## Design
-
-UI colors and layout follow the existing React prototype (`src/styles/theme.css`) — deep navy `#0F172A`, accent orange `#F97316`, 16px radius cards.

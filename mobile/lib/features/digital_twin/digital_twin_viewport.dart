@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/web_asset_url.dart';
 import 'construction_stage_controller.dart';
 
 /// GLB construction viewer — orbit, zoom, pan; stage mesh swaps on timeline.
@@ -26,7 +27,7 @@ class DigitalTwinViewport extends StatelessWidget {
       children: [
         ModelViewer(
           key: ValueKey(glb),
-          src: glb,
+          src: webAssetUrl(glb),
           alt: stage?.title ?? 'Construction',
           ar: false,
           autoRotate: !controller.isPlaying,

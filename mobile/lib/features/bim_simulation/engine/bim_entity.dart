@@ -36,6 +36,7 @@ class BimEntity {
     this.visible = true,
     this.pickable = false,
     this.componentId,
+    this.buildProgress = 1.0,
   });
 
   final String id;
@@ -52,7 +53,7 @@ class BimEntity {
   final String? componentId;
 
   /// Build progress 0–1 within current stage animation.
-  double buildProgress = 1.0;
+  double buildProgress;
 
   BimAabb get bounds {
     var minX = double.infinity;

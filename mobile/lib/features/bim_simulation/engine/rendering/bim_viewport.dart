@@ -654,7 +654,7 @@ class _BimPainter extends CustomPainter {
       _arrow(canvas, ch, out, 'Drain away', const Color(0xFF0EA5E9));
     } else if (raisedPlinth) {
       final phase = controller.floodPhase;
-      final rain = projector.project(const BimVec3(4, 4.5 + math.sin(phase) * 0.15, 1));
+      final rain = projector.project(BimVec3(4, 4.5 + math.sin(phase) * 0.15, 1));
       final plinth = projector.project(const BimVec3(3.2, 1.55, 2.1));
       final drain = projector.project(const BimVec3(7.5, 0.08, 0));
       final out = projector.project(const BimVec3(11, 0.05, 0));
@@ -1131,7 +1131,7 @@ class _BimPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width - 24);
-    tp.paint(canvas, const Offset(12, size.height - 28));
+    tp.paint(canvas, Offset(12, size.height - 28));
   }
 
   void _arrow(Canvas canvas, Offset from, Offset to, String label, Color color) {

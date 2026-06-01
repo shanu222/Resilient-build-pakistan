@@ -9,32 +9,30 @@ import '../math/bim_vec3.dart';
 class LightGaugeSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = LightGaugeDimensions;
-
-    _site(e, d);
-    _excavationFootings(e, d);
-    _anchorsAndTracks(e, d);
-    _studsAndColumns(e, d);
-    _beams(e, d);
-    _bracing(e, d);
-    _roof(e, d);
-    _sheathingInsulation(e, d);
-    _finishes(e, d);
-    _landscape(e, d);
+        _site(e);
+    _excavationFootings(e);
+    _anchorsAndTracks(e);
+    _studsAndColumns(e);
+    _beams(e);
+    _bracing(e);
+    _roof(e);
+    _sheathingInsulation(e);
+    _finishes(e);
+    _landscape(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, LightGaugeDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'terrain',
         label: 'Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: LightGaugeDimensions.plotWidth,
           height: 0.15,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.075, d.plotDepth / 2),
+          depth: LightGaugeDimensions.plotDepth,
+          center: BimVec3(LightGaugeDimensions.plotWidth / 2, -0.075, LightGaugeDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -46,10 +44,10 @@ class LightGaugeSceneBuilder {
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: LightGaugeDimensions.buildingWidth,
           height: 0.02,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, 0.04, d.centerZ),
+          depth: LightGaugeDimensions.buildingDepth,
+          center: BimVec3(LightGaugeDimensions.centerX, 0.04, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -62,10 +60,10 @@ class LightGaugeSceneBuilder {
         BimEntity(
           id: 'site_grid_$i',
           label: 'Survey Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: LightGaugeDimensions.buildingDepth),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.05, 0),
+          position: BimVec3(i * (LightGaugeDimensions.buildingWidth / 6), 0.05, 0),
           minStage: 0,
           buildProgress: 0,
         ),
@@ -73,16 +71,16 @@ class LightGaugeSceneBuilder {
     }
   }
 
-  void _excavationFootings(List<BimEntity> e, LightGaugeDimensions d) {
+  void _excavationFootings(List<BimEntity> e) {
     for (var i = 0; i <= 6; i++) {
       e.add(
         BimEntity(
           id: 'setout_line_$i',
           label: 'Building Line',
-          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: LightGaugeDimensions.buildingDepth),
           color: const Color(0xFF0F172A),
           category: BimEntityCategory.survey,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.06, 0),
+          position: BimVec3(i * (LightGaugeDimensions.buildingWidth / 6), 0.06, 0),
           minStage: 1,
           buildProgress: 0,
         ),
@@ -93,10 +91,10 @@ class LightGaugeSceneBuilder {
         id: 'excavation',
         label: 'Excavation',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, -d.trenchDepth / 2 + 0.05, d.centerZ),
+          width: LightGaugeDimensions.buildingWidth + 0.8,
+          height: LightGaugeDimensions.trenchDepth,
+          depth: LightGaugeDimensions.buildingDepth + 0.8,
+          center: BimVec3(LightGaugeDimensions.centerX, -LightGaugeDimensions.trenchDepth / 2 + 0.05, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -110,10 +108,10 @@ class LightGaugeSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Strata',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1,
+          width: LightGaugeDimensions.buildingWidth + 1,
           height: 0.15,
-          depth: d.buildingDepth + 1,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.08, d.centerZ),
+          depth: LightGaugeDimensions.buildingDepth + 1,
+          center: BimVec3(LightGaugeDimensions.centerX, -LightGaugeDimensions.trenchDepth + 0.08, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -126,13 +124,13 @@ class LightGaugeSceneBuilder {
         id: 'pcc_layer',
         label: 'PCC Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.5,
-          height: d.pccThickness,
-          depth: d.buildingDepth + 0.5,
+          width: LightGaugeDimensions.buildingWidth + 0.5,
+          height: LightGaugeDimensions.pccThickness,
+          depth: LightGaugeDimensions.buildingDepth + 0.5,
           center: BimVec3(
-            d.centerX,
-            -d.trenchDepth + d.pccThickness / 2,
-            d.centerZ,
+            LightGaugeDimensions.centerX,
+            -LightGaugeDimensions.trenchDepth + LightGaugeDimensions.pccThickness / 2,
+            LightGaugeDimensions.centerZ,
           ),
         ),
         color: const Color(0xFFD1D5DB),
@@ -142,7 +140,7 @@ class LightGaugeSceneBuilder {
         buildProgress: 0,
       ),
     );
-    final footPos = _columnGrid(d);
+    final footPos = _columnGrid();
     for (var i = 0; i < footPos.length; i++) {
       final p = footPos[i];
       e.add(
@@ -150,13 +148,13 @@ class LightGaugeSceneBuilder {
           id: 'footing_rebar_$i',
           label: 'Footing Rebar',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth * 0.7,
-            depth: d.footingWidth,
+            width: LightGaugeDimensions.footingWidth,
+            height: LightGaugeDimensions.footingDepth * 0.7,
+            depth: LightGaugeDimensions.footingWidth,
           ),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
-          position: BimVec3(p.$1, -d.trenchDepth + d.pccThickness, p.$2),
+          position: BimVec3(p.$1, -LightGaugeDimensions.trenchDepth + LightGaugeDimensions.pccThickness, p.$2),
           minStage: 3,
           buildProgress: 0,
         ),
@@ -166,13 +164,13 @@ class LightGaugeSceneBuilder {
           id: 'footing_$i',
           label: 'RCC Footing',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth,
-            depth: d.footingWidth,
+            width: LightGaugeDimensions.footingWidth,
+            height: LightGaugeDimensions.footingDepth,
+            depth: LightGaugeDimensions.footingWidth,
             center: BimVec3(
-              p.$1 + d.footingWidth / 2,
-              -d.trenchDepth + d.pccThickness + d.footingDepth / 2,
-              p.$2 + d.footingWidth / 2,
+              p.$1 + LightGaugeDimensions.footingWidth / 2,
+              -LightGaugeDimensions.trenchDepth + LightGaugeDimensions.pccThickness + LightGaugeDimensions.footingDepth / 2,
+              p.$2 + LightGaugeDimensions.footingWidth / 2,
             ),
           ),
           color: const Color(0xFF9CA3AF),
@@ -185,9 +183,9 @@ class LightGaugeSceneBuilder {
     }
   }
 
-  void _anchorsAndTracks(List<BimEntity> e, LightGaugeDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness + d.footingDepth;
-    final grid = _columnGrid(d);
+  void _anchorsAndTracks(List<BimEntity> e) {
+    final baseY = -LightGaugeDimensions.trenchDepth + LightGaugeDimensions.pccThickness + LightGaugeDimensions.footingDepth;
+    final grid = _columnGrid();
     for (var i = 0; i < grid.length; i++) {
       final p = grid[i];
       e.add(
@@ -211,10 +209,10 @@ class LightGaugeSceneBuilder {
         id: 'base_track_front',
         label: 'Base Track',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.trackHeight,
-          depth: d.studFlange,
-          center: BimVec3(d.centerX, baseY + d.trackHeight / 2, 0),
+          width: LightGaugeDimensions.buildingWidth,
+          height: LightGaugeDimensions.trackHeight,
+          depth: LightGaugeDimensions.studFlange,
+          center: BimVec3(LightGaugeDimensions.centerX, baseY + LightGaugeDimensions.trackHeight / 2, 0),
         ),
         color: const Color(0xFFB0BEC5),
         category: BimEntityCategory.rebar,
@@ -228,10 +226,10 @@ class LightGaugeSceneBuilder {
         id: 'base_track_rear',
         label: 'Base Track',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.trackHeight,
-          depth: d.studFlange,
-          center: BimVec3(d.centerX, baseY + d.trackHeight / 2, d.buildingDepth),
+          width: LightGaugeDimensions.buildingWidth,
+          height: LightGaugeDimensions.trackHeight,
+          depth: LightGaugeDimensions.studFlange,
+          center: BimVec3(LightGaugeDimensions.centerX, baseY + LightGaugeDimensions.trackHeight / 2, LightGaugeDimensions.buildingDepth),
         ),
         color: const Color(0xFFB0BEC5),
         category: BimEntityCategory.rebar,
@@ -245,10 +243,10 @@ class LightGaugeSceneBuilder {
         id: 'base_track_side',
         label: 'Base Track',
         mesh: BimMesh.box(
-          width: d.studFlange,
-          height: d.trackHeight,
-          depth: d.buildingDepth,
-          center: BimVec3(0, baseY + d.trackHeight / 2, d.centerZ),
+          width: LightGaugeDimensions.studFlange,
+          height: LightGaugeDimensions.trackHeight,
+          depth: LightGaugeDimensions.buildingDepth,
+          center: BimVec3(0, baseY + LightGaugeDimensions.trackHeight / 2, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFFB0BEC5),
         category: BimEntityCategory.rebar,
@@ -264,7 +262,7 @@ class LightGaugeSceneBuilder {
         mesh: BimMesh.box(width: 0.5, height: 0.02, depth: 0.5),
         color: const Color(0xFF94A3B8),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.4, baseY + 0.1, d.centerZ),
+        position: BimVec3(-0.4, baseY + 0.1, LightGaugeDimensions.centerZ),
         minStage: 5,
         opacity: 0.7,
         buildProgress: 0,
@@ -272,19 +270,19 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _studsAndColumns(List<BimEntity> e, LightGaugeDimensions d) {
-    final baseY = d.frameBaseY;
+  void _studsAndColumns(List<BimEntity> e) {
+    final baseY = LightGaugeDimensions.frameBaseY;
     var idx = 0;
-    for (var x = 0.0; x <= d.buildingWidth; x += d.studSpacing) {
-      for (final z in [0.0, d.buildingDepth]) {
+    for (var x = 0.0; x <= LightGaugeDimensions.buildingWidth; x += LightGaugeDimensions.studSpacing) {
+      for (final z in [0.0, LightGaugeDimensions.buildingDepth]) {
         e.add(
           BimEntity(
             id: 'stud_$idx',
             label: 'Steel Wall Stud',
             mesh: BimMesh.box(
-              width: d.studWeb,
-              height: d.wallHeight,
-              depth: d.studFlange,
+              width: LightGaugeDimensions.studWeb,
+              height: LightGaugeDimensions.wallHeight,
+              depth: LightGaugeDimensions.studFlange,
             ),
             color: const Color(0xFF90A4AE),
             category: BimEntityCategory.rebar,
@@ -299,16 +297,16 @@ class LightGaugeSceneBuilder {
         idx++;
       }
     }
-    for (var z = d.studSpacing; z < d.buildingDepth; z += d.studSpacing) {
-      for (final x in [0.0, d.buildingWidth]) {
+    for (var z = LightGaugeDimensions.studSpacing; z < LightGaugeDimensions.buildingDepth; z += LightGaugeDimensions.studSpacing) {
+      for (final x in [0.0, LightGaugeDimensions.buildingWidth]) {
         e.add(
           BimEntity(
             id: 'stud_$idx',
             label: 'Steel Wall Stud',
             mesh: BimMesh.box(
-              width: d.studFlange,
-              height: d.wallHeight,
-              depth: d.studWeb,
+              width: LightGaugeDimensions.studFlange,
+              height: LightGaugeDimensions.wallHeight,
+              depth: LightGaugeDimensions.studWeb,
             ),
             color: const Color(0xFF90A4AE),
             category: BimEntityCategory.rebar,
@@ -322,7 +320,7 @@ class LightGaugeSceneBuilder {
         idx++;
       }
     }
-    final cols = _columnGrid(d);
+    final cols = _columnGrid();
     for (var i = 0; i < cols.length; i++) {
       final p = cols[i];
       e.add(
@@ -330,9 +328,9 @@ class LightGaugeSceneBuilder {
           id: 'steel_column_$i',
           label: 'Steel Column',
           mesh: BimMesh.box(
-            width: d.studWeb * 1.2,
-            height: d.wallHeight,
-            depth: d.studWeb * 1.2,
+            width: LightGaugeDimensions.studWeb * 1.2,
+            height: LightGaugeDimensions.wallHeight,
+            depth: LightGaugeDimensions.studWeb * 1.2,
           ),
           color: const Color(0xFF78909C),
           category: BimEntityCategory.rebar,
@@ -348,10 +346,10 @@ class LightGaugeSceneBuilder {
         id: 'top_track',
         label: 'Top Track',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.trackHeight,
-          depth: d.studFlange,
-          center: BimVec3(d.centerX, baseY + d.wallHeight, 0),
+          width: LightGaugeDimensions.buildingWidth,
+          height: LightGaugeDimensions.trackHeight,
+          depth: LightGaugeDimensions.studFlange,
+          center: BimVec3(LightGaugeDimensions.centerX, baseY + LightGaugeDimensions.wallHeight, 0),
         ),
         color: const Color(0xFFB0BEC5),
         category: BimEntityCategory.rebar,
@@ -362,17 +360,17 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _beams(List<BimEntity> e, LightGaugeDimensions d) {
-    final y = d.frameBaseY + d.wallHeight - d.trackHeight;
+  void _beams(List<BimEntity> e) {
+    final y = LightGaugeDimensions.frameBaseY + LightGaugeDimensions.wallHeight - LightGaugeDimensions.trackHeight;
     e.add(
       BimEntity(
         id: 'beam_front',
         label: 'Steel Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.studWeb,
-          depth: d.studFlange * 1.5,
-          center: BimVec3(d.centerX, y, 0.05),
+          width: LightGaugeDimensions.buildingWidth,
+          height: LightGaugeDimensions.studWeb,
+          depth: LightGaugeDimensions.studFlange * 1.5,
+          center: BimVec3(LightGaugeDimensions.centerX, y, 0.05),
         ),
         color: const Color(0xFF607D8B),
         category: BimEntityCategory.rebar,
@@ -388,10 +386,10 @@ class LightGaugeSceneBuilder {
         id: 'beam_rear',
         label: 'Steel Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.studWeb,
-          depth: d.studFlange * 1.5,
-          center: BimVec3(d.centerX, y, d.buildingDepth - 0.05),
+          width: LightGaugeDimensions.buildingWidth,
+          height: LightGaugeDimensions.studWeb,
+          depth: LightGaugeDimensions.studFlange * 1.5,
+          center: BimVec3(LightGaugeDimensions.centerX, y, LightGaugeDimensions.buildingDepth - 0.05),
         ),
         color: const Color(0xFF607D8B),
         category: BimEntityCategory.rebar,
@@ -409,7 +407,7 @@ class LightGaugeSceneBuilder {
           mesh: BimMesh.cylinder(radius: 0.006, height: 0.04),
           color: const Color(0xFF1F2937),
           category: BimEntityCategory.equipment,
-          position: BimVec3(0.5 + i, y, d.centerZ),
+          position: BimVec3(0.5 + i, y, LightGaugeDimensions.centerZ),
           explodeGroup: 4,
           minStage: 7,
           buildProgress: 0,
@@ -431,12 +429,12 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _bracing(List<BimEntity> e, LightGaugeDimensions d) {
-    final baseY = d.frameBaseY;
+  void _bracing(List<BimEntity> e) {
+    final baseY = LightGaugeDimensions.frameBaseY;
     final braces = [
-      (0.1, 0.1, d.buildingWidth - 0.2, d.buildingDepth - 0.2),
-      (d.buildingWidth - 0.2, 0.1, 0.1, d.buildingDepth - 0.2),
-      (0.1, 0.1, d.buildingWidth * 0.5, d.buildingDepth * 0.5),
+      (0.1, 0.1, LightGaugeDimensions.buildingWidth - 0.2, LightGaugeDimensions.buildingDepth - 0.2),
+      (LightGaugeDimensions.buildingWidth - 0.2, 0.1, 0.1, LightGaugeDimensions.buildingDepth - 0.2),
+      (0.1, 0.1, LightGaugeDimensions.buildingWidth * 0.5, LightGaugeDimensions.buildingDepth * 0.5),
     ];
     for (var i = 0; i < braces.length; i++) {
       final b = braces[i];
@@ -465,9 +463,9 @@ class LightGaugeSceneBuilder {
         label: 'Without Bracing (unstable)',
         mesh: BimMesh.box(
           width: 1.5,
-          height: d.wallHeight,
+          height: LightGaugeDimensions.wallHeight,
           depth: 0.08,
-          center: BimVec3(-0.6, baseY + d.wallHeight / 2, d.centerZ),
+          center: BimVec3(-0.6, baseY + LightGaugeDimensions.wallHeight / 2, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFFDC2626),
         category: BimEntityCategory.annotation,
@@ -478,18 +476,18 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _roof(List<BimEntity> e, LightGaugeDimensions d) {
-    final y = d.roofEaveY;
-    final ridge = y + d.buildingDepth * d.roofPitch * 0.5;
+  void _roof(List<BimEntity> e) {
+    final y = LightGaugeDimensions.roofEaveY;
+    final ridge = y + LightGaugeDimensions.buildingDepth * LightGaugeDimensions.roofPitch * 0.5;
     e.add(
       BimEntity(
         id: 'truss_lower',
         label: 'Truss Bottom Chord',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: LightGaugeDimensions.buildingWidth,
           height: 0.05,
           depth: 0.06,
-          center: BimVec3(d.centerX, y + 0.05, d.centerZ),
+          center: BimVec3(LightGaugeDimensions.centerX, y + 0.05, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFF78909C),
         category: BimEntityCategory.rebar,
@@ -506,7 +504,7 @@ class LightGaugeSceneBuilder {
         mesh: BimMesh.box(width: 0.05, height: 0.5, depth: 0.05),
         color: const Color(0xFF90A4AE),
         category: BimEntityCategory.rebar,
-        position: BimVec3(1.5, y + 0.1, d.centerZ - 0.5),
+        position: BimVec3(1.5, y + 0.1, LightGaugeDimensions.centerZ - 0.5),
         explodeGroup: 6,
         minStage: 9,
         componentId: 'roof_truss',
@@ -520,7 +518,7 @@ class LightGaugeSceneBuilder {
         mesh: BimMesh.box(width: 0.05, height: 0.5, depth: 0.05),
         color: const Color(0xFF90A4AE),
         category: BimEntityCategory.rebar,
-        position: BimVec3(4.5, y + 0.1, d.centerZ + 0.5),
+        position: BimVec3(4.5, y + 0.1, LightGaugeDimensions.centerZ + 0.5),
         explodeGroup: 6,
         minStage: 9,
         buildProgress: 0,
@@ -531,10 +529,10 @@ class LightGaugeSceneBuilder {
         id: 'truss_ridge',
         label: 'Ridge Member',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: LightGaugeDimensions.buildingWidth,
           height: 0.05,
           depth: 0.06,
-          center: BimVec3(d.centerX, ridge, d.centerZ),
+          center: BimVec3(LightGaugeDimensions.centerX, ridge, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFF607D8B),
         category: BimEntityCategory.rebar,
@@ -550,7 +548,7 @@ class LightGaugeSceneBuilder {
         BimEntity(
           id: 'purlin_$i',
           label: 'Purlin',
-          mesh: BimMesh.box(width: d.buildingWidth, height: 0.04, depth: 0.06),
+          mesh: BimMesh.box(width: LightGaugeDimensions.buildingWidth, height: 0.04, depth: 0.06),
           color: const Color(0xFF90A4AE),
           category: BimEntityCategory.rebar,
           position: BimVec3(0, ridge - 0.05, 0.5 + i * 0.85),
@@ -590,14 +588,14 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _sheathingInsulation(List<BimEntity> e, LightGaugeDimensions d) {
-    final baseY = d.frameBaseY;
+  void _sheathingInsulation(List<BimEntity> e) {
+    final baseY = LightGaugeDimensions.frameBaseY;
     for (var i = 0; i < 4; i++) {
       e.add(
         BimEntity(
           id: 'ext_sheath_$i',
           label: 'Exterior Sheathing',
-          mesh: BimMesh.box(width: 2.8, height: d.wallHeight * 0.9, depth: 0.012),
+          mesh: BimMesh.box(width: 2.8, height: LightGaugeDimensions.wallHeight * 0.9, depth: 0.012),
           color: const Color(0xFFD6D3D1),
           category: BimEntityCategory.masonry,
           position: BimVec3(0.1 + (i % 2) * 2.9, baseY, (i ~/ 2) * 2.2),
@@ -614,10 +612,10 @@ class LightGaugeSceneBuilder {
         id: 'insulation_fill',
         label: 'Insulation Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.3,
-          height: d.wallHeight - 0.2,
-          depth: d.buildingDepth - 0.3,
-          center: BimVec3(d.centerX, baseY + d.wallHeight / 2, d.centerZ),
+          width: LightGaugeDimensions.buildingWidth - 0.3,
+          height: LightGaugeDimensions.wallHeight - 0.2,
+          depth: LightGaugeDimensions.buildingDepth - 0.3,
+          center: BimVec3(LightGaugeDimensions.centerX, baseY + LightGaugeDimensions.wallHeight / 2, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFFFDE68A),
         category: BimEntityCategory.finishing,
@@ -633,9 +631,9 @@ class LightGaugeSceneBuilder {
         label: 'Interior Sheathing',
         mesh: BimMesh.box(
           width: 0.012,
-          height: d.wallHeight * 0.9,
-          depth: d.buildingDepth,
-          center: BimVec3(d.buildingWidth - 0.15, baseY + d.wallHeight / 2, d.centerZ),
+          height: LightGaugeDimensions.wallHeight * 0.9,
+          depth: LightGaugeDimensions.buildingDepth,
+          center: BimVec3(LightGaugeDimensions.buildingWidth - 0.15, baseY + LightGaugeDimensions.wallHeight / 2, LightGaugeDimensions.centerZ),
         ),
         color: const Color(0xFFF5F5F4),
         category: BimEntityCategory.masonry,
@@ -646,8 +644,8 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _finishes(List<BimEntity> e, LightGaugeDimensions d) {
-    final y = d.frameBaseY + 0.9;
+  void _finishes(List<BimEntity> e) {
+    final y = LightGaugeDimensions.frameBaseY + 0.9;
     e.add(
       BimEntity(
         id: 'door_frame',
@@ -655,7 +653,7 @@ class LightGaugeSceneBuilder {
         mesh: BimMesh.box(width: 0.9, height: 2.0, depth: 0.08),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.centerX - 0.45, y, 0),
+        position: BimVec3(LightGaugeDimensions.centerX - 0.45, y, 0),
         minStage: 13,
         buildProgress: 0,
       ),
@@ -667,7 +665,7 @@ class LightGaugeSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 1.0, depth: 0.06),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.buildingWidth - 0.1, y + 0.4, d.centerZ),
+        position: BimVec3(LightGaugeDimensions.buildingWidth - 0.1, y + 0.4, LightGaugeDimensions.centerZ),
         minStage: 13,
         buildProgress: 0,
       ),
@@ -676,10 +674,10 @@ class LightGaugeSceneBuilder {
       BimEntity(
         id: 'moisture_barrier',
         label: 'Moisture Protection',
-        mesh: BimMesh.box(width: 0.01, height: d.wallHeight, depth: d.buildingDepth),
+        mesh: BimMesh.box(width: 0.01, height: LightGaugeDimensions.wallHeight, depth: LightGaugeDimensions.buildingDepth),
         color: const Color(0xFF06B6D4),
         category: BimEntityCategory.finishing,
-        position: BimVec3(-0.02, d.frameBaseY, 0),
+        position: BimVec3(-0.02, LightGaugeDimensions.frameBaseY, 0),
         minStage: 13,
         opacity: 0.5,
         buildProgress: 0,
@@ -687,7 +685,7 @@ class LightGaugeSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, LightGaugeDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 4; i++) {
       e.add(
         BimEntity(
@@ -696,7 +694,7 @@ class LightGaugeSceneBuilder {
           mesh: BimMesh.cylinder(radius: 0.1, height: 0.7),
           color: const Color(0xFF166534),
           category: BimEntityCategory.terrain,
-          position: BimVec3(8 + i, 0.35, 2 + i * 1.8),
+          position: BimVec3(8.0 + i, 0.35, 2 + i * 1.8),
           minStage: 14,
           buildProgress: 0,
         ),
@@ -704,11 +702,11 @@ class LightGaugeSceneBuilder {
     }
   }
 
-  List<(double, double)> _columnGrid(LightGaugeDimensions d) => [
+  List<(double, double)> _columnGrid() => [
     (0, 0),
-    (d.buildingWidth, 0),
-    (0, d.buildingDepth),
-    (d.buildingWidth, d.buildingDepth),
-    (d.centerX, d.centerZ),
+    (LightGaugeDimensions.buildingWidth, 0),
+    (0, LightGaugeDimensions.buildingDepth),
+    (LightGaugeDimensions.buildingWidth, LightGaugeDimensions.buildingDepth),
+    (LightGaugeDimensions.centerX, LightGaugeDimensions.centerZ),
   ];
 }

@@ -10,18 +10,16 @@ import '../math/bim_vec3.dart';
 class InterlockingBrickSceneBuilder {
   List<BimEntity> build() {
     final entities = <BimEntity>[];
-    final d = HouseDimensions;
-
-    // --- Site & terrain ---
+        // --- Site & terrain ---
     entities.add(
       BimEntity(
         id: 'terrain',
         label: 'Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: HouseDimensions.plotWidth,
           height: 0.15,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.075, d.plotDepth / 2),
+          depth: HouseDimensions.plotDepth,
+          center: BimVec3(HouseDimensions.plotWidth / 2, -0.075, HouseDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF8B7355),
         category: BimEntityCategory.terrain,
@@ -34,10 +32,10 @@ class InterlockingBrickSceneBuilder {
         id: 'boundary',
         label: 'Property Boundary',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: HouseDimensions.plotWidth,
           height: 0.02,
           depth: 0.05,
-          center: BimVec3(d.plotWidth / 2, 0.02, 0.025),
+          center: BimVec3(HouseDimensions.plotWidth / 2, 0.02, 0.025),
         ),
         color: const Color(0xFF64748B),
         category: BimEntityCategory.survey,
@@ -46,7 +44,7 @@ class InterlockingBrickSceneBuilder {
     );
 
     // Footprint outline (4 edges)
-    _addFootprintEdges(entities, d);
+    _addFootprintEdges(entities);
 
     // North arrow
     entities.add(
@@ -56,19 +54,19 @@ class InterlockingBrickSceneBuilder {
         mesh: BimMesh.box(width: 0.15, height: 0.02, depth: 1.2),
         color: const Color(0xFFEF4444),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.plotWidth - 1.2, 0.05, d.plotDepth - 1.5),
+        position: BimVec3(HouseDimensions.plotWidth - 1.2, 0.05, HouseDimensions.plotDepth - 1.5),
         minStage: 0,
       ),
     );
 
     // Grid lines on ground
     for (var i = 0; i <= 6; i++) {
-      final x = i * (d.buildingWidth / 6);
+      final x = i * (HouseDimensions.buildingWidth / 6);
       entities.add(
         BimEntity(
           id: 'grid_x_$i',
           label: 'Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth + 1),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: HouseDimensions.buildingDepth + 1),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
           position: BimVec3(x, 0.03, -0.5),
@@ -78,12 +76,12 @@ class InterlockingBrickSceneBuilder {
       );
     }
     for (var i = 0; i <= 4; i++) {
-      final z = i * (d.buildingDepth / 4);
+      final z = i * (HouseDimensions.buildingDepth / 4);
       entities.add(
         BimEntity(
           id: 'grid_z_$i',
           label: 'Grid',
-          mesh: BimMesh.box(width: d.buildingWidth + 1, height: 0.01, depth: 0.02),
+          mesh: BimMesh.box(width: HouseDimensions.buildingWidth + 1, height: 0.01, depth: 0.02),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
           position: BimVec3(-0.5, 0.03, z),
@@ -94,7 +92,7 @@ class InterlockingBrickSceneBuilder {
     }
 
     // Survey stakes
-    for (final corner in _buildingCorners(d)) {
+    for (final corner in _buildingCorners()) {
       entities.add(
         BimEntity(
           id: 'stake_${corner.$1}_${corner.$2}',
@@ -110,7 +108,7 @@ class InterlockingBrickSceneBuilder {
     }
 
     // Excavation trenches (4 sides)
-    _addTrenches(entities, d);
+    _addTrenches(entities);
 
     // Soil layer indicator (cross-section)
     entities.add(
@@ -118,10 +116,10 @@ class InterlockingBrickSceneBuilder {
         id: 'bearing_layer',
         label: 'Bearing Stratum',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 2,
+          width: HouseDimensions.buildingWidth + 2,
           height: 0.25,
-          depth: d.buildingDepth + 2,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.12, d.centerZ),
+          depth: HouseDimensions.buildingDepth + 2,
+          center: BimVec3(HouseDimensions.centerX, -HouseDimensions.trenchDepth + 0.12, HouseDimensions.centerZ),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.excavation,
@@ -131,22 +129,22 @@ class InterlockingBrickSceneBuilder {
     );
 
     // PCC strips in trench
-    _addPccStrips(entities, d);
+    _addPccStrips(entities);
 
     // Strip footings
-    _addStripFootings(entities, d);
+    _addStripFootings(entities);
 
     // Foundation masonry courses
-    _addFoundationMasonry(entities, d);
+    _addFoundationMasonry(entities);
 
     // Plinth beam — formwork, rebar cage, concrete
-    _addPlinthBeamSystem(entities, d);
+    _addPlinthBeamSystem(entities);
 
     // Vertical reinforcement at corners and openings
-    _addVerticalRebars(entities, d);
+    _addVerticalRebars(entities);
 
     // Interlocking wall blocks
-    _addInterlockingWalls(entities, d);
+    _addInterlockingWalls(entities);
 
     // Lintel band
     entities.add(
@@ -154,10 +152,10 @@ class InterlockingBrickSceneBuilder {
         id: 'lintel_band',
         label: 'Lintel Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness,
-          height: d.bandHeight,
-          depth: d.buildingDepth + d.wallThickness,
-          center: BimVec3(d.centerX, d.wallHeight + d.bandHeight / 2, d.centerZ),
+          width: HouseDimensions.buildingWidth + HouseDimensions.wallThickness,
+          height: HouseDimensions.bandHeight,
+          depth: HouseDimensions.buildingDepth + HouseDimensions.wallThickness,
+          center: BimVec3(HouseDimensions.centerX, HouseDimensions.wallHeight + HouseDimensions.bandHeight / 2, HouseDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -175,13 +173,13 @@ class InterlockingBrickSceneBuilder {
         id: 'roof_band',
         label: 'Roof Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness * 1.2,
-          height: d.bandHeight,
-          depth: d.buildingDepth + d.wallThickness * 1.2,
+          width: HouseDimensions.buildingWidth + HouseDimensions.wallThickness * 1.2,
+          height: HouseDimensions.bandHeight,
+          depth: HouseDimensions.buildingDepth + HouseDimensions.wallThickness * 1.2,
           center: BimVec3(
-            d.centerX,
-            d.wallHeight + d.bandHeight * 1.8,
-            d.centerZ,
+            HouseDimensions.centerX,
+            HouseDimensions.wallHeight + HouseDimensions.bandHeight * 1.8,
+            HouseDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF6B7280),
@@ -195,10 +193,10 @@ class InterlockingBrickSceneBuilder {
     );
 
     // Roof slab — shuttering, rebar, concrete
-    _addRoofSlabSystem(entities, d);
+    _addRoofSlabSystem(entities);
 
     // Doors & windows (finishing)
-    _addOpenings(entities, d);
+    _addOpenings(entities);
 
     // Excavator (equipment) — simplified
     entities.add(
@@ -208,7 +206,7 @@ class InterlockingBrickSceneBuilder {
         mesh: BimMesh.box(width: 1.8, height: 1.2, depth: 2.5),
         color: const Color(0xFFFBBF24),
         category: BimEntityCategory.equipment,
-        position: BimVec3(-1.5, 0.1, d.buildingDepth + 1),
+        position: BimVec3(-1.5, 0.1, HouseDimensions.buildingDepth + 1),
         minStage: 2,
         buildProgress: 0,
       ),
@@ -217,14 +215,14 @@ class InterlockingBrickSceneBuilder {
     return entities;
   }
 
-  void _addFootprintEdges(List<BimEntity> entities, HouseDimensions d) {
+  void _addFootprintEdges(List<BimEntity> entities) {
     final y = 0.04;
     final h = 0.04;
     final edges = [
-      (0.0, 0.0, d.buildingWidth, 0.0),
-      (d.buildingWidth, 0.0, d.buildingWidth, d.buildingDepth),
-      (d.buildingWidth, d.buildingDepth, 0.0, d.buildingDepth),
-      (0.0, d.buildingDepth, 0.0, 0.0),
+      (0.0, 0.0, HouseDimensions.buildingWidth, 0.0),
+      (HouseDimensions.buildingWidth, 0.0, HouseDimensions.buildingWidth, HouseDimensions.buildingDepth),
+      (HouseDimensions.buildingWidth, HouseDimensions.buildingDepth, 0.0, HouseDimensions.buildingDepth),
+      (0.0, HouseDimensions.buildingDepth, 0.0, 0.0),
     ];
     var i = 0;
     for (final e in edges) {
@@ -248,13 +246,13 @@ class InterlockingBrickSceneBuilder {
     }
   }
 
-  void _addTrenches(List<BimEntity> entities, HouseDimensions d) {
-    final yBase = -d.trenchDepth / 2;
+  void _addTrenches(List<BimEntity> entities) {
+    final yBase = -HouseDimensions.trenchDepth / 2;
     final specs = [
-      (d.centerX, yBase, 0.0, d.buildingWidth + d.trenchWidth * 2, d.trenchDepth, d.trenchWidth),
-      (d.centerX, yBase, d.buildingDepth, d.buildingWidth + d.trenchWidth * 2, d.trenchDepth, d.trenchWidth),
-      (0.0, yBase, d.centerZ, d.trenchWidth, d.trenchDepth, d.buildingDepth),
-      (d.buildingWidth, yBase, d.centerZ, d.trenchWidth, d.trenchDepth, d.buildingDepth),
+      (HouseDimensions.centerX, yBase, 0.0, HouseDimensions.buildingWidth + HouseDimensions.trenchWidth * 2, HouseDimensions.trenchDepth, HouseDimensions.trenchWidth),
+      (HouseDimensions.centerX, yBase, HouseDimensions.buildingDepth, HouseDimensions.buildingWidth + HouseDimensions.trenchWidth * 2, HouseDimensions.trenchDepth, HouseDimensions.trenchWidth),
+      (0.0, yBase, HouseDimensions.centerZ, HouseDimensions.trenchWidth, HouseDimensions.trenchDepth, HouseDimensions.buildingDepth),
+      (HouseDimensions.buildingWidth, yBase, HouseDimensions.centerZ, HouseDimensions.trenchWidth, HouseDimensions.trenchDepth, HouseDimensions.buildingDepth),
     ];
     for (var i = 0; i < specs.length; i++) {
       final s = specs[i];
@@ -274,21 +272,21 @@ class InterlockingBrickSceneBuilder {
     }
   }
 
-  void _addPccStrips(List<BimEntity> entities, HouseDimensions d) {
-    final y = -d.trenchDepth + d.pccThickness / 2;
+  void _addPccStrips(List<BimEntity> entities) {
+    final y = -HouseDimensions.trenchDepth + HouseDimensions.pccThickness / 2;
     for (var i = 0; i < 4; i++) {
       entities.add(
         BimEntity(
           id: 'pcc_$i',
           label: 'PCC Layer',
           mesh: BimMesh.box(
-            width: i < 2 ? d.buildingWidth + 0.4 : d.trenchWidth,
-            height: d.pccThickness,
-            depth: i < 2 ? d.trenchWidth : d.buildingDepth + 0.2,
+            width: i < 2 ? HouseDimensions.buildingWidth + 0.4 : HouseDimensions.trenchWidth,
+            height: HouseDimensions.pccThickness,
+            depth: i < 2 ? HouseDimensions.trenchWidth : HouseDimensions.buildingDepth + 0.2,
           ),
           color: const Color(0xFFD1D5DB),
           category: BimEntityCategory.concrete,
-          position: BimVec3(d.centerX, y, d.centerZ),
+          position: BimVec3(HouseDimensions.centerX, y, HouseDimensions.centerZ),
           explodeGroup: 1,
           minStage: 3,
           pickable: true,
@@ -299,17 +297,17 @@ class InterlockingBrickSceneBuilder {
     }
   }
 
-  void _addStripFootings(List<BimEntity> entities, HouseDimensions d) {
-    final y = -d.trenchDepth + d.pccThickness + d.footingDepth / 2;
+  void _addStripFootings(List<BimEntity> entities) {
+    final y = -HouseDimensions.trenchDepth + HouseDimensions.pccThickness + HouseDimensions.footingDepth / 2;
     entities.add(
       BimEntity(
         id: 'footing_perimeter',
         label: 'Strip Footing',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.footingWidth,
-          height: d.footingDepth,
-          depth: d.buildingDepth + d.footingWidth,
-          center: BimVec3(d.centerX, y, d.centerZ),
+          width: HouseDimensions.buildingWidth + HouseDimensions.footingWidth,
+          height: HouseDimensions.footingDepth,
+          depth: HouseDimensions.buildingDepth + HouseDimensions.footingWidth,
+          center: BimVec3(HouseDimensions.centerX, y, HouseDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -322,20 +320,20 @@ class InterlockingBrickSceneBuilder {
     );
   }
 
-  void _addFoundationMasonry(List<BimEntity> entities, HouseDimensions d) {
+  void _addFoundationMasonry(List<BimEntity> entities) {
     for (var course = 0; course < 3; course++) {
       entities.add(
         BimEntity(
           id: 'found_course_$course',
           label: 'Foundation Masonry',
           mesh: BimMesh.box(
-            width: d.buildingWidth + d.wallThickness,
-            height: d.blockHeight,
-            depth: d.buildingDepth + d.wallThickness,
+            width: HouseDimensions.buildingWidth + HouseDimensions.wallThickness,
+            height: HouseDimensions.blockHeight,
+            depth: HouseDimensions.buildingDepth + HouseDimensions.wallThickness,
             center: BimVec3(
-              d.centerX,
-              -d.trenchDepth + d.pccThickness + d.footingDepth + d.blockHeight * (course + 0.5),
-              d.centerZ,
+              HouseDimensions.centerX,
+              -HouseDimensions.trenchDepth + HouseDimensions.pccThickness + HouseDimensions.footingDepth + HouseDimensions.blockHeight * (course + 0.5),
+              HouseDimensions.centerZ,
             ),
           ),
           color: const Color(0xFFB45309),
@@ -349,17 +347,17 @@ class InterlockingBrickSceneBuilder {
     }
   }
 
-  void _addPlinthBeamSystem(List<BimEntity> entities, HouseDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness + d.footingDepth + d.blockHeight * 3;
+  void _addPlinthBeamSystem(List<BimEntity> entities) {
+    final baseY = -HouseDimensions.trenchDepth + HouseDimensions.pccThickness + HouseDimensions.footingDepth + HouseDimensions.blockHeight * 3;
     entities.add(
       BimEntity(
         id: 'plinth_formwork',
         label: 'Plinth Formwork',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.5,
-          height: d.plinthBeam + 0.1,
-          depth: d.buildingDepth + 0.5,
-          center: BimVec3(d.centerX, baseY + d.plinthBeam / 2, d.centerZ),
+          width: HouseDimensions.buildingWidth + 0.5,
+          height: HouseDimensions.plinthBeam + 0.1,
+          depth: HouseDimensions.buildingDepth + 0.5,
+          center: BimVec3(HouseDimensions.centerX, baseY + HouseDimensions.plinthBeam / 2, HouseDimensions.centerZ),
         ),
         color: const Color(0xFFDEB887),
         category: BimEntityCategory.formwork,
@@ -374,12 +372,12 @@ class InterlockingBrickSceneBuilder {
         BimEntity(
           id: 'plinth_rebar_$i',
           label: 'Plinth Reinforcement',
-          mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.plinthBeam * 0.8),
+          mesh: BimMesh.cylinder(radius: HouseDimensions.rebarRadius, height: HouseDimensions.plinthBeam * 0.8),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
           position: BimVec3(
-            0.3 + t * (d.buildingWidth - 0.6),
-            baseY + d.plinthBeam * 0.1,
+            0.3 + t * (HouseDimensions.buildingWidth - 0.6),
+            baseY + HouseDimensions.plinthBeam * 0.1,
             0.15,
           ),
           explodeGroup: 2,
@@ -395,10 +393,10 @@ class InterlockingBrickSceneBuilder {
         id: 'plinth_concrete',
         label: 'Plinth Beam Concrete',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness * 0.5,
-          height: d.plinthBeam,
-          depth: d.buildingDepth + d.wallThickness * 0.5,
-          center: BimVec3(d.centerX, baseY + d.plinthBeam / 2, d.centerZ),
+          width: HouseDimensions.buildingWidth + HouseDimensions.wallThickness * 0.5,
+          height: HouseDimensions.plinthBeam,
+          depth: HouseDimensions.buildingDepth + HouseDimensions.wallThickness * 0.5,
+          center: BimVec3(HouseDimensions.centerX, baseY + HouseDimensions.plinthBeam / 2, HouseDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -411,20 +409,20 @@ class InterlockingBrickSceneBuilder {
     );
   }
 
-  void _addVerticalRebars(List<BimEntity> entities, HouseDimensions d) {
-    final baseY = -d.trenchDepth +
-        d.pccThickness +
-        d.footingDepth +
-        d.blockHeight * 3 +
-        d.plinthBeam;
-    final corners = _buildingCorners(d);
+  void _addVerticalRebars(List<BimEntity> entities) {
+    final baseY = -HouseDimensions.trenchDepth +
+        HouseDimensions.pccThickness +
+        HouseDimensions.footingDepth +
+        HouseDimensions.blockHeight * 3 +
+        HouseDimensions.plinthBeam;
+    final corners = _buildingCorners();
     var i = 0;
     for (final c in corners) {
       entities.add(
         BimEntity(
           id: 'vbar_$i',
           label: 'Vertical Bar 12mm',
-          mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.wallHeight),
+          mesh: BimMesh.cylinder(radius: HouseDimensions.rebarRadius, height: HouseDimensions.wallHeight),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
           position: BimVec3(c.$1, baseY, c.$2),
@@ -443,10 +441,10 @@ class InterlockingBrickSceneBuilder {
         BimEntity(
           id: 'vbar_mid_$j',
           label: 'Vertical Bar',
-          mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.wallHeight * 0.95),
+          mesh: BimMesh.cylinder(radius: HouseDimensions.rebarRadius, height: HouseDimensions.wallHeight * 0.95),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
-          position: BimVec3(d.buildingWidth * (j + 1) / 5, baseY, d.buildingDepth / 2),
+          position: BimVec3(HouseDimensions.buildingWidth * (j + 1) / 5, baseY, HouseDimensions.buildingDepth / 2),
           minStage: 6,
           buildProgress: 0,
         ),
@@ -454,21 +452,21 @@ class InterlockingBrickSceneBuilder {
     }
   }
 
-  void _addInterlockingWalls(List<BimEntity> entities, HouseDimensions d) {
+  void _addInterlockingWalls(List<BimEntity> entities) {
     final courses = 12;
-    final baseY = -d.trenchDepth +
-        d.pccThickness +
-        d.footingDepth +
-        d.blockHeight * 3 +
-        d.plinthBeam;
+    final baseY = -HouseDimensions.trenchDepth +
+        HouseDimensions.pccThickness +
+        HouseDimensions.footingDepth +
+        HouseDimensions.blockHeight * 3 +
+        HouseDimensions.plinthBeam;
 
     var blockIndex = 0;
     for (var course = 0; course < courses; course++) {
-      final y = baseY + course * d.blockHeight;
+      final y = baseY + course * HouseDimensions.blockHeight;
       // Front & back walls
-      for (var bx = 0; bx < (d.buildingWidth / d.blockLength).ceil(); bx++) {
-        final x = bx * d.blockLength + d.blockLength / 2;
-        for (final z in [0.0, d.buildingDepth - d.blockWidth]) {
+      for (var bx = 0; bx < (HouseDimensions.buildingWidth / HouseDimensions.blockLength).ceil(); bx++) {
+        final x = bx * HouseDimensions.blockLength + HouseDimensions.blockLength / 2;
+        for (final z in [0.0, HouseDimensions.buildingDepth - HouseDimensions.blockWidth]) {
           entities.add(_interlockBlock(
             'blk_${blockIndex++}',
             x,
@@ -479,9 +477,9 @@ class InterlockingBrickSceneBuilder {
         }
       }
       // Side walls
-      for (var bz = 1; bz < (d.buildingDepth / d.blockLength).ceil() - 1; bz++) {
-        final z = bz * d.blockLength;
-        for (final x in [0.0, d.buildingWidth - d.blockWidth]) {
+      for (var bz = 1; bz < (HouseDimensions.buildingDepth / HouseDimensions.blockLength).ceil() - 1; bz++) {
+        final z = bz * HouseDimensions.blockLength;
+        for (final x in [0.0, HouseDimensions.buildingWidth - HouseDimensions.blockWidth]) {
           entities.add(_interlockBlock(
             'blk_${blockIndex++}',
             x,
@@ -495,15 +493,14 @@ class InterlockingBrickSceneBuilder {
   }
 
   BimEntity _interlockBlock(String id, double x, double y, double z, int course) {
-    final d = HouseDimensions;
-    // Interlock notch simulated with primary block + key nub
+        // Interlock notch simulated with primary block + key nub
     return BimEntity(
       id: id,
       label: 'Interlocking Block',
       mesh: BimMesh.box(
-        width: d.blockLength * 0.92,
-        height: d.blockHeight,
-        depth: d.blockWidth,
+        width: HouseDimensions.blockLength * 0.92,
+        height: HouseDimensions.blockHeight,
+        depth: HouseDimensions.blockWidth,
       ),
       color: Color.lerp(
         const Color(0xFFB45309),
@@ -520,17 +517,17 @@ class InterlockingBrickSceneBuilder {
     );
   }
 
-  void _addRoofSlabSystem(List<BimEntity> entities, HouseDimensions d) {
-    final slabY = d.wallHeight + d.bandHeight * 2.5;
+  void _addRoofSlabSystem(List<BimEntity> entities) {
+    final slabY = HouseDimensions.wallHeight + HouseDimensions.bandHeight * 2.5;
     entities.add(
       BimEntity(
         id: 'roof_shuttering',
         label: 'Roof Shuttering',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.3,
+          width: HouseDimensions.buildingWidth + 0.3,
           height: 0.04,
-          depth: d.buildingDepth + 0.3,
-          center: BimVec3(d.centerX, slabY, d.centerZ),
+          depth: HouseDimensions.buildingDepth + 0.3,
+          center: BimVec3(HouseDimensions.centerX, slabY, HouseDimensions.centerZ),
         ),
         color: const Color(0xFFDEB887),
         category: BimEntityCategory.formwork,
@@ -544,10 +541,10 @@ class InterlockingBrickSceneBuilder {
         BimEntity(
           id: 'slab_rebar_x_$i',
           label: 'Slab Reinforcement',
-          mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.buildingWidth),
+          mesh: BimMesh.cylinder(radius: HouseDimensions.rebarRadius, height: HouseDimensions.buildingWidth),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
-          position: BimVec3(0, slabY + 0.03, i * (d.buildingDepth / 7)),
+          position: BimVec3(0, slabY + 0.03, i * (HouseDimensions.buildingDepth / 7)),
           explodeGroup: 3,
           minStage: 10,
           pickable: i == 0,
@@ -561,10 +558,10 @@ class InterlockingBrickSceneBuilder {
         id: 'roof_concrete',
         label: 'RCC Roof Slab',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.3,
-          height: d.slabThickness,
-          depth: d.buildingDepth + 0.3,
-          center: BimVec3(d.centerX, slabY + d.slabThickness / 2 + 0.04, d.centerZ),
+          width: HouseDimensions.buildingWidth + 0.3,
+          height: HouseDimensions.slabThickness,
+          depth: HouseDimensions.buildingDepth + 0.3,
+          center: BimVec3(HouseDimensions.centerX, slabY + HouseDimensions.slabThickness / 2 + 0.04, HouseDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -577,7 +574,7 @@ class InterlockingBrickSceneBuilder {
     );
   }
 
-  void _addOpenings(List<BimEntity> entities, HouseDimensions d) {
+  void _addOpenings(List<BimEntity> entities) {
     entities.add(
       BimEntity(
         id: 'door',
@@ -585,7 +582,7 @@ class InterlockingBrickSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 2.1, depth: 0.08),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.centerX - 0.5, 0, 0),
+        position: BimVec3(HouseDimensions.centerX - 0.5, 0, 0),
         explodeGroup: 4,
         minStage: 11,
         buildProgress: 0,
@@ -598,7 +595,7 @@ class InterlockingBrickSceneBuilder {
         mesh: BimMesh.box(width: 1.2, height: 1.0, depth: 0.06),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.buildingWidth - 0.1, 1.2, d.centerZ - 0.6),
+        position: BimVec3(HouseDimensions.buildingWidth - 0.1, 1.2, HouseDimensions.centerZ - 0.6),
         explodeGroup: 4,
         minStage: 11,
         buildProgress: 0,
@@ -610,10 +607,10 @@ class InterlockingBrickSceneBuilder {
         id: 'landscape',
         label: 'Landscape',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: HouseDimensions.plotWidth,
           height: 0.08,
           depth: 1.5,
-          center: BimVec3(d.plotWidth / 2, 0.04, d.plotDepth - 0.75),
+          center: BimVec3(HouseDimensions.plotWidth / 2, 0.04, HouseDimensions.plotDepth - 0.75),
         ),
         color: const Color(0xFF22C55E),
         category: BimEntityCategory.finishing,
@@ -623,11 +620,11 @@ class InterlockingBrickSceneBuilder {
     );
   }
 
-  List<(double, double)> _buildingCorners(HouseDimensions d) => [
+  List<(double, double)> _buildingCorners() => [
         (0.12, 0.12),
-        (d.buildingWidth - 0.12, 0.12),
-        (d.buildingWidth - 0.12, d.buildingDepth - 0.12),
-        (0.12, d.buildingDepth - 0.12),
+        (HouseDimensions.buildingWidth - 0.12, 0.12),
+        (HouseDimensions.buildingWidth - 0.12, HouseDimensions.buildingDepth - 0.12),
+        (0.12, HouseDimensions.buildingDepth - 0.12),
       ];
 
   double _dist(double x1, double z1, double x2, double z2) {

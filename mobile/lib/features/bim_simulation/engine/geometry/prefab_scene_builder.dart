@@ -9,36 +9,34 @@ import '../math/bim_vec3.dart';
 class PrefabSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = PrefabDimensions;
-
-    _site(e, d);
-    _foundation(e, d);
-    _anchors(e, d);
-    _floorPanels(e, d);
-    _wallPanels(e, d);
-    _cornerConnectors(e, d);
-    _openings(e, d);
-    _roofPanels(e, d);
-    _insulationSystem(e, d);
-    _connectionsInspection(e, d);
-    _services(e, d);
-    _finishes(e, d);
-    _equipment(e, d);
-    _landscape(e, d);
+        _site(e);
+    _foundation(e);
+    _anchors(e);
+    _floorPanels(e);
+    _wallPanels(e);
+    _cornerConnectors(e);
+    _openings(e);
+    _roofPanels(e);
+    _insulationSystem(e);
+    _connectionsInspection(e);
+    _services(e);
+    _finishes(e);
+    _equipment(e);
+    _landscape(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, PrefabDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'terrain',
         label: 'Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: PrefabDimensions.plotWidth,
           height: 0.15,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.075, d.plotDepth / 2),
+          depth: PrefabDimensions.plotDepth,
+          center: BimVec3(PrefabDimensions.plotWidth / 2, -0.075, PrefabDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -50,10 +48,10 @@ class PrefabSceneBuilder {
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: PrefabDimensions.buildingWidth,
           height: 0.02,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, 0.04, d.centerZ),
+          depth: PrefabDimensions.buildingDepth,
+          center: BimVec3(PrefabDimensions.centerX, 0.04, PrefabDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -66,10 +64,10 @@ class PrefabSceneBuilder {
         BimEntity(
           id: 'survey_grid_$i',
           label: 'Survey Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: PrefabDimensions.buildingDepth),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.05, 0),
+          position: BimVec3(i * (PrefabDimensions.buildingWidth / 6), 0.05, 0),
           minStage: 0,
           buildProgress: 0,
         ),
@@ -80,10 +78,10 @@ class PrefabSceneBuilder {
         BimEntity(
           id: 'setout_line_$i',
           label: 'Setting Out Line',
-          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: PrefabDimensions.buildingDepth),
           color: const Color(0xFF0F172A),
           category: BimEntityCategory.survey,
-          position: BimVec3(i * (d.buildingWidth / 4), 0.06, 0),
+          position: BimVec3(i * (PrefabDimensions.buildingWidth / 4), 0.06, 0),
           minStage: 1,
           buildProgress: 0,
         ),
@@ -92,13 +90,13 @@ class PrefabSceneBuilder {
         BimEntity(
           id: 'panel_layout_$i',
           label: 'Panel Layout Mark',
-          mesh: BimMesh.box(width: d.buildingWidth / 4 - 0.1, height: 0.008, depth: 0.02),
+          mesh: BimMesh.box(width: PrefabDimensions.buildingWidth / 4 - 0.1, height: 0.008, depth: 0.02),
           color: const Color(0xFF2563EB),
           category: BimEntityCategory.annotation,
           position: BimVec3(
-            i * (d.buildingWidth / 4) + d.buildingWidth / 8,
+            i * (PrefabDimensions.buildingWidth / 4) + PrefabDimensions.buildingWidth / 8,
             0.055,
-            d.centerZ,
+            PrefabDimensions.centerZ,
           ),
           minStage: 1,
           buildProgress: 0,
@@ -107,16 +105,16 @@ class PrefabSceneBuilder {
     }
   }
 
-  void _foundation(List<BimEntity> e, PrefabDimensions d) {
+  void _foundation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'excavation',
         label: 'Foundation Excavation',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.6,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 0.6,
-          center: BimVec3(d.centerX, -d.trenchDepth / 2 + 0.05, d.centerZ),
+          width: PrefabDimensions.buildingWidth + 0.6,
+          height: PrefabDimensions.trenchDepth,
+          depth: PrefabDimensions.buildingDepth + 0.6,
+          center: BimVec3(PrefabDimensions.centerX, -PrefabDimensions.trenchDepth / 2 + 0.05, PrefabDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -130,10 +128,10 @@ class PrefabSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Strata',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
+          width: PrefabDimensions.buildingWidth + 0.8,
           height: 0.12,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.06, d.centerZ),
+          depth: PrefabDimensions.buildingDepth + 0.8,
+          center: BimVec3(PrefabDimensions.centerX, -PrefabDimensions.trenchDepth + 0.06, PrefabDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -146,24 +144,24 @@ class PrefabSceneBuilder {
       BimEntity(
         id: 'soil_profile',
         label: 'Soil Profile',
-        mesh: BimMesh.box(width: 0.04, height: d.trenchDepth + 0.2, depth: 0.5),
+        mesh: BimMesh.box(width: 0.04, height: PrefabDimensions.trenchDepth + 0.2, depth: 0.5),
         color: const Color(0xFFA16207),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.35, -d.trenchDepth / 2, d.centerZ),
+        position: BimVec3(-0.35, -PrefabDimensions.trenchDepth / 2, PrefabDimensions.centerZ),
         minStage: 2,
         buildProgress: 0,
       ),
     );
-    final baseY = -d.trenchDepth + d.pccThickness;
+    final baseY = -PrefabDimensions.trenchDepth + PrefabDimensions.pccThickness;
     e.add(
       BimEntity(
         id: 'pcc_layer',
         label: 'PCC Blinding',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.4,
-          height: d.pccThickness,
-          depth: d.buildingDepth + 0.4,
-          center: BimVec3(d.centerX, -d.trenchDepth + d.pccThickness / 2, d.centerZ),
+          width: PrefabDimensions.buildingWidth + 0.4,
+          height: PrefabDimensions.pccThickness,
+          depth: PrefabDimensions.buildingDepth + 0.4,
+          center: BimVec3(PrefabDimensions.centerX, -PrefabDimensions.trenchDepth + PrefabDimensions.pccThickness / 2, PrefabDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -172,12 +170,12 @@ class PrefabSceneBuilder {
         buildProgress: 0,
       ),
     );
-    final footY = -d.trenchDepth + d.pccThickness + d.footingDepth / 2;
+    final footY = -PrefabDimensions.trenchDepth + PrefabDimensions.pccThickness + PrefabDimensions.footingDepth / 2;
     final footPositions = [
       (0.4, 0.4),
-      (d.buildingWidth - 0.4, 0.4),
-      (0.4, d.buildingDepth - 0.4),
-      (d.buildingWidth - 0.4, d.buildingDepth - 0.4),
+      (PrefabDimensions.buildingWidth - 0.4, 0.4),
+      (0.4, PrefabDimensions.buildingDepth - 0.4),
+      (PrefabDimensions.buildingWidth - 0.4, PrefabDimensions.buildingDepth - 0.4),
     ];
     for (var i = 0; i < footPositions.length; i++) {
       final p = footPositions[i];
@@ -185,10 +183,10 @@ class PrefabSceneBuilder {
         BimEntity(
           id: 'footing_$i',
           label: 'RCC Footing',
-          mesh: BimMesh.box(width: 0.55, height: d.footingDepth, depth: 0.55),
+          mesh: BimMesh.box(width: 0.55, height: PrefabDimensions.footingDepth, depth: 0.55),
           color: const Color(0xFF64748B),
           category: BimEntityCategory.concrete,
-          position: BimVec3(p.$1 - 0.275, footY - d.footingDepth / 2, p.$2 - 0.275),
+          position: BimVec3(p.$1 - 0.275, footY - PrefabDimensions.footingDepth / 2, p.$2 - 0.275),
           explodeGroup: 1,
           minStage: 3,
           buildProgress: 0,
@@ -208,16 +206,16 @@ class PrefabSceneBuilder {
         ),
       );
     }
-    final beamY = -d.trenchDepth + d.pccThickness + d.footingDepth;
+    final beamY = -PrefabDimensions.trenchDepth + PrefabDimensions.pccThickness + PrefabDimensions.footingDepth;
     e.add(
       BimEntity(
         id: 'foundation_beam',
         label: 'Foundation Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.beamHeight,
+          width: PrefabDimensions.buildingWidth,
+          height: PrefabDimensions.beamHeight,
           depth: 0.22,
-          center: BimVec3(d.centerX, beamY + d.beamHeight / 2, 0.11),
+          center: BimVec3(PrefabDimensions.centerX, beamY + PrefabDimensions.beamHeight / 2, 0.11),
         ),
         color: const Color(0xFF475569),
         category: BimEntityCategory.concrete,
@@ -231,10 +229,10 @@ class PrefabSceneBuilder {
         id: 'foundation_beam_rear',
         label: 'Foundation Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.beamHeight,
+          width: PrefabDimensions.buildingWidth,
+          height: PrefabDimensions.beamHeight,
           depth: 0.22,
-          center: BimVec3(d.centerX, beamY + d.beamHeight / 2, d.buildingDepth - 0.11),
+          center: BimVec3(PrefabDimensions.centerX, beamY + PrefabDimensions.beamHeight / 2, PrefabDimensions.buildingDepth - 0.11),
         ),
         color: const Color(0xFF475569),
         category: BimEntityCategory.concrete,
@@ -245,17 +243,17 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _anchors(List<BimEntity> e, PrefabDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness + d.footingDepth + d.beamHeight;
+  void _anchors(List<BimEntity> e) {
+    final baseY = -PrefabDimensions.trenchDepth + PrefabDimensions.pccThickness + PrefabDimensions.footingDepth + PrefabDimensions.beamHeight;
     final pts = [
       (0.35, 0.35),
-      (d.buildingWidth - 0.35, 0.35),
-      (0.35, d.buildingDepth - 0.35),
-      (d.buildingWidth - 0.35, d.buildingDepth - 0.35),
-      (d.centerX, 0.35),
-      (d.centerX, d.buildingDepth - 0.35),
-      (0.35, d.centerZ),
-      (d.buildingWidth - 0.35, d.centerZ),
+      (PrefabDimensions.buildingWidth - 0.35, 0.35),
+      (0.35, PrefabDimensions.buildingDepth - 0.35),
+      (PrefabDimensions.buildingWidth - 0.35, PrefabDimensions.buildingDepth - 0.35),
+      (PrefabDimensions.centerX, 0.35),
+      (PrefabDimensions.centerX, PrefabDimensions.buildingDepth - 0.35),
+      (0.35, PrefabDimensions.centerZ),
+      (PrefabDimensions.buildingWidth - 0.35, PrefabDimensions.centerZ),
     ];
     for (var i = 0; i < pts.length; i++) {
       e.add(
@@ -274,9 +272,9 @@ class PrefabSceneBuilder {
     }
   }
 
-  void _floorPanels(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY - d.floorPanelThickness;
-    final halfW = d.buildingWidth / 2;
+  void _floorPanels(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY - PrefabDimensions.floorPanelThickness;
+    final halfW = PrefabDimensions.buildingWidth / 2;
     for (var i = 0; i < 2; i++) {
       e.add(
         BimEntity(
@@ -284,12 +282,12 @@ class PrefabSceneBuilder {
           label: 'Precast Floor Panel',
           mesh: BimMesh.box(
             width: halfW - 0.05,
-            height: d.floorPanelThickness,
-            depth: d.buildingDepth - 0.1,
+            height: PrefabDimensions.floorPanelThickness,
+            depth: PrefabDimensions.buildingDepth - 0.1,
             center: BimVec3(
               i * halfW + halfW / 2,
-              y + d.floorPanelThickness / 2,
-              d.centerZ,
+              y + PrefabDimensions.floorPanelThickness / 2,
+              PrefabDimensions.centerZ,
             ),
           ),
           color: const Color(0xFF94A3B8),
@@ -304,11 +302,11 @@ class PrefabSceneBuilder {
     }
   }
 
-  void _wallPanels(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY;
-    final h = d.wallHeight;
-    final t = d.panelThickness;
-    final ins = d.insulationThickness;
+  void _wallPanels(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY;
+    final h = PrefabDimensions.wallHeight;
+    final t = PrefabDimensions.panelThickness;
+    final ins = PrefabDimensions.insulationThickness;
 
     void sandwichWall(
       String id,
@@ -379,18 +377,18 @@ class PrefabSceneBuilder {
     sandwichWall(
       'wall_front',
       'Front Wall Panel',
-      d.centerX,
+      PrefabDimensions.centerX,
       t / 2,
-      d.buildingWidth - 0.2,
+      PrefabDimensions.buildingWidth - 0.2,
       t,
       0,
     );
     sandwichWall(
       'wall_rear',
       'Rear Wall Panel',
-      d.centerX,
-      d.buildingDepth - t / 2,
-      d.buildingWidth - 0.2,
+      PrefabDimensions.centerX,
+      PrefabDimensions.buildingDepth - t / 2,
+      PrefabDimensions.buildingWidth - 0.2,
       t,
       1,
     );
@@ -398,29 +396,29 @@ class PrefabSceneBuilder {
       'wall_left',
       'Left Wall Panel',
       t / 2,
-      d.centerZ,
+      PrefabDimensions.centerZ,
       t,
-      d.buildingDepth - 0.2,
+      PrefabDimensions.buildingDepth - 0.2,
       2,
     );
     sandwichWall(
       'wall_right',
       'Right Wall Panel',
-      d.buildingWidth - t / 2,
-      d.centerZ,
+      PrefabDimensions.buildingWidth - t / 2,
+      PrefabDimensions.centerZ,
       t,
-      d.buildingDepth - 0.2,
+      PrefabDimensions.buildingDepth - 0.2,
       3,
     );
   }
 
-  void _cornerConnectors(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY + d.wallHeight * 0.5;
+  void _cornerConnectors(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY + PrefabDimensions.wallHeight * 0.5;
     final corners = [
       (0.08, 0.08),
-      (d.buildingWidth - 0.08, 0.08),
-      (0.08, d.buildingDepth - 0.08),
-      (d.buildingWidth - 0.08, d.buildingDepth - 0.08),
+      (PrefabDimensions.buildingWidth - 0.08, 0.08),
+      (0.08, PrefabDimensions.buildingDepth - 0.08),
+      (PrefabDimensions.buildingWidth - 0.08, PrefabDimensions.buildingDepth - 0.08),
     ];
     for (var i = 0; i < corners.length; i++) {
       e.add(
@@ -441,8 +439,8 @@ class PrefabSceneBuilder {
     }
   }
 
-  void _openings(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY + 0.05;
+  void _openings(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY + 0.05;
     e.add(
       BimEntity(
         id: 'door_module',
@@ -450,7 +448,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 0.95, height: 2.1, depth: 0.08),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.centerX - 0.475, y, 0.02),
+        position: BimVec3(PrefabDimensions.centerX - 0.475, y, 0.02),
         explodeGroup: 3,
         minStage: 8,
         buildProgress: 0,
@@ -463,7 +461,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 1.1, height: 1.0, depth: 0.06),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.finishing,
-        position: BimVec3(0.5, y + 0.8, d.buildingDepth - 0.04),
+        position: BimVec3(0.5, y + 0.8, PrefabDimensions.buildingDepth - 0.04),
         explodeGroup: 3,
         minStage: 8,
         buildProgress: 0,
@@ -476,7 +474,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 1.1, height: 1.0, depth: 0.06),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.buildingWidth - 1.6, y + 0.8, d.buildingDepth - 0.04),
+        position: BimVec3(PrefabDimensions.buildingWidth - 1.6, y + 0.8, PrefabDimensions.buildingDepth - 0.04),
         explodeGroup: 3,
         minStage: 8,
         buildProgress: 0,
@@ -484,9 +482,9 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _roofPanels(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY + d.wallHeight;
-    final halfW = d.buildingWidth / 2;
+  void _roofPanels(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY + PrefabDimensions.wallHeight;
+    final halfW = PrefabDimensions.buildingWidth / 2;
     for (var i = 0; i < 2; i++) {
       e.add(
         BimEntity(
@@ -494,12 +492,12 @@ class PrefabSceneBuilder {
           label: 'Insulated Roof Panel',
           mesh: BimMesh.box(
             width: halfW - 0.05,
-            height: d.roofPanelThickness,
-            depth: d.buildingDepth - 0.12,
+            height: PrefabDimensions.roofPanelThickness,
+            depth: PrefabDimensions.buildingDepth - 0.12,
             center: BimVec3(
               i * halfW + halfW / 2,
-              y + d.roofPanelThickness / 2,
-              d.centerZ,
+              y + PrefabDimensions.roofPanelThickness / 2,
+              PrefabDimensions.centerZ,
             ),
           ),
           color: const Color(0xFF64748B),
@@ -517,10 +515,10 @@ class PrefabSceneBuilder {
         id: 'heavy_roof_ghost',
         label: 'Conventional Heavy Roof (reference)',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: PrefabDimensions.buildingWidth,
           height: 0.45,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, y + 0.55, d.centerZ + 1.8),
+          depth: PrefabDimensions.buildingDepth,
+          center: BimVec3(PrefabDimensions.centerX, y + 0.55, PrefabDimensions.centerZ + 1.8),
         ),
         color: const Color(0xFFEF4444),
         category: BimEntityCategory.annotation,
@@ -531,19 +529,19 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _insulationSystem(List<BimEntity> e, PrefabDimensions d) {
+  void _insulationSystem(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'thermal_barrier',
         label: 'Thermal Barrier Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.3,
-          height: d.wallHeight - 0.2,
+          width: PrefabDimensions.buildingWidth - 0.3,
+          height: PrefabDimensions.wallHeight - 0.2,
           depth: 0.015,
           center: BimVec3(
-            d.centerX,
-            d.floorTopY + d.wallHeight / 2,
-            d.buildingDepth / 2,
+            PrefabDimensions.centerX,
+            PrefabDimensions.floorTopY + PrefabDimensions.wallHeight / 2,
+            PrefabDimensions.buildingDepth / 2,
           ),
         ),
         color: const Color(0xFF22C55E),
@@ -555,8 +553,8 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _connectionsInspection(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY + 1.2;
+  void _connectionsInspection(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY + 1.2;
     for (var i = 0; i < 6; i++) {
       e.add(
         BimEntity(
@@ -574,16 +572,16 @@ class PrefabSceneBuilder {
     }
   }
 
-  void _services(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY + 0.3;
+  void _services(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY + 0.3;
     e.add(
       BimEntity(
         id: 'electrical_conduit',
         label: 'Electrical Conduit',
-        mesh: BimMesh.cylinder(radius: 0.02, height: d.buildingWidth - 0.5),
+        mesh: BimMesh.cylinder(radius: 0.02, height: PrefabDimensions.buildingWidth - 0.5),
         color: const Color(0xFFEAB308),
         category: BimEntityCategory.equipment,
-        position: BimVec3(0.25, y, d.centerZ),
+        position: BimVec3(0.25, y, PrefabDimensions.centerZ),
         explodeGroup: 5,
         minStage: 12,
         buildProgress: 0,
@@ -593,10 +591,10 @@ class PrefabSceneBuilder {
       BimEntity(
         id: 'water_line',
         label: 'Water Supply Line',
-        mesh: BimMesh.cylinder(radius: 0.018, height: d.buildingDepth - 0.4),
+        mesh: BimMesh.cylinder(radius: 0.018, height: PrefabDimensions.buildingDepth - 0.4),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.equipment,
-        position: BimVec3(d.buildingWidth - 0.2, y - 0.15, 0.3),
+        position: BimVec3(PrefabDimensions.buildingWidth - 0.2, y - 0.15, 0.3),
         explodeGroup: 5,
         minStage: 12,
         buildProgress: 0,
@@ -604,17 +602,17 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _finishes(List<BimEntity> e, PrefabDimensions d) {
-    final y = d.floorTopY;
+  void _finishes(List<BimEntity> e) {
+    final y = PrefabDimensions.floorTopY;
     e.add(
       BimEntity(
         id: 'exterior_finish',
         label: 'Exterior Finish',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.04,
-          height: d.wallHeight,
+          width: PrefabDimensions.buildingWidth + 0.04,
+          height: PrefabDimensions.wallHeight,
           depth: 0.03,
-          center: BimVec3(d.centerX, y + d.wallHeight / 2, -0.015),
+          center: BimVec3(PrefabDimensions.centerX, y + PrefabDimensions.wallHeight / 2, -0.015),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.finishing,
@@ -628,10 +626,10 @@ class PrefabSceneBuilder {
         id: 'interior_finish',
         label: 'Interior Finish',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.25,
-          height: d.wallHeight - 0.15,
-          depth: d.buildingDepth - 0.25,
-          center: BimVec3(d.centerX, y + d.wallHeight / 2, d.centerZ),
+          width: PrefabDimensions.buildingWidth - 0.25,
+          height: PrefabDimensions.wallHeight - 0.15,
+          depth: PrefabDimensions.buildingDepth - 0.25,
+          center: BimVec3(PrefabDimensions.centerX, y + PrefabDimensions.wallHeight / 2, PrefabDimensions.centerZ),
         ),
         color: const Color(0xFFF5F5F4),
         category: BimEntityCategory.finishing,
@@ -642,7 +640,7 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _equipment(List<BimEntity> e, PrefabDimensions d) {
+  void _equipment(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'mobile_crane',
@@ -650,7 +648,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 0.35, height: 2.8, depth: 0.35),
         color: const Color(0xFFFACC15),
         category: BimEntityCategory.equipment,
-        position: BimVec3(-1.2, 0, d.centerZ),
+        position: BimVec3(-1.2, 0, PrefabDimensions.centerZ),
         explodeGroup: 0,
         minStage: 5,
         buildProgress: 0,
@@ -663,7 +661,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 3.2, height: 0.12, depth: 0.12),
         color: const Color(0xFFEAB308),
         category: BimEntityCategory.equipment,
-        position: BimVec3(0.4, 2.4, d.centerZ),
+        position: BimVec3(0.4, 2.4, PrefabDimensions.centerZ),
         explodeGroup: 0,
         minStage: 5,
         buildProgress: 0,
@@ -676,7 +674,7 @@ class PrefabSceneBuilder {
         mesh: BimMesh.box(width: 0.6, height: 0.03, depth: 0.6),
         color: const Color(0xFF2563EB),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.8, 1.2, d.buildingDepth + 0.5),
+        position: BimVec3(-0.8, 1.2, PrefabDimensions.buildingDepth + 0.5),
         minStage: 14,
         opacity: 0.85,
         buildProgress: 0,
@@ -684,7 +682,7 @@ class PrefabSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, PrefabDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 4; i++) {
       e.add(
         BimEntity(
@@ -694,9 +692,9 @@ class PrefabSceneBuilder {
           color: const Color(0xFF16A34A),
           category: BimEntityCategory.terrain,
           position: BimVec3(
-            i < 2 ? 0.5 + i * 2 : d.buildingWidth - 1.5,
+            i < 2 ? 0.5 + i * 2 : PrefabDimensions.buildingWidth - 1.5,
             0.125,
-            i % 2 == 0 ? 0.5 : d.buildingDepth - 1.3,
+            i % 2 == 0 ? 0.5 : PrefabDimensions.buildingDepth - 1.3,
           ),
           minStage: 14,
           buildProgress: 0,

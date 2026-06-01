@@ -3,13 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models/hazard_profile.dart';
 import '../data/models/house_model.dart';
 import '../data/models/resilience_dimensions.dart';
-import '../data/repositories/firebase_admin_repository.dart';
 import '../data/repositories/json_asset_repository.dart';
 import '../data/repositories/local_storage_repository.dart';
 import '../domain/services/location_intelligence_engine.dart';
 import '../domain/services/hazard_recommendation_engine.dart';
 import '../domain/services/model_recommendation_engine.dart';
-import '../features/inspection/ai_inspection_service.dart';
 
 final jsonRepoProvider = Provider<JsonAssetRepository>((ref) {
   return JsonAssetRepository();
@@ -36,14 +34,6 @@ final hazardRecommendationEngineProvider =
   );
 });
 
-final firebaseAdminProvider = Provider<FirebaseAdminRepository>((ref) {
-  return FirebaseAdminRepository();
-});
-
-final aiInspectionProvider = Provider<AiInspectionService>((ref) {
-  return AiInspectionService();
-});
-
 final housesProvider = FutureProvider<List<HouseModel>>((ref) async {
   return ref.watch(jsonRepoProvider).getHouses();
 });
@@ -58,11 +48,16 @@ final resilienceScoresProvider =
   return ref.watch(jsonRepoProvider).getResilienceScores(modelId);
 });
 
+final districtsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  return ref.watch(jsonRepoProvider).getDistricts();
+});
+
 class LocationState {
   const LocationState({
     this.latitude = 31.5204,
     this.longitude = 74.3587,
     this.placeName,
+    this.districtId,
     this.profile,
     this.isLoading = false,
   });
@@ -70,6 +65,7 @@ class LocationState {
   final double latitude;
   final double longitude;
   final String? placeName;
+  final String? districtId;
   final HazardProfile? profile;
   final bool isLoading;
 
@@ -77,6 +73,7 @@ class LocationState {
     double? latitude,
     double? longitude,
     String? placeName,
+    String? districtId,
     HazardProfile? profile,
     bool? isLoading,
   }) {
@@ -84,6 +81,7 @@ class LocationState {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       placeName: placeName ?? this.placeName,
+      districtId: districtId ?? this.districtId,
       profile: profile ?? this.profile,
       isLoading: isLoading ?? this.isLoading,
     );
@@ -95,8 +93,18 @@ class LocationNotifier extends StateNotifier<LocationState> {
 
   final Ref _ref;
 
-  Future<void> analyzeAt(double lat, double lng, {String? placeName}) async {
-    state = state.copyWith(isLoading: true, latitude: lat, longitude: lng);
+  Future<void> analyzeAt(
+    double lat,
+    double lng, {
+    String? placeName,
+    String? districtId,
+  }) async {
+    state = state.copyWith(
+      isLoading: true,
+      latitude: lat,
+      longitude: lng,
+      districtId: districtId,
+    );
     final engine = _ref.read(locationEngineProvider);
     final profile = engine.analyze(
       latitude: lat,
@@ -109,16 +117,27 @@ class LocationNotifier extends StateNotifier<LocationState> {
       isLoading: false,
     );
     await _ref.read(localStorageProvider).saveLocation({
-      'id': '${lat}_$lng',
+      'id': districtId ?? '${lat}_$lng',
       'lat': lat,
       'lng': lng,
       'name': profile.displayName,
       'regionId': profile.regionId,
+      'districtId': districtId,
       'at': DateTime.now().toIso8601String(),
     });
   }
 
-  Future<void> analyzeCurrent() => analyzeAt(state.latitude, state.longitude);
+  Future<void> analyzeCurrent() =>
+      analyzeAt(state.latitude, state.longitude, placeName: state.placeName);
+
+  Future<void> analyzeDistrict(Map<String, dynamic> district) async {
+    await analyzeAt(
+      (district['lat'] as num).toDouble(),
+      (district['lng'] as num).toDouble(),
+      placeName: '${district['name']}, Pakistan',
+      districtId: district['id'] as String,
+    );
+  }
 }
 
 final locationProvider =
@@ -142,6 +161,8 @@ final recommendedModelsProvider = FutureProvider<List<HouseModel>>((ref) async {
 });
 
 final selectedModelIdProvider = StateProvider<String?>((ref) => null);
+
+enum SimulationViewMode { structural, materials, normal }
 
 class ConstructionSimulationState {
   const ConstructionSimulationState({
@@ -178,8 +199,6 @@ class ConstructionSimulationState {
     );
   }
 }
-
-enum SimulationViewMode { structural, materials, normal }
 
 class ConstructionSimulationNotifier
     extends StateNotifier<ConstructionSimulationState> {

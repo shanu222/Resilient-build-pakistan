@@ -63,7 +63,7 @@ class ConstructionStageController extends ChangeNotifier {
     final total = manifest.stages.length;
     final pos = normalized.clamp(0, 1) * total;
     stageIndex = pos.floor().clamp(0, total - 1);
-    stageProgress = pos - stageIndex;
+    stageProgress = (pos - stageIndex).toDouble();
     notifyListeners();
   }
 }

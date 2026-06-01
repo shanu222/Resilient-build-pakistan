@@ -9,31 +9,29 @@ import '../math/bim_vec3.dart';
 class GeogridSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = GeogridDimensions;
-
-    _site(e, d);
-    _investigation(e, d);
-    _excavation(e, d);
-    _foundation(e, d);
-    _facingAndGeogrids(e, d);
-    _backfillLayers(e, d);
-    _drainage(e, d);
-    _erosion(e, d);
-    _landslideTeaching(e, d);
+        _site(e);
+    _investigation(e);
+    _excavation(e);
+    _foundation(e);
+    _facingAndGeogrids(e);
+    _backfillLayers(e);
+    _drainage(e);
+    _erosion(e);
+    _landslideTeaching(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, GeogridDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'mountain_slope',
         label: 'Natural Slope',
         mesh: BimMesh.box(
-          width: d.benchDepth + 4,
+          width: GeogridDimensions.benchDepth + 4,
           height: 5.5,
-          depth: d.plotDepth,
-          center: BimVec3(4, 3.2, d.centerZ),
+          depth: GeogridDimensions.plotDepth,
+          center: BimVec3(4, 3.2, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -46,10 +44,10 @@ class GeogridSceneBuilder {
         id: 'road_alignment',
         label: 'Road Corridor',
         mesh: BimMesh.box(
-          width: d.roadWidth,
+          width: GeogridDimensions.roadWidth,
           height: 0.12,
-          depth: d.plotDepth - 1,
-          center: BimVec3(12, d.roadY, d.centerZ),
+          depth: GeogridDimensions.plotDepth - 1,
+          center: BimVec3(12, GeogridDimensions.roadY, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF374151),
         category: BimEntityCategory.annotation,
@@ -101,7 +99,7 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _investigation(List<BimEntity> e, GeogridDimensions d) {
+  void _investigation(List<BimEntity> e) {
     for (var i = 0; i < 3; i++) {
       e.add(
         BimEntity(
@@ -158,16 +156,16 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _excavation(List<BimEntity> e, GeogridDimensions d) {
+  void _excavation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'slope_cut',
         label: 'Slope Cutting',
         mesh: BimMesh.box(
-          width: d.benchDepth,
+          width: GeogridDimensions.benchDepth,
           height: 3.5,
-          depth: d.plotDepth,
-          center: BimVec3(d.benchDepth / 2 + 1, 1.8, d.centerZ),
+          depth: GeogridDimensions.plotDepth,
+          center: BimVec3(GeogridDimensions.benchDepth / 2 + 1, 1.8, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -180,7 +178,7 @@ class GeogridSceneBuilder {
       BimEntity(
         id: 'bench_1',
         label: 'Construction Bench',
-        mesh: BimMesh.box(width: 3, height: 0.25, depth: d.plotDepth),
+        mesh: BimMesh.box(width: 3, height: 0.25, depth: GeogridDimensions.plotDepth),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
         position: BimVec3(5, 0.12, 0),
@@ -194,10 +192,10 @@ class GeogridSceneBuilder {
         id: 'foundation_trench',
         label: 'Foundation Trench',
         mesh: BimMesh.box(
-          width: d.blockThickness + 1.5,
+          width: GeogridDimensions.blockThickness + 1.5,
           height: 0.45,
-          depth: d.plotDepth - 1,
-          center: BimVec3(d.wallFaceX - 0.5, 0.22, d.centerZ),
+          depth: GeogridDimensions.plotDepth - 1,
+          center: BimVec3(GeogridDimensions.wallFaceX - 0.5, 0.22, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.excavation,
@@ -208,16 +206,16 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _foundation(List<BimEntity> e, GeogridDimensions d) {
+  void _foundation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'leveling_pad',
         label: 'Leveling Pad',
         mesh: BimMesh.box(
-          width: d.blockThickness + 0.4,
+          width: GeogridDimensions.blockThickness + 0.4,
           height: 0.08,
-          depth: d.plotDepth - 1.5,
-          center: BimVec3(d.wallFaceX - 0.2, 0.04, d.centerZ),
+          depth: GeogridDimensions.plotDepth - 1.5,
+          center: BimVec3(GeogridDimensions.wallFaceX - 0.2, 0.04, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFFD1D5DB),
         category: BimEntityCategory.concrete,
@@ -231,10 +229,10 @@ class GeogridSceneBuilder {
         id: 'granular_foundation',
         label: 'Granular Foundation Layer',
         mesh: BimMesh.box(
-          width: d.geogridLength + 1,
+          width: GeogridDimensions.geogridLength + 1,
           height: 0.25,
-          depth: d.plotDepth - 1.5,
-          center: BimVec3(d.wallFaceX - d.geogridLength / 2, 0.18, d.centerZ),
+          depth: GeogridDimensions.plotDepth - 1.5,
+          center: BimVec3(GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength / 2, 0.18, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF94A3B8),
         category: BimEntityCategory.masonry,
@@ -260,9 +258,9 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _facingAndGeogrids(List<BimEntity> e, GeogridDimensions d) {
-    for (var course = 0; course < d.courseCount; course++) {
-      final y = 0.35 + course * d.courseHeight;
+  void _facingAndGeogrids(List<BimEntity> e) {
+    for (var course = 0; course < GeogridDimensions.courseCount; course++) {
+      final y = 0.35 + course * GeogridDimensions.courseHeight;
       final gridStage = course == 0 ? 5 : 8;
       final blockStage = course == 0 ? 4 : 8;
 
@@ -271,19 +269,19 @@ class GeogridSceneBuilder {
           id: 'facing_block_$course',
           label: 'Segmental Facing Block',
           mesh: BimMesh.box(
-            width: d.blockThickness,
-            height: d.courseHeight * 0.92,
-            depth: d.blockDepth,
+            width: GeogridDimensions.blockThickness,
+            height: GeogridDimensions.courseHeight * 0.92,
+            depth: GeogridDimensions.blockDepth,
             center: BimVec3(
-              d.wallFaceX - d.blockThickness / 2,
-              y + d.courseHeight * 0.46,
-              d.centerZ,
+              GeogridDimensions.wallFaceX - GeogridDimensions.blockThickness / 2,
+              y + GeogridDimensions.courseHeight * 0.46,
+              GeogridDimensions.centerZ,
             ),
           ),
           color: Color.lerp(
             const Color(0xFF9CA3AF),
             const Color(0xFF6B7280),
-            course / d.courseCount,
+            course / GeogridDimensions.courseCount,
           )!,
           category: BimEntityCategory.masonry,
           explodeGroup: 3,
@@ -299,15 +297,15 @@ class GeogridSceneBuilder {
           id: 'geogrid_$course',
           label: 'Geogrid Layer',
           mesh: BimMesh.box(
-            width: d.geogridLength,
-            height: d.geogridThickness,
-            depth: d.plotDepth - 2,
+            width: GeogridDimensions.geogridLength,
+            height: GeogridDimensions.geogridThickness,
+            depth: GeogridDimensions.plotDepth - 2,
           ),
           color: const Color(0xFF1D4ED8),
           category: BimEntityCategory.wire,
           position: BimVec3(
-            d.wallFaceX - d.geogridLength - d.blockThickness,
-            y + d.courseHeight * 0.5,
+            GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength - GeogridDimensions.blockThickness,
+            y + GeogridDimensions.courseHeight * 0.5,
             1,
           ),
           explodeGroup: 4,
@@ -325,7 +323,7 @@ class GeogridSceneBuilder {
           mesh: BimMesh.box(width: 0.12, height: 0.08, depth: 0.3),
           color: const Color(0xFF475569),
           category: BimEntityCategory.equipment,
-          position: BimVec3(d.wallFaceX - d.blockThickness - 0.05, y + 0.1, d.centerZ),
+          position: BimVec3(GeogridDimensions.wallFaceX - GeogridDimensions.blockThickness - 0.05, y + 0.1, GeogridDimensions.centerZ),
           explodeGroup: 4,
           minStage: gridStage,
           buildProgress: 0,
@@ -338,13 +336,13 @@ class GeogridSceneBuilder {
         id: 'top_coping',
         label: 'Top Coping',
         mesh: BimMesh.box(
-          width: d.blockThickness + 0.1,
+          width: GeogridDimensions.blockThickness + 0.1,
           height: 0.15,
-          depth: d.blockDepth + 0.2,
+          depth: GeogridDimensions.blockDepth + 0.2,
           center: BimVec3(
-            d.wallFaceX - d.blockThickness / 2,
-            0.35 + d.courseCount * d.courseHeight + 0.08,
-            d.centerZ,
+            GeogridDimensions.wallFaceX - GeogridDimensions.blockThickness / 2,
+            0.35 + GeogridDimensions.courseCount * GeogridDimensions.courseHeight + 0.08,
+            GeogridDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF4B5563),
@@ -356,26 +354,26 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _backfillLayers(List<BimEntity> e, GeogridDimensions d) {
-    for (var layer = 0; layer < d.courseCount; layer++) {
-      final y = 0.5 + layer * d.backfillLift;
+  void _backfillLayers(List<BimEntity> e) {
+    for (var layer = 0; layer < GeogridDimensions.courseCount; layer++) {
+      final y = 0.5 + layer * GeogridDimensions.backfillLift;
       e.add(
         BimEntity(
           id: 'backfill_$layer',
           label: 'Granular Backfill',
           mesh: BimMesh.box(
-            width: d.geogridLength - 0.3,
-            height: d.backfillLift * 0.9,
-            depth: d.plotDepth - 2.5,
+            width: GeogridDimensions.geogridLength - 0.3,
+            height: GeogridDimensions.backfillLift * 0.9,
+            depth: GeogridDimensions.plotDepth - 2.5,
           ),
           color: Color.lerp(
             const Color(0xFFD6D3D1),
             const Color(0xFFA8A29E),
-            layer / d.courseCount,
+            layer / GeogridDimensions.courseCount,
           )!,
           category: BimEntityCategory.earthbag,
           position: BimVec3(
-            d.wallFaceX - d.geogridLength - d.blockThickness + 0.15,
+            GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength - GeogridDimensions.blockThickness + 0.15,
             y,
             1.2,
           ),
@@ -392,13 +390,13 @@ class GeogridSceneBuilder {
         id: 'reinforced_zone_outline',
         label: 'Reinforced Soil Mass',
         mesh: BimMesh.box(
-          width: d.geogridLength,
-          height: d.wallHeight,
-          depth: d.plotDepth - 2,
+          width: GeogridDimensions.geogridLength,
+          height: GeogridDimensions.wallHeight,
+          depth: GeogridDimensions.plotDepth - 2,
           center: BimVec3(
-            d.wallFaceX - d.geogridLength / 2 - d.blockThickness,
-            d.wallHeight / 2 + 0.3,
-            d.centerZ,
+            GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength / 2 - GeogridDimensions.blockThickness,
+            GeogridDimensions.wallHeight / 2 + 0.3,
+            GeogridDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF22C55E),
@@ -418,7 +416,7 @@ class GeogridSceneBuilder {
           mesh: BimMesh.cylinder(radius: 0.32, height: 0.45),
           color: const Color(0xFFF97316),
           category: BimEntityCategory.equipment,
-          position: BimVec3(6.5, 0.8 + i * 1.8, 3 + i),
+          position: BimVec3(6.5, 0.8 + i * 1.8, 3.0 + i),
           explodeGroup: 5,
           minStage: 7,
           buildProgress: 0,
@@ -427,15 +425,15 @@ class GeogridSceneBuilder {
     }
   }
 
-  void _drainage(List<BimEntity> e, GeogridDimensions d) {
+  void _drainage(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'drainage_pipe',
         label: 'Perforated Drainage Pipe',
-        mesh: BimMesh.cylinder(radius: 0.08, height: d.plotDepth - 2),
+        mesh: BimMesh.cylinder(radius: 0.08, height: GeogridDimensions.plotDepth - 2),
         color: const Color(0xFF475569),
         category: BimEntityCategory.drainage,
-        position: BimVec3(d.wallFaceX - 1.2, 0.45, 1),
+        position: BimVec3(GeogridDimensions.wallFaceX - 1.2, 0.45, 1),
         explodeGroup: 6,
         minStage: 9,
         pickable: true,
@@ -448,13 +446,13 @@ class GeogridSceneBuilder {
         id: 'drainage_blanket',
         label: 'Drainage Blanket',
         mesh: BimMesh.box(
-          width: d.geogridLength,
+          width: GeogridDimensions.geogridLength,
           height: 0.12,
-          depth: d.plotDepth - 2,
+          depth: GeogridDimensions.plotDepth - 2,
           center: BimVec3(
-            d.wallFaceX - d.geogridLength / 2,
+            GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength / 2,
             0.35,
-            d.centerZ,
+            GeogridDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF94A3B8),
@@ -470,9 +468,9 @@ class GeogridSceneBuilder {
         label: 'Filter Layer',
         mesh: BimMesh.box(
           width: 0.25,
-          height: d.wallHeight,
-          depth: d.plotDepth - 2,
-          center: BimVec3(d.wallFaceX - 0.55, d.wallHeight / 2, d.centerZ),
+          height: GeogridDimensions.wallHeight,
+          depth: GeogridDimensions.plotDepth - 2,
+          center: BimVec3(GeogridDimensions.wallFaceX - 0.55, GeogridDimensions.wallHeight / 2, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFFE7E5E4),
         category: BimEntityCategory.drainage,
@@ -491,7 +489,7 @@ class GeogridSceneBuilder {
           color: const Color(0xFF0EA5E9),
           category: BimEntityCategory.drainage,
           position: BimVec3(
-            d.wallFaceX + 0.02,
+            GeogridDimensions.wallFaceX + 0.02,
             0.8 + i * 1.1,
             2 + i * 1.2,
           ),
@@ -503,7 +501,7 @@ class GeogridSceneBuilder {
     }
   }
 
-  void _erosion(List<BimEntity> e, GeogridDimensions d) {
+  void _erosion(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'surface_protection',
@@ -512,7 +510,7 @@ class GeogridSceneBuilder {
           width: 5,
           height: 0.04,
           depth: 4,
-          center: BimVec3(3, d.roadY - 0.1, 5),
+          center: BimVec3(3, GeogridDimensions.roadY - 0.1, 5),
         ),
         color: const Color(0xFF86EFAC),
         category: BimEntityCategory.terrain,
@@ -529,7 +527,7 @@ class GeogridSceneBuilder {
           mesh: BimMesh.cylinder(radius: 0.08, height: 0.5),
           color: const Color(0xFF166534),
           category: BimEntityCategory.terrain,
-          position: BimVec3(2 + i * 1.1, d.roadY, 3 + i),
+          position: BimVec3(2 + i * 1.1, GeogridDimensions.roadY, 3.0 + i),
           explodeGroup: 7,
           minStage: 12,
           buildProgress: 0,
@@ -541,10 +539,10 @@ class GeogridSceneBuilder {
         id: 'completed_road',
         label: 'Protected Road',
         mesh: BimMesh.box(
-          width: d.roadWidth,
+          width: GeogridDimensions.roadWidth,
           height: 0.15,
-          depth: d.plotDepth - 0.5,
-          center: BimVec3(12, d.roadY + 0.05, d.centerZ),
+          depth: GeogridDimensions.plotDepth - 0.5,
+          center: BimVec3(12, GeogridDimensions.roadY + 0.05, GeogridDimensions.centerZ),
         ),
         color: const Color(0xFF1F2937),
         category: BimEntityCategory.annotation,
@@ -555,7 +553,7 @@ class GeogridSceneBuilder {
     );
   }
 
-  void _landslideTeaching(List<BimEntity> e, GeogridDimensions d) {
+  void _landslideTeaching(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'unreinforced_slope_mass',
@@ -579,13 +577,13 @@ class GeogridSceneBuilder {
         id: 'reinforced_stable_zone',
         label: 'Reinforced Stable Block',
         mesh: BimMesh.box(
-          width: d.geogridLength + 0.5,
-          height: d.wallHeight + 0.5,
+          width: GeogridDimensions.geogridLength + 0.5,
+          height: GeogridDimensions.wallHeight + 0.5,
           depth: 3,
           center: BimVec3(
-            d.wallFaceX - d.geogridLength / 2,
-            d.wallHeight / 2 + 0.5,
-            d.centerZ + 2,
+            GeogridDimensions.wallFaceX - GeogridDimensions.geogridLength / 2,
+            GeogridDimensions.wallHeight / 2 + 0.5,
+            GeogridDimensions.centerZ + 2,
           ),
         ),
         color: const Color(0xFF22C55E),

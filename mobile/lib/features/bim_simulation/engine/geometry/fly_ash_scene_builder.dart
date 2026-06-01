@@ -9,38 +9,36 @@ import '../math/bim_vec3.dart';
 class FlyAshSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = FlyAshDimensions;
-
-    _site(e, d);
-    _settingOut(e, d);
-    _excavation(e, d);
-    _pcc(e, d);
-    _footings(e, d);
-    _foundationMasonry(e, d);
-    _plinthBand(e, d);
-    _flyAshWalls(e, d);
-    _junctionReinf(e, d);
-    _openings(e, d);
-    _lintelBand(e, d);
-    _roofBand(e, d);
-    _roofSlab(e, d);
-    _dpcAndWaterproof(e, d);
-    _plaster(e, d);
-    _landscape(e, d);
+        _site(e);
+    _settingOut(e);
+    _excavation(e);
+    _pcc(e);
+    _footings(e);
+    _foundationMasonry(e);
+    _plinthBand(e);
+    _flyAshWalls(e);
+    _junctionReinf(e);
+    _openings(e);
+    _lintelBand(e);
+    _roofBand(e);
+    _roofSlab(e);
+    _dpcAndWaterproof(e);
+    _plaster(e);
+    _landscape(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, FlyAshDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'terrain',
         label: 'Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: FlyAshDimensions.plotWidth,
           height: 0.15,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.075, d.plotDepth / 2),
+          depth: FlyAshDimensions.plotDepth,
+          center: BimVec3(FlyAshDimensions.plotWidth / 2, -0.075, FlyAshDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -52,10 +50,10 @@ class FlyAshSceneBuilder {
         id: 'boundary',
         label: 'Property Boundary',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: FlyAshDimensions.plotWidth,
           height: 0.02,
           depth: 0.05,
-          center: BimVec3(d.plotWidth / 2, 0.02, 0.025),
+          center: BimVec3(FlyAshDimensions.plotWidth / 2, 0.02, 0.025),
         ),
         color: const Color(0xFF64748B),
         category: BimEntityCategory.survey,
@@ -68,10 +66,10 @@ class FlyAshSceneBuilder {
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: FlyAshDimensions.buildingWidth,
           height: 0.03,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, 0.04, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth,
+          center: BimVec3(FlyAshDimensions.centerX, 0.04, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -86,7 +84,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 1.4, height: 0.02, depth: 1.4),
         color: const Color(0xFFF97316),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX - 0.7, 0.05, d.centerZ - 0.7),
+        position: BimVec3(FlyAshDimensions.centerX - 0.7, 0.05, FlyAshDimensions.centerZ - 0.7),
         minStage: 0,
         opacity: 0.55,
         buildProgress: 0,
@@ -94,22 +92,22 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _settingOut(List<BimEntity> e, FlyAshDimensions d) {
+  void _settingOut(List<BimEntity> e) {
     for (var i = 0; i <= 6; i++) {
       e.add(
         BimEntity(
           id: 'grid_x_$i',
           label: 'Survey Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth + 0.5),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: FlyAshDimensions.buildingDepth + 0.5),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 6), 0.06, -0.25),
+          position: BimVec3(i * (FlyAshDimensions.buildingWidth / 6), 0.06, -0.25),
           minStage: 1,
           buildProgress: 0,
         ),
       );
     }
-    for (var c in _corners(d)) {
+    for (var c in _corners()) {
       e.add(
         BimEntity(
           id: 'corner_marker_${c.$1}_${c.$2}',
@@ -128,10 +126,10 @@ class FlyAshSceneBuilder {
         id: 'wall_centerline',
         label: 'Wall Centerline',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: FlyAshDimensions.buildingWidth,
           height: 0.01,
           depth: 0.02,
-          center: BimVec3(d.centerX, 0.07, 0),
+          center: BimVec3(FlyAshDimensions.centerX, 0.07, 0),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -142,16 +140,16 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _excavation(List<BimEntity> e, FlyAshDimensions d) {
+  void _excavation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'excavation',
         label: 'Foundation Excavation',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, -d.trenchDepth / 2 + 0.05, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.8,
+          height: FlyAshDimensions.trenchDepth,
+          depth: FlyAshDimensions.buildingDepth + 0.8,
+          center: BimVec3(FlyAshDimensions.centerX, -FlyAshDimensions.trenchDepth / 2 + 0.05, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -165,10 +163,10 @@ class FlyAshSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Stratum',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1,
+          width: FlyAshDimensions.buildingWidth + 1,
           height: 0.18,
-          depth: d.buildingDepth + 1,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.1, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth + 1,
+          center: BimVec3(FlyAshDimensions.centerX, -FlyAshDimensions.trenchDepth + 0.1, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -178,19 +176,19 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _pcc(List<BimEntity> e, FlyAshDimensions d) {
+  void _pcc(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'pcc_layer',
         label: 'PCC Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.6,
-          height: d.pccThickness,
-          depth: d.buildingDepth + 0.6,
+          width: FlyAshDimensions.buildingWidth + 0.6,
+          height: FlyAshDimensions.pccThickness,
+          depth: FlyAshDimensions.buildingDepth + 0.6,
           center: BimVec3(
-            d.centerX,
-            -d.trenchDepth + d.pccThickness / 2,
-            d.centerZ,
+            FlyAshDimensions.centerX,
+            -FlyAshDimensions.trenchDepth + FlyAshDimensions.pccThickness / 2,
+            FlyAshDimensions.centerZ,
           ),
         ),
         color: const Color(0xFFD1D5DB),
@@ -202,9 +200,9 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _footings(List<BimEntity> e, FlyAshDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness;
-    final positions = _footingPositions(d);
+  void _footings(List<BimEntity> e) {
+    final baseY = -FlyAshDimensions.trenchDepth + FlyAshDimensions.pccThickness;
+    final positions = _footingPositions();
     for (var i = 0; i < positions.length; i++) {
       final p = positions[i];
       e.add(
@@ -212,9 +210,9 @@ class FlyAshSceneBuilder {
           id: 'footing_rebar_$i',
           label: 'Footing Rebar Cage',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth * 0.7,
-            depth: d.footingWidth,
+            width: FlyAshDimensions.footingWidth,
+            height: FlyAshDimensions.footingDepth * 0.7,
+            depth: FlyAshDimensions.footingWidth,
           ),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
@@ -231,13 +229,13 @@ class FlyAshSceneBuilder {
           id: 'footing_concrete_$i',
           label: 'RCC Footing',
           mesh: BimMesh.box(
-            width: d.footingWidth,
-            height: d.footingDepth,
-            depth: d.footingWidth,
+            width: FlyAshDimensions.footingWidth,
+            height: FlyAshDimensions.footingDepth,
+            depth: FlyAshDimensions.footingWidth,
             center: BimVec3(
-              p.$1 + d.footingWidth / 2,
-              baseY + d.footingDepth / 2,
-              p.$2 + d.footingWidth / 2,
+              p.$1 + FlyAshDimensions.footingWidth / 2,
+              baseY + FlyAshDimensions.footingDepth / 2,
+              p.$2 + FlyAshDimensions.footingWidth / 2,
             ),
           ),
           color: const Color(0xFF9CA3AF),
@@ -250,20 +248,20 @@ class FlyAshSceneBuilder {
     }
   }
 
-  void _foundationMasonry(List<BimEntity> e, FlyAshDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness + d.footingDepth;
+  void _foundationMasonry(List<BimEntity> e) {
+    final baseY = -FlyAshDimensions.trenchDepth + FlyAshDimensions.pccThickness + FlyAshDimensions.footingDepth;
     var idx = 0;
-    for (var course = 0; course < d.foundationCourses; course++) {
-      final y = baseY + course * (d.brickHeight + d.mortarJoint);
-      for (final pos in _perimeterPositions(d, 0.12)) {
+    for (var course = 0; course < FlyAshDimensions.foundationCourses; course++) {
+      final y = baseY + course * (FlyAshDimensions.brickHeight + FlyAshDimensions.mortarJoint);
+      for (final pos in _perimeterPositions(0.12)) {
         e.add(
           BimEntity(
             id: 'found_brick_$idx',
             label: 'Foundation Masonry',
             mesh: BimMesh.box(
-              width: d.brickLength * 0.96,
-              height: d.brickHeight,
-              depth: d.brickDepth * 0.96,
+              width: FlyAshDimensions.brickLength * 0.96,
+              height: FlyAshDimensions.brickHeight,
+              depth: FlyAshDimensions.brickDepth * 0.96,
             ),
             color: const Color(0xFF64748B),
             category: BimEntityCategory.masonry,
@@ -278,18 +276,18 @@ class FlyAshSceneBuilder {
     }
   }
 
-  void _plinthBand(List<BimEntity> e, FlyAshDimensions d) {
-    final y = -d.trenchDepth + d.pccThickness + d.footingDepth +
-        d.foundationCourses * (d.brickHeight + d.mortarJoint);
+  void _plinthBand(List<BimEntity> e) {
+    final y = -FlyAshDimensions.trenchDepth + FlyAshDimensions.pccThickness + FlyAshDimensions.footingDepth +
+        FlyAshDimensions.foundationCourses * (FlyAshDimensions.brickHeight + FlyAshDimensions.mortarJoint);
     e.add(
       BimEntity(
         id: 'plinth_rebar',
         label: 'Plinth Band Rebar',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.plinthBeamHeight * 0.65,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, y + d.plinthBeamHeight * 0.32, d.centerZ),
+          width: FlyAshDimensions.buildingWidth,
+          height: FlyAshDimensions.plinthBeamHeight * 0.65,
+          depth: FlyAshDimensions.buildingDepth,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.plinthBeamHeight * 0.32, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -302,10 +300,10 @@ class FlyAshSceneBuilder {
         id: 'plinth_band',
         label: 'Plinth Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.15,
-          height: d.plinthBeamHeight,
-          depth: d.buildingDepth + 0.15,
-          center: BimVec3(d.centerX, y + d.plinthBeamHeight / 2, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.15,
+          height: FlyAshDimensions.plinthBeamHeight,
+          depth: FlyAshDimensions.buildingDepth + 0.15,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.plinthBeamHeight / 2, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -321,13 +319,13 @@ class FlyAshSceneBuilder {
         id: 'dpc_course',
         label: 'Damp Proof Course',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.2,
-          height: d.dpcThickness,
-          depth: d.buildingDepth + 0.2,
+          width: FlyAshDimensions.buildingWidth + 0.2,
+          height: FlyAshDimensions.dpcThickness,
+          depth: FlyAshDimensions.buildingDepth + 0.2,
           center: BimVec3(
-            d.centerX,
-            y + d.plinthBeamHeight + d.dpcThickness / 2,
-            d.centerZ,
+            FlyAshDimensions.centerX,
+            y + FlyAshDimensions.plinthBeamHeight + FlyAshDimensions.dpcThickness / 2,
+            FlyAshDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF06B6D4),
@@ -341,21 +339,21 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _flyAshWalls(List<BimEntity> e, FlyAshDimensions d) {
-    final baseY = d.wallBaseY;
+  void _flyAshWalls(List<BimEntity> e) {
+    final baseY = FlyAshDimensions.wallBaseY;
     var idx = 0;
-    for (var course = 0; course < d.wallCourses; course++) {
-      final y = baseY + course * (d.brickHeight + d.mortarJoint);
+    for (var course = 0; course < FlyAshDimensions.wallCourses; course++) {
+      final y = baseY + course * (FlyAshDimensions.brickHeight + FlyAshDimensions.mortarJoint);
       final isCornerCourse = course % 4 == 0;
-      for (final pos in _perimeterPositions(d, 0)) {
+      for (final pos in _perimeterPositions(0)) {
         e.add(
           BimEntity(
             id: 'fa_brick_$idx',
             label: 'Fly Ash Brick',
             mesh: BimMesh.box(
-              width: d.brickLength * 0.96,
-              height: d.brickHeight,
-              depth: d.brickDepth * 0.96,
+              width: FlyAshDimensions.brickLength * 0.96,
+              height: FlyAshDimensions.brickHeight,
+              depth: FlyAshDimensions.brickDepth * 0.96,
             ),
             color: Color.lerp(
               const Color(0xFFB8C5D6),
@@ -377,13 +375,13 @@ class FlyAshSceneBuilder {
               id: 'mortar_joint_$idx',
               label: 'Cement Mortar Joint',
               mesh: BimMesh.box(
-                width: d.brickLength,
-                height: d.mortarJoint,
-                depth: d.brickDepth,
+                width: FlyAshDimensions.brickLength,
+                height: FlyAshDimensions.mortarJoint,
+                depth: FlyAshDimensions.brickDepth,
               ),
               color: const Color(0xFFD6D3D1),
               category: BimEntityCategory.masonry,
-              position: BimVec3(pos.$1, y - d.mortarJoint, pos.$2),
+              position: BimVec3(pos.$1, y - FlyAshDimensions.mortarJoint, pos.$2),
               explodeGroup: 3,
               minStage: 7,
               buildProgress: 0,
@@ -401,7 +399,7 @@ class FlyAshSceneBuilder {
           width: 0.9,
           height: 1.2,
           depth: 0.23,
-          center: BimVec3(-0.6, baseY + 0.6, d.centerZ),
+          center: BimVec3(-0.6, baseY + 0.6, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFB45309),
         category: BimEntityCategory.annotation,
@@ -412,15 +410,15 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _junctionReinf(List<BimEntity> e, FlyAshDimensions d) {
-    final baseY = d.wallBaseY;
+  void _junctionReinf(List<BimEntity> e) {
+    final baseY = FlyAshDimensions.wallBaseY;
     for (var i = 0; i < 4; i++) {
-      final c = _corners(d)[i];
+      final c = _corners()[i];
       e.add(
         BimEntity(
           id: 'junction_rebar_$i',
           label: 'Reinforced Masonry Junction',
-          mesh: BimMesh.box(width: 0.08, height: d.wallHeight * 0.85, depth: 0.08),
+          mesh: BimMesh.box(width: 0.08, height: FlyAshDimensions.wallHeight * 0.85, depth: 0.08),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
           position: BimVec3(c.$1, baseY, c.$2),
@@ -432,8 +430,8 @@ class FlyAshSceneBuilder {
     }
   }
 
-  void _openings(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY;
+  void _openings(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY;
     e.add(
       BimEntity(
         id: 'door_frame',
@@ -441,7 +439,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 2.1, depth: 0.1),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.centerX - 0.5, y, 0),
+        position: BimVec3(FlyAshDimensions.centerX - 0.5, y, 0),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -453,7 +451,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 1.1, height: 1.0, depth: 0.08),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.finishing,
-        position: BimVec3(d.buildingWidth - 0.12, y + 1.0, d.centerZ),
+        position: BimVec3(FlyAshDimensions.buildingWidth - 0.12, y + 1.0, FlyAshDimensions.centerZ),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -465,7 +463,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 1.2, height: 0.08, depth: 0.08),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
-        position: BimVec3(d.centerX - 0.6, y + 2.15, 0),
+        position: BimVec3(FlyAshDimensions.centerX - 0.6, y + 2.15, 0),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -477,7 +475,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 0.04, height: 0.8, depth: 0.04),
         color: const Color(0xFFF97316),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX + 0.55, y + 1.0, 0.05),
+        position: BimVec3(FlyAshDimensions.centerX + 0.55, y + 1.0, 0.05),
         minStage: 8,
         opacity: 0.75,
         buildProgress: 0,
@@ -485,17 +483,17 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _lintelBand(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY + d.wallHeight - d.bandHeight;
+  void _lintelBand(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY + FlyAshDimensions.wallHeight - FlyAshDimensions.bandHeight;
     e.add(
       BimEntity(
         id: 'lintel_rebar',
         label: 'Lintel Band Rebar',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.1,
-          height: d.bandHeight * 0.6,
-          depth: d.buildingDepth + 0.1,
-          center: BimVec3(d.centerX, y + d.bandHeight * 0.3, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.1,
+          height: FlyAshDimensions.bandHeight * 0.6,
+          depth: FlyAshDimensions.buildingDepth + 0.1,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.bandHeight * 0.3, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -508,10 +506,10 @@ class FlyAshSceneBuilder {
         id: 'lintel_band',
         label: 'Lintel Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.2,
-          height: d.bandHeight,
-          depth: d.buildingDepth + 0.2,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.2,
+          height: FlyAshDimensions.bandHeight,
+          depth: FlyAshDimensions.buildingDepth + 0.2,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.bandHeight / 2, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -524,17 +522,17 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _roofBand(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY + d.wallHeight;
+  void _roofBand(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY + FlyAshDimensions.wallHeight;
     e.add(
       BimEntity(
         id: 'roof_band_rebar',
         label: 'Roof Band Rebar',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.15,
-          height: d.bandHeight * 0.55,
-          depth: d.buildingDepth + 0.15,
-          center: BimVec3(d.centerX, y + d.bandHeight * 0.28, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.15,
+          height: FlyAshDimensions.bandHeight * 0.55,
+          depth: FlyAshDimensions.buildingDepth + 0.15,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.bandHeight * 0.28, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -547,10 +545,10 @@ class FlyAshSceneBuilder {
         id: 'roof_band',
         label: 'Roof Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.25,
-          height: d.bandHeight,
-          depth: d.buildingDepth + 0.25,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, d.centerZ),
+          width: FlyAshDimensions.buildingWidth + 0.25,
+          height: FlyAshDimensions.bandHeight,
+          depth: FlyAshDimensions.buildingDepth + 0.25,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.bandHeight / 2, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -563,17 +561,17 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _roofSlab(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY + d.wallHeight + d.bandHeight;
+  void _roofSlab(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY + FlyAshDimensions.wallHeight + FlyAshDimensions.bandHeight;
     e.add(
       BimEntity(
         id: 'slab_formwork',
         label: 'Slab Formwork',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.35,
+          width: FlyAshDimensions.buildingWidth + 0.35,
           height: 0.08,
-          depth: d.buildingDepth + 0.35,
-          center: BimVec3(d.centerX, y - 0.04, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth + 0.35,
+          center: BimVec3(FlyAshDimensions.centerX, y - 0.04, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFDEB887),
         category: BimEntityCategory.formwork,
@@ -586,10 +584,10 @@ class FlyAshSceneBuilder {
         id: 'slab_rebar_bottom',
         label: 'Bottom Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: FlyAshDimensions.buildingWidth,
           height: 0.02,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, y + 0.02, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth,
+          center: BimVec3(FlyAshDimensions.centerX, y + 0.02, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -602,10 +600,10 @@ class FlyAshSceneBuilder {
         id: 'slab_rebar_top',
         label: 'Top Reinforcement',
         mesh: BimMesh.box(
-          width: d.buildingWidth * 0.85,
+          width: FlyAshDimensions.buildingWidth * 0.85,
           height: 0.02,
-          depth: d.buildingDepth * 0.85,
-          center: BimVec3(d.centerX, y + d.slabThickness - 0.03, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth * 0.85,
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.slabThickness - 0.03, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -618,13 +616,13 @@ class FlyAshSceneBuilder {
         id: 'roof_slab',
         label: 'RCC Roof Slab',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.2,
-          height: d.slabThickness,
-          depth: d.buildingDepth + 0.2,
+          width: FlyAshDimensions.buildingWidth + 0.2,
+          height: FlyAshDimensions.slabThickness,
+          depth: FlyAshDimensions.buildingDepth + 0.2,
           center: BimVec3(
-            d.centerX,
-            y + d.slabThickness / 2,
-            d.centerZ,
+            FlyAshDimensions.centerX,
+            y + FlyAshDimensions.slabThickness / 2,
+            FlyAshDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF9CA3AF),
@@ -638,17 +636,17 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _dpcAndWaterproof(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY - d.dpcThickness;
+  void _dpcAndWaterproof(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY - FlyAshDimensions.dpcThickness;
     e.add(
       BimEntity(
         id: 'waterproof_membrane',
         label: 'Waterproofing Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.25,
+          width: FlyAshDimensions.buildingWidth + 0.25,
           height: 0.015,
-          depth: d.buildingDepth + 0.25,
-          center: BimVec3(d.centerX, y, d.centerZ),
+          depth: FlyAshDimensions.buildingDepth + 0.25,
+          center: BimVec3(FlyAshDimensions.centerX, y, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFF22D3EE),
         category: BimEntityCategory.finishing,
@@ -666,7 +664,7 @@ class FlyAshSceneBuilder {
         mesh: BimMesh.box(width: 0.05, height: 0.6, depth: 0.05),
         color: const Color(0xFFEF4444),
         category: BimEntityCategory.annotation,
-        position: BimVec3(-0.35, y + 0.3, d.centerZ),
+        position: BimVec3(-0.35, y + 0.3, FlyAshDimensions.centerZ),
         minStage: 12,
         opacity: 0.7,
         buildProgress: 0,
@@ -674,17 +672,17 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _plaster(List<BimEntity> e, FlyAshDimensions d) {
-    final y = d.wallBaseY;
+  void _plaster(List<BimEntity> e) {
+    final y = FlyAshDimensions.wallBaseY;
     e.add(
       BimEntity(
         id: 'plaster_internal',
         label: 'Internal Plaster',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.2,
-          height: d.wallHeight,
+          width: FlyAshDimensions.buildingWidth - 0.2,
+          height: FlyAshDimensions.wallHeight,
           depth: 0.02,
-          center: BimVec3(d.centerX, y + d.wallHeight / 2, d.centerZ),
+          center: BimVec3(FlyAshDimensions.centerX, y + FlyAshDimensions.wallHeight / 2, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFF5F5F4),
         category: BimEntityCategory.finishing,
@@ -699,9 +697,9 @@ class FlyAshSceneBuilder {
         label: 'External Plaster',
         mesh: BimMesh.box(
           width: 0.02,
-          height: d.wallHeight,
-          depth: d.buildingDepth,
-          center: BimVec3(d.buildingWidth + 0.02, y + d.wallHeight / 2, d.centerZ),
+          height: FlyAshDimensions.wallHeight,
+          depth: FlyAshDimensions.buildingDepth,
+          center: BimVec3(FlyAshDimensions.buildingWidth + 0.02, y + FlyAshDimensions.wallHeight / 2, FlyAshDimensions.centerZ),
         ),
         color: const Color(0xFFE7E5E4),
         category: BimEntityCategory.finishing,
@@ -712,7 +710,7 @@ class FlyAshSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, FlyAshDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 5; i++) {
       e.add(
         BimEntity(
@@ -729,27 +727,27 @@ class FlyAshSceneBuilder {
     }
   }
 
-  List<(double, double)> _corners(FlyAshDimensions d) => [
+  List<(double, double)> _corners() => [
     (0, 0),
-    (d.buildingWidth, 0),
-    (0, d.buildingDepth),
-    (d.buildingWidth, d.buildingDepth),
+    (FlyAshDimensions.buildingWidth, 0),
+    (0, FlyAshDimensions.buildingDepth),
+    (FlyAshDimensions.buildingWidth, FlyAshDimensions.buildingDepth),
   ];
 
-  List<(double, double)> _footingPositions(FlyAshDimensions d) => [
+  List<(double, double)> _footingPositions() => [
     (0, 0),
-    (d.buildingWidth - d.footingWidth, 0),
-    (0, d.buildingDepth - d.footingWidth),
-    (d.buildingWidth - d.footingWidth, d.buildingDepth - d.footingWidth),
-    (d.centerX - d.footingWidth / 2, d.centerZ - d.footingWidth / 2),
+    (FlyAshDimensions.buildingWidth - FlyAshDimensions.footingWidth, 0),
+    (0, FlyAshDimensions.buildingDepth - FlyAshDimensions.footingWidth),
+    (FlyAshDimensions.buildingWidth - FlyAshDimensions.footingWidth, FlyAshDimensions.buildingDepth - FlyAshDimensions.footingWidth),
+    (FlyAshDimensions.centerX - FlyAshDimensions.footingWidth / 2, FlyAshDimensions.centerZ - FlyAshDimensions.footingWidth / 2),
   ];
 
   /// Perimeter brick positions for one course.
-  List<(double, double)> _perimeterPositions(FlyAshDimensions d, double inset) {
-    final w = d.buildingWidth;
-    final dep = d.buildingDepth;
-    final bl = d.brickLength;
-    final bd = d.brickDepth;
+  List<(double, double)> _perimeterPositions(double inset) {
+    final w = FlyAshDimensions.buildingWidth;
+    final dep = FlyAshDimensions.buildingDepth;
+    final bl = FlyAshDimensions.brickLength;
+    final bd = FlyAshDimensions.brickDepth;
     final out = <(double, double)>[];
 
     for (var x = inset; x < w - bl; x += bl * 0.98) {

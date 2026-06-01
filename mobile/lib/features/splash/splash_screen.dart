@@ -75,7 +75,7 @@ class SplashScreen extends StatelessWidget {
                 ).animate().fadeIn(delay: 900.ms),
                 const Spacer(),
                 Text(
-                  'National Resilient Construction Platform',
+                  'Public engineering education · Offline-first',
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.6),
                     fontSize: 13,

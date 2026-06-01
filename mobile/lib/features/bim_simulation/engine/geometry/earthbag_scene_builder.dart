@@ -9,18 +9,16 @@ import '../math/bim_vec3.dart';
 class EarthbagSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = EarthbagDimensions;
-
-    // Mountain terrain (sloped pad)
+        // Mountain terrain (sloped pad)
     e.add(
       BimEntity(
         id: 'mountain_terrain',
         label: 'Mountain Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: EarthbagDimensions.plotWidth,
           height: 0.4,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.1, d.plotDepth / 2),
+          depth: EarthbagDimensions.plotDepth,
+          center: BimVec3(EarthbagDimensions.plotWidth / 2, -0.1, EarthbagDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.terrain,
@@ -32,10 +30,10 @@ class EarthbagSceneBuilder {
         id: 'building_platform',
         label: 'Safe Building Platform',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1.2,
+          width: EarthbagDimensions.buildingWidth + 1.2,
           height: 0.25,
-          depth: d.buildingDepth + 1.2,
-          center: BimVec3(d.centerX, 0.12, d.centerZ),
+          depth: EarthbagDimensions.buildingDepth + 1.2,
+          center: BimVec3(EarthbagDimensions.centerX, 0.12, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -52,13 +50,13 @@ class EarthbagSceneBuilder {
         mesh: BimMesh.box(width: 0.1, height: 0.02, depth: 2.0),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.buildingWidth + 0.5, 0.2, d.centerZ),
+        position: BimVec3(EarthbagDimensions.buildingWidth + 0.5, 0.2, EarthbagDimensions.centerZ),
         minStage: 0,
       ),
     );
 
-    _footprint(e, d);
-    _gridAndStakes(e, d);
+    _footprint(e);
+    _gridAndStakes(e);
 
     // Excavation trench
     e.add(
@@ -66,13 +64,13 @@ class EarthbagSceneBuilder {
         id: 'excavation_trench',
         label: 'Foundation Trench',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.trenchWidth,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + d.trenchWidth,
+          width: EarthbagDimensions.buildingWidth + EarthbagDimensions.trenchWidth,
+          height: EarthbagDimensions.trenchDepth,
+          depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.trenchWidth,
           center: BimVec3(
-            d.centerX,
-            -d.trenchDepth / 2 + 0.05,
-            d.centerZ,
+            EarthbagDimensions.centerX,
+            -EarthbagDimensions.trenchDepth / 2 + 0.05,
+            EarthbagDimensions.centerZ,
           ),
         ),
         color: const Color(0xFF92400E),
@@ -87,10 +85,10 @@ class EarthbagSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Soil',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1,
+          width: EarthbagDimensions.buildingWidth + 1,
           height: 0.2,
-          depth: d.buildingDepth + 1,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.1, d.centerZ),
+          depth: EarthbagDimensions.buildingDepth + 1,
+          center: BimVec3(EarthbagDimensions.centerX, -EarthbagDimensions.trenchDepth + 0.1, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -115,7 +113,7 @@ class EarthbagSceneBuilder {
           category: BimEntityCategory.masonry,
           position: BimVec3(
             0.5 + (i % 4) * 1.3,
-            -d.trenchDepth + 0.1 + (i ~/ 4) * 0.08,
+            -EarthbagDimensions.trenchDepth + 0.1 + (i ~/ 4) * 0.08,
             0.3 + (i ~/ 2) * 0.9,
           ),
           explodeGroup: 1,
@@ -129,13 +127,13 @@ class EarthbagSceneBuilder {
         id: 'gravel_base',
         label: 'Compacted Gravel',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.4,
-          height: d.gravelThickness,
-          depth: d.buildingDepth + 0.4,
+          width: EarthbagDimensions.buildingWidth + 0.4,
+          height: EarthbagDimensions.gravelThickness,
+          depth: EarthbagDimensions.buildingDepth + 0.4,
           center: BimVec3(
-            d.centerX,
-            -d.trenchDepth + d.rubbleDepth + d.gravelThickness / 2,
-            d.centerZ,
+            EarthbagDimensions.centerX,
+            -EarthbagDimensions.trenchDepth + EarthbagDimensions.rubbleDepth + EarthbagDimensions.gravelThickness / 2,
+            EarthbagDimensions.centerZ,
           ),
         ),
         color: const Color(0xFFA8A29E),
@@ -151,32 +149,32 @@ class EarthbagSceneBuilder {
       BimEntity(
         id: 'drainage_pipe',
         label: 'Drainage Layer',
-        mesh: BimMesh.cylinder(radius: 0.05, height: d.buildingWidth),
+        mesh: BimMesh.cylinder(radius: 0.05, height: EarthbagDimensions.buildingWidth),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.drainage,
-        position: BimVec3(0.2, -d.trenchDepth + 0.15, d.centerZ),
+        position: BimVec3(0.2, -EarthbagDimensions.trenchDepth + 0.15, EarthbagDimensions.centerZ),
         minStage: 3,
         buildProgress: 0,
       ),
     );
 
-  final baseY = -d.trenchDepth + d.rubbleDepth + d.gravelThickness;
+  final baseY = -EarthbagDimensions.trenchDepth + EarthbagDimensions.rubbleDepth + EarthbagDimensions.gravelThickness;
 
     // First course in trench
-    _addBagCourse(e, d, course: 0, baseY: baseY, minStage: 4, idPrefix: 'first');
+    _addBagCourse(e, course: 0, baseY: baseY, minStage: 4, idPrefix: 'first');
 
     // Barbed wire layers (between courses)
-    for (var c = 1; c <= d.courses; c++) {
-      final wireY = baseY + c * d.bagHeight;
+    for (var c = 1; c <= EarthbagDimensions.courses; c++) {
+      final wireY = baseY + c * EarthbagDimensions.bagHeight;
       e.add(
         BimEntity(
           id: 'barbed_wire_$c',
           label: 'Barbed Wire Reinforcement',
           mesh: BimMesh.box(
-            width: d.buildingWidth + d.wallThickness,
+            width: EarthbagDimensions.buildingWidth + EarthbagDimensions.wallThickness,
             height: 0.008,
-            depth: d.buildingDepth + d.wallThickness,
-            center: BimVec3(d.centerX, wireY, d.centerZ),
+            depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.wallThickness,
+            center: BimVec3(EarthbagDimensions.centerX, wireY, EarthbagDimensions.centerZ),
           ),
           color: const Color(0xFF525252),
           category: BimEntityCategory.wire,
@@ -190,10 +188,9 @@ class EarthbagSceneBuilder {
     }
 
     // Wall courses 1..courses-1 (course 0 already first)
-    for (var course = 1; course < d.courses; course++) {
+    for (var course = 1; course < EarthbagDimensions.courses; course++) {
       _addBagCourse(
         e,
-        d,
         course: course,
         baseY: baseY,
         minStage: 6,
@@ -207,13 +204,13 @@ class EarthbagSceneBuilder {
         id: 'buttress',
         label: 'Buttress Wall',
         mesh: BimMesh.box(
-          width: d.buttressWidth,
-          height: d.wallHeight * 0.85,
-          depth: d.wallThickness,
+          width: EarthbagDimensions.buttressWidth,
+          height: EarthbagDimensions.wallHeight * 0.85,
+          depth: EarthbagDimensions.wallThickness,
         ),
         color: const Color(0xFFA16207),
         category: BimEntityCategory.earthbag,
-        position: BimVec3(-0.15, baseY, d.buildingDepth - 0.1),
+        position: BimVec3(-0.15, baseY, EarthbagDimensions.buildingDepth - 0.1),
         explodeGroup: 2,
         minStage: 6,
         buildProgress: 0,
@@ -221,19 +218,19 @@ class EarthbagSceneBuilder {
     );
 
     // Vertical reinforcement
-    final wallTop = baseY + d.courses * d.bagHeight;
+    final wallTop = baseY + EarthbagDimensions.courses * EarthbagDimensions.bagHeight;
     for (var i = 0; i < 6; i++) {
       e.add(
         BimEntity(
           id: 'vbar_$i',
           label: 'Vertical Reinforcement',
-          mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.wallHeight),
+          mesh: BimMesh.cylinder(radius: EarthbagDimensions.rebarRadius, height: EarthbagDimensions.wallHeight),
           color: const Color(0xFFEA580C),
           category: BimEntityCategory.rebar,
           position: BimVec3(
-            0.4 + i * (d.buildingWidth - 0.8) / 5,
+            0.4 + i * (EarthbagDimensions.buildingWidth - 0.8) / 5,
             baseY,
-            i.isEven ? 0.15 : d.buildingDepth - 0.15,
+            i.isEven ? 0.15 : EarthbagDimensions.buildingDepth - 0.15,
           ),
           explodeGroup: 2,
           minStage: 7,
@@ -252,7 +249,7 @@ class EarthbagSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 2.1, depth: 0.12),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.timber,
-        position: BimVec3(d.centerX - 0.5, baseY, 0),
+        position: BimVec3(EarthbagDimensions.centerX - 0.5, baseY, 0),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -264,7 +261,7 @@ class EarthbagSceneBuilder {
         mesh: BimMesh.box(width: 1.1, height: 1.0, depth: 0.1),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.timber,
-        position: BimVec3(d.buildingWidth - 0.15, baseY + 1.0, d.centerZ),
+        position: BimVec3(EarthbagDimensions.buildingWidth - 0.15, baseY + 1.0, EarthbagDimensions.centerZ),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -276,10 +273,10 @@ class EarthbagSceneBuilder {
         id: 'plinth_band',
         label: 'RC Plinth Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness,
-          height: d.plinthBandHeight,
-          depth: d.buildingDepth + d.wallThickness,
-          center: BimVec3(d.centerX, baseY + d.plinthBandHeight / 2, d.centerZ),
+          width: EarthbagDimensions.buildingWidth + EarthbagDimensions.wallThickness,
+          height: EarthbagDimensions.plinthBandHeight,
+          depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.wallThickness,
+          center: BimVec3(EarthbagDimensions.centerX, baseY + EarthbagDimensions.plinthBandHeight / 2, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.concrete,
@@ -296,10 +293,10 @@ class EarthbagSceneBuilder {
         id: 'lintel_band',
         label: 'RC Lintel Band',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness * 1.1,
-          height: d.bandHeight,
-          depth: d.buildingDepth + d.wallThickness * 1.1,
-          center: BimVec3(d.centerX, wallTop + d.bandHeight / 2, d.centerZ),
+          width: EarthbagDimensions.buildingWidth + EarthbagDimensions.wallThickness * 1.1,
+          height: EarthbagDimensions.bandHeight,
+          depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.wallThickness * 1.1,
+          center: BimVec3(EarthbagDimensions.centerX, wallTop + EarthbagDimensions.bandHeight / 2, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
@@ -315,10 +312,10 @@ class EarthbagSceneBuilder {
         id: 'lintel_rebar',
         label: 'Lintel Rebar Cage',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
-          height: d.bandHeight * 0.6,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, wallTop + d.bandHeight * 0.3, d.centerZ),
+          width: EarthbagDimensions.buildingWidth,
+          height: EarthbagDimensions.bandHeight * 0.6,
+          depth: EarthbagDimensions.buildingDepth,
+          center: BimVec3(EarthbagDimensions.centerX, wallTop + EarthbagDimensions.bandHeight * 0.3, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
@@ -338,8 +335,8 @@ class EarthbagSceneBuilder {
           category: BimEntityCategory.rebar,
           position: BimVec3(
             0.5 + (i % 4) * 1.5,
-            wallTop + d.bandHeight,
-            i < 4 ? 0.3 : d.buildingDepth - 0.3,
+            wallTop + EarthbagDimensions.bandHeight,
+            i < 4 ? 0.3 : EarthbagDimensions.buildingDepth - 0.3,
           ),
           minStage: 10,
           pickable: i == 0,
@@ -350,13 +347,13 @@ class EarthbagSceneBuilder {
     }
 
     // Timber roof trusses
-    final roofY = wallTop + d.bandHeight + 0.1;
+    final roofY = wallTop + EarthbagDimensions.bandHeight + 0.1;
     for (var t = 0; t < 3; t++) {
       e.add(
         BimEntity(
           id: 'truss_$t',
           label: 'Timber Truss',
-          mesh: BimMesh.box(width: 0.12, height: 1.4, depth: d.buildingDepth + 0.4),
+          mesh: BimMesh.box(width: 0.12, height: 1.4, depth: EarthbagDimensions.buildingDepth + 0.4),
           color: const Color(0xFF92400E),
           category: BimEntityCategory.timber,
           position: BimVec3(1.0 + t * 1.8, roofY + 0.7, -0.2),
@@ -371,10 +368,10 @@ class EarthbagSceneBuilder {
         id: 'roof_sheeting',
         label: 'Roof Sheeting',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.6,
+          width: EarthbagDimensions.buildingWidth + 0.6,
           height: 0.04,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, roofY + 1.45, d.centerZ),
+          depth: EarthbagDimensions.buildingDepth + 0.8,
+          center: BimVec3(EarthbagDimensions.centerX, roofY + 1.45, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF64748B),
         category: BimEntityCategory.timber,
@@ -390,10 +387,10 @@ class EarthbagSceneBuilder {
         id: 'wire_mesh',
         label: 'Wire Mesh',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness * 2,
-          height: d.wallHeight,
-          depth: d.buildingDepth + d.wallThickness * 2,
-          center: BimVec3(d.centerX, baseY + d.wallHeight / 2, d.centerZ),
+          width: EarthbagDimensions.buildingWidth + EarthbagDimensions.wallThickness * 2,
+          height: EarthbagDimensions.wallHeight,
+          depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.wallThickness * 2,
+          center: BimVec3(EarthbagDimensions.centerX, baseY + EarthbagDimensions.wallHeight / 2, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFFD4D4D8),
         category: BimEntityCategory.finishing,
@@ -407,10 +404,10 @@ class EarthbagSceneBuilder {
         id: 'exterior_plaster',
         label: 'Exterior Plaster',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.wallThickness * 2 + 0.04,
-          height: d.wallHeight + 0.1,
-          depth: d.buildingDepth + d.wallThickness * 2 + 0.04,
-          center: BimVec3(d.centerX, baseY + d.wallHeight / 2, d.centerZ),
+          width: EarthbagDimensions.buildingWidth + EarthbagDimensions.wallThickness * 2 + 0.04,
+          height: EarthbagDimensions.wallHeight + 0.1,
+          depth: EarthbagDimensions.buildingDepth + EarthbagDimensions.wallThickness * 2 + 0.04,
+          center: BimVec3(EarthbagDimensions.centerX, baseY + EarthbagDimensions.wallHeight / 2, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFFE7E5E4),
         category: BimEntityCategory.finishing,
@@ -426,10 +423,10 @@ class EarthbagSceneBuilder {
         id: 'drainage_apron',
         label: 'Drainage Apron',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 3,
+          width: EarthbagDimensions.buildingWidth + 3,
           height: 0.08,
-          depth: d.buildingDepth + 3,
-          center: BimVec3(d.centerX, 0.04, d.centerZ),
+          depth: EarthbagDimensions.buildingDepth + 3,
+          center: BimVec3(EarthbagDimensions.centerX, 0.04, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF94A3B8),
         category: BimEntityCategory.drainage,
@@ -448,7 +445,7 @@ class EarthbagSceneBuilder {
           color: const Color(0xFF166534),
           category: BimEntityCategory.finishing,
           position: BimVec3(
-            i < 2 ? -0.5 : d.plotWidth - 1,
+            i < 2 ? -0.5 : EarthbagDimensions.plotWidth - 1,
             0,
             2 + i * 2.5,
           ),
@@ -461,16 +458,16 @@ class EarthbagSceneBuilder {
     return e;
   }
 
-  void _footprint(List<BimEntity> e, EarthbagDimensions d) {
+  void _footprint(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'footprint',
         label: 'Building Footprint',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: EarthbagDimensions.buildingWidth,
           height: 0.03,
-          depth: d.buildingDepth,
-          center: BimVec3(d.centerX, 0.05, d.centerZ),
+          depth: EarthbagDimensions.buildingDepth,
+          center: BimVec3(EarthbagDimensions.centerX, 0.05, EarthbagDimensions.centerZ),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -480,16 +477,16 @@ class EarthbagSceneBuilder {
     );
   }
 
-  void _gridAndStakes(List<BimEntity> e, EarthbagDimensions d) {
+  void _gridAndStakes(List<BimEntity> e) {
     for (var i = 0; i <= 5; i++) {
       e.add(
         BimEntity(
           id: 'grid_x_$i',
           label: 'Survey Grid',
-          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: d.buildingDepth + 0.5),
+          mesh: BimMesh.box(width: 0.015, height: 0.01, depth: EarthbagDimensions.buildingDepth + 0.5),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 5), 0.08, -0.25),
+          position: BimVec3(i * (EarthbagDimensions.buildingWidth / 5), 0.08, -0.25),
           minStage: 1,
           buildProgress: 0,
         ),
@@ -497,9 +494,9 @@ class EarthbagSceneBuilder {
     }
     for (final (x, z) in [
       (0.0, 0.0),
-      (d.buildingWidth, 0.0),
-      (d.buildingWidth, d.buildingDepth),
-      (0.0, d.buildingDepth),
+      (EarthbagDimensions.buildingWidth, 0.0),
+      (EarthbagDimensions.buildingWidth, EarthbagDimensions.buildingDepth),
+      (0.0, EarthbagDimensions.buildingDepth),
     ]) {
       e.add(
         BimEntity(
@@ -522,7 +519,7 @@ class EarthbagSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 0.02, depth: 0.2),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX - 0.5, 0.09, 0),
+        position: BimVec3(EarthbagDimensions.centerX - 0.5, 0.09, 0),
         minStage: 1,
         buildProgress: 0,
       ),
@@ -530,19 +527,18 @@ class EarthbagSceneBuilder {
   }
 
   void _addBagCourse(
-    List<BimEntity> e,
-    EarthbagDimensions d, {
+    List<BimEntity> e, {
     required int course,
     required double baseY,
     required int minStage,
     required String idPrefix,
   }) {
-    final y = baseY + course * d.bagHeight;
+    final y = baseY + course * EarthbagDimensions.bagHeight;
     var idx = 0;
     // Perimeter bags
-    for (var bx = 0; bx < (d.buildingWidth / d.bagLength).ceil(); bx++) {
-      final x = bx * d.bagLength * 0.95;
-      for (final z in [0.0, d.buildingDepth - d.bagDepth]) {
+    for (var bx = 0; bx < (EarthbagDimensions.buildingWidth / EarthbagDimensions.bagLength).ceil(); bx++) {
+      final x = bx * EarthbagDimensions.bagLength * 0.95;
+      for (final z in [0.0, EarthbagDimensions.buildingDepth - EarthbagDimensions.bagDepth]) {
         e.add(_bag(
           '${idPrefix}_bag_${course}_$idx',
           x,
@@ -554,9 +550,9 @@ class EarthbagSceneBuilder {
         idx++;
       }
     }
-    for (var bz = 1; bz < (d.buildingDepth / d.bagLength).ceil() - 1; bz++) {
-      final z = bz * d.bagLength * 0.95;
-      for (final x in [0.0, d.buildingWidth - d.bagDepth]) {
+    for (var bz = 1; bz < (EarthbagDimensions.buildingDepth / EarthbagDimensions.bagLength).ceil() - 1; bz++) {
+      final z = bz * EarthbagDimensions.bagLength * 0.95;
+      for (final x in [0.0, EarthbagDimensions.buildingWidth - EarthbagDimensions.bagDepth]) {
         e.add(_bag(
           '${idPrefix}_bag_${course}_$idx',
           x,
@@ -578,14 +574,13 @@ class EarthbagSceneBuilder {
     int minStage,
     int course,
   ) {
-    final d = EarthbagDimensions;
-    return BimEntity(
+        return BimEntity(
       id: id,
       label: 'Earthbag',
       mesh: BimMesh.box(
-        width: d.bagLength,
-        height: d.bagHeight,
-        depth: d.bagDepth,
+        width: EarthbagDimensions.bagLength,
+        height: EarthbagDimensions.bagHeight,
+        depth: EarthbagDimensions.bagDepth,
       ),
       color: Color.lerp(
         const Color(0xFFD97706),

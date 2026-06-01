@@ -1,13 +1,23 @@
 # ResilientBuild Pakistan
 
-National disaster-resilient housing and infrastructure knowledge platform — **Choose Location. Build Safe.**
+**Public engineering education platform** — offline-first resilient construction digital twin for Pakistan.
 
 | Layer | Path |
 |-------|------|
-| **Production app** | [`mobile/`](mobile/) — Flutter (Android + Web) |
-| **UI reference** | [`src/`](src/) — React/Figma prototype (do not redesign) |
-| **AWS backend** | [`backend/`](backend/) + [`terraform/`](terraform/) |
+| **App** | [`mobile/`](mobile/) — Flutter (Android + Web) |
+| **UI reference** | [`src/`](src/) — React/Figma prototype |
+| **BIM pipeline** | [`tools/bim_generator/`](tools/bim_generator/) — GLB stage generation |
 | **Documentation** | [`docs/`](docs/) |
+
+## User journey
+
+1. Select **district** (or GPS) in Pakistan  
+2. Evaluate **flood, earthquake, landslide, GLOF, wind**  
+3. View **recommended resilient models**  
+4. Enter **Digital Twin Mode** — GLB construction sequence + engineering views  
+5. Run **hazard simulations** and tap components to learn  
+
+No login. No backend required after install.
 
 ## Quick start
 
@@ -17,33 +27,21 @@ flutter pub get
 flutter run -d chrome   # or android device
 ```
 
-## Capabilities
+## Deploy to Vercel
 
-- **Location intelligence** — GPS / map, flood, earthquake, landslide, GLOF, wind
-- **HazardRecommendationEngine** — ranks 16+ resilient housing models
-- **BIM 4D simulation** — 16 procedural engineering simulators (timeline, narration, view modes)
-- **ResilientModelRegistry** — unified catalog (materials, scores, BIM linkage)
-- **Offline-first** — bundled JSON + Hive
-- **Admin scaffold** — `/admin` (full CMS via AWS when deployed)
+Connect the GitHub repo in Vercel and deploy — configuration is in `vercel.json`.  
+Details: [DEPLOYMENT_READY.md](DEPLOYMENT_READY.md)
 
-## Production deployment
+## Core modules
 
-See [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md).
-
-| Target | Command / service |
-|--------|-------------------|
-| Web | Vercel (`vercel.json` → `flutter build web`) |
-| Android | `flutter build apk --release` |
-| API | Terraform → API Gateway + Lambda |
-| Assets | S3 + CloudFront |
-
-## Documentation
-
-- [Project audit](docs/PROJECT_AUDIT.md)
-- [System architecture](SYSTEM_ARCHITECTURE.md)
-- [API](API_DOCUMENTATION.md)
-- [Contributing](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
+- Location & district selection  
+- Hazard recommendation engine  
+- Model library (16+ resilient housing types)  
+- Digital Twin (GLB timeline + procedural structural views)  
+- Construction animation (per-stage GLB assets)  
+- Engineering knowledge (academy, materials, component tap)  
+- PDF guidance library (bundled)  
+- Offline storage (Hive)
 
 ## Repository
 

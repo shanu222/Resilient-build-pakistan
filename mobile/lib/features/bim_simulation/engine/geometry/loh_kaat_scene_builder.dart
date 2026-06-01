@@ -9,35 +9,33 @@ import '../math/bim_vec3.dart';
 class LohKaatSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-    final d = LohKaatDimensions;
-
-    _site(e, d);
-    _settingOut(e, d);
-    _excavation(e, d);
-    _stoneFoundation(e, d);
-    _timberTreatment(e, d);
-    _timberBands(e, d);
-    _masonryWalls(e, d);
-    _openings(e, d);
-    _cornerColumns(e, d);
-    _roof(e, d);
-    _finishing(e, d);
-    _landscape(e, d);
-    _comparisons(e, d);
+        _site(e);
+    _settingOut(e);
+    _excavation(e);
+    _stoneFoundation(e);
+    _timberTreatment(e);
+    _timberBands(e);
+    _masonryWalls(e);
+    _openings(e);
+    _cornerColumns(e);
+    _roof(e);
+    _finishing(e);
+    _landscape(e);
+    _comparisons(e);
 
     return e;
   }
 
-  void _site(List<BimEntity> e, LohKaatDimensions d) {
+  void _site(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'mountain_terrain',
         label: 'Mountain Terrain',
         mesh: BimMesh.box(
-          width: d.plotWidth,
+          width: LohKaatDimensions.plotWidth,
           height: 0.5,
-          depth: d.plotDepth,
-          center: BimVec3(d.plotWidth / 2, -0.15, d.plotDepth / 2),
+          depth: LohKaatDimensions.plotDepth,
+          center: BimVec3(LohKaatDimensions.plotWidth / 2, -0.15, LohKaatDimensions.plotDepth / 2),
         ),
         color: const Color(0xFF6B7280),
         category: BimEntityCategory.terrain,
@@ -49,10 +47,10 @@ class LohKaatSceneBuilder {
         id: 'slope_pad',
         label: 'Building Platform',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1.5,
+          width: LohKaatDimensions.buildingWidth + 1.5,
           height: 0.2,
-          depth: d.buildingDepth + 1.5,
-          center: BimVec3(d.centerX, 0.1, d.centerZ),
+          depth: LohKaatDimensions.buildingDepth + 1.5,
+          center: BimVec3(LohKaatDimensions.centerX, 0.1, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.terrain,
@@ -67,7 +65,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 0.08, height: 0.02, depth: 3),
         color: const Color(0xFF0EA5E9),
         category: BimEntityCategory.drainage,
-        position: BimVec3(d.buildingWidth + 0.8, 0.12, d.centerZ),
+        position: BimVec3(LohKaatDimensions.buildingWidth + 0.8, 0.12, LohKaatDimensions.centerZ),
         minStage: 0,
         buildProgress: 0,
       ),
@@ -86,22 +84,22 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _settingOut(List<BimEntity> e, LohKaatDimensions d) {
+  void _settingOut(List<BimEntity> e) {
     for (var i = 0; i <= 5; i++) {
       e.add(
         BimEntity(
           id: 'grid_$i',
           label: 'Building Grid',
-          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: d.buildingDepth),
+          mesh: BimMesh.box(width: 0.02, height: 0.01, depth: LohKaatDimensions.buildingDepth),
           color: const Color(0xFF94A3B8),
           category: BimEntityCategory.grid,
-          position: BimVec3(i * (d.buildingWidth / 5), 0.14, 0),
+          position: BimVec3(i * (LohKaatDimensions.buildingWidth / 5), 0.14, 0),
           minStage: 1,
           buildProgress: 0,
         ),
       );
     }
-    for (final c in _corners(d)) {
+    for (final c in _corners()) {
       e.add(
         BimEntity(
           id: 'corner_mark_${c.$1}_${c.$2}',
@@ -120,10 +118,10 @@ class LohKaatSceneBuilder {
         id: 'wall_centerline',
         label: 'Wall Centerline',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: LohKaatDimensions.buildingWidth,
           height: 0.01,
           depth: 0.02,
-          center: BimVec3(d.centerX, 0.15, 0),
+          center: BimVec3(LohKaatDimensions.centerX, 0.15, 0),
         ),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
@@ -134,16 +132,16 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _excavation(List<BimEntity> e, LohKaatDimensions d) {
+  void _excavation(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'excavation',
         label: 'Foundation Trench',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.8,
-          height: d.trenchDepth,
-          depth: d.buildingDepth + 0.8,
-          center: BimVec3(d.centerX, -d.trenchDepth / 2 + 0.05, d.centerZ),
+          width: LohKaatDimensions.buildingWidth + 0.8,
+          height: LohKaatDimensions.trenchDepth,
+          depth: LohKaatDimensions.buildingDepth + 0.8,
+          center: BimVec3(LohKaatDimensions.centerX, -LohKaatDimensions.trenchDepth / 2 + 0.05, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.excavation,
@@ -157,10 +155,10 @@ class LohKaatSceneBuilder {
         id: 'bearing_soil',
         label: 'Bearing Soil',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 1,
+          width: LohKaatDimensions.buildingWidth + 1,
           height: 0.15,
-          depth: d.buildingDepth + 1,
-          center: BimVec3(d.centerX, -d.trenchDepth + 0.08, d.centerZ),
+          depth: LohKaatDimensions.buildingDepth + 1,
+          center: BimVec3(LohKaatDimensions.centerX, -LohKaatDimensions.trenchDepth + 0.08, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF57534E),
         category: BimEntityCategory.excavation,
@@ -173,13 +171,13 @@ class LohKaatSceneBuilder {
         id: 'pcc_layer',
         label: 'PCC Layer',
         mesh: BimMesh.box(
-          width: d.buildingWidth + 0.5,
-          height: d.pccThickness,
-          depth: d.buildingDepth + 0.5,
+          width: LohKaatDimensions.buildingWidth + 0.5,
+          height: LohKaatDimensions.pccThickness,
+          depth: LohKaatDimensions.buildingDepth + 0.5,
           center: BimVec3(
-            d.centerX,
-            -d.trenchDepth + d.pccThickness / 2,
-            d.centerZ,
+            LohKaatDimensions.centerX,
+            -LohKaatDimensions.trenchDepth + LohKaatDimensions.pccThickness / 2,
+            LohKaatDimensions.centerZ,
           ),
         ),
         color: const Color(0xFFD1D5DB),
@@ -191,25 +189,25 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _stoneFoundation(List<BimEntity> e, LohKaatDimensions d) {
-    final baseY = -d.trenchDepth + d.pccThickness;
+  void _stoneFoundation(List<BimEntity> e) {
+    final baseY = -LohKaatDimensions.trenchDepth + LohKaatDimensions.pccThickness;
     var idx = 0;
-    for (var course = 0; course < d.stoneFoundationCourses; course++) {
-      final y = baseY + course * d.stoneCourseHeight;
-      for (final pos in _perimeter(d, 0.15)) {
+    for (var course = 0; course < LohKaatDimensions.stoneFoundationCourses; course++) {
+      final y = baseY + course * LohKaatDimensions.stoneCourseHeight;
+      for (final pos in _perimeter(0.15)) {
         e.add(
           BimEntity(
             id: 'stone_found_$idx',
             label: 'Stone Foundation',
             mesh: BimMesh.box(
               width: 0.55,
-              height: d.stoneCourseHeight * 0.95,
+              height: LohKaatDimensions.stoneCourseHeight * 0.95,
               depth: 0.45,
             ),
             color: Color.lerp(
               const Color(0xFF78716C),
               const Color(0xFF57534E),
-              course / d.stoneFoundationCourses,
+              course / LohKaatDimensions.stoneFoundationCourses,
             )!,
             category: BimEntityCategory.masonry,
             position: BimVec3(pos.$1, y, pos.$2),
@@ -225,7 +223,7 @@ class LohKaatSceneBuilder {
     }
   }
 
-  void _timberTreatment(List<BimEntity> e, LohKaatDimensions d) {
+  void _timberTreatment(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'raw_timber',
@@ -233,7 +231,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 2, height: 0.12, depth: 0.12),
         color: const Color(0xFFB45309),
         category: BimEntityCategory.timber,
-        position: BimVec3(-0.8, 0.3, d.centerZ),
+        position: BimVec3(-0.8, 0.3, LohKaatDimensions.centerZ),
         minStage: 4,
         opacity: 0.7,
         buildProgress: 0,
@@ -246,7 +244,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 2, height: 0.12, depth: 0.12),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
-        position: BimVec3(-0.8, 0.5, d.centerZ),
+        position: BimVec3(-0.8, 0.5, LohKaatDimensions.centerZ),
         minStage: 4,
         buildProgress: 0,
       ),
@@ -258,7 +256,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 0.02, height: 0.8, depth: 0.8),
         color: const Color(0xFF06B6D4),
         category: BimEntityCategory.finishing,
-        position: BimVec3(-0.75, 0.35, d.centerZ),
+        position: BimVec3(-0.75, 0.35, LohKaatDimensions.centerZ),
         minStage: 4,
         opacity: 0.5,
         buildProgress: 0,
@@ -266,15 +264,14 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _timberBands(List<BimEntity> e, LohKaatDimensions d) {
-    _addBandRing(e, d, 'plinth_band', d.wallBaseY - d.bandHeight, 5);
-    _addBandRing(e, d, 'mid_band', d.midBandY, 7);
-    _addBandRing(e, d, 'lintel_band', d.lintelBandY, 9);
+  void _timberBands(List<BimEntity> e) {
+    _addBandRing(e, 'plinth_band', LohKaatDimensions.wallBaseY - LohKaatDimensions.bandHeight, 5);
+    _addBandRing(e, 'mid_band', LohKaatDimensions.midBandY, 7);
+    _addBandRing(e, 'lintel_band', LohKaatDimensions.lintelBandY, 9);
   }
 
   void _addBandRing(
     List<BimEntity> e,
-    LohKaatDimensions d,
     String prefix,
     double y,
     int minStage,
@@ -284,10 +281,10 @@ class LohKaatSceneBuilder {
         id: '${prefix}_front',
         label: 'Timber Band (Kaat)',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.bandDepth,
-          height: d.bandHeight,
-          depth: d.bandDepth,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, 0),
+          width: LohKaatDimensions.buildingWidth + LohKaatDimensions.bandDepth,
+          height: LohKaatDimensions.bandHeight,
+          depth: LohKaatDimensions.bandDepth,
+          center: BimVec3(LohKaatDimensions.centerX, y + LohKaatDimensions.bandHeight / 2, 0),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
@@ -303,10 +300,10 @@ class LohKaatSceneBuilder {
         id: '${prefix}_rear',
         label: 'Timber Band (Kaat)',
         mesh: BimMesh.box(
-          width: d.buildingWidth + d.bandDepth,
-          height: d.bandHeight,
-          depth: d.bandDepth,
-          center: BimVec3(d.centerX, y + d.bandHeight / 2, d.buildingDepth),
+          width: LohKaatDimensions.buildingWidth + LohKaatDimensions.bandDepth,
+          height: LohKaatDimensions.bandHeight,
+          depth: LohKaatDimensions.bandDepth,
+          center: BimVec3(LohKaatDimensions.centerX, y + LohKaatDimensions.bandHeight / 2, LohKaatDimensions.buildingDepth),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
@@ -321,10 +318,10 @@ class LohKaatSceneBuilder {
         id: '${prefix}_left',
         label: 'Timber Band (Kaat)',
         mesh: BimMesh.box(
-          width: d.bandDepth,
-          height: d.bandHeight,
-          depth: d.buildingDepth + d.bandDepth,
-          center: BimVec3(0, y + d.bandHeight / 2, d.centerZ),
+          width: LohKaatDimensions.bandDepth,
+          height: LohKaatDimensions.bandHeight,
+          depth: LohKaatDimensions.buildingDepth + LohKaatDimensions.bandDepth,
+          center: BimVec3(0, y + LohKaatDimensions.bandHeight / 2, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
@@ -339,10 +336,10 @@ class LohKaatSceneBuilder {
         id: '${prefix}_right',
         label: 'Timber Band (Kaat)',
         mesh: BimMesh.box(
-          width: d.bandDepth,
-          height: d.bandHeight,
-          depth: d.buildingDepth + d.bandDepth,
-          center: BimVec3(d.buildingWidth, y + d.bandHeight / 2, d.centerZ),
+          width: LohKaatDimensions.bandDepth,
+          height: LohKaatDimensions.bandHeight,
+          depth: LohKaatDimensions.buildingDepth + LohKaatDimensions.bandDepth,
+          center: BimVec3(LohKaatDimensions.buildingWidth, y + LohKaatDimensions.bandHeight / 2, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
@@ -352,15 +349,15 @@ class LohKaatSceneBuilder {
         buildProgress: 0,
       ),
     );
-    for (final c in _corners(d)) {
+    for (final c in _corners()) {
       e.add(
         BimEntity(
           id: '${prefix}_corner_${c.$1}_${c.$2}',
           label: 'Corner Interlock',
           mesh: BimMesh.box(
-            width: d.bandDepth * 1.5,
-            height: d.bandHeight,
-            depth: d.bandDepth * 1.5,
+            width: LohKaatDimensions.bandDepth * 1.5,
+            height: LohKaatDimensions.bandHeight,
+            depth: LohKaatDimensions.bandDepth * 1.5,
           ),
           color: const Color(0xFF78350F),
           category: BimEntityCategory.timber,
@@ -373,19 +370,19 @@ class LohKaatSceneBuilder {
     }
   }
 
-  void _masonryWalls(List<BimEntity> e, LohKaatDimensions d) {
-    final baseY = d.wallBaseY;
+  void _masonryWalls(List<BimEntity> e) {
+    final baseY = LohKaatDimensions.wallBaseY;
     var idx = 0;
-    for (var course = 0; course < d.masonryCourses; course++) {
-      final y = baseY + course * d.masonryCourseHeight;
-      for (final pos in _perimeter(d, 0)) {
+    for (var course = 0; course < LohKaatDimensions.masonryCourses; course++) {
+      final y = baseY + course * LohKaatDimensions.masonryCourseHeight;
+      for (final pos in _perimeter(0)) {
         e.add(
           BimEntity(
             id: 'masonry_$idx',
             label: 'Masonry Wall',
             mesh: BimMesh.box(
               width: 0.5,
-              height: d.masonryCourseHeight * 0.92,
+              height: LohKaatDimensions.masonryCourseHeight * 0.92,
               depth: 0.42,
             ),
             color: Color.lerp(
@@ -422,8 +419,8 @@ class LohKaatSceneBuilder {
     }
   }
 
-  void _openings(List<BimEntity> e, LohKaatDimensions d) {
-    final y = d.wallBaseY + 0.8;
+  void _openings(List<BimEntity> e) {
+    final y = LohKaatDimensions.wallBaseY + 0.8;
     e.add(
       BimEntity(
         id: 'door_frame',
@@ -431,7 +428,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 0.9, height: 2.0, depth: 0.1),
         color: const Color(0xFF78350F),
         category: BimEntityCategory.timber,
-        position: BimVec3(d.centerX - 0.45, y, 0),
+        position: BimVec3(LohKaatDimensions.centerX - 0.45, y, 0),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -443,7 +440,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 1.0, height: 1.0, depth: 0.08),
         color: const Color(0xFF38BDF8),
         category: BimEntityCategory.timber,
-        position: BimVec3(d.buildingWidth - 0.1, y + 0.4, d.centerZ),
+        position: BimVec3(LohKaatDimensions.buildingWidth - 0.1, y + 0.4, LohKaatDimensions.centerZ),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -455,7 +452,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 1.1, height: 0.1, depth: 0.1),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
-        position: BimVec3(d.centerX - 0.55, y + 2.1, 0),
+        position: BimVec3(LohKaatDimensions.centerX - 0.55, y + 2.1, 0),
         minStage: 8,
         buildProgress: 0,
       ),
@@ -467,7 +464,7 @@ class LohKaatSceneBuilder {
         mesh: BimMesh.box(width: 0.05, height: 0.6, depth: 0.05),
         color: const Color(0xFFF97316),
         category: BimEntityCategory.annotation,
-        position: BimVec3(d.centerX + 0.5, y + 1, 0.05),
+        position: BimVec3(LohKaatDimensions.centerX + 0.5, y + 1, 0.05),
         minStage: 8,
         opacity: 0.8,
         buildProgress: 0,
@@ -475,17 +472,17 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _cornerColumns(List<BimEntity> e, LohKaatDimensions d) {
-    final baseY = d.wallBaseY;
+  void _cornerColumns(List<BimEntity> e) {
+    final baseY = LohKaatDimensions.wallBaseY;
     for (var i = 0; i < 4; i++) {
-      final c = _corners(d)[i];
+      final c = _corners()[i];
       e.add(
         BimEntity(
           id: 'timber_column_$i',
           label: 'Timber Column',
           mesh: BimMesh.box(
             width: 0.12,
-            height: d.wallHeight,
+            height: LohKaatDimensions.wallHeight,
             depth: 0.12,
           ),
           color: const Color(0xFF78350F),
@@ -504,10 +501,10 @@ class LohKaatSceneBuilder {
         id: 'timber_beam_tie',
         label: 'Timber Beam',
         mesh: BimMesh.box(
-          width: d.buildingWidth,
+          width: LohKaatDimensions.buildingWidth,
           height: 0.1,
           depth: 0.1,
-          center: BimVec3(d.centerX, baseY + d.wallHeight - 0.05, d.centerZ),
+          center: BimVec3(LohKaatDimensions.centerX, baseY + LohKaatDimensions.wallHeight - 0.05, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF92400E),
         category: BimEntityCategory.timber,
@@ -518,8 +515,8 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _roof(List<BimEntity> e, LohKaatDimensions d) {
-    final y = d.roofBaseY;
+  void _roof(List<BimEntity> e) {
+    final y = LohKaatDimensions.roofBaseY;
     for (var i = 0; i < 6; i++) {
       e.add(
         BimEntity(
@@ -541,7 +538,7 @@ class LohKaatSceneBuilder {
         BimEntity(
           id: 'purlin_$i',
           label: 'Purlin',
-          mesh: BimMesh.box(width: d.buildingWidth, height: 0.07, depth: 0.07),
+          mesh: BimMesh.box(width: LohKaatDimensions.buildingWidth, height: 0.07, depth: 0.07),
           color: const Color(0xFF78350F),
           category: BimEntityCategory.timber,
           position: BimVec3(0, y + 0.35 + i * 0.08, 0.8 + i * 0.9),
@@ -583,17 +580,17 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _finishing(List<BimEntity> e, LohKaatDimensions d) {
-    final y = d.wallBaseY;
+  void _finishing(List<BimEntity> e) {
+    final y = LohKaatDimensions.wallBaseY;
     e.add(
       BimEntity(
         id: 'wall_plaster',
         label: 'Wall Finish',
         mesh: BimMesh.box(
           width: 0.02,
-          height: d.wallHeight,
-          depth: d.buildingDepth,
-          center: BimVec3(d.buildingWidth + 0.02, y + d.wallHeight / 2, d.centerZ),
+          height: LohKaatDimensions.wallHeight,
+          depth: LohKaatDimensions.buildingDepth,
+          center: BimVec3(LohKaatDimensions.buildingWidth + 0.02, y + LohKaatDimensions.wallHeight / 2, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFFF5F5F4),
         category: BimEntityCategory.finishing,
@@ -607,10 +604,10 @@ class LohKaatSceneBuilder {
         id: 'floor_finish',
         label: 'Flooring',
         mesh: BimMesh.box(
-          width: d.buildingWidth - 0.2,
+          width: LohKaatDimensions.buildingWidth - 0.2,
           height: 0.03,
-          depth: d.buildingDepth - 0.2,
-          center: BimVec3(d.centerX, y - 0.02, d.centerZ),
+          depth: LohKaatDimensions.buildingDepth - 0.2,
+          center: BimVec3(LohKaatDimensions.centerX, y - 0.02, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFFD6D3D1),
         category: BimEntityCategory.finishing,
@@ -620,7 +617,7 @@ class LohKaatSceneBuilder {
     );
   }
 
-  void _landscape(List<BimEntity> e, LohKaatDimensions d) {
+  void _landscape(List<BimEntity> e) {
     for (var i = 0; i < 5; i++) {
       e.add(
         BimEntity(
@@ -637,16 +634,16 @@ class LohKaatSceneBuilder {
     }
   }
 
-  void _comparisons(List<BimEntity> e, LohKaatDimensions d) {
+  void _comparisons(List<BimEntity> e) {
     e.add(
       BimEntity(
         id: 'no_band_wall_ghost',
         label: 'Without Timber Bands',
         mesh: BimMesh.box(
           width: 1.2,
-          height: d.wallHeight,
+          height: LohKaatDimensions.wallHeight,
           depth: 0.5,
-          center: BimVec3(-0.7, d.wallBaseY + d.wallHeight / 2, d.centerZ),
+          center: BimVec3(-0.7, LohKaatDimensions.wallBaseY + LohKaatDimensions.wallHeight / 2, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFFDC2626),
         category: BimEntityCategory.annotation,
@@ -661,9 +658,9 @@ class LohKaatSceneBuilder {
         label: 'With Timber Bands',
         mesh: BimMesh.box(
           width: 0.08,
-          height: d.wallHeight,
+          height: LohKaatDimensions.wallHeight,
           depth: 0.08,
-          center: BimVec3(-0.55, d.wallBaseY + d.wallHeight / 2, d.centerZ),
+          center: BimVec3(-0.55, LohKaatDimensions.wallBaseY + LohKaatDimensions.wallHeight / 2, LohKaatDimensions.centerZ),
         ),
         color: const Color(0xFF22C55E),
         category: BimEntityCategory.annotation,
@@ -674,16 +671,16 @@ class LohKaatSceneBuilder {
     );
   }
 
-  List<(double, double)> _corners(LohKaatDimensions d) => [
+  List<(double, double)> _corners() => [
     (0, 0),
-    (d.buildingWidth, 0),
-    (0, d.buildingDepth),
-    (d.buildingWidth, d.buildingDepth),
+    (LohKaatDimensions.buildingWidth, 0),
+    (0, LohKaatDimensions.buildingDepth),
+    (LohKaatDimensions.buildingWidth, LohKaatDimensions.buildingDepth),
   ];
 
-  List<(double, double)> _perimeter(LohKaatDimensions d, double inset) {
-    final w = d.buildingWidth;
-    final dep = d.buildingDepth;
+  List<(double, double)> _perimeter(double inset) {
+    final w = LohKaatDimensions.buildingWidth;
+    final dep = LohKaatDimensions.buildingDepth;
     final out = <(double, double)>[];
     for (var x = inset; x < w - 0.45; x += 0.48) {
       out.add((x, inset));

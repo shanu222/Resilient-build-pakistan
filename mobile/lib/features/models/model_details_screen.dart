@@ -7,7 +7,6 @@ import '../../core/theme/app_colors.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../data/models/house_model.dart';
 import '../../data/models/resilience_dimensions.dart';
-import '../bim_simulation/engine/bim_scene_registry.dart';
 import '../../providers/app_providers.dart';
 import '../pdf/pdf_viewer_screen.dart';
 
@@ -110,14 +109,9 @@ class _ModelDetailsScreenState extends ConsumerState<ModelDetailsScreen>
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: PrimaryButton(
-                label: 'Start Construction Guide',
-                icon: Icons.chevron_right,
-                    onPressed: () {
-                      final path = BimSceneRegistry.hasBimSimulation(house.id)
-                          ? '/bim/${house.id}'
-                          : '/construction/${house.id}';
-                      context.push(path);
-                    },
+                label: 'Enter Digital Twin Mode',
+                icon: Icons.view_in_ar,
+                    onPressed: () => context.push('/bim/${house.id}'),
               ),
             ),
           ),

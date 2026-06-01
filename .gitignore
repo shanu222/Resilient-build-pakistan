@@ -1,24 +1,19 @@
 # Flutter
 mobile/.dart_tool/
 mobile/build/
+mobile/android/
 mobile/.flutter-plugins
 mobile/.flutter-plugins-dependencies
 mobile/.packages
-mobile/lib/firebase_options.dart
+.pub-cache/
 
 # Node
-backend/lambda/node_modules/
-backend/lambda/dist/
-
-# Terraform
-terraform/.terraform/
-terraform/*.tfstate
-terraform/*.tfstate.*
+node_modules/
+dist/
 
 # Env & secrets
 .env
-.env.staging
-.env.production
+.env.*
 *.pem
 *.keystore
 
@@ -30,7 +25,3 @@ terraform/*.tfstate.*
 # OS
 .DS_Store
 Thumbs.db
-
-# React prototype
-node_modules/
-dist/

@@ -15,7 +15,7 @@ class HomeDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
-  final _searchController = TextEditingController();
+  Map<String, dynamic>? _selectedDistrict;
 
   Future<void> _useMyLocation() async {
     var permission = await Geolocator.checkPermission();
@@ -40,21 +40,35 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
     if (mounted) context.push('/location/current');
   }
 
+  Future<void> _analyzeDistrict() async {
+    final d = _selectedDistrict;
+    if (d == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Select a district first')),
+      );
+      return;
+    }
+    await ref.read(locationProvider.notifier).analyzeDistrict(d);
+    if (mounted) context.push('/location/current');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final districtsAsync = ref.watch(districtsProvider);
+    final location = ref.watch(locationProvider);
+
     final quickActions = [
-      (Icons.navigation, 'Explore My Location', Colors.blue, _useMyLocation),
-      (Icons.warning_amber, 'Hazard Assessment', AppColors.orange, _useMyLocation),
-      (Icons.apartment, 'House Models', AppColors.navy, () => context.push('/models')),
-      (Icons.school, 'Construction Academy', Colors.green, () => context.push('/academy')),
-      (Icons.calculate, 'Resilience Calculator', Colors.purple, _useMyLocation),
+      (Icons.map, 'Select district & assess hazards', AppColors.orange, _analyzeDistrict),
+      (Icons.navigation, 'Use GPS location', Colors.blue, _useMyLocation),
+      (Icons.home_work, 'Resilient model library', AppColors.navy, () => context.push('/models')),
+      (Icons.view_in_ar, 'Construction academy', Colors.green, () => context.push('/academy')),
     ];
 
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.48,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -65,62 +79,89 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  right: 16,
-                  child: Material(
-                    elevation: 8,
-                    borderRadius: BorderRadius.circular(16),
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'Where do you want to build?',
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.location_on, color: AppColors.orange),
-                          onPressed: () async {
-                            await ref.read(locationProvider.notifier).analyzeAt(
-                                  31.5204,
-                                  74.3587,
-                                  placeName: _searchController.text.isEmpty
-                                      ? 'Lahore, Punjab'
-                                      : _searchController.text,
-                                );
-                            if (context.mounted) {
-                              context.push('/location/current');
-                            }
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Where will you build?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Select a district — we evaluate flood, earthquake, landslide, GLOF, and wind risk offline.',
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        districtsAsync.when(
+                          loading: () => const LinearProgressIndicator(),
+                          error: (e, _) => Text('$e', style: const TextStyle(color: Colors.white)),
+                          data: (districts) {
+                            return DropdownButtonFormField<Map<String, dynamic>>(
+                              value: _selectedDistrict,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'District',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              items: districts
+                                  .map(
+                                    (d) => DropdownMenuItem(
+                                      value: d,
+                                      child: Text(
+                                        '${d['name']} (${d['provinceName']})',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) => setState(() => _selectedDistrict = v),
+                            );
                           },
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
+                        const SizedBox(height: 12),
+                        FilledButton.icon(
+                          onPressed: _analyzeDistrict,
+                          icon: const Icon(Icons.analytics_outlined),
+                          label: const Text('Evaluate hazards & recommend models'),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.orange,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        TextButton.icon(
+                          onPressed: _useMyLocation,
+                          icon: const Icon(Icons.my_location, color: Colors.white70),
+                          label: const Text(
+                            'Or use GPS',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
+                        if (location.profile != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Last: ${location.placeName}',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.7),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.location_on, size: 64, color: AppColors.orange),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Tap the map or search to select location',
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.9)),
-                      ),
-                      const SizedBox(height: 16),
-                      OutlinedButton.icon(
-                        onPressed: _useMyLocation,
-                        icon: const Icon(Icons.navigation, color: Colors.white),
-                        label: const Text('Use My Location', style: TextStyle(color: Colors.white)),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
-                          backgroundColor: Colors.white.withValues(alpha: 0.1),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],
@@ -138,8 +179,13 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                   padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                   children: [
                     const Text(
-                      'Quick Actions',
+                      'Learning journey',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Location → Hazards → Recommended models → Digital Twin → Hazard simulation',
+                      style: TextStyle(color: AppColors.mutedForeground, fontSize: 13),
                     ),
                     const SizedBox(height: 16),
                     ...quickActions.map((a) {
