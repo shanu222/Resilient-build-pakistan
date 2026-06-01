@@ -4,8 +4,9 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/web_asset_url.dart';
 import 'construction_stage_controller.dart';
+import 'widgets/hazard_simulation_overlay.dart';
 
-/// GLB construction viewer — orbit, zoom, pan; stage mesh swaps on timeline.
+/// GLB construction viewer — smooth stage cross-fade, hazard overlays.
 class DigitalTwinViewport extends StatelessWidget {
   const DigitalTwinViewport({
     super.key,
@@ -20,31 +21,32 @@ class DigitalTwinViewport extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = controller.currentStage;
     final glb = controller.currentGlbPath;
-    final hazard = controller.hazardMode;
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        ModelViewer(
-          key: ValueKey(glb),
-          src: webAssetUrl(glb),
-          alt: stage?.title ?? 'Construction',
-          ar: false,
-          autoRotate: !controller.isPlaying,
-          cameraControls: true,
-          backgroundColor: const Color(0xFFE2E8F0),
-          loading: Loading.eager,
-          relatedCss: '''
-            .userInputWrapper { display: none; }
-          ''',
-        ),
-        if (hazard != 'none')
-          Positioned(
-            left: 12,
-            right: 12,
-            bottom: 12,
-            child: _HazardBanner(mode: hazard),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 450),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          layoutBuilder: (current, previous) => Stack(
+            fit: StackFit.expand,
+            children: [...previous, if (current != null) current],
           ),
+          child: ModelViewer(
+            key: ValueKey<String>(glb),
+            src: webAssetUrl(glb),
+            alt: stage?.title ?? 'Construction model',
+            ar: false,
+            autoRotate: !controller.isPlaying,
+            cameraControls: true,
+            backgroundColor: AppColors.viewerBg,
+            loading: Loading.eager,
+            relatedCss: '''
+              .userInputWrapper { display: none; }
+            ''',
+          ),
+        ),
         if (hazardOverlay != null) hazardOverlay!,
         Positioned(
           top: 12,
@@ -77,36 +79,11 @@ class _StageBadge extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10)),
-          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class _HazardBanner extends StatelessWidget {
-  const _HazardBanner({required this.mode});
-
-  final String mode;
-
-  @override
-  Widget build(BuildContext context) {
-    final (title, color) = switch (mode) {
-      'earthquake' => ('EARTHQUAKE SIMULATION — Frame ductility · Band continuity', const Color(0xFFDC2626)),
-      'flood' => ('FLOOD SIMULATION — Water level rise · Elevated / buoyant response', const Color(0xFF0369A1)),
-      'wind' => ('WIND SIMULATION — Uplift · Wall ties · Roof anchorage', const Color(0xFF7C3AED)),
-      'landslide' => ('LANDSLIDE SIMULATION — Geogrid tension · Slope stability', const Color(0xFFEA580C)),
-      _ => ('HAZARD VIEW', Colors.grey),
-    };
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        title,
-        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
       ),
     );
   }

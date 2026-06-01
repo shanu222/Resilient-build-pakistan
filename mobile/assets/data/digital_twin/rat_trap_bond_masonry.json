@@ -3,245 +3,366 @@
   "displayName": "Rat Trap Bond Masonry",
   "archetype": "masonry_bands",
   "masterGlb": "assets/models/rat_trap_bond_masonry/construction_master.glb",
-  "stageCount": 8,
+  "stageCount": 13,
   "stages": [
     {
       "index": 0,
       "key": "site",
       "title": "Site Layout",
-      "timelineLabel": "Animation 1 of 8",
-      "durationMs": 5500,
+      "timelineLabel": "Stage 1 of 13",
+      "durationMs": 5000,
       "glb": "assets/models/rat_trap_bond_masonry/stage_00_site.glb",
-      "narration": "Stage 1. Site Layout. Site layout establishes grid, drainage and load zones before excavation.",
-      "explanation": "Site layout establishes grid, drainage and load zones before excavation.",
-      "engineeringPrinciple": "Site layout establishes grid, drainage and load zones before excavation.",
+      "narration": "Stage 1. Site Layout. Site layout establishes grid, drainage and structural reference before excavation.",
+      "explanation": "Site layout establishes grid, drainage and structural reference before excavation.",
+      "engineeringPrinciple": "Site layout establishes grid, drainage and structural reference before excavation.",
       "constructionActivity": "Site Layout",
-      "inspectionChecklist": "Verify setbacks, north orientation and surface runoff paths.",
+      "inspectionChecklist": "Verify setbacks and runoff.",
       "commonMistakes": [
-        "Wrong setback",
-        "Poor drainage slope"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Clear build zone",
-        "Documented layout"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Clear build zone",
-        "Documented layout"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 1,
       "key": "excavation",
       "title": "Excavation",
-      "timelineLabel": "Animation 2 of 8",
-      "durationMs": 5500,
+      "timelineLabel": "Stage 2 of 13",
+      "durationMs": 5000,
       "glb": "assets/models/rat_trap_bond_masonry/stage_01_excavation.glb",
-      "narration": "Stage 2. Excavation. Excavation reaches competent bearing stratum for safe load transfer.",
-      "explanation": "Excavation reaches competent bearing stratum for safe load transfer.",
-      "engineeringPrinciple": "Excavation reaches competent bearing stratum for safe load transfer.",
+      "narration": "Stage 2. Excavation. Excavation to competent bearing; trenches align with foundation footprint.",
+      "explanation": "Excavation to competent bearing; trenches align with foundation footprint.",
+      "engineeringPrinciple": "Excavation to competent bearing; trenches align with foundation footprint.",
       "constructionActivity": "Excavation",
-      "inspectionChecklist": "Check trench depth, soil class and dewatering if required.",
+      "inspectionChecklist": "Check depth and soil class.",
       "commonMistakes": [
-        "Shallow trench",
-        "Sloping sides unstable"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Bearing capacity",
-        "Dry trench base"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Bearing capacity",
-        "Dry trench base"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 2,
       "key": "foundation",
       "title": "Foundation",
-      "timelineLabel": "Animation 3 of 8",
-      "durationMs": 5500,
+      "timelineLabel": "Stage 3 of 13",
+      "durationMs": 5000,
       "glb": "assets/models/rat_trap_bond_masonry/stage_02_foundation.glb",
-      "narration": "Stage 3. Foundation. Foundation spreads loads to soil through footings and plinth continuity.",
-      "explanation": "Foundation spreads loads to soil through footings and plinth continuity.",
-      "engineeringPrinciple": "Foundation spreads loads to soil through footings and plinth continuity.",
+      "narration": "Stage 3. Foundation. Foundation spreads loads through footings and plinth beam.",
+      "explanation": "Foundation spreads loads through footings and plinth beam.",
+      "engineeringPrinciple": "Foundation spreads loads through footings and plinth beam.",
       "constructionActivity": "Foundation",
-      "inspectionChecklist": "Inspect rebar cover, concrete grade and plinth beam continuity.",
+      "inspectionChecklist": "Rebar cover and continuity.",
       "commonMistakes": [
-        "Cold joints",
-        "Insufficient cover"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Load dispersion",
-        "Settlement control"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Load dispersion",
-        "Settlement control"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 3,
-      "key": "structural_frame",
-      "title": "Structural Frame",
-      "timelineLabel": "Animation 4 of 8",
-      "durationMs": 5500,
-      "glb": "assets/models/rat_trap_bond_masonry/stage_03_structural_frame.glb",
-      "narration": "Stage 4. Structural Frame. Primary structural frame defines load paths for roof and walls.",
-      "explanation": "Primary structural frame defines load paths for roof and walls.",
-      "engineeringPrinciple": "Primary structural frame defines load paths for roof and walls.",
-      "constructionActivity": "Structural Frame",
-      "inspectionChecklist": "Confirm verticality, connections and temporary bracing.",
+      "key": "foundation_reinforcement",
+      "title": "Foundation Reinforcement",
+      "timelineLabel": "Stage 4 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_03_foundation_reinforcement.glb",
+      "narration": "Stage 4. Foundation Reinforcement. Foundation reinforcement cages placed before concrete pour.",
+      "explanation": "Foundation reinforcement cages placed before concrete pour.",
+      "engineeringPrinciple": "Foundation reinforcement cages placed before concrete pour.",
+      "constructionActivity": "Foundation Reinforcement",
+      "inspectionChecklist": "Lap lengths and cover.",
       "commonMistakes": [
-        "Misaligned frame",
-        "Missing ties"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Ductile frame",
-        "Continuous load path"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Ductile frame",
-        "Continuous load path"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 4,
-      "key": "walls",
-      "title": "Walls",
-      "timelineLabel": "Animation 5 of 8",
-      "durationMs": 5500,
-      "glb": "assets/models/rat_trap_bond_masonry/stage_04_walls.glb",
-      "narration": "Stage 5. Walls. Wall systems enclose the structure and transfer lateral loads.",
-      "explanation": "Wall systems enclose the structure and transfer lateral loads.",
-      "engineeringPrinciple": "Wall systems enclose the structure and transfer lateral loads.",
-      "constructionActivity": "Walls",
-      "inspectionChecklist": "Check interlocking, grout cells and vertical reinforcement.",
+      "key": "columns",
+      "title": "Columns / Structural Supports",
+      "timelineLabel": "Stage 5 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_04_columns.glb",
+      "narration": "Stage 5. Columns / Structural Supports. Columns erected on grid from plinth to beam level.",
+      "explanation": "Columns erected on grid from plinth to beam level.",
+      "engineeringPrinciple": "Columns erected on grid from plinth to beam level.",
+      "constructionActivity": "Columns / Structural Supports",
+      "inspectionChecklist": "Verticality and base plates.",
       "commonMistakes": [
-        "Dry joints weak",
-        "Missing grout"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Composite action",
-        "Reduced mass"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Composite action",
-        "Reduced mass"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 5,
-      "key": "bands",
-      "title": "Lintel & Roof Bands",
-      "timelineLabel": "Animation 6 of 8",
-      "durationMs": 5500,
-      "glb": "assets/models/rat_trap_bond_masonry/stage_05_bands.glb",
-      "narration": "Stage 6. Lintel & Roof Bands. RC bands tie walls for seismic box action.",
-      "explanation": "RC bands tie walls for seismic box action.",
-      "engineeringPrinciple": "RC bands tie walls for seismic box action.",
-      "constructionActivity": "Lintel & Roof Bands",
-      "inspectionChecklist": "Continuous pour; no gaps at corners.",
+      "key": "beams",
+      "title": "Beams",
+      "timelineLabel": "Stage 6 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_05_beams.glb",
+      "narration": "Stage 6. Beams. Beams connect column heads; continuous ring at wall top.",
+      "explanation": "Beams connect column heads; continuous ring at wall top.",
+      "engineeringPrinciple": "Beams connect column heads; continuous ring at wall top.",
+      "constructionActivity": "Beams",
+      "inspectionChecklist": "Level and anchorage.",
       "commonMistakes": [
-        "Discontinuous band",
-        "Poor anchorage"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Box action",
-        "Force redistribution"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Box action",
-        "Force redistribution"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 6,
-      "key": "roof",
-      "title": "Roof",
-      "timelineLabel": "Animation 7 of 8",
-      "durationMs": 5500,
-      "glb": "assets/models/rat_trap_bond_masonry/stage_06_roof.glb",
-      "narration": "Stage 7. Roof. Roof diaphragm distributes gravity and seismic loads to walls.",
-      "explanation": "Roof diaphragm distributes gravity and seismic loads to walls.",
-      "engineeringPrinciple": "Roof diaphragm distributes gravity and seismic loads to walls.",
-      "constructionActivity": "Roof",
-      "inspectionChecklist": "Curing, formwork removal sequence, anchor bolts.",
+      "key": "walls",
+      "title": "Wall Construction",
+      "timelineLabel": "Stage 7 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_06_walls.glb",
+      "narration": "Stage 7. Wall Construction. Walls built on foundation perimeter between supports.",
+      "explanation": "Walls built on foundation perimeter between supports.",
+      "engineeringPrinciple": "Walls built on foundation perimeter between supports.",
+      "constructionActivity": "Wall Construction",
+      "inspectionChecklist": "Bond and verticality.",
       "commonMistakes": [
-        "Inadequate curing",
-        "Missing anchors"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Diaphragm action",
-        "Uniform load transfer"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Diaphragm action",
-        "Uniform load transfer"
+        "Cumulative build",
+        "Engineering sequence"
       ]
     },
     {
       "index": 7,
-      "key": "complete",
-      "title": "Completed Structure",
-      "timelineLabel": "Animation 8 of 8",
-      "durationMs": 6500,
-      "glb": "assets/models/rat_trap_bond_masonry/stage_07_complete.glb",
-      "narration": "Stage 8. Completed Structure. Completed resilient house ready for services and occupancy.",
-      "explanation": "Completed resilient house ready for services and occupancy.",
-      "engineeringPrinciple": "Completed resilient house ready for services and occupancy.",
-      "constructionActivity": "Completed Structure",
-      "inspectionChecklist": "Final waterproofing, openings, and quality checklist.",
+      "key": "openings",
+      "title": "Openings",
+      "timelineLabel": "Stage 8 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_07_openings.glb",
+      "narration": "Stage 8. Openings. Door and window openings framed with lintels.",
+      "explanation": "Door and window openings framed with lintels.",
+      "engineeringPrinciple": "Door and window openings framed with lintels.",
+      "constructionActivity": "Openings",
+      "inspectionChecklist": "Diagonal bracing at openings.",
       "commonMistakes": [
-        "Skipped DPC",
-        "Unprotected openings"
+        "Misaligned grid",
+        "Skipped inspection"
       ],
       "resilienceBenefits": [
-        "Durability",
-        "Occupancy readiness"
+        "Structural continuity",
+        "Resilience compliance"
       ],
       "highlights": [
-        "Durability",
-        "Occupancy readiness"
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 8,
+      "key": "bands",
+      "title": "Bands / Bracing / Reinforcement",
+      "timelineLabel": "Stage 9 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_08_bands.glb",
+      "narration": "Stage 9. Bands / Bracing / Reinforcement. Seismic bands and bracing tie the box.",
+      "explanation": "Seismic bands and bracing tie the box.",
+      "engineeringPrinciple": "Seismic bands and bracing tie the box.",
+      "constructionActivity": "Bands / Bracing / Reinforcement",
+      "inspectionChecklist": "Continuous pour at corners.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 9,
+      "key": "roof_structure",
+      "title": "Roof Structure",
+      "timelineLabel": "Stage 10 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_09_roof_structure.glb",
+      "narration": "Stage 10. Roof Structure. Roof trusses and rafters on wall plates.",
+      "explanation": "Roof trusses and rafters on wall plates.",
+      "engineeringPrinciple": "Roof trusses and rafters on wall plates.",
+      "constructionActivity": "Roof Structure",
+      "inspectionChecklist": "Connections and bracing.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 10,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 11 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_10_roof_covering.glb",
+      "narration": "Stage 11. Roof Covering. Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "explanation": "Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "engineeringPrinciple": "Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "constructionActivity": "Roof Covering",
+      "inspectionChecklist": "Anchors and waterproofing.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 11,
+      "key": "finishing",
+      "title": "Finishing",
+      "timelineLabel": "Stage 12 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_11_finishing.glb",
+      "narration": "Stage 12. Finishing. Plaster, drainage and landscape finishing.",
+      "explanation": "Plaster, drainage and landscape finishing.",
+      "engineeringPrinciple": "Plaster, drainage and landscape finishing.",
+      "constructionActivity": "Finishing",
+      "inspectionChecklist": "DPC and services.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 12,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Stage 13 of 13",
+      "durationMs": 6000,
+      "glb": "assets/models/rat_trap_bond_masonry/stage_12_complete.glb",
+      "narration": "Stage 13. Completed Structure. Completed resilient structure ready for occupancy.",
+      "explanation": "Completed resilient structure ready for occupancy.",
+      "engineeringPrinciple": "Completed resilient structure ready for occupancy.",
+      "constructionActivity": "Completed Structure",
+      "inspectionChecklist": "Final inspection checklist.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
       ]
     }
   ],
   "hazardSimulations": {
     "earthquake": {
-      "title": "Earthquake Simulation",
-      "explanation": "Structural frame and bands redistribute inertia forces; flexible connections limit damage.",
+      "title": "Earthquake",
+      "explanation": "Frame and bands activate ductile load paths.",
       "animationKey": "earthquake"
     },
     "wind": {
-      "title": "Wind Simulation",
-      "explanation": "Roof anchorage and wall ties resist uplift and racking.",
+      "title": "Wind",
+      "explanation": "Roof anchorage resists uplift.",
       "animationKey": "wind"
     }
   },
   "components": {
     "foundation": {
       "title": "Foundation",
-      "loadTransfer": "Spreads loads to bearing soil"
+      "loadTransfer": "To bearing soil"
     },
-    "plinth_band": {
-      "title": "Plinth Band",
-      "continuity": "Ties wall bases"
+    "column": {
+      "title": "Column",
+      "loadTransfer": "Vertical load path"
     },
-    "vertical_reinforcement": {
-      "title": "Vertical Reinforcement",
-      "seismicResistance": "Ductility and tie-down"
+    "beam": {
+      "title": "Beam",
+      "loadTransfer": "Wall-to-wall tie"
     },
-    "lintel_band": {
-      "title": "Lintel Band",
-      "earthquakeResistance": "Prevents wall separation"
+    "wall": {
+      "title": "Wall",
+      "loadTransfer": "Lateral resistance"
     },
-    "roof_band": {
-      "title": "Roof Band",
-      "boxAction": "Ring beam box action"
-    },
-    "roof_slab": {
+    "roof": {
       "title": "Roof",
-      "loadTransfer": "Diaphragm to walls"
+      "loadTransfer": "Diaphragm"
     }
   }
 }

@@ -2,143 +2,216 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/widgets/gradient_header.dart';
+import '../../core/widgets/model_catalog_card.dart';
+import '../../core/widgets/responsive_page.dart';
 import '../../data/models/house_model.dart';
 import '../../providers/app_providers.dart';
 
-class RecommendedModelsScreen extends ConsumerWidget {
+class RecommendedModelsScreen extends ConsumerStatefulWidget {
   const RecommendedModelsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final modelsAsync = ref.watch(recommendedModelsProvider);
-
-    return Scaffold(
-      body: Column(
-        children: [
-          const GradientHeader(
-            title: 'Recommended Models',
-            subtitle: 'Based on your location hazard profile',
-          ),
-          Expanded(
-            child: modelsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Error: $e')),
-              data: (models) => ListView.builder(
-                padding: const EdgeInsets.all(24),
-                itemCount: models.length,
-                itemBuilder: (_, i) => _ModelCard(model: models[i]),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  ConsumerState<RecommendedModelsScreen> createState() =>
+      _RecommendedModelsScreenState();
 }
 
-class _ModelCard extends StatelessWidget {
-  const _ModelCard({required this.model});
+class _RecommendedModelsScreenState extends ConsumerState<RecommendedModelsScreen> {
+  final _search = TextEditingController();
+  String _query = '';
+  _CatalogFilter _filter = _CatalogFilter.recommended;
+  String? _hazardFilter;
 
-  final HouseModel model;
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
+  List<HouseModel> _filterModels(List<HouseModel> models) {
+    var list = models;
+    if (_query.isNotEmpty) {
+      final q = _query.toLowerCase();
+      list = list
+          .where(
+            (m) =>
+                m.name.toLowerCase().contains(q) ||
+                m.engineeringSummary.toLowerCase().contains(q) ||
+                m.category.toLowerCase().contains(q),
+          )
+          .toList();
+    }
+    if (_hazardFilter != null) {
+      list = list.where((m) => m.hazardsCovered.contains(_hazardFilter)).toList();
+    }
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final c1 = Color(int.parse(model.thumbnailGradient[0].replaceFirst('#', '0xFF')));
-    final c2 = Color(int.parse(model.thumbnailGradient[1].replaceFirst('#', '0xFF')));
+    final recommendedAsync = ref.watch(recommendedModelsProvider);
+    final allAsync = ref.watch(housesProvider);
+    final columns = AppBreakpoints.catalogColumns(context);
 
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => context.push('/model/${model.id}'),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [c1, c2]),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(Icons.home, size: 48, color: Colors.white),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: AppColors.heroGradient),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(model.name,
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: model.hazardsCovered.take(2).map((h) {
-                        return Chip(
-                          label: Text(h, style: const TextStyle(fontSize: 10)),
-                          visualDensity: VisualDensity.compact,
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        const Icon(Icons.attach_money, size: 14, color: AppColors.mutedForeground),
-                        Text(model.costCategory,
-                            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.shield, size: 14, color: AppColors.success),
-                        Text('${model.resilienceScore}%',
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.success)),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.build, size: 14, color: AppColors.mutedForeground),
-                        Text(model.complexity,
-                            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () => context.push('/model/${model.id}'),
-                            child: const Text('Preview'),
-                          ),
+              child: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: AppBreakpoints.pagePadding(context),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Resilient model library',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Engineered housing systems for Pakistan\'s hazard context',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.white70,
+                            ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _search,
+                        style: const TextStyle(color: AppColors.foreground),
+                        decoration: InputDecoration(
+                          hintText: 'Search models…',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: _query.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _search.clear();
+                                    setState(() => _query = '');
+                                  },
+                                )
+                              : null,
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              context.push('/construction/${model.id}');
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Select'),
-                                Icon(Icons.chevron_right, size: 16),
-                              ],
+                        onChanged: (v) => setState(() => _query = v),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ResponsivePage(
+              scrollable: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 16),
+                  SegmentedButton<_CatalogFilter>(
+                    segments: const [
+                      ButtonSegment(
+                        value: _CatalogFilter.recommended,
+                        label: Text('Recommended'),
+                        icon: Icon(Icons.recommend, size: 18),
+                      ),
+                      ButtonSegment(
+                        value: _CatalogFilter.all,
+                        label: Text('Full catalog'),
+                        icon: Icon(Icons.grid_view, size: 18),
+                      ),
+                    ],
+                    selected: {_filter},
+                    onSelectionChanged: (s) => setState(() => _filter = s.first),
+                  ),
+                  const SizedBox(height: 12),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterChip(
+                          label: const Text('All hazards'),
+                          selected: _hazardFilter == null,
+                          onSelected: (_) => setState(() => _hazardFilter = null),
+                        ),
+                        ...['Flood', 'Earthquake', 'Wind', 'Landslide'].map(
+                          (h) => Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: FilterChip(
+                              label: Text(h),
+                              selected: _hazardFilter == h,
+                              onSelected: (_) => setState(
+                                () => _hazardFilter = _hazardFilter == h ? null : h,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          _filter == _CatalogFilter.recommended
+              ? _buildGrid(recommendedAsync, columns)
+              : _buildGrid(allAsync, columns),
+        ],
       ),
     );
   }
+
+  Widget _buildGrid(AsyncValue<List<HouseModel>> async, int columns) {
+    return async.when(
+      loading: () => const SliverFillRemaining(
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (e, _) => SliverFillRemaining(child: Center(child: Text('Error: $e'))),
+      data: (models) {
+        final filtered = _filterModels(models);
+        if (filtered.isEmpty) {
+          return const SliverFillRemaining(
+            child: Center(child: Text('No models match your filters')),
+          );
+        }
+        return SliverPadding(
+          padding: AppBreakpoints.pagePadding(context),
+          sliver: SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columns,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: columns == 1 ? 0.72 : 0.68,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, i) {
+                final m = filtered[i];
+                return ModelCatalogCard(
+                  modelId: m.id,
+                  name: m.name,
+                  description: m.engineeringSummary,
+                  resilienceScore: m.resilienceScore,
+                  costLabel: m.costCategory,
+                  difficulty: m.complexity,
+                  hazardTags: m.hazardsCovered,
+                  onTap: () => context.push('/model/${m.id}'),
+                );
+              },
+              childCount: filtered.length,
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+
+enum _CatalogFilter { recommended, all }

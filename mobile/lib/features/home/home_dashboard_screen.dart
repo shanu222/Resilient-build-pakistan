@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/widgets/responsive_page.dart';
+import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
 
 class HomeDashboardScreen extends ConsumerStatefulWidget {
@@ -56,176 +59,327 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
   Widget build(BuildContext context) {
     final districtsAsync = ref.watch(districtsProvider);
     final location = ref.watch(locationProvider);
-
-    final quickActions = [
-      (Icons.map, 'Select district & assess hazards', AppColors.orange, _analyzeDistrict),
-      (Icons.navigation, 'Use GPS location', Colors.blue, _useMyLocation),
-      (Icons.home_work, 'Resilient model library', AppColors.navy, () => context.push('/models')),
-      (Icons.view_in_ar, 'Construction academy', Colors.green, () => context.push('/academy')),
-    ];
+    final theme = Theme.of(context);
+    final isWide = AppBreakpoints.isDesktop(context);
 
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.48,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [AppColors.navy, AppColors.navyMid],
-                    ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(child: _HeroSection(
+            districtsAsync: districtsAsync,
+            selectedDistrict: _selectedDistrict,
+            onDistrictChanged: (v) => setState(() => _selectedDistrict = v),
+            onAnalyze: _analyzeDistrict,
+            onGps: _useMyLocation,
+            lastPlace: location.profile != null ? location.placeName : null,
+            isWide: isWide,
+          )),
+          SliverToBoxAdapter(
+            child: ResponsivePage(
+              scrollable: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SectionHeader(
+                    title: 'Resilient construction journey',
+                    subtitle:
+                        'Assess hazards at your site, explore engineered models, and learn through the Digital Twin.',
                   ),
-                ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Text(
-                          'Where will you build?',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                  const SizedBox(height: 20),
+                  _ActionGrid(isWide: isWide, onNavigate: (path) => context.push(path)),
+                  const SizedBox(height: 24),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppColors.successLight,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(Icons.offline_bolt, color: AppColors.success),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Select a district — we evaluate flood, earthquake, landslide, GLOF, and wind risk offline.',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.85),
-                            fontSize: 13,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        districtsAsync.when(
-                          loading: () => const LinearProgressIndicator(),
-                          error: (e, _) => Text('$e', style: const TextStyle(color: Colors.white)),
-                          data: (districts) {
-                            return DropdownButtonFormField<Map<String, dynamic>>(
-                              value: _selectedDistrict,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                labelText: 'District',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Offline-first platform', style: theme.textTheme.titleSmall),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Hazard data, BIM sequences, and NDMA-aligned guidance work without internet.',
+                                  style: theme.textTheme.bodySmall,
                                 ),
-                              ),
-                              items: districts
-                                  .map(
-                                    (d) => DropdownMenuItem(
-                                      value: d,
-                                      child: Text(
-                                        '${d['name']} (${d['provinceName']})',
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (v) => setState(() => _selectedDistrict = v),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        FilledButton.icon(
-                          onPressed: _analyzeDistrict,
-                          icon: const Icon(Icons.analytics_outlined),
-                          label: const Text('Evaluate hazards & recommend models'),
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.orange,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextButton.icon(
-                          onPressed: _useMyLocation,
-                          icon: const Icon(Icons.my_location, color: Colors.white70),
-                          label: const Text(
-                            'Or use GPS',
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                        ),
-                        if (location.profile != null) ...[
-                          const SizedBox(height: 8),
-                          Text(
-                            'Last: ${location.placeName}',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.7),
-                              fontSize: 12,
+                              ],
                             ),
                           ),
                         ],
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Transform.translate(
-              offset: const Offset(0, -24),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
-                  children: [
-                    const Text(
-                      'Learning journey',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Location → Hazards → Recommended models → Digital Twin → Hazard simulation',
-                      style: TextStyle(color: AppColors.mutedForeground, fontSize: 13),
-                    ),
-                    const SizedBox(height: 16),
-                    ...quickActions.map((a) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Material(
-                          color: AppColors.card,
-                          borderRadius: BorderRadius.circular(16),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(16),
-                            onTap: () => a.$4(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: a.$3,
-                                    child: Icon(a.$1, color: Colors.white),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Text(
-                                      a.$2,
-                                      style: const TextStyle(fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  const Icon(Icons.chevron_right),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
+                  const SizedBox(height: 32),
+                ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HeroSection extends StatelessWidget {
+  const _HeroSection({
+    required this.districtsAsync,
+    required this.selectedDistrict,
+    required this.onDistrictChanged,
+    required this.onAnalyze,
+    required this.onGps,
+    this.lastPlace,
+    required this.isWide,
+  });
+
+  final AsyncValue<List<Map<String, dynamic>>> districtsAsync;
+  final Map<String, dynamic>? selectedDistrict;
+  final ValueChanged<Map<String, dynamic>?> onDistrictChanged;
+  final VoidCallback onAnalyze;
+  final VoidCallback onGps;
+  final String? lastPlace;
+  final bool isWide;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final height = isWide ? 320.0 : 380.0;
+
+    return SizedBox(
+      height: height,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: AppColors.heroGradient,
+              ),
+            ),
+          ),
+          Positioned(
+            right: -40,
+            top: 40,
+            child: Icon(
+              Icons.map_outlined,
+              size: isWide ? 200 : 140,
+              color: Colors.white.withValues(alpha: 0.06),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 48 : 20,
+                vertical: 24,
+              ),
+              child: isWide
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(child: _heroCopy(theme.textTheme)),
+                        const SizedBox(width: 32),
+                        Expanded(child: _heroForm(context, districtsAsync)),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _heroCopy(theme.textTheme),
+                        const SizedBox(height: 20),
+                        _heroForm(context, districtsAsync),
+                      ],
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _heroCopy(TextTheme theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: AppColors.orange.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: AppColors.orange.withValues(alpha: 0.4)),
+          ),
+          child: const Text(
+            'National Resilience Platform',
+            style: TextStyle(color: AppColors.orangeLight, fontSize: 11, fontWeight: FontWeight.w600),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Build safer across Pakistan',
+          style: theme.headlineMedium?.copyWith(color: Colors.white),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'District hazard intelligence, engineered housing models, and step-by-step Digital Twin construction — aligned with disaster-resilient practice.',
+          style: theme.bodyMedium?.copyWith(color: Colors.white.withValues(alpha: 0.85)),
+        ),
+        if (lastPlace != null) ...[
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Icon(Icons.history, size: 14, color: Colors.white54),
+              const SizedBox(width: 6),
+              Text('Last site: $lastPlace', style: const TextStyle(color: Colors.white54, fontSize: 12)),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _heroForm(BuildContext context, AsyncValue<List<Map<String, dynamic>>> districtsAsync) {
+    return Card(
+      color: AppColors.surface,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Select location', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 12),
+            districtsAsync.when(
+              loading: () => const LinearProgressIndicator(),
+              error: (e, _) => Text('$e'),
+              data: (districts) => DropdownButtonFormField<Map<String, dynamic>>(
+                value: selectedDistrict,
+                decoration: const InputDecoration(labelText: 'District'),
+                items: districts
+                    .map(
+                      (d) => DropdownMenuItem(
+                        value: d,
+                        child: Text(
+                          '${d['name']} · ${d['provinceName']}',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: onDistrictChanged,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              onPressed: onAnalyze,
+              icon: const Icon(Icons.analytics_outlined),
+              label: const Text('Evaluate hazards & recommend models'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: onGps,
+              icon: const Icon(Icons.my_location),
+              label: const Text('Use GPS location'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ActionGrid extends StatelessWidget {
+  const _ActionGrid({required this.isWide, required this.onNavigate});
+
+  final bool isWide;
+  final void Function(String path) onNavigate;
+
+  @override
+  Widget build(BuildContext context) {
+    final actions = [
+      _Action(Icons.map_outlined, 'Site assessment', 'View hazard profile', AppColors.orange, '/location/current'),
+      _Action(Icons.home_work_outlined, 'Explore models', 'Resilient housing catalog', AppColors.navy, '/models'),
+      _Action(Icons.view_in_ar_outlined, 'Learn construction', 'Academy & Digital Twin', AppColors.success, '/academy'),
+      _Action(Icons.menu_book_outlined, 'View library', 'PDFs & NDMA guidance', AppColors.steel, '/library'),
+    ];
+
+    if (isWide) {
+      return Row(
+        children: actions
+            .map((a) => Expanded(child: Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: _ActionCard(action: a, onTap: () => onNavigate(a.path)),
+                )))
+            .toList(),
+      );
+    }
+
+    return Column(
+      children: actions
+          .map((a) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _ActionCard(action: a, onTap: () => onNavigate(a.path)),
+              ))
+          .toList(),
+    );
+  }
+}
+
+class _Action {
+  const _Action(this.icon, this.title, this.subtitle, this.color, this.path);
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final String path;
+}
+
+class _ActionCard extends StatelessWidget {
+  const _ActionCard({required this.action, required this.onTap});
+
+  final _Action action;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: action.color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(action.icon, color: action.color),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(action.title, style: Theme.of(context).textTheme.titleSmall),
+                    Text(action.subtitle, style: Theme.of(context).textTheme.bodySmall),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.mutedForeground),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'geometry/amphibious_dimensions.dart';
 import 'math/bim_vec3.dart';
 import 'rendering/bim_camera.dart';
 import 'rendering/bim_picker.dart';
+import 'rendering/bim_scene_bounds.dart';
 
 class BimStageDefinition {
   BimStageDefinition({
@@ -54,9 +55,11 @@ class BimSimulationController extends ChangeNotifier {
     this.modelId = _package.modelId;
     displayName = _package.displayName;
     _entities = _package.buildScene();
+    _fitCameraToScene();
   }
 
   late final BimScenePackage _package;
+  BimVec3 _sceneCenter = BimVec3.zero;
   late List<BimEntity> _entities;
   final camera = BimCamera();
 
@@ -95,7 +98,14 @@ class BimSimulationController extends ChangeNotifier {
     componentDocs = json['components'] as Map<String, dynamic>;
     resilienceSummary = json['resilienceSummary'] as Map<String, dynamic>;
     _applyStageVisibility();
+    _fitCameraToScene();
     notifyListeners();
+  }
+
+  void _fitCameraToScene() {
+    final bounds = BimSceneBounds.fromEntities(_entities);
+    _sceneCenter = bounds.center;
+    camera.fitToBounds(bounds.center, bounds.radius);
   }
 
   void setStage(int index, {double progress = 0}) {
@@ -871,7 +881,17 @@ class BimSimulationController extends ChangeNotifier {
     }
     if (viewMode != BimVisualizationMode.exploded) return BimVec3.zero;
     final g = e.explodeGroup;
-    return BimVec3(0, g * 0.4, g * 0.25);
+    if (g == 0) return BimVec3.zero;
+    final c = e.bounds.center + e.position;
+    final dx = c.x - _sceneCenter.x;
+    final dy = c.y - _sceneCenter.y;
+    final dz = c.z - _sceneCenter.z;
+    final len = math.sqrt(dx * dx + dy * dy + dz * dz);
+    if (len < 0.05) {
+      return BimVec3(0, g * 0.12, g * 0.08);
+    }
+    final scale = (g * 0.28) / len;
+    return BimVec3(dx * scale, dy * scale, dz * scale);
   }
 
   /// Vertical lift of floating assembly during flood simulation (meters).

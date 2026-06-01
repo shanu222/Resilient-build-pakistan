@@ -36,4 +36,14 @@ class BimCamera {
   void autoOrbit(double t) {
     yaw = 0.65 + t * 0.3;
   }
+
+  /// Fit entire structure in view (building centroid at orbit target).
+  void fitToBounds(BimVec3 center, double radius) {
+    target = center;
+    distance = (radius * 2.4).clamp(10.0, 36.0);
+    pitch = 0.42;
+    yaw = 0.72;
+    panX = 0;
+    panY = 0;
+  }
 }
