@@ -7,6 +7,8 @@ import 'package:flutter/scheduler.dart';
 import '../bim_entity.dart';
 import '../bim_simulation_controller.dart';
 import '../bim_visualization_mode.dart';
+import '../../ui/bim_toolbar.dart';
+import '../../../bim/camera_controller_pro.dart';
 import '../math/bim_vec3.dart';
 import 'bim_camera.dart';
 import 'bim_projector.dart';
@@ -25,6 +27,9 @@ class _BimViewportState extends State<BimViewport>
   late Ticker _ticker;
   Duration? _lastTick;
   Offset? _lastPan;
+  Offset? _lastTap;
+
+  CameraControllerPro get _cameraPro => widget.controller.cameraPro;
 
   @override
   void initState() {
@@ -62,34 +67,59 @@ class _BimViewportState extends State<BimViewport>
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = Size(constraints.maxWidth, constraints.maxHeight);
-        return GestureDetector(
-          onScaleStart: (d) => _lastPan = d.focalPoint,
-          onScaleUpdate: (d) {
-            if (d.pointerCount >= 2) {
-              widget.controller.camera.zoom(-d.scale * 20 + 20);
-            } else if (_lastPan != null) {
-              final delta = d.focalPoint - _lastPan!;
-              if (d.scale == 1.0 && delta.distance > 2) {
-                if (d.pointerCount == 1 && _isRotating(d)) {
-                  widget.controller.camera.rotate(delta.dx, delta.dy);
-                } else {
-                  widget.controller.camera.pan(delta.dx, delta.dy);
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            GestureDetector(
+              onScaleStart: (d) => _lastPan = d.focalPoint,
+              onScaleUpdate: (d) {
+                if (d.pointerCount >= 2) {
+                  _cameraPro.zoom(-d.scale * 20 + 20);
+                } else if (_lastPan != null) {
+                  final delta = d.focalPoint - _lastPan!;
+                  if (d.scale == 1.0 && delta.distance > 2) {
+                    if (d.pointerCount == 1) {
+                      _cameraPro.rotate(delta.dx, delta.dy);
+                    } else {
+                      _cameraPro.pan(delta.dx, delta.dy);
+                    }
+                  }
                 }
-              }
-            }
-            _lastPan = d.focalPoint;
-            setState(() {});
-          },
-          onTapUp: (d) {
-            widget.controller.selectAt(d.localPosition, size);
-          },
-          child: CustomPaint(
-            size: size,
-            painter: _BimPainter(
-              controller: widget.controller,
-              viewportSize: size,
+                _lastPan = d.focalPoint;
+                setState(() {});
+              },
+              onDoubleTapDown: (d) => _lastTap = d.localPosition,
+              onDoubleTap: () {
+                widget.controller.fitCamera(
+                  viewportWidth: size.width,
+                  viewportHeight: size.height,
+                );
+                if (_lastTap != null) {
+                  widget.controller.selectAt(_lastTap!, size);
+                }
+                setState(() {});
+              },
+              onTapUp: (d) {
+                widget.controller.selectAt(d.localPosition, size);
+              },
+              child: CustomPaint(
+                size: size,
+                painter: _BimPainter(
+                  controller: widget.controller,
+                  viewportSize: size,
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              top: 8,
+              left: 8,
+              right: 8,
+              child: BimToolbar(
+                controller: widget.controller,
+                cameraPro: _cameraPro,
+              ),
+            ),
+          ],
         );
       },
     );
@@ -124,6 +154,10 @@ class _BimPainter extends CustomPainter {
 
     _drawGrid(canvas, size, projector);
 
+    if (controller.showStructuralGrid) {
+      _drawStructuralGrid(canvas, size, projector);
+    }
+
     final triangles = <ProjectedTriangle>[];
 
     for (final e in controller.entities) {
@@ -134,7 +168,9 @@ class _BimPainter extends CustomPainter {
         continue;
       }
 
-      final explode = controller.explodeOffset(e) + controller.floatOffset(e);
+      final explode = controller.explodeOffset(e) +
+          controller.floatOffset(e) +
+          controller.assemblyOffset(e);
       final mesh = e.mesh;
       final scaleY = e.buildProgress.clamp(0.01, 1.0);
 
@@ -403,6 +439,31 @@ class _BimPainter extends CustomPainter {
         return const Color(0xFF65A30D);
       default:
         return c.withValues(alpha: 0.3);
+    }
+  }
+
+  void _drawStructuralGrid(Canvas canvas, Size size, BimProjector projector) {
+    final paint = Paint()
+      ..color = const Color(0xFFE85D04).withValues(alpha: 0.65)
+      ..strokeWidth = 1.2;
+    final labelPaint = TextPainter(
+      textDirection: TextDirection.ltr,
+    );
+    for (var i = 0; i <= 6; i++) {
+      for (var j = 0; j <= 4; j++) {
+        final x = i.toDouble();
+        final z = j.toDouble();
+        final p = projector.project(BimVec3(x, 0.02, z));
+        canvas.drawCircle(p, 3, paint);
+        if (i % 2 == 0 && j % 2 == 0) {
+          labelPaint.text = TextSpan(
+            text: '${String.fromCharCode(65 + i)}$j',
+            style: const TextStyle(color: Color(0xFFE85D04), fontSize: 9),
+          );
+          labelPaint.layout();
+          labelPaint.paint(canvas, Offset(p.dx + 4, p.dy - 8));
+        }
+      }
     }
   }
 

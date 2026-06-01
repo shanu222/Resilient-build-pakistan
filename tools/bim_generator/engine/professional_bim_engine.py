@@ -224,7 +224,10 @@ class ProfessionalBimEngine:
         h = y1 - y0
         cy = y0 + h / 2
         for x, z in self.grid.columns[:4]:
-            self.parts.append(BimPart(_cyl(r, h, (x, cy, z), col), stage, "column", "structure"))
+            # Snap to exact grid — no drift
+            sx = round(x, 4)
+            sz = round(z, 4)
+            self.parts.append(BimPart(_cyl(r, h, (sx, cy, sz), col), stage, "column", "structure"))
 
     def _beams_on_grid(self, stage: int, depth: float = 0.14, color: list[int] | None = None) -> None:
         d, lv = self.d, self.lv

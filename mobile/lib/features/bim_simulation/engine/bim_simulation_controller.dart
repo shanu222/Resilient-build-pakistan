@@ -4,6 +4,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../bim/camera_controller_pro.dart';
+import '../../bim/construction_assembly_animator.dart';
+import '../../bim/engineering_constraint_engine.dart';
 import 'bim_entity.dart';
 import 'bim_scene_package.dart';
 import 'bim_scene_registry.dart';
@@ -55,13 +58,23 @@ class BimSimulationController extends ChangeNotifier {
     this.modelId = _package.modelId;
     displayName = _package.displayName;
     _entities = _package.buildScene();
+    _validateScene();
     _fitCameraToScene();
   }
 
+  final cameraPro = CameraControllerPro();
+  BimCamera get camera => cameraPro.camera;
+
+  ConstraintValidationResult? validationResult;
+  bool showStructuralGrid = false;
+  bool assemblyAnimationEnabled = true;
   late final BimScenePackage _package;
   BimVec3 _sceneCenter = BimVec3.zero;
+  double _sceneRadius = 8;
   late List<BimEntity> _entities;
-  final camera = BimCamera();
+
+  BimVec3 get sceneCenter => _sceneCenter;
+  double get sceneRadius => _sceneRadius;
 
   String modelId = '';
   String displayName = '';
@@ -102,10 +115,35 @@ class BimSimulationController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _fitCameraToScene() {
+  void _validateScene() {
+    validationResult = EngineeringConstraintEngine.validate(_entities);
+  }
+
+  void _fitCameraToScene({double? viewportWidth}) {
     final bounds = BimSceneBounds.fromEntities(_entities);
     _sceneCenter = bounds.center;
-    camera.fitToBounds(bounds.center, bounds.radius);
+    _sceneRadius = bounds.radius;
+    cameraPro.fitToBounds(bounds, viewportWidth: viewportWidth);
+  }
+
+  void fitCamera({double? viewportWidth, double? viewportHeight}) {
+    final bounds = BimSceneBounds.fromEntities(_entities);
+    cameraPro.fitToBounds(
+      bounds,
+      viewportWidth: viewportWidth,
+      viewportHeight: viewportHeight,
+    );
+    notifyListeners();
+  }
+
+  void toggleStructuralGrid() {
+    showStructuralGrid = !showStructuralGrid;
+    notifyListeners();
+  }
+
+  BimVec3 assemblyOffset(BimEntity e) {
+    if (!assemblyAnimationEnabled) return BimVec3.zero;
+    return ConstructionAssemblyAnimator.assemblyOffset(e, e.buildProgress);
   }
 
   void setStage(int index, {double progress = 0}) {

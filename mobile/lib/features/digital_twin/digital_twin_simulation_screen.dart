@@ -42,7 +42,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   Timer? _tick;
   Timer? _hazardTick;
   String? _selectedComponent;
-  TwinViewLayer _viewLayer = TwinViewLayer.glb;
+  TwinViewLayer _viewLayer = TwinViewLayer.structural;
   double _hazardAnimPhase = 0;
 
   bool get _hasProceduralBim => BimSceneRegistry.hasBimSimulation(widget.modelId);
@@ -70,6 +70,9 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     if (mounted) {
       setState(() => _manifest = m);
       _syncHazardTicker();
+      if (_hasProceduralBim) {
+        _applyViewLayer(TwinViewLayer.structural);
+      }
     }
   }
 
