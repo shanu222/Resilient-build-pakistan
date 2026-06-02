@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/widgets/government_footer.dart';
 import '../../core/widgets/government_header.dart';
 import '../../shared/widgets/app_brand_logo.dart';
+import '../../shared/widgets/glass_sidebar.dart';
 
 /// Adaptive shell: bottom nav (mobile) · navigation rail (tablet/desktop).
 class AppShell extends StatelessWidget {
@@ -40,6 +41,7 @@ class AppShell extends StatelessWidget {
     final hideNav = _hideNav(path);
     final index = _indexForPath(path);
     final useRail = !hideNav && AppBreakpoints.isDesktop(context);
+    final extended = AppBreakpoints.isLargeDesktop(context);
 
     if (useRail) {
       return Scaffold(
@@ -49,29 +51,23 @@ class AppShell extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  NavigationRail(
-                    extended: AppBreakpoints.isLargeDesktop(context),
-                    minExtendedWidth: 220,
+                  GlassSidebar(
+                    extended: extended,
                     selectedIndex: index,
-                    onDestinationSelected: (i) => context.go(_paths[i]),
-                    labelType: AppBreakpoints.isLargeDesktop(context)
-                        ? NavigationRailLabelType.none
-                        : NavigationRailLabelType.all,
-                    leading: const Padding(
-                      padding: EdgeInsets.only(top: 16, bottom: 8),
-                      child: _SidebarBranding(),
-                    ),
-                    destinations: _destinations
+                    onSelect: (i) => context.go(_paths[i]),
+                    header: extended
+                        ? const _SidebarBranding()
+                        : const Center(child: AppBrandLogo(size: 56)),
+                    items: _destinations
                         .map(
-                          (d) => NavigationRailDestination(
-                            icon: Icon(d.$1),
-                            selectedIcon: Icon(d.$2),
-                            label: Text(d.$3),
+                          (d) => GlassSidebarItem(
+                            icon: d.$1,
+                            selectedIcon: d.$2,
+                            label: d.$3,
                           ),
                         )
                         .toList(),
                   ),
-                  const VerticalDivider(width: 1, thickness: 1),
                   Expanded(child: child),
                 ],
               ),
@@ -114,12 +110,9 @@ class _SidebarBranding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = AppBreakpoints.isDesktop(context);
-    final isTablet = AppBreakpoints.isTablet(context);
-    final logoSize = isDesktop ? 72.0 : (isTablet ? 64.0 : 56.0);
     return Column(
       children: [
-        Center(child: AppBrandLogo(size: logoSize)),
+        const Center(child: AppBrandLogo(size: 72)),
         const SizedBox(height: 10),
         const Text(
           'Resilient Build Pakistan',
