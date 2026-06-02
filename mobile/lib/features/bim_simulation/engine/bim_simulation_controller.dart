@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -199,6 +200,9 @@ class BimSimulationController extends ChangeNotifier {
   double get globalProgress =>
       stages.isEmpty ? 0 : (stageIndex + stageProgress) / stages.length;
 
+  /// Normalized scrub position (0–1) for transport UI.
+  double get progressNormalized => globalProgress;
+
   void tick(double dt) {
     if (!isPlaying || stages.isEmpty || externallyDrivenPlayback) return;
     final stage = currentStage!;
@@ -211,9 +215,15 @@ class BimSimulationController extends ChangeNotifier {
       stageProgress = 0;
       if (stageIndex < stages.length - 1) {
         stageIndex++;
+        if (kDebugMode) {
+          debugPrint('PLAYBACK STATE: playing · stage=$stageIndex');
+        }
       } else {
         isPlaying = false;
         stageProgress = 1;
+        if (kDebugMode) {
+          debugPrint('PLAYBACK STATE: stopped (sequence complete)');
+        }
       }
     }
     if (stageIndex == stages.length - 1) {
@@ -278,15 +288,26 @@ class BimSimulationController extends ChangeNotifier {
     }
   }
 
+  String get _playbackStateLabel =>
+      isPlaying ? 'playing' : (stageProgress > 0 ? 'paused' : 'stopped');
+
   void play() {
     if (stages.isEmpty) return;
     isPlaying = true;
+    if (kDebugMode) {
+      debugPrint('PLAYBACK STATE: $_playbackStateLabel');
+      debugPrint('Stage: $stageIndex');
+    }
     notifyListeners();
   }
 
   void pause() {
     if (!isPlaying) return;
     isPlaying = false;
+    if (kDebugMode) {
+      debugPrint('PLAYBACK STATE: $_playbackStateLabel');
+      debugPrint('Stage: $stageIndex');
+    }
     notifyListeners();
   }
 

@@ -1,7 +1,6 @@
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
@@ -37,16 +36,12 @@ class BimEngineeringWorkspace extends StatefulWidget {
       _BimEngineeringWorkspaceState();
 }
 
-class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
-    with SingleTickerProviderStateMixin {
+class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
   static const double _drawerWidth = 390;
 
   bool _leftOpen = false;
   bool _rightOpen = false;
   bool _timelineOpen = false;
-  bool _playbackVisible = true;
-  double _playbackIdleSec = 0;
-  late final Ticker _idleTicker;
   int _leftTab = 0;
   int _rightTab = 0;
 
@@ -55,57 +50,33 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
   @override
   void initState() {
     super.initState();
-    _idleTicker = createTicker(_onIdleTick)..start();
     _c.addListener(_onController);
   }
 
   @override
   void dispose() {
-    _idleTicker.dispose();
     _c.removeListener(_onController);
     super.dispose();
   }
 
-  void _onIdleTick(Duration elapsed) {
-    if (!_playbackVisible || _c.isPlaying) return;
-    final dt = elapsed.inMicroseconds / 1e6;
-    _playbackIdleSec += dt;
-    if (_playbackIdleSec >= 5 && mounted) {
-      setState(() => _playbackVisible = false);
-      _playbackIdleSec = 0;
-    }
-  }
-
   void _onController() {
     if (mounted) setState(() {});
-    if (_c.isPlaying) _showPlaybackDock();
   }
 
-  void _showPlaybackDock() {
-    if (!mounted) return;
-    if (!_playbackVisible) {
-      setState(() => _playbackVisible = true);
-    }
-    if (_c.isPlaying) return;
-    _restartAutoHideTimer();
-  }
+  void _onPlaybackInteraction() {}
 
-  void _restartAutoHideTimer() {
-    _playbackIdleSec = 0;
-  }
-
-  void _onUserInteraction() => _showPlaybackDock();
+  void _onUserInteraction() => _onPlaybackInteraction();
 
   Widget _viewerInteractionCapture({required Widget child}) {
     final desktop = !AppBreakpoints.isMobile(context);
     Widget wrapped = Listener(
       behavior: HitTestBehavior.translucent,
-      onPointerDown: (_) => _showPlaybackDock(),
+      onPointerDown: (_) => _onPlaybackInteraction(),
       child: child,
     );
     if (desktop) {
       wrapped = MouseRegion(
-        onHover: (_) => _showPlaybackDock(),
+        onHover: (_) => _onPlaybackInteraction(),
         child: wrapped,
       );
     }
@@ -170,7 +141,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           child: _BimPlaybackDock(
             controller: _c,
-            onInteraction: _showPlaybackDock,
+            onInteraction: _onPlaybackInteraction,
           ),
         ),
       _ => const SizedBox.shrink(),
@@ -217,7 +188,6 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         }
         break;
       case 'timeline':
-        _showPlaybackDock();
         if (mobile) {
           _openMobileSheet('timeline');
         } else {
@@ -229,7 +199,6 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         }
         break;
       case 'playback':
-        _showPlaybackDock();
         if (mobile) {
           _openMobileSheet('playback');
         }
@@ -260,21 +229,18 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
             actions: <Type, Action<Intent>>{
               _PlaybackToggleIntent: CallbackAction<_PlaybackToggleIntent>(
                 onInvoke: (_) {
-                  _showPlaybackDock();
                   _c.togglePlay();
                   return null;
                 },
               ),
               _PlaybackPreviousIntent: CallbackAction<_PlaybackPreviousIntent>(
                 onInvoke: (_) {
-                  _showPlaybackDock();
                   if (_c.stageIndex > 0) _c.previousStage();
                   return null;
                 },
               ),
               _PlaybackNextIntent: CallbackAction<_PlaybackNextIntent>(
                 onInvoke: (_) {
-                  _showPlaybackDock();
                   if (_c.stageIndex < _c.stages.length - 1) _c.nextStage();
                   return null;
                 },
@@ -396,26 +362,40 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
                   child: _TimelinePanel(controller: _c),
                 ),
 
-              // Floating playback (bottom-center, glass).
-              Positioned(
-                left: 12,
-                right: 12,
-                bottom: mobile ? 20 : 16,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: AnimatedOpacity(
-                    opacity: _playbackVisible || _c.isPlaying ? 1 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: IgnorePointer(
-                      ignoring: !_playbackVisible && !_c.isPlaying,
+              // Desktop/tablet: playback dock always visible (no auto-hide).
+              if (!mobile)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 24,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: _BimPlaybackDock(
                         controller: _c,
-                        onInteraction: _showPlaybackDock,
+                        onInteraction: _onPlaybackInteraction,
                       ),
                     ),
                   ),
                 ),
-              ),
+
+              // Mobile: dedicated FAB opens full playback sheet.
+              if (mobile)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 24,
+                  child: Center(
+                    child: FloatingActionButton.extended(
+                      heroTag: 'bim-playback-fab',
+                      backgroundColor: AppColors.orange,
+                      foregroundColor: Colors.white,
+                      onPressed: () => _openMobileSheet('playback'),
+                      icon: const Icon(Icons.play_circle_outline),
+                      label: const Text('Playback'),
+                    ),
+                  ),
+                ),
                 ],
               ),
             ),
@@ -1258,7 +1238,7 @@ class _BimPlaybackDock extends StatelessWidget {
       builder: (context, _) {
         final total = controller.stages.length;
         final stageNum = controller.stageIndex + 1;
-        final value = controller.globalProgress;
+        final value = controller.progressNormalized;
         final speed = controller.playbackSpeed;
         final labelStyle = TextStyle(
           color: tokens.textOnGlassMuted,
@@ -1325,6 +1305,13 @@ class _BimPlaybackDock extends StatelessWidget {
                       onPressed: () {
                         onInteraction();
                         controller.togglePlay();
+                        assert(() {
+                          debugPrint(
+                            'PLAYBACK STATE: ${controller.isPlaying ? 'playing' : 'paused/stopped'}',
+                          );
+                          debugPrint('Stage: ${controller.stageIndex}');
+                          return true;
+                        }());
                       },
                       icon: Icon(
                         controller.isPlaying
