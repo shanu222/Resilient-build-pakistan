@@ -288,7 +288,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: _closeDrawers,
-                    child: Container(color: Colors.black26),
+                    child: Container(color: context.appTokens.overlayScrim),
                   ),
                 ),
 

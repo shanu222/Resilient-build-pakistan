@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/utils/web_asset_url.dart';
 
 /// BIM-style 3D viewer (GLB/GLTF). Shows engineering placeholder if asset is not bundled yet.
@@ -47,11 +48,14 @@ class ModelViewerWidget extends StatelessWidget {
                 Positioned(
                   top: 8,
                   left: 8,
-                  child: _badge([
-                    if (explodedView) 'Exploded',
-                    if (crossSection) 'Cross-Section',
-                    viewMode,
-                  ].join(' · ')),
+                  child: _badge(
+                    context,
+                    [
+                      if (explodedView) 'Exploded',
+                      if (crossSection) 'Cross-Section',
+                      viewMode,
+                    ].join(' · '),
+                  ),
                 ),
             ],
           ),
@@ -76,14 +80,18 @@ class ModelViewerWidget extends StatelessWidget {
     );
   }
 
-  Widget _badge(String text) {
+  Widget _badge(BuildContext context, String text) {
+    final tokens = context.appTokens;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.navy.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 11)),
+      child: Text(
+        text,
+        style: TextStyle(color: tokens.textOnHero, fontSize: 11),
+      ),
     );
   }
 }

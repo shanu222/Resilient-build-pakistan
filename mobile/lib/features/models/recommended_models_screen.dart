@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/model_catalog_card.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../data/models/house_model.dart';
@@ -73,7 +74,7 @@ class _RecommendedModelsScreenState extends ConsumerState<RecommendedModelsScree
                       Text(
                         'Resilient model library',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Colors.white,
+                              color: context.appTokens.textOnHero,
                               fontWeight: FontWeight.w700,
                             ),
                       ),
@@ -81,13 +82,13 @@ class _RecommendedModelsScreenState extends ConsumerState<RecommendedModelsScree
                       Text(
                         'Engineered housing systems for Pakistan\'s hazard context',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.white70,
+                              color: context.appTokens.textOnHeroMuted,
                             ),
                       ),
                       const SizedBox(height: 16),
                       TextField(
                         controller: _search,
-                        style: const TextStyle(color: AppColors.foreground),
+                        style: TextStyle(color: context.appTokens.textPrimary),
                         decoration: InputDecoration(
                           hintText: 'Search models…',
                           prefixIcon: const Icon(Icons.search),

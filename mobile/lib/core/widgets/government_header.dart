@@ -73,7 +73,7 @@ class GovernmentHeader extends ConsumerWidget implements PreferredSizeWidget {
           color: bg,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
+              color: context.appTokens.shadow,
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -205,7 +205,7 @@ class _HeaderIconButton extends StatelessWidget {
     return IconButton(
       tooltip: tooltip,
       onPressed: onPressed,
-      icon: Icon(icon, color: Colors.white),
+      icon: Icon(icon, color: context.appTokens.textOnPrimary),
       visualDensity: VisualDensity.compact,
     );
   }
@@ -225,7 +225,7 @@ class _ModeDot extends StatelessWidget {
         color: selected ? AppColors.orange.withValues(alpha: 0.35) : Colors.transparent,
         borderRadius: BorderRadius.circular(999),
       ),
-      child: Icon(icon, size: 16, color: Colors.white),
+      child: Icon(icon, size: 16, color: context.appTokens.textOnPrimary),
     );
   }
 }
@@ -256,7 +256,7 @@ class _LogoCircle extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
+              color: context.appTokens.shadow,
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
@@ -174,7 +175,7 @@ class _HeroSection extends StatelessWidget {
             child: Icon(
               Icons.map_outlined,
               size: isWide ? 200 : 140,
-              color: Colors.white.withValues(alpha: 0.06),
+              color: context.appTokens.textOnHero.withValues(alpha: 0.06),
             ),
           ),
           SafeArea(
@@ -187,7 +188,7 @@ class _HeroSection extends StatelessWidget {
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(child: _heroCopy(theme.textTheme)),
+                        Expanded(child: _heroCopy(context, theme.textTheme)),
                         const SizedBox(width: 32),
                         Expanded(child: _heroForm(context, districtsAsync)),
                       ],
@@ -195,7 +196,7 @@ class _HeroSection extends StatelessWidget {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _heroCopy(theme.textTheme),
+                        _heroCopy(context, theme.textTheme),
                         const SizedBox(height: 20),
                         _heroForm(context, districtsAsync),
                       ],
@@ -207,7 +208,9 @@ class _HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _heroCopy(TextTheme theme) {
+  Widget _heroCopy(BuildContext context, TextTheme theme) {
+    final hero = context.appTokens.textOnHero;
+    final heroMuted = context.appTokens.textOnHeroMuted;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -226,20 +229,23 @@ class _HeroSection extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           'Build safer across Pakistan',
-          style: theme.headlineMedium?.copyWith(color: Colors.white),
+          style: theme.headlineMedium?.copyWith(color: hero),
         ),
         const SizedBox(height: 8),
         Text(
           'District hazard intelligence, engineered housing models, and step-by-step Digital Twin construction — aligned with disaster-resilient practice.',
-          style: theme.bodyMedium?.copyWith(color: Colors.white.withValues(alpha: 0.85)),
+          style: theme.bodyMedium?.copyWith(color: heroMuted),
         ),
         if (lastPlace != null) ...[
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.history, size: 14, color: Colors.white54),
+              Icon(Icons.history, size: 14, color: heroMuted),
               const SizedBox(width: 6),
-              Text('Last site: $lastPlace', style: const TextStyle(color: Colors.white54, fontSize: 12)),
+              Text(
+                'Last site: $lastPlace',
+                style: TextStyle(color: heroMuted, fontSize: 12),
+              ),
             ],
           ),
         ],

@@ -6,10 +6,8 @@ import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/model_thumbnail.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_page_transitions.dart';
-import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/primary_button.dart';
@@ -93,55 +91,63 @@ class _LocationAnalysisScreenState extends ConsumerState<LocationAnalysisScreen>
                 children: [
                   const SizedBox(height: AppSpacing.md),
                   AnimatedFadeSlide(
-                    child: Card(
-                      color: AppColors.navy,
-                      child: Padding(
-                        padding: AppSpacing.cardPadding,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Overall site suitability',
-                              style: TextStyle(color: Colors.white70, fontSize: 13),
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                    child: Builder(
+                      builder: (context) {
+                        final tokens = context.appTokens;
+                        return Card(
+                          color: AppColors.navy,
+                          child: Padding(
+                            padding: AppSpacing.cardPadding,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${profile.suitabilityScore}%',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w700,
+                                  'Overall site suitability',
+                                  style: TextStyle(
+                                    color: tokens.textOnHeroMuted,
+                                    fontSize: 13,
                                   ),
                                 ),
-                                const SizedBox(width: AppSpacing.md),
-                                Expanded(
-                                  child: Text(
-                                    profile.suitabilitySummary,
-                                    style: TextStyle(
-                                      color: Colors.white.withValues(alpha: 0.85),
-                                      fontSize: 13,
-                                      height: 1.4,
+                                const SizedBox(height: AppSpacing.sm),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '${profile.suitabilityScore}%',
+                                      style: TextStyle(
+                                        color: tokens.textOnHero,
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
+                                    const SizedBox(width: AppSpacing.md),
+                                    Expanded(
+                                      child: Text(
+                                        profile.suitabilitySummary,
+                                        style: TextStyle(
+                                          color: tokens.textOnHeroMuted,
+                                          fontSize: 13,
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: AppSpacing.md),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: LinearProgressIndicator(
+                                    value: profile.suitabilityScore / 100,
+                                    minHeight: 8,
+                                    backgroundColor: tokens.textOnHero.withValues(alpha: 0.24),
+                                    color: AppColors.orange,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: AppSpacing.md),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: LinearProgressIndicator(
-                                value: profile.suitabilityScore / 100,
-                                minHeight: 8,
-                                backgroundColor: Colors.white24,
-                                color: AppColors.orange,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
@@ -313,6 +319,7 @@ class _DistrictHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(colors: AppColors.heroGradient),
@@ -327,7 +334,7 @@ class _DistrictHero extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back, color: tokens.textOnHero),
                     onPressed: () => context.pop(),
                   ),
                   Expanded(
@@ -337,13 +344,13 @@ class _DistrictHero extends StatelessWidget {
                         Text(
                           profile.displayName,
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
+                                color: tokens.textOnHero,
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
                         Text(
                           profile.regionName,
-                          style: const TextStyle(color: Colors.white70, fontSize: 13),
+                          style: TextStyle(color: tokens.textOnHeroMuted, fontSize: 13),
                         ),
                       ],
                     ),
@@ -526,8 +533,8 @@ class _RankedModelTile extends StatelessWidget {
                             rank == 1 ? AppColors.orange : AppColors.navy,
                         child: Text(
                           '$rank',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: context.appTokens.textOnPrimary,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
                           ),

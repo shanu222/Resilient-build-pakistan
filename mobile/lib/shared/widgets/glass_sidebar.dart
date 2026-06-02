@@ -89,7 +89,7 @@ class _CollapseToggle extends ConsumerWidget {
           child: Icon(
             collapsed ? Icons.menu_open : Icons.menu,
             key: ValueKey(collapsed),
-            color: context.appTokens.textOnPrimary,
+            color: context.appTokens.navInactive,
           ),
         ),
       ),
@@ -146,9 +146,11 @@ class _GlassNavTile extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: tokens.textOnPrimary.withValues(alpha: active ? 0.12 : 0.06),
+            color: (active ? tokens.navActive : tokens.navInactive)
+                .withValues(alpha: active ? 0.14 : 0.08),
             border: Border.all(
-              color: tokens.textOnPrimary.withValues(alpha: active ? 0.22 : 0.12),
+              color: (active ? tokens.navActive : tokens.navInactive)
+                  .withValues(alpha: active ? 0.35 : 0.20),
             ),
             boxShadow: active
                 ? [
@@ -167,15 +169,19 @@ class _GlassNavTile extends StatelessWidget {
               if (emoji != null && extended)
                 Text(emoji!, style: const TextStyle(fontSize: 16))
               else
-                Icon(icon, color: tokens.textOnPrimary, size: 22),
+                Icon(
+                  icon,
+                  color: active ? tokens.navActive : tokens.navInactive,
+                  size: 22,
+                ),
               if (extended) ...[
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     label,
                     style: TextStyle(
-                      color: tokens.textOnPrimary,
-                      fontWeight: active ? FontWeight.w900 : FontWeight.w700,
+                      color: active ? tokens.navActive : tokens.navInactive,
+                      fontWeight: active ? FontWeight.w900 : FontWeight.w600,
                       fontSize: 13,
                     ),
                     maxLines: 1,

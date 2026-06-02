@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/utils/web_asset_url.dart';
 import 'construction_stage_controller.dart';
 import 'widgets/hazard_simulation_overlay.dart';
@@ -70,6 +71,7 @@ class _StageBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -79,10 +81,17 @@ class _StageBadge extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10)),
+          Text(
+            label,
+            style: TextStyle(color: tokens.textOnHeroMuted, fontSize: 10),
+          ),
           Text(
             title,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+            style: TextStyle(
+              color: tokens.textOnHero,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
           ),
         ],
       ),

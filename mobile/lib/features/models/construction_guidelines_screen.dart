@@ -837,18 +837,22 @@ class _RightPanel extends StatelessWidget {
                       (h) => Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.10),
+                          color: tokens.chipBackground,
                           borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
+                          border: Border.all(color: tokens.border),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.shield_outlined, size: 14, color: Colors.white),
+                            Icon(Icons.shield_outlined, size: 14, color: tokens.chipForeground),
                             const SizedBox(width: 6),
                             Text(
                               h,
-                              style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                              style: TextStyle(
+                                color: tokens.chipForeground,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ],
                         ),
@@ -925,6 +929,7 @@ class _InfographicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return GlassCard(
       padding: AppSpacing.cardPadding,
       child: Column(
@@ -932,18 +937,21 @@ class _InfographicCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.image_outlined, color: Colors.white),
+              Icon(Icons.image_outlined, color: tokens.textPrimary),
               const SizedBox(width: 8),
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Infographic',
-                  style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: tokens.textPrimary,
+                  ),
                 ),
               ),
               TextButton.icon(
                 onPressed: () => _openFullScreen(context),
-                icon: const Icon(Icons.fullscreen, color: Colors.white),
-                label: const Text('Preview', style: TextStyle(color: Colors.white)),
+                icon: Icon(Icons.fullscreen, color: tokens.textPrimary),
+                label: Text('Preview', style: TextStyle(color: tokens.textPrimary)),
               ),
             ],
           ),
@@ -953,7 +961,7 @@ class _InfographicCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(14),
               child: Container(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: tokens.fillSubtle,
                 child: Image.asset(
                   house.constructionInfographicAsset,
                   fit: BoxFit.cover,
@@ -976,6 +984,7 @@ class _InfographicCard extends StatelessWidget {
   }
 
   void _openFullScreen(BuildContext context) {
+    final tokens = context.appTokens;
     showDialog<void>(
       context: context,
       builder: (_) => Dialog(
@@ -983,7 +992,7 @@ class _InfographicCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(14),
           child: Container(
-            color: Colors.black,
+            color: tokens.viewerBackground,
             child: InteractiveViewer(
               minScale: 0.5,
               maxScale: 6,
@@ -1017,11 +1026,12 @@ class _RefCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     final accent = switch (tone) {
-      _RefTone.success => AppColors.success,
-      _RefTone.warning => const Color(0xFFF59E0B),
-      _RefTone.info => AppColors.info,
-      _RefTone.neutral => Colors.white.withValues(alpha: 0.85),
+      _RefTone.success => tokens.success,
+      _RefTone.warning => tokens.warning,
+      _RefTone.info => tokens.info,
+      _RefTone.neutral => tokens.textSecondary,
     };
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -1036,9 +1046,9 @@ class _RefCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w900,
-                    color: Colors.white,
+                    color: tokens.textPrimary,
                   ),
                 ),
               ],
@@ -1052,7 +1062,7 @@ class _RefCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.35,
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: tokens.textSecondary,
                   ),
                 ),
               ),
@@ -1175,6 +1185,7 @@ class _ModelThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return ClipRRect(
       borderRadius: BorderRadius.circular(14),
       child: Container(
@@ -1184,11 +1195,11 @@ class _ModelThumb extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.white.withValues(alpha: 0.10),
+              tokens.fillSubtle,
               AppColors.orange.withValues(alpha: 0.10),
             ],
           ),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
+          border: Border.all(color: tokens.border),
         ),
         child: Row(
           children: [
@@ -1203,8 +1214,8 @@ class _ModelThumb extends StatelessWidget {
                       house.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: tokens.textPrimary,
                         fontWeight: FontWeight.w900,
                         height: 1.1,
                       ),
@@ -1212,7 +1223,7 @@ class _ModelThumb extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       house.category,
-                      style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12),
+                      style: TextStyle(color: tokens.textSecondary, fontSize: 12),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -1226,7 +1237,10 @@ class _ModelThumb extends StatelessWidget {
                 house.resolvedThumbnailAsset,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
-                errorBuilder: (_, __, ___) => const Icon(Icons.home_work_outlined, color: Colors.white70),
+                errorBuilder: (_, __, ___) => Icon(
+                  Icons.home_work_outlined,
+                  color: tokens.textMuted,
+                ),
               ),
             ),
           ],

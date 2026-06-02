@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/gradient_header.dart';
 import '../../providers/app_providers.dart';
 
@@ -48,11 +48,11 @@ class MaterialsLibraryScreen extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _row('Purpose', m['engineeringPurpose'] as String),
-                                _row('Advantages', (m['advantages'] as List).join(', ')),
-                                _row('Disadvantages', (m['disadvantages'] as List).join(', ')),
-                                _row('Expected Life', '${m['expectedLifeYears']} years'),
-                                _row('Maintenance', m['maintenance'] as String),
+                                _row(context, 'Purpose', m['engineeringPurpose'] as String),
+                                _row(context, 'Advantages', (m['advantages'] as List).join(', ')),
+                                _row(context, 'Disadvantages', (m['disadvantages'] as List).join(', ')),
+                                _row(context, 'Expected Life', '${m['expectedLifeYears']} years'),
+                                _row(context, 'Maintenance', m['maintenance'] as String),
                               ],
                             ),
                           ),
@@ -69,14 +69,25 @@ class MaterialsLibraryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _row(String label, String value) {
+  Widget _row(BuildContext context, String label, String value) {
+    final tokens = context.appTokens;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-          Text(value, style: const TextStyle(color: AppColors.mutedForeground, fontSize: 14)),
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color: tokens.textPrimary,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(color: tokens.textSecondary, fontSize: 14),
+          ),
         ],
       ),
     );

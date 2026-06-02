@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme_extensions.dart';
 
 /// Educational hazard visualization overlay on the BIM viewer.
 class HazardSimulationOverlay extends StatelessWidget {
@@ -82,7 +83,7 @@ class HazardSimulationOverlay extends StatelessWidget {
             title: 'Hazard view',
             subtitle: '',
             defaultDetail: '',
-            color: Colors.grey,
+            color: AppColors.mutedForeground,
             icon: Icons.warning,
           ),
       };
@@ -121,6 +122,7 @@ class _ExplanationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Material(
       elevation: 6,
       borderRadius: BorderRadius.circular(12),
@@ -138,8 +140,8 @@ class _ExplanationCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: tokens.textOnHero,
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
                     ),
@@ -153,7 +155,7 @@ class _ExplanationCard extends StatelessWidget {
                   Text(
                     detail,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.85),
+                      color: tokens.textOnHeroMuted,
                       fontSize: 12,
                       height: 1.4,
                     ),
@@ -191,14 +193,14 @@ class _FloodOverlay extends StatelessWidget {
               ],
             ),
           ),
-          child: const Align(
+          child: Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 8),
               child: Text(
                 'DESIGN FLOOD LEVEL',
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: context.appTokens.textOnHeroMuted,
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,

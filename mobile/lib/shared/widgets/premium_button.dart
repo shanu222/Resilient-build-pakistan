@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import 'hover_lift.dart';
 
 enum PremiumButtonVariant { orange, blue }
@@ -25,6 +26,7 @@ class PremiumButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = onPressed != null;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final tokens = context.appTokens;
 
     final gradient = switch (variant) {
       PremiumButtonVariant.orange => const LinearGradient(
@@ -61,7 +63,7 @@ class PremiumButton extends StatelessWidget {
               ]
             : [],
         border: Border.all(
-          color: Colors.white.withValues(alpha: enabled ? 0.14 : 0.10),
+          color: tokens.textOnPrimary.withValues(alpha: enabled ? 0.14 : 0.10),
         ),
       ),
       child: Row(
@@ -69,13 +71,13 @@ class PremiumButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (icon != null) ...[
-            Icon(icon, color: Colors.white, size: 18),
+            Icon(icon, color: tokens.textOnPrimary, size: 18),
             const SizedBox(width: 10),
           ],
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: tokens.textOnPrimary,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.2,
             ),

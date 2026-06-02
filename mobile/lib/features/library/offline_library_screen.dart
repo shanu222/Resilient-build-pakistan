@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
@@ -95,14 +96,16 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                       Text(
                         'Guidance library',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Colors.white,
+                              color: context.appTokens.textOnHero,
                               fontWeight: FontWeight.w700,
                             ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         'Construction guides, engineering manuals, and model specifications',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: context.appTokens.textOnHeroMuted,
+                            ),
                       ),
                       const SizedBox(height: 16),
                       TextField(
@@ -139,13 +142,19 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                         ),
                         child: const Icon(Icons.cloud_off, color: AppColors.orange),
                       ),
-                      title: const Text(
+                      title: Text(
                         'Offline-first',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: context.appTokens.textOnHero,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       subtitle: Text(
                         'All models, BIM sequences, and PDFs are bundled. No login required.',
-                        style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
+                        style: TextStyle(
+                          color: context.appTokens.textOnHeroMuted,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),

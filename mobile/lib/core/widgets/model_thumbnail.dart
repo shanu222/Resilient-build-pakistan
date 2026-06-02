@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme_extensions.dart';
 
 /// Exploded-view model preview with WebP → PNG → gradient placeholder fallback.
 class ModelThumbnail extends StatefulWidget {
@@ -107,7 +108,7 @@ class _Placeholder extends StatelessWidget {
         child: Icon(
           Icons.view_in_ar_outlined,
           size: 48,
-          color: Colors.white.withValues(alpha: 0.45),
+          color: context.appTokens.textOnHeroMuted,
         ),
       ),
     );

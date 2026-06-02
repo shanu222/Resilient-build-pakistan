@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../providers/app_providers.dart';
 
 class EngineeringDetailScreen extends ConsumerWidget {
@@ -40,7 +41,9 @@ class EngineeringDetailScreen extends ConsumerWidget {
                   Text(
                     'Structural Component Detail',
                     style: TextStyle(
-                        fontSize: 12, color: Colors.white.withValues(alpha: 0.7)),
+                      fontSize: 12,
+                      color: context.appTokens.textOnPrimary.withValues(alpha: 0.7),
+                    ),
                   ),
                 ],
               ),
@@ -60,7 +63,7 @@ class EngineeringDetailScreen extends ConsumerWidget {
                           color: const Color(0xFF52525B),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: Colors.white30,
+                            color: context.appTokens.textOnPrimary.withValues(alpha: 0.3),
                             width: 2,
                             style: BorderStyle.solid,
                           ),
@@ -135,7 +138,10 @@ class EngineeringDetailScreen extends ConsumerWidget {
           children: [
             Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 12),
-            Text(body, style: const TextStyle(color: AppColors.mutedForeground)),
+            Text(
+              body,
+              style: TextStyle(color: context.appTokens.textSecondary),
+            ),
             ...bullets.map((b) => Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Text('• $b'),

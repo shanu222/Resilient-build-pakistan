@@ -114,10 +114,10 @@ class _Toolbar extends StatelessWidget {
     Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute<void>(
         builder: (_) => Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: context.appTokens.viewerBackground,
           appBar: AppBar(
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
+            backgroundColor: context.appTokens.viewerBackground,
+            foregroundColor: context.appTokens.textOnGlass,
             title: const Text('Infographic'),
           ),
           body: InteractiveViewer(

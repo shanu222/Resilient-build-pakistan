@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../providers/app_providers.dart';
 import '../../shared/widgets/app_brand_logo.dart';
@@ -67,7 +68,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ),
                           child: i == _brandSlideIndex
                               ? const Center(child: AppBrandLogo(size: 96))
-                              : Icon(s.icon, size: 80, color: Colors.white),
+                              : Icon(
+                                  s.icon,
+                                  size: 80,
+                                  color: context.appTokens.textOnHero,
+                                ),
                         ),
                         const SizedBox(height: 32),
                         Text(
@@ -82,7 +87,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         Text(
                           s.body,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(color: AppColors.mutedForeground),
+                          style: TextStyle(color: context.appTokens.textSecondary),
                         ),
                       ],
                     ),

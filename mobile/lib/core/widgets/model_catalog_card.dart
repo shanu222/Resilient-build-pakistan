@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme_extensions.dart';
 import 'model_thumbnail.dart';
 
 class ModelCatalogCard extends StatefulWidget {
@@ -52,16 +53,17 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = context.appTokens;
     final enableHover = kIsWeb;
 
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: _hovered ? 8 : 2,
-      shadowColor: Colors.black.withValues(alpha: 0.18),
+      shadowColor: tokens.shadow,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: _hovered ? AppColors.orange.withValues(alpha: 0.35) : AppColors.border,
+          color: _hovered ? AppColors.orange.withValues(alpha: 0.35) : tokens.border,
         ),
       ),
       child: MouseRegion(
@@ -82,7 +84,7 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.12),
+                          color: tokens.shadow,
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -106,14 +108,18 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
                   children: [
                     Text(
                       widget.name,
-                      style: theme.textTheme.titleMedium,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: tokens.textPrimary,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       widget.description,
-                      style: theme.textTheme.bodySmall,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: tokens.textSecondary,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -198,6 +204,7 @@ class _Metric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Expanded(
       child: Row(
         children: [
@@ -207,12 +214,18 @@ class _Metric extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: Theme.of(context).textTheme.labelSmall),
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: tokens.textMuted,
+                      ),
+                ),
                 Text(
                   value,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: color,
                         fontSize: 12,
+                        fontWeight: FontWeight.w700,
                       ),
                   overflow: TextOverflow.ellipsis,
                 ),

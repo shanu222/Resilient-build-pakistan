@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 
 class AppBrandLogo extends StatelessWidget {
   const AppBrandLogo({
@@ -25,6 +26,7 @@ class AppBrandLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = size ?? _defaultSize(context);
+    final tokens = context.appTokens;
     return Semantics(
       label: semanticsLabel,
       image: true,
@@ -33,11 +35,11 @@ class AppBrandLogo extends StatelessWidget {
         height: s,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: tokens.surfaceElevated,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.14),
+              color: tokens.shadow,
               blurRadius: 14,
               offset: const Offset(0, 6),
             ),

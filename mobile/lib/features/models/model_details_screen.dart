@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/model_thumbnail.dart';
@@ -210,6 +211,7 @@ class _HeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = _heroHeight(context);
+    final tokens = context.appTokens;
 
     return SizedBox(
       height: height,
@@ -231,9 +233,9 @@ class _HeroHeader extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withValues(alpha: 0.35),
+                  tokens.overlayScrim.withValues(alpha: 0.55),
                   Colors.transparent,
-                  Colors.black.withValues(alpha: 0.72),
+                  tokens.overlayScrim.withValues(alpha: 0.95),
                 ],
                 stops: const [0, 0.45, 1],
               ),
@@ -250,7 +252,7 @@ class _HeroHeader extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back, color: tokens.textOnHero),
                     onPressed: () => context.pop(),
                   ),
                   const Spacer(),
@@ -264,12 +266,12 @@ class _HeroHeader extends StatelessWidget {
                             Text(
                               house.name,
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    color: Colors.white,
+                                    color: tokens.textOnHero,
                                     fontWeight: FontWeight.w800,
-                                    shadows: const [
+                                    shadows: [
                                       Shadow(
                                         blurRadius: 8,
-                                        color: Colors.black54,
+                                        color: tokens.overlayScrim,
                                       ),
                                     ],
                                   ),
@@ -282,9 +284,11 @@ class _HeroHeader extends StatelessWidget {
                                   .map(
                                     (h) => Chip(
                                       label: Text(h, style: const TextStyle(fontSize: 11)),
-                                      backgroundColor: Colors.white.withValues(alpha: 0.15),
-                                      labelStyle: const TextStyle(color: Colors.white),
-                                      side: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
+                                      backgroundColor: tokens.textOnHero.withValues(alpha: 0.15),
+                                      labelStyle: TextStyle(color: tokens.textOnHero),
+                                      side: BorderSide(
+                                        color: tokens.textOnHero.withValues(alpha: 0.3),
+                                      ),
                                     ),
                                   )
                                   .toList(),
@@ -296,23 +300,28 @@ class _HeroHeader extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
+                          color: tokens.textOnHero.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white30),
+                          border: Border.all(
+                            color: tokens.textOnHero.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Column(
                           children: [
                             Text(
                               '${house.resilienceScore}%',
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: tokens.textOnHero,
                                 fontSize: 28,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            const Text(
+                            Text(
                               'Resilience',
-                              style: TextStyle(color: Colors.white70, fontSize: 11),
+                              style: TextStyle(
+                                color: tokens.textOnHeroMuted,
+                                fontSize: 11,
+                              ),
                             ),
                           ],
                         ),
@@ -603,7 +612,7 @@ class _DigitalTwinCta extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.orange,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appTokens.textOnPrimary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),

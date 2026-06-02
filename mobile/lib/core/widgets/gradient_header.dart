@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../theme/app_colors.dart';
+import '../theme/app_theme_extensions.dart';
 
 class GradientHeader extends StatelessWidget {
   const GradientHeader({
@@ -17,6 +19,7 @@ class GradientHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
@@ -31,8 +34,8 @@ class GradientHeader extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: tokens.textOnHero,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -42,7 +45,7 @@ class GradientHeader extends StatelessWidget {
                 Text(
                   subtitle!,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: tokens.textOnHeroMuted,
                     fontSize: 14,
                   ),
                 ),
