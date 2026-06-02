@@ -93,11 +93,11 @@ class EngineeringDetailScreen extends ConsumerWidget {
                   height: 360,
                   child: TabBarView(
                     children: [
-                      _card('Engineering Purpose', comp['purpose'] as String, [
+                      _card(context, 'Engineering Purpose', comp['purpose'] as String, [
                         comp['function'] as String,
                       ]),
-                      _card('Load Transfer & Forces', comp['engineeringPrinciple'] as String, []),
-                      _card('Common Mistakes', 'Failure Modes', [
+                      _card(context, 'Load Transfer & Forces', comp['engineeringPrinciple'] as String, []),
+                      _card(context, 'Common Mistakes', 'Failure Modes', [
                         ...(comp['failureModes'] as List).cast<String>(),
                       ]),
                       _checklist(comp),
@@ -129,18 +129,26 @@ class EngineeringDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _card(String title, String body, List<String> bullets) {
+  Widget _card(BuildContext context, String title, String body, List<String> bullets) {
+    final tokens = context.appTokens;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: tokens.textPrimary,
+              ),
+            ),
             const SizedBox(height: 12),
             Text(
               body,
-              style: TextStyle(color: context.appTokens.textSecondary),
+              style: TextStyle(color: tokens.textSecondary),
             ),
             ...bullets.map((b) => Padding(
                   padding: const EdgeInsets.only(top: 8),
