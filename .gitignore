@@ -1,3 +1,6 @@
+# Duplicate extraction output at repo root (canonical: mobile/assets/)
+/assets/
+
 # Flutter
 mobile/.dart_tool/
 mobile/build/
