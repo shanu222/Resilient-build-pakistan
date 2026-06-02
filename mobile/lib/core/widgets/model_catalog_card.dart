@@ -148,7 +148,7 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
                             icon: Icons.shield_outlined,
                             label: 'Resilience',
                             value: '${widget.resilienceScore}%',
-                            color: AppColors.success,
+                            iconColor: tokens.success,
                           ),
                         if (widget.costLabel != null) ...[
                           const SizedBox(width: 12),
@@ -156,7 +156,7 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
                             icon: Icons.payments_outlined,
                             label: 'Cost',
                             value: widget.costLabel!,
-                            color: AppColors.navy,
+                            iconColor: tokens.primary,
                           ),
                         ],
                         if (widget.difficulty != null) ...[
@@ -165,7 +165,7 @@ class _ModelCatalogCardState extends State<ModelCatalogCard> {
                             icon: Icons.construction_outlined,
                             label: 'Level',
                             value: widget.difficulty!,
-                            color: AppColors.orange,
+                            iconColor: tokens.warning,
                           ),
                         ],
                       ],
@@ -194,13 +194,13 @@ class _Metric extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
-    required this.color,
+    required this.iconColor,
   });
 
   final IconData icon;
   final String label;
   final String value;
-  final Color color;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class _Metric extends StatelessWidget {
     return Expanded(
       child: Row(
         children: [
-          Icon(icon, size: 16, color: color),
+          Icon(icon, size: 16, color: iconColor),
           const SizedBox(width: 4),
           Expanded(
             child: Column(
@@ -223,7 +223,7 @@ class _Metric extends StatelessWidget {
                 Text(
                   value,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: color,
+                        color: tokens.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                       ),

@@ -1799,7 +1799,7 @@ class _DrawerHeader extends StatelessWidget {
               title,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w900,
-                    color: AppColors.navy,
+                    color: context.appTokens.textPrimary,
                   ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1864,15 +1864,15 @@ class _CompactHeader extends StatelessWidget {
                     ),
                     Text(
                       stage?.title ?? 'Digital Twin',
-                      style: TextStyle(color: tokens.textOnGlassMuted, fontSize: 11),
+                      style: TextStyle(color: tokens.textOnHeroMuted, fontSize: 11),
                     ),
                   ],
                 ),
               ),
               Text(
                 '$stageNum / $total',
-                style: const TextStyle(
-                  color: AppColors.orange,
+                style: TextStyle(
+                  color: tokens.warning,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -2272,7 +2272,9 @@ class _InfoBlock extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.navy),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: context.appTokens.textPrimary,
+                      ),
                 ),
                 const SizedBox(height: 4),
                 Text(body, style: Theme.of(context).textTheme.bodyMedium),

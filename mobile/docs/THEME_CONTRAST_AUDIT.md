@@ -1,42 +1,62 @@
-# Theme contrast audit
+# Theme contrast audit (global)
 
-## Root causes fixed
+## Phase 1 — Hardcoded color scan (`mobile/lib`)
 
-1. **AppTypography** hardcoded `AppColors.foreground` in dark mode — all body/title text was near-black on dark cards.
-2. **textOnGlass** was white in light theme — unreadable on light glass panels (BIM toolbar, docks).
-3. **ChipTheme** lacked `chipForeground` per brightness.
-4. **Navigation rail** inactive icons used low-contrast `#94A3B8` on navy.
-5. **Glass cards / guidelines ref panels** used `Colors.white` text in light theme.
+| Pattern | UI matches | Notes |
+|---------|------------|-------|
+| `Colors.white` / `Colors.black` / `Colors.grey*` | **0** in UI | Removed from widgets |
+| `PdfColors.*` | PDF generator only | Print pipeline — excluded |
+| `Color(0xFF…)` in UI | BIM 3D geometry + canvas HUD | Not on-screen Flutter `Text` |
+| `AppColors.*` on `Text`/`TextStyle` | **0** after this pass | Icons/backgrounds may still use brand colors |
 
-## Token additions
+## Phase 2 — Token migration
 
-- `textOnHero`, `textOnHeroMuted` — navy gradient heroes
-- `chipForeground`, `navInactive`, `navActive`, `shadow`, `fillSubtle`
-- Light `textOnGlass` → dark foreground; dark `textOnGlass` → light slate
+All user-facing text should use `context.appTokens`:
 
-## Validation
+- `textPrimary`, `textSecondary`, `textMuted`
+- `textOnGlass`, `textOnGlassMuted` (viewer glass / playback)
+- `textOnHero`, `textOnHeroMuted` (navy heroes)
+- `textOnPrimary` (buttons on orange/navy)
+- `success`, `warning`, `danger` (semantic accents)
 
-`ThemeContrastValidator.auditTokens()` — run via `test/theme/theme_contrast_test.dart`
+**Critical fix:** `GlassSidebar` used `navActive`/`navInactive` (white/slate for navy header) on **light glass** — navigation looked faded/invisible. Sidebar now uses `textPrimary` / `textSecondary`.
 
-## Remaining non-UI hardcoded colors (intentional)
+**Model library:** Metric **values** use `textPrimary`; icons use `success` / `primary` / `warning`.
 
-- `bim_simulation/engine/geometry/*` — 3D entity colors (not text)
-- `model_manual_generator.dart` — PDF generation (print colors)
-- `bim_viewport.dart` painter — canvas HUD uses fixed light-on-dark panel
+## Phase 3–8 — Audited surfaces
 
-## UI files migrated to tokens (this pass)
+| Area | Status |
+|------|--------|
+| Model / library cards | `model_catalog_card.dart` |
+| Guideline / PDF panels | `construction_guidelines_screen.dart` |
+| Timeline / engineering cards | `model_details_screen.dart`, BIM workspace |
+| Hazard cards | `hazard_simulation_overlay.dart` |
+| Drawer / inspector | `digital_twin_workspace.dart` |
+| Sidebar | `glass_sidebar.dart` |
+| Forms | `app_theme.dart` `inputDecorationTheme` |
+| Chips | `app_theme.dart` `chipTheme` + per-screen chips |
+| Buttons | `primary_button`, `premium_button`, `app_theme` buttons |
+| Heroes | `gradient_header`, library screens, `home_dashboard` |
 
-- `app_theme.dart`, `app_theme_extensions.dart`, `app_typography.dart`
-- `theme_contrast_validator.dart`, `theme_text_styles.dart`
-- `glass_sidebar.dart`, `government_header.dart`, `gradient_header.dart`
-- `model_catalog_card.dart`, `model_thumbnail.dart`
-- `home_dashboard_screen.dart`, `offline_library_screen.dart`, `recommended_models_screen.dart`
-- `location_analysis_screen.dart`, `model_details_screen.dart`, `construction_guidelines_screen.dart`
-- `engineering_detail_screen.dart`, `materials_library_screen.dart`, `onboarding_screen.dart`
-- `digital_twin_viewport.dart`, `hazard_simulation_overlay.dart`
-- `bim_engineering_workspace.dart`, `model_viewer_widget.dart`
-- `premium_button.dart`, `app_brand_logo.dart`, `zoomable_asset_image.dart`
+## Phase 9 — `ThemeContrastValidator`
 
-## Pages audited
+`mobile/lib/core/theme/theme_contrast_validator.dart` — WCAG AA pairs for light/dark tokens.
 
-Home, model library, model details, construction guidelines/PDF, location analysis, offline library, engineering detail, materials, onboarding, BIM workspace, digital twin viewport/hazards, sidebar navigation.
+Tests: `mobile/test/theme/theme_contrast_test.dart`
+
+## Intentional exclusions
+
+- `bim_simulation/engine/geometry/*` — 3D entity colors
+- `model_manual_generator.dart` — PDF colors
+- `bim_viewport.dart` — CustomPainter HUD
+
+## Build verification
+
+Run locally:
+
+```bash
+cd mobile
+flutter analyze
+flutter test
+flutter build web --release
+```

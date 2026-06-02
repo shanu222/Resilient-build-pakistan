@@ -400,6 +400,7 @@ class _HazardPerformanceSection extends StatelessWidget {
       ('Landslide', scores.landslideResistance, house.hazardsCovered.any((h) => h.toLowerCase().contains('land'))),
     ];
 
+    final tokens = context.appTokens;
     return Column(
       children: items.asMap().entries.map((e) {
         final (name, score, covered) = e.value;
@@ -413,7 +414,7 @@ class _HazardPerformanceSection extends StatelessWidget {
                 children: [
                   Icon(
                     covered ? Icons.verified : Icons.remove_circle_outline,
-                    color: covered ? AppColors.success : AppColors.mutedForeground,
+                    color: covered ? tokens.success : tokens.textMuted,
                   ),
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
@@ -428,7 +429,7 @@ class _HazardPerformanceSection extends StatelessWidget {
                               covered ? '$score%' : 'N/A',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: covered ? AppColors.navy : AppColors.mutedForeground,
+                                color: covered ? tokens.textPrimary : tokens.textMuted,
                               ),
                             ),
                           ],
@@ -461,6 +462,7 @@ class _TimelinePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
@@ -495,7 +497,7 @@ class _TimelinePreview extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: i == stages.length - 1 ? AppColors.success : AppColors.navy,
+                          color: i == stages.length - 1 ? tokens.success : tokens.textPrimary,
                         ),
                       ),
                       Expanded(
@@ -578,11 +580,15 @@ class _MetaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Chip(
-      avatar: Icon(icon, size: 16, color: AppColors.navy),
-      label: Text(label, style: const TextStyle(fontSize: 12)),
-      backgroundColor: AppColors.surface,
-      side: const BorderSide(color: AppColors.border),
+      avatar: Icon(icon, size: 16, color: tokens.chipForeground),
+      label: Text(
+        label,
+        style: TextStyle(fontSize: 12, color: tokens.chipForeground),
+      ),
+      backgroundColor: tokens.chipBackground,
+      side: BorderSide(color: tokens.border),
     );
   }
 }

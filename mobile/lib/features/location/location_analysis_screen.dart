@@ -408,7 +408,12 @@ class _ProfileRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.navy)),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: context.appTokens.textPrimary,
+                    ),
+              ),
               const SizedBox(height: 4),
               Text(value, style: Theme.of(context).textTheme.bodySmall),
             ],
@@ -557,7 +562,7 @@ class _RankedModelTile extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: AppColors.mutedForeground),
+              Icon(Icons.chevron_right, color: context.appTokens.textMuted),
             ],
           ),
         ),

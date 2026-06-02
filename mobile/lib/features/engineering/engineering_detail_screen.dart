@@ -105,20 +105,36 @@ class EngineeringDetailScreen extends ConsumerWidget {
                   ),
                 ),
                 Card(
-                  color: Colors.green.shade50,
+                  color: context.appTokens.success.withValues(alpha: 0.12),
                   child: ListTile(
-                    leading: const Icon(Icons.eco, color: AppColors.success),
-                    title: const Text('Resilience Benefit',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(comp['resilienceBenefit'] as String),
+                    leading: Icon(Icons.eco, color: context.appTokens.success),
+                    title: Text(
+                      'Resilience Benefit',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appTokens.textPrimary,
+                      ),
+                    ),
+                    subtitle: Text(
+                      comp['resilienceBenefit'] as String,
+                      style: TextStyle(color: context.appTokens.textSecondary),
+                    ),
                   ),
                 ),
                 Card(
                   child: ListTile(
-                    leading: const Icon(Icons.tips_and_updates, color: AppColors.orange),
-                    title: const Text('Construction Tips',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(comp['constructionTips'] as String),
+                    leading: Icon(Icons.tips_and_updates, color: context.appTokens.warning),
+                    title: Text(
+                      'Construction Tips',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appTokens.textPrimary,
+                      ),
+                    ),
+                    subtitle: Text(
+                      comp['constructionTips'] as String,
+                      style: TextStyle(color: context.appTokens.textSecondary),
+                    ),
                   ),
                 ),
               ],

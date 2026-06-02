@@ -89,7 +89,7 @@ class _CollapseToggle extends ConsumerWidget {
           child: Icon(
             collapsed ? Icons.menu_open : Icons.menu,
             key: ValueKey(collapsed),
-            color: context.appTokens.navInactive,
+            color: context.appTokens.textSecondary,
           ),
         ),
       ),
@@ -146,11 +146,11 @@ class _GlassNavTile extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: (active ? tokens.navActive : tokens.navInactive)
-                .withValues(alpha: active ? 0.14 : 0.08),
+            color: (active ? tokens.textPrimary : tokens.textSecondary)
+                .withValues(alpha: active ? 0.12 : 0.06),
             border: Border.all(
-              color: (active ? tokens.navActive : tokens.navInactive)
-                  .withValues(alpha: active ? 0.35 : 0.20),
+              color: (active ? tokens.textPrimary : tokens.border)
+                  .withValues(alpha: active ? 0.35 : 0.55),
             ),
             boxShadow: active
                 ? [
@@ -171,7 +171,7 @@ class _GlassNavTile extends StatelessWidget {
               else
                 Icon(
                   icon,
-                  color: active ? tokens.navActive : tokens.navInactive,
+                  color: active ? tokens.textPrimary : tokens.textSecondary,
                   size: 22,
                 ),
               if (extended) ...[
@@ -180,7 +180,7 @@ class _GlassNavTile extends StatelessWidget {
                   child: Text(
                     label,
                     style: TextStyle(
-                      color: active ? tokens.navActive : tokens.navInactive,
+                      color: active ? tokens.textPrimary : tokens.textSecondary,
                       fontWeight: active ? FontWeight.w900 : FontWeight.w600,
                       fontSize: 13,
                     ),

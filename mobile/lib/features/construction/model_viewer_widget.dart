@@ -141,7 +141,10 @@ class _ModelViewerOrPlaceholder extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(
                   stageName,
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.navy),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: context.appTokens.textPrimary,
+                  ),
                 ),
               ],
             ),

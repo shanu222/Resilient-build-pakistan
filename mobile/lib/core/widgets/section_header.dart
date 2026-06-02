@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme_extensions.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
@@ -54,7 +55,8 @@ class StatPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accent = color ?? AppColors.navy;
+    final tokens = context.appTokens;
+    final accent = color ?? tokens.primary;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -75,13 +77,13 @@ class StatPill extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.mutedForeground,
+                      color: tokens.textMuted,
                     ),
               ),
               Text(
                 value,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: accent,
+                      color: tokens.textPrimary,
                       fontWeight: FontWeight.w700,
                     ),
               ),

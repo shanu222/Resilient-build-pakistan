@@ -22,7 +22,7 @@ class HazardSimulationOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     if (mode == 'none') return const SizedBox.shrink();
 
-    final config = _config(mode);
+    final config = _config(context, mode);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -46,7 +46,9 @@ class HazardSimulationOverlay extends StatelessWidget {
     );
   }
 
-  _HazardConfig _config(String mode) => switch (mode) {
+  _HazardConfig _config(BuildContext context, String mode) {
+    final muted = context.appTokens.textMuted;
+    return switch (mode) {
         'earthquake' => _HazardConfig(
             title: 'Earthquake simulation',
             subtitle: 'Lateral forces · Box action · Band continuity',
@@ -83,10 +85,11 @@ class HazardSimulationOverlay extends StatelessWidget {
             title: 'Hazard view',
             subtitle: '',
             defaultDetail: '',
-            color: AppColors.mutedForeground,
+            color: muted,
             icon: Icons.warning,
           ),
       };
+  }
 }
 
 class _HazardConfig {

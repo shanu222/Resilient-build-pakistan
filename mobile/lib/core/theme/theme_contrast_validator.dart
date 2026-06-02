@@ -49,8 +49,17 @@ abstract final class ThemeContrastValidator {
     check('textOnGlassMuted on surfaceGlass', tokens.textOnGlassMuted, tokens.surfaceGlass);
     check('textOnPrimary on primary', tokens.textOnPrimary, tokens.primary);
     check('textOnPrimary on headerBackground', tokens.textOnPrimary, tokens.headerBackground);
+    check('textOnHero on headerBackground', tokens.textOnHero, tokens.headerBackground);
+    check('textOnHeroMuted on headerBackground', tokens.textOnHeroMuted, tokens.headerBackground);
     check('navInactive on headerBackground', tokens.navInactive, tokens.headerBackground);
+    check('navActive on headerBackground', tokens.navActive, tokens.headerBackground);
+    check('textPrimary on surfaceGlass', tokens.textPrimary, tokens.surfaceGlass);
+    check('textSecondary on surfaceGlass', tokens.textSecondary, tokens.surfaceGlass);
     check('chipForeground on chipBackground', tokens.chipForeground, tokens.chipBackground);
+    check('textOnGlass on playbackSurface', tokens.textOnGlass, tokens.playbackSurface, large: true);
+    check('warning on surface', tokens.warning, tokens.surface, large: true);
+    check('success on surface', tokens.success, tokens.surface, large: true);
+    check('danger on surface', tokens.danger, tokens.surface, large: true);
 
     return issues;
   }

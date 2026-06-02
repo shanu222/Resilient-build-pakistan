@@ -221,9 +221,13 @@ class _HeroSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
             border: Border.all(color: AppColors.orange.withValues(alpha: 0.4)),
           ),
-          child: const Text(
+          child: Text(
             'National Resilience Platform',
-            style: TextStyle(color: AppColors.orangeLight, fontSize: 11, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: context.appTokens.warning,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         const SizedBox(height: 12),
@@ -381,7 +385,7 @@ class _ActionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.mutedForeground),
+              Icon(Icons.arrow_forward_ios, size: 16, color: context.appTokens.textMuted),
             ],
           ),
         ),
