@@ -47,11 +47,13 @@ class _ModelThumbnailState extends State<ModelThumbnail> {
       child = _Placeholder(gradient: widget.gradientFallback);
     } else {
       final path = _usePngFallback ? _png : _primary!;
+      debugPrint('Loading thumbnail: $path');
       child = Image.asset(
         path,
         fit: widget.fit,
         gaplessPlayback: true,
         errorBuilder: (_, __, ___) {
+          debugPrint('Failed image: $path');
           if (!_usePngFallback) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) setState(() => _usePngFallback = true);
