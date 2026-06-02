@@ -9,7 +9,7 @@ import '../math/bim_vec3.dart';
 
 /// Engineering-grade procedural BIM — interlocking brick masonry digital twin.
 ///
-/// Coordinates: origin at SW corner of building footprint, Y up, meters.
+/// Coordinates: model-local origin at building footprint center, Y up, meters.
 class InterlockingBrickSceneBuilder {
   List<BimEntity> build() {
     final entities = <BimEntity>[];
@@ -87,7 +87,7 @@ class InterlockingBrickSceneBuilder {
           color: const Color(0xFF64748B),
           category: BimEntityCategory.grid,
           position: BimVec3(x, 0.025, -0.75),
-          minStage: 1,
+          minStage: 0,
           buildProgress: 0,
         ),
       );
@@ -106,7 +106,7 @@ class InterlockingBrickSceneBuilder {
           color: const Color(0xFF64748B),
           category: BimEntityCategory.grid,
           position: BimVec3(-0.75, 0.025, z),
-          minStage: 1,
+          minStage: 0,
           buildProgress: 0,
         ),
       );
@@ -121,7 +121,7 @@ class InterlockingBrickSceneBuilder {
           color: const Color(0xFFF97316),
           category: BimEntityCategory.survey,
           position: BimVec3(corner.$1, 0, corner.$2),
-          minStage: 1,
+          minStage: 0,
           buildProgress: 0,
         ),
       );
@@ -182,7 +182,7 @@ class InterlockingBrickSceneBuilder {
           category: BimEntityCategory.excavation,
           position: BimVec3(s.$1 - s.$4 / 2, s.$2, s.$3 - s.$6 / 2),
           explodeGroup: 1,
-          minStage: 2,
+          minStage: 1,
           pickable: i == 0,
           componentId: 'foundation',
           buildProgress: 0,
@@ -206,7 +206,7 @@ class InterlockingBrickSceneBuilder {
         ),
         color: const Color(0xFF78716C),
         category: BimEntityCategory.excavation,
-        minStage: 2,
+        minStage: 1,
         opacity: 0.85,
       ),
     );
@@ -238,7 +238,7 @@ class InterlockingBrickSceneBuilder {
           category: BimEntityCategory.concrete,
           position: BimVec3(s.$1 - s.$4 / 2, s.$2, s.$3 - s.$6 / 2),
           explodeGroup: 1,
-          minStage: 3,
+          minStage: 2,
           pickable: i == 0,
           componentId: 'foundation',
           buildProgress: 0,

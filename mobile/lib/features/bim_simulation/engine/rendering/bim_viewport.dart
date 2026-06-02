@@ -1382,18 +1382,27 @@ class _BimPainter extends CustomPainter {
   }
 
   void _arrow(Canvas canvas, Offset from, Offset to, String label, Color color) {
+    final phase = (math.sin(controller.earthquakePhase * 1.1) + 1) / 2;
+    final alpha = (0.55 + 0.45 * phase).clamp(0.0, 1.0);
+    final c = color.withValues(alpha: alpha);
     canvas.drawLine(
       from,
       to,
       Paint()
-        ..color = color
+        ..color = c
         ..strokeWidth = 2,
     );
-    canvas.drawCircle(to, 4, Paint()..color = color);
+    // Animated "flow" marker traveling along the arrow.
+    final head = Offset(
+      from.dx + (to.dx - from.dx) * phase,
+      from.dy + (to.dy - from.dy) * phase,
+    );
+    canvas.drawCircle(head, 5, Paint()..color = c.withValues(alpha: (alpha * 0.85).clamp(0, 1)));
+    canvas.drawCircle(to, 4, Paint()..color = c);
     final tp = TextPainter(
       text: TextSpan(
         text: label,
-        style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w600),
+        style: TextStyle(color: c, fontSize: 10, fontWeight: FontWeight.w600),
       ),
       textDirection: TextDirection.ltr,
     )..layout();

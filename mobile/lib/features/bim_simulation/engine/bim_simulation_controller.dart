@@ -77,6 +77,10 @@ class BimSimulationController extends ChangeNotifier {
   double _sceneRadius = 8;
   late List<BimEntity> _entities;
   double _crossSectionCenterX = 0;
+  // Engineering section plane: keep the side where dot(n, p) <= d.
+  // Default plane cuts through the model center (x = 0 in centered space).
+  BimVec3 _sectionNormal = const BimVec3(1, 0, 0);
+  double _sectionD = 0;
 
   bool get canRenderScene => true;
 
@@ -284,6 +288,12 @@ class BimSimulationController extends ChangeNotifier {
 
   void toggleCrossSection() {
     crossSectionEnabled = !crossSectionEnabled;
+    notifyListeners();
+  }
+
+  void setSectionPlane({BimVec3? normal, double? d}) {
+    if (normal != null) _sectionNormal = normal.normalized();
+    if (d != null) _sectionD = d;
     notifyListeners();
   }
 
@@ -555,18 +565,48 @@ class BimSimulationController extends ChangeNotifier {
       }
       return;
     }
-    if (!isLightGaugeSteel) {
-      e.opacity = 1;
+    if (isLightGaugeSteel) {
+      if (e.category == BimEntityCategory.equipment ||
+          e.id.contains('anchor') ||
+          e.id.contains('screw') ||
+          e.id.contains('gusset') ||
+          e.id.contains('connector')) {
+        e.opacity = 1;
+      } else if (e.category == BimEntityCategory.rebar) {
+        e.opacity = 0.25;
+      } else {
+        e.opacity = 0.1;
+      }
       return;
     }
-    if (e.category == BimEntityCategory.equipment ||
-        e.id.contains('anchor') ||
-        e.id.contains('screw') ||
-        e.id.contains('gusset') ||
-        e.id.contains('connector')) {
+
+    // Generic connection view for all other models.
+    // Highlight explicit connection hardware and anchorage details; fade the rest.
+    final id = e.id.toLowerCase();
+    final isConnectionDetail = id.contains('anchor') ||
+        id.contains('bolt') ||
+        id.contains('baseplate') ||
+        id.contains('plate') ||
+        id.contains('weld') ||
+        id.contains('gusset') ||
+        id.contains('screw') ||
+        id.contains('connector') ||
+        id.contains('tie') ||
+        id.contains('strap') ||
+        id.contains('hook') ||
+        id.contains('lap') ||
+        id.contains('splice') ||
+        id.contains('lashing') ||
+        id.contains('joint') ||
+        id.contains('dowel');
+
+    if (isConnectionDetail ||
+        e.category == BimEntityCategory.rebar ||
+        e.category == BimEntityCategory.wire) {
       e.opacity = 1;
-    } else if (e.category == BimEntityCategory.rebar) {
-      e.opacity = 0.25;
+    } else if (e.category == BimEntityCategory.equipment ||
+        e.category == BimEntityCategory.annotation) {
+      e.opacity = 0.35;
     } else {
       e.opacity = 0.1;
     }
@@ -957,18 +997,20 @@ class BimSimulationController extends ChangeNotifier {
       return BimVec3.zero;
     }
     if (viewMode != BimVisualizationMode.exploded) return BimVec3.zero;
+    // Engineering exploded view: vertical-only separation, preserving plan alignment.
+    // explodeGroup is treated as an exploded "tier":
+    // 0 foundation fixed, 1 plinth +0.5m, 2 walls/openings/lintel +1.0m,
+    // 3 roof framing +1.5m, 4 roof cover +2.0m.
     final g = e.explodeGroup;
-    if (g == 0) return BimVec3.zero;
-    final c = e.bounds.center + e.position;
-    final dx = c.x - _sceneCenter.x;
-    final dy = c.y - _sceneCenter.y;
-    final dz = c.z - _sceneCenter.z;
-    final len = math.sqrt(dx * dx + dy * dy + dz * dz);
-    if (len < 0.05) {
-      return BimVec3(0, g * 0.12, g * 0.08);
-    }
-    final scale = (g * 0.28) / len;
-    return BimVec3(dx * scale, dy * scale, dz * scale);
+    final lift = switch (g) {
+      0 => 0.0,
+      1 => 0.5,
+      2 => 1.0,
+      3 => 1.5,
+      4 => 2.0,
+      _ => (g.clamp(0, 6)) * 0.4,
+    };
+    return BimVec3(0, lift, 0);
   }
 
   /// Vertical lift of floating assembly during flood simulation (meters).
@@ -1065,7 +1107,9 @@ class BimSimulationController extends ChangeNotifier {
 
   bool passesCrossSection(BimVec3 world) {
     if (!crossSectionEnabled) return true;
-    return world.x <= _crossSectionCenterX + 0.15;
+    // True clipping plane (half-space). Small epsilon avoids flicker on the plane.
+    final eps = 0.015;
+    return world.dot(_sectionNormal) <= _sectionD + eps;
   }
 
   bool get isEarthbag => modelId == 'earthbag_masonry';
