@@ -14,6 +14,7 @@ import '../../data/models/resilience_dimensions.dart';
 import '../../providers/app_providers.dart';
 import '../pdf/pdf_viewer_screen.dart';
 import '../pdf/model_manual_screen.dart';
+import 'construction_guidelines_screen.dart';
 
 class ModelDetailsScreen extends ConsumerWidget {
   const ModelDetailsScreen({super.key, required this.modelId});
@@ -178,12 +179,12 @@ class _ModelDetailBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (_) => ModelManualScreen(house: house),
+                          builder: (_) => ConstructionGuidelinesScreen(house: house),
                         ),
                       );
                     },
-                    icon: const Icon(Icons.picture_as_pdf_outlined),
-                    label: const Text('Engineering manual (this model)'),
+                    icon: const Icon(Icons.menu_book_outlined),
+                    label: const Text('Construction guidelines'),
                   ),
                   const SizedBox(height: 100),
                 ],

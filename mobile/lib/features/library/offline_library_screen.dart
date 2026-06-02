@@ -8,6 +8,7 @@ import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
 import '../downloads/download_center_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
+import '../models/construction_guidelines_screen.dart';
 
 /// Bundled PDFs, engineering manuals, and offline references.
 class OfflineLibraryScreen extends ConsumerStatefulWidget {
@@ -269,11 +270,7 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => PdfViewerScreen(
-                                  assetPath: h.pdfAsset,
-                                  title: '${h.name} — Engineering Manual',
-                                  initialSearch: h.name,
-                                ),
+                                builder: (_) => ConstructionGuidelinesScreen(house: h),
                               ),
                             );
                           },

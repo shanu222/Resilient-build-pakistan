@@ -73,6 +73,14 @@ class HouseModel extends Equatable {
   int get totalEstimatedCostPkr =>
       estimatedMaterialCostPkr + estimatedLabourCostPkr;
 
+  /// Model-specific NDMA construction guidelines PDF (bundled).
+  String get constructionGuidelinesPdfAsset =>
+      'assets/pdfs/${id}_construction_guidelines.pdf';
+
+  /// Model-specific infographic image (bundled).
+  String get constructionInfographicAsset =>
+      'assets/images/guidelines/${id}_infographic.png';
+
   /// Primary catalog image (WebP from engineering sheet); falls back to per-id path.
   String get resolvedThumbnailAsset =>
       thumbnailAsset ?? 'assets/images/models/$id.webp';
