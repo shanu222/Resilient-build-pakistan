@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme_extensions.dart';
+import '../../../core/widgets/government_header.dart';
 import '../engine/bim_simulation_controller.dart';
 import '../engine/bim_visualization_mode.dart';
 import '../engine/rendering/bim_viewport.dart';
@@ -60,89 +61,94 @@ class _BimSimulationScreenState extends State<BimSimulationScreen> {
   Widget build(BuildContext context) {
     final stage = _controller.currentStage;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFE8EEF4),
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final tokens = context.appTokens;
+    return PopScope(
+      canPop: true,
+      child: Scaffold(
+        backgroundColor: tokens.viewerBackground,
+        appBar: GovernmentHeader(
+          title: 'Digital Twin — ${_controller.displayName}',
+          showBack: true,
+          preferredHeight: 64,
+        ),
+        body: Column(
           children: [
-            const Text('BIM Construction Simulation', style: TextStyle(fontSize: 16)),
-            Text(
-              _controller.displayName,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.42,
+              child: Stack(
+                children: [
+                  BimViewport(controller: _controller),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: IconButton.filled(
+                      style: IconButton.styleFrom(
+                        backgroundColor: tokens.card.withValues(alpha: 0.92),
+                      ),
+                      icon: Icon(
+                        _controller.crossSectionEnabled ? Icons.cut : Icons.cut_outlined,
+                        color: tokens.textPrimary,
+                      ),
+                      onPressed: _controller.toggleCrossSection,
+                      tooltip: 'Cross section',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                children: [
+                  if (stage != null) ...[
+                    Text(
+                      stage.explanation,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: tokens.textSecondary,
+                        height: 1.45,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 6,
+                      children: stage.highlights
+                          .map(
+                            (h) => Chip(
+                              label: Text(h, style: const TextStyle(fontSize: 11)),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                  if (_controller.selectedComponentId != null) ...[
+                    const SizedBox(height: 12),
+                    _EngineeringPanel(
+                      componentId: _controller.selectedComponentId!,
+                      docs: _controller.componentDocs,
+                    ),
+                  ],
+                  if (_controller.stageIndex == _controller.stages.length - 1 &&
+                      _controller.stageProgress > 0.85) ...[
+                    const SizedBox(height: 12),
+                    _ResilienceSummaryCard(data: _controller.resilienceSummary),
+                  ],
+                  const SizedBox(height: 12),
+                  _ViewModeChips(
+                    controller: _controller,
+                    mode: _controller.viewMode,
+                    onMode: _controller.setViewMode,
+                  ),
+                  const SizedBox(height: 12),
+                  _TimelineControls(controller: _controller),
+                  const SizedBox(height: 8),
+                  _StageList(controller: _controller),
+                ],
+              ),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _controller.crossSectionEnabled
-                  ? Icons.cut
-                  : Icons.cut_outlined,
-            ),
-            onPressed: _controller.toggleCrossSection,
-            tooltip: 'Cross section',
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.42,
-            child: BimViewport(controller: _controller),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              children: [
-                if (stage != null) ...[
-                  Text(
-                    stage.explanation,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.mutedForeground,
-                      height: 1.45,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 6,
-                    children: stage.highlights
-                        .map(
-                          (h) => Chip(
-                            label: Text(h, style: const TextStyle(fontSize: 11)),
-                            visualDensity: VisualDensity.compact,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
-                if (_controller.selectedComponentId != null) ...[
-                  const SizedBox(height: 12),
-                  _EngineeringPanel(
-                    componentId: _controller.selectedComponentId!,
-                    docs: _controller.componentDocs,
-                  ),
-                ],
-                if (_controller.stageIndex == _controller.stages.length - 1 &&
-                    _controller.stageProgress > 0.85) ...[
-                  const SizedBox(height: 12),
-                  _ResilienceSummaryCard(data: _controller.resilienceSummary),
-                ],
-                const SizedBox(height: 12),
-                _ViewModeChips(
-                  controller: _controller,
-                  mode: _controller.viewMode,
-                  onMode: _controller.setViewMode,
-                ),
-                const SizedBox(height: 12),
-                _TimelineControls(controller: _controller),
-                const SizedBox(height: 8),
-                _StageList(controller: _controller),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

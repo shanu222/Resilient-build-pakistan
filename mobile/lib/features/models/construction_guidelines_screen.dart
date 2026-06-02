@@ -1,20 +1,25 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import '../../core/navigation/app_breadcrumbs.dart';
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/government_header.dart';
+import '../../core/widgets/model_pager_bar.dart';
 import '../../data/models/house_model.dart';
+import '../../providers/app_providers.dart';
 import '../../shared/widgets/fade_slide_in.dart';
 import '../../shared/widgets/glass_card.dart';
 import '../../shared/widgets/hover_lift.dart';
+import '../../shared/widgets/zoomable_asset_image.dart';
 
 class ConstructionGuidelinesScreen extends StatefulWidget {
   const ConstructionGuidelinesScreen({
@@ -30,11 +35,22 @@ class ConstructionGuidelinesScreen extends StatefulWidget {
 }
 
 class _ConstructionGuidelinesScreenState
-    extends State<ConstructionGuidelinesScreen> {
+    extends State<ConstructionGuidelinesScreen>
+    with SingleTickerProviderStateMixin {
   final PdfViewerController _pdfController = PdfViewerController();
   final TextEditingController _search = TextEditingController();
+  late final TabController _tabController;
 
   late final Future<bool> _pdfExists = _assetExists(widget.house.constructionGuidelinesPdfAsset);
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) setState(() {});
+    });
+  }
 
   Future<bool> _assetExists(String assetPath) async {
     try {
@@ -47,6 +63,7 @@ class _ConstructionGuidelinesScreenState
 
   @override
   void dispose() {
+    _tabController.dispose();
     _search.dispose();
     super.dispose();
   }
@@ -55,53 +72,70 @@ class _ConstructionGuidelinesScreenState
   Widget build(BuildContext context) {
     final isDesktop = AppBreakpoints.isDesktop(context);
     final isTablet = AppBreakpoints.isTablet(context);
+    final tokens = context.appTokens;
 
-    return Scaffold(
-      appBar: const GovernmentHeader(),
-      body: FutureBuilder<bool>(
-        future: _pdfExists,
-        builder: (context, snap) {
-          if (snap.connectionState != ConnectionState.done) {
-            return const _DocLoadingSkeleton();
-          }
-          final exists = snap.data ?? false;
-          final content = isDesktop
-              ? _DesktopLayout(
-                  house: widget.house,
-                  pdfAssetPath: widget.house.constructionGuidelinesPdfAsset,
-                  pdfExists: exists,
-                  pdfController: _pdfController,
-                  search: _search,
-                  onDownloadPdf: () => _downloadPdfFromAsset(widget.house.constructionGuidelinesPdfAsset),
-                )
-              : _MobileLayout(
-                  house: widget.house,
-                  pdfAssetPath: widget.house.constructionGuidelinesPdfAsset,
-                  pdfExists: exists,
-                  pdfController: _pdfController,
-                  search: _search,
-                  onDownloadPdf: () => _downloadPdfFromAsset(widget.house.constructionGuidelinesPdfAsset),
-                  showSidePanels: isTablet,
-                );
+    return PopScope(
+      canPop: true,
+      child: Scaffold(
+        appBar: GovernmentHeader(
+          title: widget.house.name,
+          showBack: true,
+          breadcrumbs: [
+            const BreadcrumbSegment(label: 'Home', path: '/home'),
+            const BreadcrumbSegment(label: 'Models', path: '/models'),
+            BreadcrumbSegment(label: widget.house.name, path: '/model/${widget.house.id}'),
+            const BreadcrumbSegment(label: 'Guidelines'),
+          ],
+        ),
+        body: FutureBuilder<bool>(
+          future: _pdfExists,
+          builder: (context, snap) {
+            if (snap.connectionState != ConnectionState.done) {
+              return const _DocLoadingSkeleton();
+            }
+            final exists = snap.data ?? false;
+            final content = isDesktop
+                ? _DesktopLayout(
+                    house: widget.house,
+                    pdfAssetPath: widget.house.constructionGuidelinesPdfAsset,
+                    pdfExists: exists,
+                    pdfController: _pdfController,
+                    search: _search,
+                    tabController: _tabController,
+                    onDownloadPdf: () =>
+                        _downloadPdfFromAsset(widget.house.constructionGuidelinesPdfAsset),
+                  )
+                : _MobileLayout(
+                    house: widget.house,
+                    pdfAssetPath: widget.house.constructionGuidelinesPdfAsset,
+                    pdfExists: exists,
+                    pdfController: _pdfController,
+                    search: _search,
+                    tabController: _tabController,
+                    onDownloadPdf: () =>
+                        _downloadPdfFromAsset(widget.house.constructionGuidelinesPdfAsset),
+                    showSidePanels: isTablet,
+                  );
 
-          return Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.darkBackground,
-                  AppColors.navyLight,
-                  AppColors.navy,
-                ],
+            return Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    tokens.surface,
+                    tokens.primary.withValues(alpha: 0.92),
+                    tokens.primary,
+                  ],
+                ),
               ),
-            ),
-            child: SafeArea(
-              top: false,
-              child: content,
-            ),
-          );
-        },
+              child: SafeArea(
+                top: false,
+                child: content,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -135,7 +169,7 @@ class _ConstructionGuidelinesScreenState
   }
 }
 
-class _DesktopLayout extends StatelessWidget {
+class _DesktopLayout extends ConsumerWidget {
   const _DesktopLayout({
     required this.house,
     required this.pdfAssetPath,
@@ -143,6 +177,7 @@ class _DesktopLayout extends StatelessWidget {
     required this.pdfController,
     required this.search,
     required this.onDownloadPdf,
+    required this.tabController,
   });
 
   final HouseModel house;
@@ -151,27 +186,43 @@ class _DesktopLayout extends StatelessWidget {
   final PdfViewerController pdfController;
   final TextEditingController search;
   final VoidCallback onDownloadPdf;
+  final TabController tabController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final models = ref.watch(housesProvider).valueOrNull ?? const [];
     return Row(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 10, 16),
-          child: SizedBox(width: 300, child: _LeftNav(house: house)),
+          child: SizedBox(
+            width: 280,
+            child: _LeftNav(
+              house: house,
+              selectedIndex: tabController.index,
+              onSelect: (i) => tabController.animateTo(i),
+            ),
+          ),
         ),
         Expanded(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 16, 10, 12),
+                padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
                 child: FadeSlideIn(child: _ModelHeaderCard(house: house)),
               ),
+              ModelPagerBar(
+                models: models,
+                current: house,
+                onNavigate: (m) => context.go('/model/${m.id}/guidelines'),
+              ),
               Expanded(
-                child: _PdfCard(
+                child: _CenterTabBody(
+                  house: house,
+                  tabIndex: tabController.index,
                   pdfAssetPath: pdfAssetPath,
                   pdfExists: pdfExists,
-                  controller: pdfController,
+                  pdfController: pdfController,
                   search: search,
                   onDownloadPdf: onDownloadPdf,
                 ),
@@ -182,8 +233,8 @@ class _DesktopLayout extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 16, 16, 16),
           child: SizedBox(
-            width: 380,
-            child: _RightPanel(house: house),
+            width: 360,
+            child: _RightPanel(house: house, compact: true),
           ),
         ),
       ],
@@ -191,7 +242,7 @@ class _DesktopLayout extends StatelessWidget {
   }
 }
 
-class _MobileLayout extends StatelessWidget {
+class _MobileLayout extends ConsumerWidget {
   const _MobileLayout({
     required this.house,
     required this.pdfAssetPath,
@@ -200,6 +251,7 @@ class _MobileLayout extends StatelessWidget {
     required this.search,
     required this.onDownloadPdf,
     required this.showSidePanels,
+    required this.tabController,
   });
 
   final HouseModel house;
@@ -209,64 +261,122 @@ class _MobileLayout extends StatelessWidget {
   final TextEditingController search;
   final VoidCallback onDownloadPdf;
   final bool showSidePanels;
+  final TabController tabController;
 
   @override
-  Widget build(BuildContext context) {
-    // Tablet gets stacked panels, mobile is full screen PDF with a bottom sheet for extras.
+  Widget build(BuildContext context, WidgetRef ref) {
+    final models = ref.watch(housesProvider).valueOrNull ?? const [];
+    final tokens = context.appTokens;
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: FadeSlideIn(child: _ModelHeaderCard(house: house)),
         ),
+        ModelPagerBar(
+          models: models,
+          current: house,
+          onNavigate: (m) => context.go('/model/${m.id}/guidelines'),
+        ),
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          labelColor: tokens.textOnPrimary,
+          unselectedLabelColor: tokens.textOnPrimary.withValues(alpha: 0.65),
+          indicatorColor: AppColors.orange,
+          tabs: const [
+            Tab(text: 'Guidelines'),
+            Tab(text: 'Infographic'),
+            Tab(text: 'Quick ref'),
+            Tab(text: 'Checklist'),
+          ],
+        ),
         Expanded(
-          child: _PdfCard(
+          child: _CenterTabBody(
+            house: house,
+            tabIndex: tabController.index,
             pdfAssetPath: pdfAssetPath,
             pdfExists: pdfExists,
-            controller: pdfController,
+            pdfController: pdfController,
             search: search,
             onDownloadPdf: onDownloadPdf,
           ),
         ),
         if (showSidePanels)
           SizedBox(
-            height: 320,
-            child: _RightPanel(house: house),
-          )
-        else
-          SafeArea(
-            top: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: HoverLift(
-                child: OutlinedButton.icon(
-                  onPressed: () => showModalBottomSheet<void>(
-                  context: context,
-                  showDragHandle: true,
-                  isScrollControlled: true,
-                  builder: (_) => SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.75,
-                    child: _RightPanel(house: house),
-                  ),
-                  ),
-                  icon: const Icon(Icons.dashboard_customize_outlined),
-                  label: const Text('Infographic & Engineering intelligence'),
-                ),
-              ),
-            ),
+            height: 280,
+            child: _RightPanel(house: house, compact: true),
           ),
       ],
     );
   }
 }
 
-class _LeftNav extends StatelessWidget {
-  const _LeftNav({required this.house});
+class _CenterTabBody extends StatelessWidget {
+  const _CenterTabBody({
+    required this.house,
+    required this.tabIndex,
+    required this.pdfAssetPath,
+    required this.pdfExists,
+    required this.pdfController,
+    required this.search,
+    required this.onDownloadPdf,
+  });
+
   final HouseModel house;
+  final int tabIndex;
+  final String pdfAssetPath;
+  final bool pdfExists;
+  final PdfViewerController pdfController;
+  final TextEditingController search;
+  final VoidCallback onDownloadPdf;
 
   @override
   Widget build(BuildContext context) {
-    // IMPORTANT: No duplicated logos/branding here; the GovernmentHeader is the single source of logos.
+    return switch (tabIndex) {
+      0 => _PdfCard(
+          pdfAssetPath: pdfAssetPath,
+          pdfExists: pdfExists,
+          controller: pdfController,
+          search: search,
+          onDownloadPdf: onDownloadPdf,
+          house: house,
+        ),
+      1 => Padding(
+          padding: const EdgeInsets.all(12),
+          child: ZoomableAssetImage(
+            assetPath: house.constructionInfographicAsset,
+            semanticsLabel: '${house.name} infographic',
+            minHeight: 320,
+          ),
+        ),
+      2 => _QuickReferencePanel(house: house),
+      _ => _ChecklistPanel(house: house),
+    };
+  }
+}
+
+class _LeftNav extends StatelessWidget {
+  const _LeftNav({
+    required this.house,
+    required this.selectedIndex,
+    required this.onSelect,
+  });
+
+  final HouseModel house;
+  final int selectedIndex;
+  final ValueChanged<int> onSelect;
+
+  static const _items = [
+    (Icons.picture_as_pdf_outlined, 'Guidelines', 'PDF reader'),
+    (Icons.image_outlined, 'Infographic', 'Visual sheet'),
+    (Icons.menu_book_outlined, 'Quick reference', 'Stages & materials'),
+    (Icons.fact_check_outlined, 'Checklist', 'QA inspection'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return GlassCard(
       padding: const EdgeInsets.all(14),
       child: Column(
@@ -275,47 +385,21 @@ class _LeftNav extends StatelessWidget {
           Text(
             'Document Center',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
+                  color: tokens.textOnPrimary,
                   fontWeight: FontWeight.w800,
                 ),
           ),
           const SizedBox(height: 8),
           _ModelThumb(house: house),
           const SizedBox(height: 12),
-          _NavItem(
-            icon: Icons.picture_as_pdf_outlined,
-            title: 'Guidelines',
-            subtitle: 'PDF reader',
-            onTap: () {},
-          ),
-          _NavItem(
-            icon: Icons.image_outlined,
-            title: 'Infographic',
-            subtitle: 'High-resolution sheet',
-            onTap: () {},
-          ),
-          _NavItem(
-            icon: Icons.fact_check_outlined,
-            title: 'Checklist',
-            subtitle: 'Stage-by-stage QA',
-            onTap: () {},
-          ),
-          _NavItem(
-            icon: Icons.download_outlined,
-            title: 'Downloads',
-            subtitle: 'Save offline',
-            onTap: () {},
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'No duplicate branding · NDMA documentation portal',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.65),
-              fontSize: 10,
-              height: 1.2,
+          for (var i = 0; i < _items.length; i++)
+            _NavItem(
+              icon: _items[i].$1,
+              title: _items[i].$2,
+              subtitle: _items[i].$3,
+              selected: selectedIndex == i,
+              onTap: () => onSelect(i),
             ),
-            textAlign: TextAlign.center,
-          ),
         ],
       ),
     );
@@ -328,27 +412,44 @@ class _NavItem extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.selected = false,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white.withValues(alpha: 0.08),
-      shadowColor: Colors.transparent,
-      child: ListTile(
-        onTap: onTap,
-        leading: Icon(icon, color: Colors.white),
-        title: Text(title, style: const TextStyle(color: Colors.white)),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
+    final tokens = context.appTokens;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Material(
+        color: tokens.textOnPrimary.withValues(alpha: selected ? 0.14 : 0.07),
+        borderRadius: BorderRadius.circular(12),
+        child: ListTile(
+          dense: true,
+          onTap: onTap,
+          leading: Icon(icon, color: tokens.textOnPrimary),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: tokens.textOnPrimary,
+              fontWeight: selected ? FontWeight.w900 : FontWeight.w600,
+            ),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(color: tokens.textOnPrimary.withValues(alpha: 0.72)),
+          ),
+          trailing: Icon(
+            selected ? Icons.radio_button_checked : Icons.chevron_right,
+            color: selected ? AppColors.orange : tokens.textOnPrimary,
+            size: 18,
+          ),
         ),
-        trailing: const Icon(Icons.chevron_right, color: Colors.white),
       ),
     );
   }
@@ -425,6 +526,106 @@ class _Chip extends StatelessWidget {
   }
 }
 
+class _QuickReferencePanel extends StatelessWidget {
+  const _QuickReferencePanel({required this.house});
+  final HouseModel house;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        _RefCard(
+          title: 'Construction stages',
+          lines: _RightPanel.stages,
+          icon: Icons.view_timeline_outlined,
+        ),
+        _RefCard(
+          title: 'Key materials',
+          lines: house.materialIds.map((e) => e.replaceAll('_', ' ')).toList(),
+          icon: Icons.category_outlined,
+        ),
+        _RefCard(
+          title: 'Hazards covered',
+          lines: house.hazardsCovered,
+          icon: Icons.shield_outlined,
+        ),
+        _RefCard(
+          title: 'Advantages',
+          lines: house.advantages,
+          icon: Icons.check_circle_outline,
+          tone: _RefTone.success,
+        ),
+        _RefCard(
+          title: 'Limitations',
+          lines: house.limitations,
+          icon: Icons.info_outline,
+          tone: _RefTone.warning,
+        ),
+      ],
+    );
+  }
+}
+
+class _ChecklistPanel extends StatelessWidget {
+  const _ChecklistPanel({required this.house});
+  final HouseModel house;
+
+  static const _checks = [
+    'Site layout verified against drawings',
+    'Excavation depth and bearing stratum confirmed',
+    'Foundation levels, plumb, and reinforcement inspected',
+    'Column/beam reinforcement: cover, laps, anchorage',
+    'Masonry bond pattern and vertical alignment',
+    'Lintels and bands continuous at openings',
+    'Roof structure connections and bracing',
+    'DPC, drainage, and moisture control',
+    'Services penetrations sealed',
+    'Final NDMA resilience checklist signed',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.appTokens;
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        GlassCard(
+          padding: AppSpacing.cardPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Inspection checklist — ${house.name}',
+                style: TextStyle(
+                  color: tokens.textOnPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ..._checks.map(
+                (c) => CheckboxListTile(
+                  value: false,
+                  onChanged: (_) {},
+                  dense: true,
+                  title: Text(
+                    c,
+                    style: TextStyle(
+                      color: tokens.textOnPrimary.withValues(alpha: 0.92),
+                      fontSize: 13,
+                    ),
+                  ),
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _PdfCard extends StatelessWidget {
   const _PdfCard({
     required this.pdfAssetPath,
@@ -432,6 +633,7 @@ class _PdfCard extends StatelessWidget {
     required this.controller,
     required this.search,
     required this.onDownloadPdf,
+    required this.house,
   });
 
   final String pdfAssetPath;
@@ -439,9 +641,11 @@ class _PdfCard extends StatelessWidget {
   final PdfViewerController controller;
   final TextEditingController search;
   final VoidCallback onDownloadPdf;
+  final HouseModel house;
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 16),
       child: GlassCard(
@@ -463,26 +667,33 @@ class _PdfCard extends StatelessWidget {
                 );
               },
             ),
-            const Divider(height: 1, color: Colors.white24),
+            Divider(height: 1, color: tokens.border.withValues(alpha: 0.35)),
             Expanded(
               child: pdfExists
-                  ? SfPdfViewer.asset(
-                      pdfAssetPath,
-                      controller: controller,
-                      canShowScrollHead: true,
-                      canShowScrollStatus: true,
-                      enableTextSelection: true,
-                      onDocumentLoadFailed: (d) {
-                        if (!kDebugMode) return;
-                        // ignore: avoid_print
-                        print('PDF load failed: ${d.description}');
-                      },
+                  ? ColoredBox(
+                      color: tokens.viewerBackground,
+                      child: SfPdfViewer.asset(
+                        pdfAssetPath,
+                        controller: controller,
+                        canShowScrollHead: true,
+                        canShowScrollStatus: true,
+                        canShowPaginationDialog: true,
+                        enableTextSelection: true,
+                        onDocumentLoadFailed: (d) {
+                          if (!kDebugMode) return;
+                          // ignore: avoid_print
+                          print('PDF load failed: ${d.description}');
+                        },
+                      ),
                     )
                   : _MissingAsset(
-                      title: 'Document unavailable',
-                      subtitle: 'Could not load: $pdfAssetPath',
+                      title: 'Engineering manual unavailable',
+                      subtitle:
+                          'The bundled PDF for this model could not be loaded. Use Quick Reference or download the offline package.',
                       showActions: true,
                       onDownload: onDownloadPdf,
+                      onQuickRef: () {},
+                      house: house,
                     ),
             ),
           ],
@@ -493,10 +704,11 @@ class _PdfCard extends StatelessWidget {
 }
 
 class _RightPanel extends StatelessWidget {
-  const _RightPanel({required this.house});
+  const _RightPanel({required this.house, this.compact = false});
   final HouseModel house;
+  final bool compact;
 
-  static const _stages = [
+  static const stages = [
     '1. Site Layout',
     '2. Excavation',
     '3. Foundation',
@@ -665,11 +877,12 @@ class _RightPanel extends StatelessWidget {
             tone: _RefTone.warning,
           ),
         ),
-        _RefCard(
-          title: 'Construction stages',
-          lines: _stages,
-          icon: Icons.view_timeline_outlined,
-        ),
+        if (!compact)
+          _RefCard(
+            title: 'Construction stages',
+            lines: stages,
+            icon: Icons.view_timeline_outlined,
+          ),
         _RefCard(
           title: 'Key materials',
           lines: house.materialIds.map((e) => e.replaceAll('_', ' ')).toList(),
@@ -856,42 +1069,59 @@ class _MissingAsset extends StatelessWidget {
     required this.subtitle,
     this.showActions = false,
     this.onDownload,
+    this.onQuickRef,
+    this.house,
   });
   final String title;
   final String subtitle;
   final bool showActions;
   final VoidCallback? onDownload;
+  final VoidCallback? onQuickRef;
+  final HouseModel? house;
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
         child: Card(
+          color: tokens.card,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline, color: AppColors.orange, size: 36),
-                const SizedBox(height: 10),
-                Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
-                const SizedBox(height: 6),
-                Text(subtitle, textAlign: TextAlign.center),
+                Icon(Icons.picture_as_pdf_outlined, color: tokens.warning, size: 40),
+                const SizedBox(height: 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: tokens.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: tokens.textSecondary, height: 1.35),
+                ),
                 if (showActions) ...[
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 16),
                   Wrap(
                     spacing: 10,
                     runSpacing: 10,
                     alignment: WrapAlignment.center,
                     children: [
-                      OutlinedButton.icon(
+                      FilledButton.icon(
                         onPressed: onDownload,
                         icon: const Icon(Icons.download_outlined),
-                        label: const Text('Download manual'),
+                        label: const Text('Download package'),
                       ),
                       OutlinedButton.icon(
-                        onPressed: () => Navigator.of(context).maybePop(),
+                        onPressed: () => context.pop(),
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Back'),
                       ),
@@ -1096,8 +1326,30 @@ class _DocLoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
+    final tokens = context.appTokens;
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 420),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            LinearProgressIndicator(
+              minHeight: 4,
+              borderRadius: BorderRadius.circular(4),
+              color: AppColors.orange,
+              backgroundColor: tokens.chipBackground,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Loading engineering manual…',
+              style: TextStyle(
+                color: tokens.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

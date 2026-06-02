@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
@@ -8,7 +9,6 @@ import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
 import '../downloads/download_center_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
-import '../models/construction_guidelines_screen.dart';
 
 /// Bundled PDFs, engineering manuals, and offline references.
 class OfflineLibraryScreen extends ConsumerStatefulWidget {
@@ -268,11 +268,7 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                           subtitle: Text('Model reference guide · ${h.category}'),
                           trailing: const Icon(Icons.arrow_forward_ios, size: 14),
                           onTap: () {
-                            Navigator.of(context, rootNavigator: true).push(
-                              MaterialPageRoute(
-                                builder: (_) => ConstructionGuidelinesScreen(house: h),
-                              ),
-                            );
+                            context.push('/model/${h.id}/guidelines');
                           },
                         ),
                       );

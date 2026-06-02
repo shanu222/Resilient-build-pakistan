@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
+import 'app_theme_extensions.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
@@ -134,6 +135,7 @@ abstract final class AppTheme {
           ),
         ),
       ),
+      extensions: const [AppThemeTokens.light],
     );
   }
 
@@ -265,6 +267,7 @@ abstract final class AppTheme {
           ),
         ),
       ),
+      extensions: const [AppThemeTokens.dark],
     );
   }
 }

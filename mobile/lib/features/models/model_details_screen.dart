@@ -11,10 +11,10 @@ import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../data/models/house_model.dart';
 import '../../data/models/resilience_dimensions.dart';
+import '../../core/widgets/model_pager_bar.dart';
 import '../../providers/app_providers.dart';
 import '../pdf/pdf_viewer_screen.dart';
 import '../pdf/model_manual_screen.dart';
-import 'construction_guidelines_screen.dart';
 
 class ModelDetailsScreen extends ConsumerWidget {
   const ModelDetailsScreen({super.key, required this.modelId});
@@ -55,14 +55,15 @@ class ModelDetailsScreen extends ConsumerWidget {
   }
 }
 
-class _ModelDetailBody extends StatelessWidget {
+class _ModelDetailBody extends ConsumerWidget {
   const _ModelDetailBody({required this.house, required this.scoresAsync});
 
   final HouseModel house;
   final AsyncValue<ResilienceDimensions> scoresAsync;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final models = ref.watch(housesProvider).valueOrNull ?? const [];
     final c1 = Color(int.parse(house.thumbnailGradient[0].replaceFirst('#', '0xFF')));
     final c2 = Color(int.parse(house.thumbnailGradient[1].replaceFirst('#', '0xFF')));
     final isWide = AppBreakpoints.isDesktop(context);
@@ -81,6 +82,8 @@ class _ModelDetailBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: AppSpacing.md),
+                  ModelPagerBar(models: models, current: house),
+                  const SizedBox(height: AppSpacing.sm),
                   Wrap(
                     spacing: AppSpacing.sm,
                     runSpacing: AppSpacing.sm,
@@ -175,13 +178,7 @@ class _ModelDetailBody extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   OutlinedButton.icon(
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => ConstructionGuidelinesScreen(house: house),
-                        ),
-                      );
-                    },
+                    onPressed: () => context.push('/model/${house.id}/guidelines'),
                     icon: const Icon(Icons.menu_book_outlined),
                     label: const Text('Construction guidelines'),
                   ),
