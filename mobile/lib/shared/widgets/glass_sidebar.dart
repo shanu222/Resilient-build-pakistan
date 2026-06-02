@@ -23,8 +23,10 @@ class GlassSidebar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final collapsed = forceCollapsed ?? ref.watch(sidebarCollapsedProvider);
-    final extended = !collapsed;
+    // Ensure non-null bool for null-safety (web compilation is stricter).
+    final bool collapsed =
+        (forceCollapsed ?? ref.watch(sidebarCollapsedProvider)) ?? false;
+    final bool extended = !collapsed;
     final tokens = context.appTokens;
     final w = extended ? 248.0 : 76.0;
 
