@@ -15,7 +15,7 @@ class GovernmentFooter extends StatelessWidget {
     final year = DateTime.now().year;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: const BoxDecoration(
         color: AppColors.navy,
         border: Border(
@@ -30,15 +30,24 @@ class GovernmentFooter extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Government of Pakistan'),
-            const Text('National Disaster Management Authority (NDMA)'),
-            const SizedBox(height: 6),
-            const Text(
-              'Resilient Build Pakistan Platform',
-              style: TextStyle(fontWeight: FontWeight.w700),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 10,
+              runSpacing: 2,
+              children: [
+                const Text('Government of Pakistan'),
+                Text('·', style: TextStyle(color: Colors.white.withValues(alpha: 0.6))),
+                const Text('NDMA'),
+                Text('·', style: TextStyle(color: Colors.white.withValues(alpha: 0.6))),
+                const Text(
+                  'Resilient Build Pakistan',
+                  style: TextStyle(fontWeight: FontWeight.w800),
+                ),
+                Text('·', style: TextStyle(color: Colors.white.withValues(alpha: 0.6))),
+                Text('v$version'),
+                Text('· © $year'),
+              ],
             ),
-            const SizedBox(height: 4),
-            Text('Version $version · © $year'),
           ],
         ),
       ),

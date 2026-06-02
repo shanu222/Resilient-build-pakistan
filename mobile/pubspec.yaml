@@ -33,6 +33,7 @@ dependencies:
   pdf: ^3.11.3
   flutter_tts: ^4.2.0
   google_fonts: ^6.2.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -48,4 +49,5 @@ flutter:
     - assets/pdfs/
     - assets/images/
     - assets/images/models/
+    - assets/images/guidelines/
     - assets/images/branding/
