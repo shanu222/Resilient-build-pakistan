@@ -10,12 +10,11 @@ class AppShell extends StatelessWidget {
 
   final Widget child;
 
-  static const _paths = ['/home', '/models', '/academy', '/library'];
+  static const _paths = ['/home', '/models', '/library'];
 
   static const _destinations = [
     (Icons.location_on_outlined, Icons.location_on, 'Location'),
     (Icons.home_work_outlined, Icons.home_work, 'Models'),
-    (Icons.view_in_ar_outlined, Icons.view_in_ar, 'Learn'),
     (Icons.menu_book_outlined, Icons.menu_book, 'Library'),
   ];
 
@@ -24,15 +23,10 @@ class AppShell extends StatelessWidget {
   int _indexForPath(String path) {
     if (path.startsWith('/home') || path.startsWith('/location')) return 0;
     if (path.startsWith('/model') || path == '/models') return 1;
-    if (path.startsWith('/academy') ||
-        path.startsWith('/construction') ||
-        path.startsWith('/bim')) {
-      return 2;
-    }
     if (path.startsWith('/library') ||
         path.startsWith('/materials') ||
         path.startsWith('/downloads')) {
-      return 3;
+      return 2;
     }
     return 0;
   }

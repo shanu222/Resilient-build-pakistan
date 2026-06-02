@@ -12,7 +12,6 @@ class JsonAssetRepository {
   Map<String, dynamic>? _constructionSteps;
   Map<String, dynamic>? _engineeringNotes;
   Map<String, dynamic>? _materials;
-  Map<String, dynamic>? _academy;
 
   Future<List<HouseModel>> getHouses() async {
     if (_houses != null) return _houses!;
@@ -84,13 +83,6 @@ class JsonAssetRepository {
       await rootBundle.loadString('assets/data/materials.json'),
     ) as Map<String, dynamic>;
     return _materials!;
-  }
-
-  Future<Map<String, dynamic>> getAcademy() async {
-    _academy ??= jsonDecode(
-      await rootBundle.loadString('assets/data/academy.json'),
-    ) as Map<String, dynamic>;
-    return _academy!;
   }
 
   Future<List<Map<String, dynamic>>> getDistricts() async {

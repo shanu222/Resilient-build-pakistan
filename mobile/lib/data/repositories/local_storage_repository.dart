@@ -6,7 +6,6 @@ class LocalStorageRepository {
   static const _projectsBox = 'saved_projects';
   static const _bookmarksBox = 'pdf_bookmarks';
   static const _downloadsBox = 'offline_downloads';
-  static const _academyProgressBox = 'academy_progress';
   static const _onboardingKey = 'onboarding_complete';
 
   Future<void> init() async {
@@ -16,7 +15,6 @@ class LocalStorageRepository {
       Hive.openBox<Map>(_projectsBox),
       Hive.openBox<String>(_bookmarksBox),
       Hive.openBox<Map>(_downloadsBox),
-      Hive.openBox<int>(_academyProgressBox),
       Hive.openBox<dynamic>('settings'),
     ]);
   }
@@ -71,12 +69,5 @@ class LocalStorageRepository {
   String? getOfflinePath(String key) {
     final v = Hive.box<Map>(_downloadsBox).get(key);
     return v?['path'] as String?;
-  }
-
-  int getAcademyProgress(String modeId) =>
-      Hive.box<int>(_academyProgressBox).get(modeId, defaultValue: 0) ?? 0;
-
-  Future<void> setAcademyProgress(String modeId, int percent) async {
-    await Hive.box<int>(_academyProgressBox).put(modeId, percent);
   }
 }

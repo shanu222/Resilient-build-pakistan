@@ -9,15 +9,18 @@ class PdfViewerScreen extends ConsumerWidget {
     super.key,
     required this.assetPath,
     required this.title,
+    this.initialSearch,
   });
 
   final String assetPath;
   final String title;
+  final String? initialSearch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final storage = ref.watch(localStorageProvider);
     final bookmarked = storage.isPdfBookmarked(assetPath);
+    final controller = PdfViewerController();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +39,17 @@ class PdfViewerScreen extends ConsumerWidget {
       ),
       body: SfPdfViewer.asset(
         assetPath,
+        controller: controller,
         canShowScrollHead: true,
         canShowScrollStatus: true,
         enableTextSelection: true,
+        onDocumentLoaded: (_) {
+          final q = initialSearch;
+          if (q == null || q.trim().isEmpty) return;
+          // Best-effort deep-link: jump to the first match of the query string.
+          // (Will be upgraded to chapter-index based navigation once manual generation is in place.)
+          controller.searchText(q);
+        },
         onDocumentLoadFailed: (_) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

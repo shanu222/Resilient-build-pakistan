@@ -8,6 +8,7 @@ import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
 import '../downloads/download_center_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
+import 'engineering_manual_screen.dart';
 
 /// Bundled PDFs, engineering manuals, and offline references.
 class OfflineLibraryScreen extends ConsumerStatefulWidget {
@@ -21,6 +22,50 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
   final _search = TextEditingController();
   String _query = '';
   String _category = 'All';
+
+  static const _categories = [
+    'All',
+    'Construction Guidelines',
+    'Engineering Standards',
+    'Construction Checklists',
+    'Hazard Mitigation',
+    'Model Reference Guides',
+  ];
+
+  static const _guidelineTopics = [
+    ('Foundations', 'Strip, isolated, raft, elevated foundations'),
+    ('Masonry', 'Brick, block, interlocking, rat-trap bond'),
+    ('Bamboo Construction', 'Treatment, joints, bracing, roofing'),
+    ('Adobe Construction', 'Block making, walling, reinforcement'),
+    ('Earthbag Construction', 'Bags, compaction, barbed wire, ring beam'),
+    ('Timber Construction', 'Framing, connections, bracing, roof'),
+    ('Flood Resilient Housing', 'Raised plinth, elevated, amphibious, drainage'),
+    ('Seismic Resistant Housing', 'Load path, ductility, bands, confinement'),
+  ];
+
+  static const _standardsTopics = [
+    ('Building Planning', 'Setbacks, layout grids, circulation'),
+    ('Structural Systems', 'Frames, walls, diaphragms, bracing'),
+    ('Reinforcement Principles', 'Anchorage, laps, cover, detailing'),
+    ('Load Transfer', 'Roof→walls/frame→bands/beams→foundation→soil'),
+    ('Foundations', 'Bearing, settlement, groundwater, scour'),
+    ('Retaining Structures', 'Earth pressure, drainage, geogrid, stability'),
+  ];
+
+  static const _checklists = [
+    ('Foundation Inspection Checklist', 'Excavation, PCC, rebar, concrete'),
+    ('Reinforcement Inspection Checklist', 'Cover, laps, hooks, tying'),
+    ('Masonry Inspection Checklist', 'Plumb, level, joints, curing'),
+    ('Roof Inspection Checklist', 'Anchorage, bracing, fasteners'),
+    ('Final Completion Checklist', 'Load path continuity, QA sign-off'),
+  ];
+
+  static const _hazardMitigation = [
+    ('Earthquake Resistant Construction', 'Ductility, bands, confinement, bracing'),
+    ('Flood Resistant Construction', 'Raised plinth, elevated floors, drainage'),
+    ('Wind Resistant Construction', 'Roof anchoring, bracing, connections'),
+    ('Landslide Risk Reduction', 'Slope drainage, retaining systems, setbacks'),
+  ];
 
   @override
   void dispose() {
@@ -120,13 +165,13 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                   ),
                   const SizedBox(height: 20),
                   const SectionHeader(
-                    title: 'Document categories',
-                    subtitle: 'Filter by publication type',
+                    title: 'Engineering library',
+                    subtitle: 'Construction guidelines, standards, checklists, and model guides',
                   ),
                   const SizedBox(height: 12),
                   Wrap(
                     spacing: 8,
-                    children: ['All', 'Construction', 'Engineering', 'Specifications']
+                    children: _categories
                         .map(
                           (c) => FilterChip(
                             label: Text(c),
@@ -135,6 +180,39 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                           ),
                         )
                         .toList(),
+                  ),
+                  const SizedBox(height: 20),
+                  _LibrarySection(
+                    title: 'Construction Guidelines',
+                    subtitle: 'Step-by-step procedures used on site',
+                    icon: Icons.construction_outlined,
+                    visible: _category == 'All' || _category == 'Construction Guidelines',
+                    items: _guidelineTopics,
+                    onOpen: (title) => _openManual(context, title),
+                  ),
+                  _LibrarySection(
+                    title: 'Engineering Standards',
+                    subtitle: 'Structural principles and detailing rules',
+                    icon: Icons.rule_folder_outlined,
+                    visible: _category == 'All' || _category == 'Engineering Standards',
+                    items: _standardsTopics,
+                    onOpen: (title) => _openManual(context, title),
+                  ),
+                  _LibrarySection(
+                    title: 'Construction Checklists',
+                    subtitle: 'Inspection-ready QA lists',
+                    icon: Icons.fact_check_outlined,
+                    visible: _category == 'All' || _category == 'Construction Checklists',
+                    items: _checklists,
+                    onOpen: (title) => _openManual(context, title),
+                  ),
+                  _LibrarySection(
+                    title: 'Hazard Mitigation',
+                    subtitle: 'How to build for earthquake, flood, wind and landslide hazards',
+                    icon: Icons.warning_amber_outlined,
+                    visible: _category == 'All' || _category == 'Hazard Mitigation',
+                    items: _hazardMitigation,
+                    onOpen: (title) => _openManual(context, title),
                   ),
                 ],
               ),
@@ -146,17 +224,26 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
             ),
             error: (e, _) => SliverFillRemaining(child: Center(child: Text('$e'))),
             data: (houses) {
-              var docs = houses.where((h) => h.pdfAsset.isNotEmpty);
+              final filteredModels = houses.where((h) => h.pdfAsset.isNotEmpty);
+              if (_query.isNotEmpty) {
+                // Filter both by model name/category and our section titles.
+                // Model guides are searched by model metadata.
+                final q = _query;
+                if (!_manualMatchesQuery(q)) {
+                  // No-op: model filter below will still apply.
+                }
+                // Apply model filtering.
+                // ignore: prefer_final_locals
+                // (kept readable)
+                // continue
+              }
+
+              var docs = filteredModels;
               if (_query.isNotEmpty) {
                 docs = docs.where(
                   (h) =>
                       h.name.toLowerCase().contains(_query) ||
                       h.category.toLowerCase().contains(_query),
-                );
-              }
-              if (_category != 'All') {
-                docs = docs.where(
-                  (h) => h.category.toLowerCase().contains(_category.toLowerCase()),
                 );
               }
               final list = docs.toList();
@@ -167,6 +254,9 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                   delegate: SliverChildBuilderDelegate(
                     (context, i) {
                       final h = list[i];
+                      final show =
+                          _category == 'All' || _category == 'Model Reference Guides';
+                      if (!show) return const SizedBox.shrink();
                       return Card(
                         margin: const EdgeInsets.only(bottom: 10),
                         child: ListTile(
@@ -175,14 +265,13 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                             child: const Icon(Icons.picture_as_pdf, color: AppColors.hazard, size: 22),
                           ),
                           title: Text(h.name),
-                          subtitle: Text(h.category),
+                          subtitle: Text('Model reference guide · ${h.category}'),
                           trailing: const Icon(Icons.arrow_forward_ios, size: 14),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => PdfViewerScreen(
-                                  assetPath: h.pdfAsset,
-                                  title: h.name,
+                                builder: (_) => EngineeringManualScreen(
+                                  initialSearch: h.name,
                                 ),
                               ),
                             );
@@ -199,6 +288,79 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
+    );
+  }
+
+  bool _manualMatchesQuery(String q) {
+    if (q.isEmpty) return true;
+    for (final (title, desc) in _guidelineTopics) {
+      if (title.toLowerCase().contains(q) || desc.toLowerCase().contains(q)) return true;
+    }
+    for (final (title, desc) in _standardsTopics) {
+      if (title.toLowerCase().contains(q) || desc.toLowerCase().contains(q)) return true;
+    }
+    for (final (title, desc) in _checklists) {
+      if (title.toLowerCase().contains(q) || desc.toLowerCase().contains(q)) return true;
+    }
+    for (final (title, desc) in _hazardMitigation) {
+      if (title.toLowerCase().contains(q) || desc.toLowerCase().contains(q)) return true;
+    }
+    return false;
+  }
+
+  void _openManual(BuildContext context, String topicTitle) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EngineeringManualScreen(initialSearch: topicTitle),
+      ),
+    );
+  }
+}
+
+class _LibrarySection extends StatelessWidget {
+  const _LibrarySection({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.visible,
+    required this.items,
+    required this.onOpen,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final bool visible;
+  final List<(String, String)> items;
+  final void Function(String title) onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!visible) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 16),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: CircleAvatar(child: Icon(icon)),
+          title: Text(title, style: Theme.of(context).textTheme.titleMedium),
+          subtitle: Text(subtitle),
+        ),
+        const SizedBox(height: 8),
+        ...items.map(
+          (it) => Card(
+            margin: const EdgeInsets.only(bottom: 10),
+            child: ListTile(
+              leading: const Icon(Icons.picture_as_pdf_outlined),
+              title: Text(it.$1),
+              subtitle: Text(it.$2),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => onOpen(it.$1),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

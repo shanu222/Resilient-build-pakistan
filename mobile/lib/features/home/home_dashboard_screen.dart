@@ -307,8 +307,7 @@ class _ActionGrid extends StatelessWidget {
     final actions = [
       _Action(Icons.map_outlined, 'Site assessment', 'View hazard profile', AppColors.orange, '/location/current'),
       _Action(Icons.home_work_outlined, 'Explore models', 'Resilient housing catalog', AppColors.navy, '/models'),
-      _Action(Icons.view_in_ar_outlined, 'Learn construction', 'Academy & Digital Twin', AppColors.success, '/academy'),
-      _Action(Icons.menu_book_outlined, 'View library', 'PDFs & NDMA guidance', AppColors.steel, '/library'),
+      _Action(Icons.menu_book_outlined, 'Engineering library', 'Guidelines, standards, and checklists', AppColors.steel, '/library'),
     ];
 
     if (isWide) {

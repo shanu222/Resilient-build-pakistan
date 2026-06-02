@@ -12,6 +12,7 @@ import '../../core/widgets/section_header.dart';
 import '../../data/models/house_model.dart';
 import '../../data/models/resilience_dimensions.dart';
 import '../../providers/app_providers.dart';
+import '../library/engineering_manual_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
 
 class ModelDetailsScreen extends ConsumerWidget {
@@ -173,21 +174,18 @@ class _ModelDetailBody extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   OutlinedButton.icon(
-                    onPressed: house.pdfAsset.isEmpty
-                        ? null
-                        : () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (_) => PdfViewerScreen(
-                                  assetPath: house.pdfAsset,
-                                  title: house.name,
-                                ),
-                              ),
-                            );
-                          },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => EngineeringManualScreen(
+                            initialSearch: house.name,
+                          ),
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.picture_as_pdf_outlined),
-                    label: const Text('Construction guidelines PDF'),
+                    label: const Text('Engineering guidelines (manual)'),
                   ),
                   const SizedBox(height: 100),
                 ],
