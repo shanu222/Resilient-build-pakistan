@@ -33,6 +33,7 @@ Future<void> main(List<String> args) async {
   if (!outDir.existsSync()) outDir.createSync(recursive: true);
 
   var generated = 0;
+  var failed = 0;
   for (final id in models) {
     final outPath = '$repoRoot/${ModelManualGenerator.manualAssetPathFor(id)}';
     final file = File(outPath);
@@ -41,19 +42,29 @@ Future<void> main(List<String> args) async {
       continue;
     }
     stdout.writeln('gen:  $outPath');
-    final input = await ModelManualGenerator.loadInputFromAssets(
-      repoRoot: repoRoot,
-      modelId: id,
-    );
-    final pdf = await ModelManualGenerator.generateModelManualPdf(
-      input: input,
-      govtLogoPng: govtLogo,
-      ndmaLogoPng: ndmaLogo,
-    );
-    await file.writeAsBytes(pdf);
-    generated++;
+    try {
+      final input = await ModelManualGenerator.loadInputFromAssets(
+        repoRoot: repoRoot,
+        modelId: id,
+      );
+      final pdf = await ModelManualGenerator.generateModelManualPdf(
+        input: input,
+        govtLogoPng: govtLogo,
+        ndmaLogoPng: ndmaLogo,
+      );
+      await file.writeAsBytes(pdf);
+      generated++;
+    } catch (e, st) {
+      failed++;
+      stderr.writeln('ERROR: failed generating "$id": $e');
+      stderr.writeln(st);
+      // Keep going to generate as many manuals as possible; fail at end so CI catches it.
+    }
   }
 
-  stdout.writeln('Done. Generated $generated manuals.');
+  stdout.writeln('Done. Generated $generated manuals. Failed $failed.');
+  if (failed > 0) {
+    exitCode = 2;
+  }
 }
 

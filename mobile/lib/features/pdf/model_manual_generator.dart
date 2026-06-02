@@ -145,13 +145,31 @@ abstract final class ModelManualGenerator {
 
     final materialIds = (house['materialIds'] as List).cast<String>();
     final materials = materialIds.map((id) {
-      final m = materialsById[id]!;
+      final m = materialsById[id];
+      if (m == null) {
+        // Never crash PDF generation due to missing material catalog entries.
+        // We still generate a usable manual and emit a clear build log line.
+        // (Vercel captures stdout/stderr.)
+        // ignore: avoid_print
+        print('WARN: materials.json missing id="$id" for model="$modelId"');
+        return MaterialSpec(
+          id: id,
+          name: id.replaceAll('_', ' ').trim(),
+          specification: 'Specify to engineer-of-record and local standards (PSQCA/ASTM/BS as applicable).',
+          engineeringPurpose: 'Project-specific (verify drawings and method statement).',
+          qualityPoints: const [
+            'Confirm approved material submittal before procurement.',
+            'Keep delivery notes + supplier certificate.',
+            'Reject nonconforming batches; store protected from moisture/UV.',
+          ],
+        );
+      }
       return MaterialSpec(
         id: id,
         name: m['name'] as String,
         specification: m['specification'] as String,
         engineeringPurpose: m['engineeringPurpose'] as String,
-        qualityPoints: [
+        qualityPoints: const [
           'Verify specification compliance (site test + supplier certificate).',
           'Reject damaged/contaminated material; store dry and protected.',
           'Record batch/lot for traceability.',
