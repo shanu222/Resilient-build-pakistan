@@ -37,4 +37,5 @@ export 'engine/packages/timber_frame_package.dart';
 export 'engine/packages/cement_bamboo_package.dart';
 export 'engine/packages/earthbag_package.dart';
 export 'engine/packages/interlocking_brick_package.dart';
+export 'ui/bim_engineering_workspace.dart';
 export 'ui/bim_simulation_screen.dart';

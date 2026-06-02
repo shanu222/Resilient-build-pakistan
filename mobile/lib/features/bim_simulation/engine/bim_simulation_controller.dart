@@ -276,8 +276,32 @@ class BimSimulationController extends ChangeNotifier {
   }
 
   void setPlaybackSpeed(double s) {
-    playbackSpeed = s.clamp(0.5, 2.0);
+    playbackSpeed = s.clamp(0.25, 4.0);
     notifyListeners();
+  }
+
+  void restart() {
+    stageIndex = 0;
+    stageProgress = 0;
+    isPlaying = false;
+    _applyStageVisibility();
+    notifyListeners();
+  }
+
+  void stop() {
+    isPlaying = false;
+    stageProgress = 0;
+    notifyListeners();
+  }
+
+  void previousStage() {
+    if (stages.isEmpty) return;
+    setStage((stageIndex - 1).clamp(0, stages.length - 1));
+  }
+
+  void nextStage() {
+    if (stages.isEmpty) return;
+    setStage((stageIndex + 1).clamp(0, stages.length - 1));
   }
 
   void setViewMode(BimVisualizationMode mode) {

@@ -17,9 +17,16 @@ import 'bim_camera.dart';
 import 'bim_projector.dart';
 
 class BimViewport extends StatefulWidget {
-  const BimViewport({super.key, required this.controller});
+  const BimViewport({
+    super.key,
+    required this.controller,
+    this.showEmbeddedToolbar = true,
+  });
 
   final BimSimulationController controller;
+
+  /// When false, toolbar is provided by the parent shell (fullscreen layout).
+  final bool showEmbeddedToolbar;
 
   @override
   State<BimViewport> createState() => _BimViewportState();
@@ -124,15 +131,16 @@ class _BimViewportState extends State<BimViewport>
                 ),
               ),
             ),
-            Positioned(
-              top: 8,
-              left: 8,
-              right: 8,
-              child: BimToolbar(
-                controller: widget.controller,
-                cameraPro: _cameraPro,
+            if (widget.showEmbeddedToolbar)
+              Positioned(
+                top: 8,
+                left: 8,
+                right: 8,
+                child: BimToolbar(
+                  controller: widget.controller,
+                  cameraPro: _cameraPro,
+                ),
               ),
-            ),
           ],
         );
       },
