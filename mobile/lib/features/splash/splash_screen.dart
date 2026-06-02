@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../shared/widgets/app_brand_logo.dart';
 
@@ -11,6 +12,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onPrimary = context.appTokens.textOnPrimary;
+    final onPrimaryMuted = onPrimary.withValues(alpha: 0.75);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -31,11 +34,11 @@ class SplashScreen extends StatelessWidget {
                     .animate()
                     .scale(duration: 800.ms, curve: Curves.easeOut),
                 const SizedBox(height: 32),
-                const Text(
+                Text(
                   'ResilientBuild Pakistan',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: onPrimary,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -44,16 +47,16 @@ class SplashScreen extends StatelessWidget {
                 Text(
                   '"Choose Location. Build Safe."',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
+                    color: onPrimaryMuted,
                     fontSize: 16,
                     fontStyle: FontStyle.italic,
                   ),
                 ).animate().fadeIn(delay: 450.ms),
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   'Build Smarter.\nBuild Safer.\nBuild for Pakistan.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 16, height: 1.6),
+                  style: TextStyle(color: onPrimary, fontSize: 16, height: 1.6),
                 ).animate().fadeIn(delay: 600.ms),
                 const SizedBox(height: 48),
                 PrimaryButton(
@@ -64,7 +67,7 @@ class SplashScreen extends StatelessWidget {
                 Text(
                   'Public engineering education · Offline-first',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.6),
+                    color: onPrimary.withValues(alpha: 0.6),
                     fontSize: 13,
                   ),
                 ).animate().fadeIn(delay: 1200.ms),

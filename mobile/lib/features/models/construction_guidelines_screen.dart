@@ -726,6 +726,7 @@ class _RightPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -740,7 +741,7 @@ class _RightPanel extends StatelessWidget {
               Text(
                 'Engineering intelligence',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: Colors.white,
+                      color: tokens.textPrimary,
                       fontWeight: FontWeight.w800,
                     ),
               ),
@@ -760,7 +761,7 @@ class _RightPanel extends StatelessWidget {
                           axisLineStyle: AxisLineStyle(
                             thickness: 0.18,
                             thicknessUnit: GaugeSizeUnit.factor,
-                            color: Colors.white.withValues(alpha: isDark ? 0.14 : 0.16),
+                            color: tokens.border.withValues(alpha: isDark ? 0.55 : 0.85),
                           ),
                           pointers: [
                             RangePointer(
@@ -778,14 +779,14 @@ class _RightPanel extends StatelessWidget {
                               widget: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Score',
-                                    style: TextStyle(color: Colors.white70, fontSize: 11),
+                                    style: TextStyle(color: tokens.textSecondary, fontSize: 11),
                                   ),
                                   Text(
                                     '${house.resilienceScore}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: tokens.textPrimary,
                                       fontSize: 22,
                                       fontWeight: FontWeight.w900,
                                     ),
@@ -1147,15 +1148,16 @@ class _BadgeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Row(
       children: [
-        Icon(icon, size: 16, color: Colors.white),
+        Icon(icon, size: 16, color: tokens.textOnPrimary),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             '$label: $value',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.92),
+              color: tokens.textOnPrimary,
               fontWeight: FontWeight.w700,
               fontSize: 12,
             ),
@@ -1249,23 +1251,25 @@ class _PdfToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       child: Row(
         children: [
-          const Icon(Icons.picture_as_pdf_outlined, color: Colors.white),
+          Icon(Icons.picture_as_pdf_outlined, color: tokens.textPrimary),
           const SizedBox(width: 10),
           Expanded(
             child: TextField(
               controller: search,
               decoration: InputDecoration(
                 hintText: 'Search document…',
-                prefixIcon: const Icon(Icons.search),
+                hintStyle: TextStyle(color: tokens.textMuted),
+                prefixIcon: Icon(Icons.search, color: tokens.textSecondary),
                 isDense: true,
                 filled: true,
-                fillColor: Colors.white.withValues(alpha: 0.08),
+                fillColor: tokens.chipBackground,
               ),
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: tokens.textPrimary),
               onSubmitted: (q) {
                 final t = q.trim();
                 if (t.isEmpty) return;
@@ -1277,22 +1281,22 @@ class _PdfToolbar extends StatelessWidget {
           IconButton(
             tooltip: 'Zoom in',
             onPressed: () => controller.zoomLevel = (controller.zoomLevel + 0.25).clamp(1.0, 5.0),
-            icon: const Icon(Icons.zoom_in, color: Colors.white),
+            icon: Icon(Icons.zoom_in, color: tokens.textPrimary),
           ),
           IconButton(
             tooltip: 'Zoom out',
             onPressed: () => controller.zoomLevel = (controller.zoomLevel - 0.25).clamp(1.0, 5.0),
-            icon: const Icon(Icons.zoom_out, color: Colors.white),
+            icon: Icon(Icons.zoom_out, color: tokens.textPrimary),
           ),
           IconButton(
             tooltip: 'Fullscreen',
             onPressed: onFullscreen,
-            icon: const Icon(Icons.fullscreen, color: Colors.white),
+            icon: Icon(Icons.fullscreen, color: tokens.textPrimary),
           ),
           IconButton(
             tooltip: 'Download / Share',
             onPressed: onDownloadPdf,
-            icon: const Icon(Icons.download_outlined, color: Colors.white),
+            icon: Icon(Icons.download_outlined, color: tokens.textPrimary),
           ),
         ],
       ),

@@ -249,7 +249,7 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
               child: GestureDetector(
                 onTap: () => setState(() => _engineeringOpen = false),
                 child: ColoredBox(
-                  color: Colors.black54,
+                  color: context.appTokens.overlayScrim,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: DraggableScrollableSheet(
@@ -633,8 +633,9 @@ class _FloatingProgressHud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Material(
-      color: AppColors.navy.withValues(alpha: 0.72),
+      color: tokens.playbackSurface,
       borderRadius: BorderRadius.circular(12),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 320),
@@ -646,8 +647,8 @@ class _FloatingProgressHud extends StatelessWidget {
             children: [
               Text(
                 stage?.timelineLabel ?? 'Stage $stageNum of $total',
-                style: const TextStyle(
-                  color: Colors.white70,
+                style: TextStyle(
+                  color: tokens.textOnGlassMuted,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                 ),
@@ -657,7 +658,11 @@ class _FloatingProgressHud extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 stage?.title ?? 'Digital Twin',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 12),
+                style: TextStyle(
+                  color: tokens.textOnGlass,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -667,7 +672,7 @@ class _FloatingProgressHud extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: progress.clamp(0, 1),
                   minHeight: 4,
-                  backgroundColor: Colors.white.withValues(alpha: 0.14),
+                  backgroundColor: tokens.textOnGlass.withValues(alpha: 0.14),
                   valueColor: const AlwaysStoppedAnimation<Color>(AppColors.orange),
                 ),
               ),
@@ -675,7 +680,11 @@ class _FloatingProgressHud extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   stage!.constructionActivity,
-                  style: const TextStyle(color: Colors.white70, fontSize: 11, height: 1.25),
+                  style: TextStyle(
+                    color: tokens.textOnGlassMuted,
+                    fontSize: 11,
+                    height: 1.25,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -695,8 +704,9 @@ class _DesktopDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Material(
-      color: AppColors.navy.withValues(alpha: 0.82),
+      color: tokens.playbackSurface,
       borderRadius: BorderRadius.circular(16),
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -842,6 +852,7 @@ class _MiniAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: InkWell(
@@ -852,11 +863,15 @@ class _MiniAction extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 18, color: Colors.white),
+              Icon(icon, size: 18, color: tokens.textOnGlass),
               const SizedBox(width: 10),
               Text(
                 label,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
+                style: TextStyle(
+                  color: tokens.textOnGlass,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
@@ -881,6 +896,7 @@ class _DockBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Tooltip(
       message: tooltip,
       preferBelow: false,
@@ -892,8 +908,8 @@ class _DockBtn extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.white.withValues(alpha: 0.06),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+            color: tokens.textOnGlass.withValues(alpha: 0.06),
+            border: Border.all(color: tokens.glassBorder),
           ),
           child: Row(
             children: [
@@ -902,7 +918,11 @@ class _DockBtn extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
+                  style: TextStyle(
+                    color: tokens.textOnGlass,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -941,7 +961,7 @@ class _RightDrawer extends StatelessWidget {
           Positioned.fill(
             child: GestureDetector(
               onTap: onClose,
-              child: ColoredBox(color: Colors.black.withValues(alpha: 0.35)),
+              child: ColoredBox(color: context.appTokens.overlayScrim),
             ),
           ),
         AnimatedPositioned(
@@ -1050,7 +1070,7 @@ class _AnalysisSummaryCard extends StatelessWidget {
           border: Border.all(color: tokens.glassBorder.withValues(alpha: 0.65)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.10),
+              color: context.appTokens.overlayScrim.withValues(alpha: 0.25),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),
@@ -1158,7 +1178,7 @@ class _TimelinePanel extends StatelessWidget {
                       child: Text(
                         '${i + 1}',
                         style: TextStyle(
-                          color: active ? Colors.white : tokens.textPrimary,
+                          color: active ? tokens.textOnPrimary : tokens.textPrimary,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -1813,8 +1833,9 @@ class _CompactHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Material(
-      color: AppColors.navy,
+      color: tokens.headerBackground,
       child: SafeArea(
         bottom: false,
         child: Padding(
@@ -1825,7 +1846,8 @@ class _CompactHeader extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: tokens.textOnPrimary),
+                tooltip: 'Back',
                 onPressed: () => Navigator.maybePop(context),
               ),
               Expanded(
@@ -1834,13 +1856,15 @@ class _CompactHeader extends StatelessWidget {
                   children: [
                     Text(
                       manifest.displayName,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            color: tokens.textOnPrimary,
+                          ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       stage?.title ?? 'Digital Twin',
-                      style: const TextStyle(color: Colors.white60, fontSize: 11),
+                      style: TextStyle(color: tokens.textOnGlassMuted, fontSize: 11),
                     ),
                   ],
                 ),
@@ -2351,8 +2375,9 @@ class _IconChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     return Material(
-      color: AppColors.navy.withValues(alpha: 0.85),
+      color: tokens.playbackSurface,
       borderRadius: BorderRadius.circular(24),
       child: InkWell(
         onTap: onTap,
@@ -2362,9 +2387,12 @@ class _IconChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: Colors.white, size: 18),
+              Icon(icon, color: tokens.textOnGlass, size: 18),
               const SizedBox(width: 6),
-              Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+              Text(
+                label,
+                style: TextStyle(color: tokens.textOnGlass, fontSize: 12),
+              ),
             ],
           ),
         ),

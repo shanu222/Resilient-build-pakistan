@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_extensions.dart';
 
 class GlassCard extends StatelessWidget {
   const GlassCard({
@@ -24,8 +24,9 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bg = isDark ? AppColors.glassDark : AppColors.glassLight;
+    final bg = tokens.surfaceGlass;
     final o = opacity ?? (isDark ? 0.72 : 0.82);
     final b = borderOpacity ?? (isDark ? 0.22 : 0.18);
 
@@ -39,12 +40,12 @@ class GlassCard extends StatelessWidget {
             color: bg.withValues(alpha: o),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
-              color: Colors.white.withValues(alpha: b),
+              color: tokens.glassBorder.withValues(alpha: b),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.12),
+                color: tokens.overlayScrim.withValues(alpha: isDark ? 0.45 : 0.18),
                 blurRadius: 18,
                 offset: const Offset(0, 10),
               ),
@@ -56,4 +57,3 @@ class GlassCard extends StatelessWidget {
     );
   }
 }
-

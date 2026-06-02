@@ -505,7 +505,10 @@ class _MobileFabDockState extends State<_MobileFabDock> {
             borderRadius: BorderRadius.circular(8),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 11)),
+              child: Text(
+                label,
+                style: TextStyle(color: context.appTokens.textOnGlass, fontSize: 11),
+              ),
             ),
           ),
           const SizedBox(width: 8),
@@ -516,7 +519,7 @@ class _MobileFabDockState extends State<_MobileFabDock> {
               setState(() => _open = false);
               widget.onAction(action);
             },
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: context.appTokens.textOnGlass, size: 20),
           ),
         ],
       ),
@@ -1371,6 +1374,7 @@ class _ResilienceSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     final rows = _labels.entries
         .where((e) => data.containsKey(e.key) && e.key != 'overall')
         .map((e) => _scoreRow(e.value, data[e.key]))
@@ -1383,10 +1387,10 @@ class _ResilienceSummaryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Resilience score',
               style: TextStyle(
-                color: Colors.white,
+                color: tokens.textOnGlass,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -1394,7 +1398,7 @@ class _ResilienceSummaryCard extends StatelessWidget {
             const SizedBox(height: 10),
             ...rows,
             if (data['overall'] != null) ...[
-              const Divider(color: Colors.white24),
+              Divider(color: tokens.textOnGlass.withValues(alpha: 0.24)),
               _scoreRow('Overall', data['overall'], bold: true),
             ],
           ],
@@ -1404,21 +1408,26 @@ class _ResilienceSummaryCard extends StatelessWidget {
   }
 
   Widget _scoreRow(String label, dynamic value, {bool bold = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: TextStyle(color: Colors.white.withValues(alpha: 0.85))),
-          Text(
-            '$value/100',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: bold ? FontWeight.bold : FontWeight.w600,
-            ),
+    return Builder(
+      builder: (context) {
+        final onGlass = context.appTokens.textOnGlass;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(label, style: TextStyle(color: onGlass.withValues(alpha: 0.85))),
+              Text(
+                '$value/100',
+                style: TextStyle(
+                  color: onGlass,
+                  fontWeight: bold ? FontWeight.bold : FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

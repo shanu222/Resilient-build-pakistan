@@ -89,7 +89,7 @@ class _CollapseToggle extends ConsumerWidget {
           child: Icon(
             collapsed ? Icons.menu_open : Icons.menu,
             key: ValueKey(collapsed),
-            color: Colors.white,
+            color: context.appTokens.textOnPrimary,
           ),
         ),
       ),

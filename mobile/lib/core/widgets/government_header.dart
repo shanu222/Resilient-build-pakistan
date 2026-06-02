@@ -171,8 +171,8 @@ class GovernmentHeader extends ConsumerWidget implements PreferredSizeWidget {
                             onChanged: (_) =>
                                 ref.read(themeModeProvider.notifier).toggleLightDark(),
                             activeColor: AppColors.orange,
-                            inactiveThumbColor: Colors.white,
-                            inactiveTrackColor: Colors.white.withValues(alpha: 0.22),
+                            inactiveThumbColor: tokens.textOnPrimary,
+                            inactiveTrackColor: tokens.textOnPrimary.withValues(alpha: 0.22),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/theme/app_theme_extensions.dart';
 import '../../providers/app_providers.dart';
 import 'construction_guidelines_screen.dart';
 
@@ -18,12 +19,14 @@ class GuidelinesRouteScreen extends ConsumerWidget {
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),
-      error: (e, _) => Scaffold(
+      error: (e, _) {
+        final tokens = context.appTokens;
+        return Scaffold(
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('$e'),
+              Text('$e', style: TextStyle(color: tokens.textPrimary)),
               const SizedBox(height: 12),
               FilledButton(
                 onPressed: () => context.go('/models'),
@@ -32,7 +35,8 @@ class GuidelinesRouteScreen extends ConsumerWidget {
             ],
           ),
         ),
-      ),
+      );
+      },
       data: (house) {
         if (house == null) {
           return Scaffold(

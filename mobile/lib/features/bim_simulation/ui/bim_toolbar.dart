@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme_extensions.dart';
 import '../../bim/camera_controller_pro.dart';
 import '../../bim_simulation/engine/bim_simulation_controller.dart';
 import '../../bim_simulation/engine/bim_visualization_mode.dart';
@@ -31,6 +32,7 @@ class BimToolbar extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) {
+        final tokens = context.appTokens;
         final center = controller.sceneCenter;
         final radius = controller.sceneRadius;
         final mode = controller.viewMode;
@@ -46,9 +48,9 @@ class BimToolbar extends StatelessWidget {
           child: Row(
             children: [
               if (!compact) ...[
-                _ToolbarTitle(short: shortLabels),
+                _ToolbarTitle(short: shortLabels, tokens: tokens),
                 const SizedBox(width: 12),
-                const _Divider(),
+                _Divider(color: tokens.textOnGlass.withValues(alpha: 0.24)),
                 const SizedBox(width: 12),
               ],
               Expanded(
@@ -60,6 +62,7 @@ class BimToolbar extends StatelessWidget {
                         label: 'Navigation',
                         color: AppColors.info,
                         compact: compact,
+                        tokens: tokens,
                         children: [
                           _ToolBtn(
                             icon: Icons.restart_alt,
@@ -109,11 +112,12 @@ class BimToolbar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const _GroupDivider(),
+                      _GroupDivider(color: tokens.textOnGlass.withValues(alpha: 0.18)),
                       _Group(
                         label: 'View modes',
                         color: const Color(0xFF8B5CF6),
                         compact: compact,
+                        tokens: tokens,
                         children: [
                           _ToolBtn(
                             icon: Icons.account_tree,
@@ -161,11 +165,12 @@ class BimToolbar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const _GroupDivider(),
+                      _GroupDivider(color: tokens.textOnGlass.withValues(alpha: 0.18)),
                       _Group(
                         label: 'Engineering analysis',
                         color: AppColors.orange,
                         compact: compact,
+                        tokens: tokens,
                         children: [
                           _ToolBtn(
                             icon: Icons.link,
@@ -198,11 +203,12 @@ class BimToolbar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const _GroupDivider(),
+                      _GroupDivider(color: tokens.textOnGlass.withValues(alpha: 0.18)),
                       _Group(
                         label: 'Hazards',
                         color: AppColors.success,
                         compact: compact,
+                        tokens: tokens,
                         children: [
                           _ToolBtn(
                             icon: Icons.warning_amber,
@@ -259,11 +265,12 @@ class BimToolbar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const _GroupDivider(),
+                      _GroupDivider(color: tokens.textOnGlass.withValues(alpha: 0.18)),
                       _Group(
                         label: 'Capture',
                         color: AppColors.hazard,
                         compact: compact,
+                        tokens: tokens,
                         children: [
                           _ToolBtn(
                             icon: Icons.camera_alt_outlined,
@@ -288,7 +295,8 @@ class BimToolbar extends StatelessWidget {
 }
 
 class _Divider extends StatelessWidget {
-  const _Divider();
+  const _Divider({required this.color});
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -296,13 +304,14 @@ class _Divider extends StatelessWidget {
       width: 1,
       height: 28,
       margin: const EdgeInsets.symmetric(horizontal: 4),
-      color: Colors.white24,
+      color: color,
     );
   }
 }
 
 class _GroupDivider extends StatelessWidget {
-  const _GroupDivider();
+  const _GroupDivider({required this.color});
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -310,14 +319,15 @@ class _GroupDivider extends StatelessWidget {
       width: 1,
       height: 34,
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      color: Colors.white.withValues(alpha: 0.18),
+      color: color,
     );
   }
 }
 
 class _ToolbarTitle extends StatelessWidget {
-  const _ToolbarTitle({required this.short});
+  const _ToolbarTitle({required this.short, required this.tokens});
   final bool short;
+  final AppThemeTokens tokens;
 
   @override
   Widget build(BuildContext context) {
@@ -325,10 +335,10 @@ class _ToolbarTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
+        Text(
           'Digital Twin Engineering Workspace',
           style: TextStyle(
-            color: Colors.white,
+            color: tokens.textOnGlass,
             fontWeight: FontWeight.w900,
             fontSize: 12,
             height: 1.1,
@@ -338,7 +348,7 @@ class _ToolbarTitle extends StatelessWidget {
           Text(
             'Interactive Construction Visualization & Structural Analysis',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.75),
+              color: tokens.textOnGlassMuted,
               fontSize: 10,
               height: 1.15,
             ),
@@ -354,12 +364,14 @@ class _Group extends StatelessWidget {
     required this.color,
     required this.children,
     required this.compact,
+    required this.tokens,
   });
 
   final String label;
   final Color color;
   final List<Widget> children;
   final bool compact;
+  final AppThemeTokens tokens;
 
   @override
   Widget build(BuildContext context) {
@@ -372,12 +384,12 @@ class _Group extends StatelessWidget {
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.16),
               borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              border: Border.all(color: tokens.glassBorder),
             ),
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.9),
+                color: tokens.textOnGlass,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
               ),
@@ -409,6 +421,7 @@ class _ToolBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.appTokens;
     final showLabel = label.trim().isNotEmpty;
     return Tooltip(
       message: tooltip,
@@ -423,9 +436,7 @@ class _ToolBtn extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: active
-                  ? AppColors.orange
-                  : Colors.white.withValues(alpha: 0.14),
+              color: active ? AppColors.orange : tokens.glassBorder,
               width: active ? 2 : 1,
             ),
             boxShadow: active
@@ -437,7 +448,7 @@ class _ToolBtn extends StatelessWidget {
                     ),
                   ]
                 : [],
-            color: Colors.white.withValues(alpha: active ? 0.12 : 0.06),
+            color: tokens.textOnGlass.withValues(alpha: active ? 0.12 : 0.06),
           ),
           child: InkWell(
             onTap: onTap,
@@ -455,8 +466,8 @@ class _ToolBtn extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       label,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: tokens.textOnGlass,
                         fontWeight: FontWeight.w800,
                         fontSize: 12,
                       ),

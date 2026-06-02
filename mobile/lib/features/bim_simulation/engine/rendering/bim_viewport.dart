@@ -1444,12 +1444,15 @@ class _BimPainter extends CustomPainter {
         children: [
           TextSpan(
             text: '${stage.timelineLabel}\n',
-            style: const TextStyle(color: Colors.white70, fontSize: 10),
+            style: const TextStyle(
+              color: Color(0xB3FFFFFF),
+              fontSize: 10,
+            ),
           ),
           TextSpan(
             text: stage.title,
             style: const TextStyle(
-              color: Colors.white,
+              color: Color(0xFFFFFFFF),
               fontSize: 13,
               fontWeight: FontWeight.bold,
             ),

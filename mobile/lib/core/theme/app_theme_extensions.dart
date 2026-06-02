@@ -28,6 +28,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
     required this.textOnGlass,
     required this.textOnGlassMuted,
     required this.playbackSurface,
+    required this.overlayScrim,
   });
 
   final Color textPrimary;
@@ -53,6 +54,8 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
   final Color textOnGlass;
   final Color textOnGlassMuted;
   final Color playbackSurface;
+  /// Modal / drawer backdrop.
+  final Color overlayScrim;
 
   static const light = AppThemeTokens(
     textPrimary: AppColors.foreground,
@@ -77,6 +80,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
     textOnGlass: Color(0xFFFFFFFF),
     textOnGlassMuted: Color(0xB3FFFFFF),
     playbackSurface: Color(0xC70A2342),
+    overlayScrim: Color(0x660F172A),
   );
 
   static const dark = AppThemeTokens(
@@ -102,6 +106,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
     textOnGlass: Color(0xFFFFFFFF),
     textOnGlassMuted: Color(0xB3FFFFFF),
     playbackSurface: Color(0xC7081A33),
+    overlayScrim: Color(0x99000000),
   );
 
   @override
@@ -128,6 +133,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
     Color? textOnGlass,
     Color? textOnGlassMuted,
     Color? playbackSurface,
+    Color? overlayScrim,
   }) {
     return AppThemeTokens(
       textPrimary: textPrimary ?? this.textPrimary,
@@ -152,6 +158,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
       textOnGlass: textOnGlass ?? this.textOnGlass,
       textOnGlassMuted: textOnGlassMuted ?? this.textOnGlassMuted,
       playbackSurface: playbackSurface ?? this.playbackSurface,
+      overlayScrim: overlayScrim ?? this.overlayScrim,
     );
   }
 
@@ -181,6 +188,7 @@ class AppThemeTokens extends ThemeExtension<AppThemeTokens> {
       textOnGlass: Color.lerp(textOnGlass, other.textOnGlass, t)!,
       textOnGlassMuted: Color.lerp(textOnGlassMuted, other.textOnGlassMuted, t)!,
       playbackSurface: Color.lerp(playbackSurface, other.playbackSurface, t)!,
+      overlayScrim: Color.lerp(overlayScrim, other.overlayScrim, t)!,
     );
   }
 }
