@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import '../../../bim/engineering/engineering_rule_library.dart';
 import '../bim_entity.dart';
 import 'bim_mesh.dart';
 import 'house_dimensions.dart';
@@ -599,7 +600,7 @@ class InterlockingBrickSceneBuilder {
 
     final count = (runLength / bl).floor();
     for (var b = 0; b < count; b++) {
-      final coord = startCoord + b * bl;
+      final coord = EngineeringRuleLibrary.snap(startCoord + b * bl);
       if (coord + bl > (alongX ? w : d) - inset) continue;
 
       late double x, z;
@@ -1128,11 +1129,11 @@ class InterlockingBrickSceneBuilder {
     final cx = HouseDimensions.centerX;
     final cz = HouseDimensions.centerZ;
 
-    const markers = <(String, String, double, double, double, Color)>[
-      ('load_roof', 'Roof Load', cx, HouseDimensions.ridgeY, cz, Color(0xFFEF4444)),
-      ('load_wall', 'Wall Load', cx, HouseDimensions.wallTopY * 0.65, cz, Color(0xFFF97316)),
-      ('load_foundation', 'Foundation Reaction', cx, HouseDimensions.footingTopY / 2, cz, Color(0xFF22C55E)),
-      ('load_soil', 'Soil Bearing', cx, HouseDimensions.trenchBottomY, cz, Color(0xFF16A34A)),
+    final markers = <(String, String, double, double, double, Color)>[
+      ('load_roof', 'Roof Load', cx, HouseDimensions.ridgeY, cz, const Color(0xFFEF4444)),
+      ('load_wall', 'Wall Load', cx, HouseDimensions.wallTopY * 0.65, cz, const Color(0xFFF97316)),
+      ('load_foundation', 'Foundation Reaction', cx, HouseDimensions.footingTopY / 2, cz, const Color(0xFF22C55E)),
+      ('load_soil', 'Soil Bearing', cx, HouseDimensions.trenchBottomY, cz, const Color(0xFF16A34A)),
     ];
 
     for (final m in markers) {

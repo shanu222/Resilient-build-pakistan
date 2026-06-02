@@ -18,12 +18,12 @@ class CameraControllerPro {
     _viewportFillTarget = fraction.clamp(0.72, 0.92);
   }
 
-  /// Desktop 80–90%, tablet 75–85%, mobile maximum practical fill.
+  /// Desktop 80%, tablet 75%, mobile 90% viewport occupancy.
   void setViewportClass({required double width}) {
     if (width >= 1024) {
-      setViewportFill(0.85);
-    } else if (width >= 600) {
       setViewportFill(0.80);
+    } else if (width >= 600) {
+      setViewportFill(0.75);
     } else {
       setViewportFill(0.90);
     }

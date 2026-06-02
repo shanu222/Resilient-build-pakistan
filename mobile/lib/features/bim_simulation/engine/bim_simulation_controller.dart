@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 
 import '../../bim/camera_controller_pro.dart';
 import '../../bim/construction_assembly_animator.dart';
-import '../../bim/engineering_constraint_engine.dart';
+import '../../bim/engineering/engineering_model_generator.dart';
+import '../../bim/engineering/engineering_constraint_solver.dart';
 import 'bim_entity.dart';
 import 'bim_scene_package.dart';
 import 'bim_scene_registry.dart';
@@ -57,8 +58,10 @@ class BimSimulationController extends ChangeNotifier {
     _package = BimSceneRegistry.packageFor(modelId);
     this.modelId = _package.modelId;
     displayName = _package.displayName;
-    _entities = _package.buildScene();
-    _validateScene();
+    final generated = EngineeringModelGenerator.generate(_package);
+    _entities = generated.entities;
+    _crossSectionCenterX = generated.crossSectionCenterX;
+    validationResult = generated.validation;
     _fitCameraToScene();
   }
 
@@ -72,8 +75,12 @@ class BimSimulationController extends ChangeNotifier {
   BimVec3 _sceneCenter = BimVec3.zero;
   double _sceneRadius = 8;
   late List<BimEntity> _entities;
+  double _crossSectionCenterX = 0;
 
-  bool get canRenderScene => validationResult?.passed ?? false;
+  bool get canRenderScene => true;
+
+  /// When false, viewport shows QC panel but geometry still renders.
+  bool get engineeringQcPassed => validationResult?.passed ?? true;
 
   BimVec3 get sceneCenter => _sceneCenter;
   double get sceneRadius => _sceneRadius;
@@ -118,7 +125,7 @@ class BimSimulationController extends ChangeNotifier {
   }
 
   void _validateScene() {
-    validationResult = EngineeringConstraintEngine.validate(_entities);
+    validationResult = EngineeringConstraintSolver.validate(_entities);
   }
 
   void _fitCameraToScene({double? viewportWidth, double? viewportHeight}) {
@@ -1057,7 +1064,7 @@ class BimSimulationController extends ChangeNotifier {
 
   bool passesCrossSection(BimVec3 world) {
     if (!crossSectionEnabled) return true;
-    return world.x <= _package.crossSectionCenterX + 0.15;
+    return world.x <= _crossSectionCenterX + 0.15;
   }
 
   bool get isEarthbag => modelId == 'earthbag_masonry';

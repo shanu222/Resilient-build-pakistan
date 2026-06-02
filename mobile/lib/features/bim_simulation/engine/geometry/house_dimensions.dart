@@ -41,8 +41,9 @@ abstract final class HouseDimensions {
   static const verticalBarDiameter = 0.012;
   static const barDevelopmentLength = 0.48;
 
-  // Grid
+  // Grid — 1 m layout lines; 100 mm snap for block placement
   static const gridModule = 1.0;
+  static const engineeringGrid = 0.1;
 
   static const originX = 0.0;
   static const originZ = 0.0;

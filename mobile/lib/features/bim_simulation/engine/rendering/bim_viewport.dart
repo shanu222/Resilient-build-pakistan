@@ -9,7 +9,9 @@ import '../bim_simulation_controller.dart';
 import '../bim_visualization_mode.dart';
 import '../../ui/bim_toolbar.dart';
 import '../../../bim/camera_controller_pro.dart';
+import '../../../bim/engineering/construction_sequence_engine.dart';
 import '../../../bim/engineering_constraint_engine.dart';
+import 'bim_scene_bounds.dart';
 import '../math/bim_vec3.dart';
 import 'bim_camera.dart';
 import 'bim_projector.dart';
@@ -168,9 +170,7 @@ class _BimPainter extends CustomPainter {
 
     final validation = controller.validationResult;
     if (validation != null && !validation.passed) {
-      _drawValidationBlocked(canvas, size, validation);
-      _drawHud(canvas, size);
-      return;
+      _drawValidationBanner(canvas, size, validation);
     }
 
     if (controller.showStructuralGrid) {
@@ -214,6 +214,12 @@ class _BimPainter extends CustomPainter {
           v1 = v1 + BimVec3(shake, lift, 0);
           v2 = v2 + BimVec3(shake, lift, 0);
         }
+        if (controller.viewMode == BimVisualizationMode.wind && _shakesUnderLoad(e)) {
+          final sway = math.sin(controller.earthquakePhase * 1.3) * 0.02;
+          v0 = v0 + BimVec3(sway, 0, sway * 0.5);
+          v1 = v1 + BimVec3(sway, 0, sway * 0.5);
+          v2 = v2 + BimVec3(sway, 0, sway * 0.5);
+        }
 
         final p0 = projector.project(v0);
         final p1 = projector.project(v1);
@@ -224,6 +230,23 @@ class _BimPainter extends CustomPainter {
             3;
 
         var color = e.color.withValues(alpha: e.opacity * controller.assemblyOpacity(e));
+        if (controller.viewMode == BimVisualizationMode.foundation) {
+          final isFound = e.id.contains('found') ||
+              e.id.contains('footing') ||
+              e.id.contains('plinth') ||
+              e.id.contains('pcc') ||
+              e.id.contains('excav');
+          if (!isFound) {
+            color = color.withValues(alpha: color.a * 0.12);
+          }
+        }
+        final connGlow = ConstructionSequenceEngine.connectionHighlight(
+          e,
+          e.buildProgress,
+        );
+        if (connGlow > 0.05) {
+          color = Color.lerp(color, const Color(0xFF22C55E), connGlow * 0.45)!;
+        }
         if (controller.viewMode == BimVisualizationMode.structural) {
           color = _structuralTint(e, color);
         }
@@ -462,6 +485,36 @@ class _BimPainter extends CustomPainter {
     );
   }
 
+  void _drawValidationBanner(Canvas canvas, Size size, ConstraintValidationResult result) {
+    final h = 72.0;
+    final rect = Rect.fromLTWH(8, 8, size.width - 16, h);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, const Radius.circular(8)),
+      Paint()..color = const Color(0xFFFEE2E2).withValues(alpha: 0.92),
+    );
+    final title = TextPainter(
+      text: TextSpan(
+        text: 'Engineering QC: ${result.errors.length} issue(s)',
+        style: const TextStyle(
+          color: Color(0xFF991B1B),
+          fontSize: 13,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: rect.width - 16);
+    title.paint(canvas, Offset(rect.left + 12, rect.top + 10));
+    final body = result.errors.take(2).join(' · ');
+    final detail = TextPainter(
+      text: TextSpan(
+        text: body,
+        style: const TextStyle(color: Color(0xFF7F1D1D), fontSize: 11),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: rect.width - 16);
+    detail.paint(canvas, Offset(rect.left + 12, rect.top + 32));
+  }
+
   void _drawValidationBlocked(Canvas canvas, Size size, ConstraintValidationResult result) {
     final panel = RRect.fromRectAndRadius(
       Rect.fromCenter(
@@ -552,25 +605,28 @@ class _BimPainter extends CustomPainter {
   }
 
   void _drawStructuralGrid(Canvas canvas, Size size, BimProjector projector) {
+    final bounds = BimSceneBounds.fromEntities(controller.entities, structuralOnly: true);
+    final minX = bounds.min.x.floor();
+    final maxX = bounds.max.x.ceil();
+    final minZ = bounds.min.z.floor();
+    final maxZ = bounds.max.z.ceil();
     final paint = Paint()
       ..color = const Color(0xFFE85D04).withValues(alpha: 0.65)
       ..strokeWidth = 1.2;
-    final labelPaint = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
-    for (var i = 0; i <= 6; i++) {
-      for (var j = 0; j <= 4; j++) {
-        final x = i.toDouble();
-        final z = j.toDouble();
-        final p = projector.project(BimVec3(x, 0.02, z));
+    final labelPaint = TextPainter(textDirection: TextDirection.ltr);
+    var label = 0;
+    for (var x = minX; x <= maxX; x++) {
+      for (var z = minZ; z <= maxZ; z++) {
+        final p = projector.project(BimVec3(x.toDouble(), 0.02, z.toDouble()));
         canvas.drawCircle(p, 3, paint);
-        if (i % 2 == 0 && j % 2 == 0) {
+        if ((x - minX).isEven && (z - minZ).isEven) {
           labelPaint.text = TextSpan(
-            text: '${String.fromCharCode(65 + i)}$j',
+            text: '${String.fromCharCode(65 + (x - minX).clamp(0, 25))}$z',
             style: const TextStyle(color: Color(0xFFE85D04), fontSize: 9),
           );
           labelPaint.layout();
           labelPaint.paint(canvas, Offset(p.dx + 4, p.dy - 8));
+          label++;
         }
       }
     }

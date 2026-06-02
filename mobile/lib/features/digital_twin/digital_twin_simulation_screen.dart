@@ -229,7 +229,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
           case 'earthquake':
             bim.viewMode = BimVisualizationMode.earthquake;
           case 'wind':
-            bim.viewMode = BimVisualizationMode.earthquake;
+            bim.viewMode = BimVisualizationMode.wind;
           case 'flood':
             bim.viewMode = BimVisualizationMode.flood;
           case 'landslide':

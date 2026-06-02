@@ -23,6 +23,8 @@ enum BimVisualizationMode {
   timberSkeleton('Timber Skeleton View'),
   earthPressure('Earth Pressure View'),
   landslide('Landslide Simulation'),
+  wind('Wind Simulation'),
+  foundation('Foundation View'),
   groundwater('Groundwater View'),
   sequence('Construction Sequence');
 

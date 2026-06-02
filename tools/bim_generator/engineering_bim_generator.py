@@ -18,10 +18,11 @@ from engine.professional_bim_engine import (  # noqa: E402
     HouseDims,
     ProfessionalBimEngine,
     STAGES_13,
-    qc_validate,
     sequence_payload_13,
 )
+from engineering_constraint_solver import EngineeringConstraintSolver  # noqa: E402
 from engineering_model_generator import EngineeringModelGenerator  # noqa: E402
+from model_centroid_engine import ModelCentroidEngine  # noqa: E402
 
 
 class EngineeringBimGenerator(EngineeringModelGenerator):
@@ -42,7 +43,8 @@ class EngineeringBimGenerator(EngineeringModelGenerator):
         for attempt in range(1, self.MAX_REGEN_ATTEMPTS + 1):
             engine = ProfessionalBimEngine(archetype, dims)
             engine.build()
-            issues = self._strict_validate(engine, dims)
+            ModelCentroidEngine.center_parts(engine.parts)
+            issues = EngineeringConstraintSolver.validate(engine.parts, dims, engine.lv)
             if not issues:
                 self._export(engine, model_id, display, archetype)
                 return
