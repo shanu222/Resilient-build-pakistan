@@ -252,9 +252,9 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         autofocus: true,
         child: Shortcuts(
           shortcuts: const <ShortcutActivator, Intent>{
-            SingleActivator(LogicalKeyboardKey.space): _PlaybackKeyIntent.toggle,
-            SingleActivator(LogicalKeyboardKey.arrowLeft): _PlaybackKeyIntent.previous,
-            SingleActivator(LogicalKeyboardKey.arrowRight): _PlaybackKeyIntent.next,
+            SingleActivator(LogicalKeyboardKey.space): _PlaybackKeyIntent.toggle(),
+            SingleActivator(LogicalKeyboardKey.arrowLeft): _PlaybackKeyIntent.previous(),
+            SingleActivator(LogicalKeyboardKey.arrowRight): _PlaybackKeyIntent.next(),
           },
           child: Actions(
             actions: <Type, Action<Intent>>{
@@ -274,10 +274,10 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
               ),
             },
             child: Scaffold(
-        backgroundColor: tokens.viewerBackground,
-        body: Stack(
-            fit: StackFit.expand,
-            children: [
+              backgroundColor: tokens.viewerBackground,
+              body: Stack(
+                fit: StackFit.expand,
+                children: [
               // Primary layer — fullscreen viewer (never shrunk by drawers).
               RepaintBoundary(
                 child: _viewerInteractionCapture(
@@ -409,9 +409,8 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
+                ],
+              ),
             ),
           ),
         ),
