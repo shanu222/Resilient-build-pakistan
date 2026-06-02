@@ -62,7 +62,12 @@ class DigitalTwinWorkspace extends StatefulWidget {
 }
 
 class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
-  bool _engineeringOpen = false;
+  bool _engineeringOpen = false; // used for mobile sheet
+  bool _rightPanelOpen = false; // desktop/tablet drawer
+  bool _controlsOpen = false; // desktop/tablet controls drawer
+
+  static const double _desktopDrawerWidth = 390;
+  static const double _tabletDrawerWidth = 340;
 
   @override
   Widget build(BuildContext context) {
@@ -77,32 +82,142 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
 
     final isMobile = AppBreakpoints.isMobile(context);
     final isTablet = AppBreakpoints.isTablet(context);
-    final showBottomBar = isMobile || isTablet;
+    final isDesktop = !(isMobile || isTablet);
+
+    // Viewer focus: panels never consume permanent space.
+    // Use drawers/sheets instead of side columns.
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          _CompactHeader(
-            manifest: widget.manifest,
-            stage: stage,
-            stageNum: stageNum,
-            total: total,
-            compact: !isMobile,
+          // Fullscreen viewer is always dominant.
+          _viewer(widget.showProcedural, hazard, hazardDetail),
+
+          // Header overlays viewer (doesn't shrink it).
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: _CompactHeader(
+              manifest: widget.manifest,
+              stage: stage,
+              stageNum: stageNum,
+              total: total,
+              compact: !isMobile,
+            ),
           ),
-          Expanded(
-            child: isMobile
-                ? _mobileLayout(stage, hazard, hazardDetail)
-                : isTablet
-                    ? _tabletLayout(stage, hazard, hazardDetail, progress)
-                    : _desktopLayout(stage, hazard, hazardDetail, progress),
-          ),
-          if (showBottomBar)
-            _BottomNarrationBar(
+
+          // Floating HUD / progress (overlay, not below viewer).
+          Positioned(
+            left: 12,
+            bottom: 12,
+            child: _FloatingProgressHud(
               stage: stage,
               progress: progress,
               stageNum: stageNum,
               total: total,
+              compact: isMobile,
+            ),
+          ),
+
+          // Floating action dock.
+          Positioned(
+            top: isMobile ? 72 : 82,
+            right: 12,
+            child: isMobile
+                ? _MobileDock(
+                    onEngineering: () => setState(() => _engineeringOpen = true),
+                    onControls: () => _showMobileControls(context),
+                  )
+                : _DesktopDock(
+                    onEngineering: () => setState(() {
+                      _rightPanelOpen = true;
+                      _controlsOpen = false;
+                    }),
+                    onControls: () => setState(() {
+                      _controlsOpen = true;
+                      _rightPanelOpen = false;
+                    }),
+                  ),
+          ),
+
+          // Desktop/tablet drawers.
+          if (!isMobile) ...[
+            _RightDrawer(
+              open: _rightPanelOpen,
+              width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
+              onClose: () => setState(() => _rightPanelOpen = false),
+              child: _EngineeringPanel(
+                manifest: widget.manifest,
+                stage: stage,
+                selectedComponent: widget.selectedComponent,
+                onComponentSelected: widget.onComponentSelected,
+              ),
+            ),
+            _RightDrawer(
+              open: _controlsOpen,
+              width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
+              onClose: () => setState(() => _controlsOpen = false),
+              title: 'Controls & timeline',
+              child: _ControlPanel(
+                manifest: widget.manifest,
+                stages: widget.stages,
+                viewLayer: widget.viewLayer,
+                onViewLayerChanged: widget.onViewLayerChanged,
+                hasProcedural: widget.hasProcedural,
+                onPlayChanged: widget.onPlayChanged,
+                onSpeedChanged: widget.onSpeedChanged,
+                onHazardSelected: widget.onHazardSelected,
+                progress: progress,
+                compact: isTablet,
+              ),
+            ),
+          ],
+
+          // Mobile engineering bottom sheet (existing behavior preserved).
+          if (isMobile && _engineeringOpen)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => setState(() => _engineeringOpen = false),
+                child: ColoredBox(
+                  color: Colors.black54,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: DraggableScrollableSheet(
+                      initialChildSize: 0.55,
+                      minChildSize: 0.35,
+                      maxChildSize: 0.9,
+                      builder: (_, scroll) => Material(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              width: 40,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: AppColors.border,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            Expanded(
+                              child: _EngineeringPanel(
+                                manifest: widget.manifest,
+                                stage: stage,
+                                selectedComponent: widget.selectedComponent,
+                                onComponentSelected: widget.onComponentSelected,
+                                scrollController: scroll,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
         ],
       ),
@@ -127,167 +242,6 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
                 ),
         ],
       ),
-    );
-  }
-
-  Widget _desktopLayout(
-    DigitalTwinStage? stage,
-    String hazard,
-    String? hazardDetail,
-    double progress,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          width: 240,
-          child: _EngineeringPanel(
-            manifest: widget.manifest,
-            stage: stage,
-            selectedComponent: widget.selectedComponent,
-            onComponentSelected: widget.onComponentSelected,
-          ),
-        ),
-        const VerticalDivider(width: 1),
-        Expanded(
-          flex: 9,
-          child: _viewer(widget.showProcedural, hazard, hazardDetail),
-        ),
-        const VerticalDivider(width: 1),
-        SizedBox(
-          width: 240,
-          child: _ControlPanel(
-            manifest: widget.manifest,
-            stages: widget.stages,
-            viewLayer: widget.viewLayer,
-            onViewLayerChanged: widget.onViewLayerChanged,
-            hasProcedural: widget.hasProcedural,
-            onPlayChanged: widget.onPlayChanged,
-            onSpeedChanged: widget.onSpeedChanged,
-            onHazardSelected: widget.onHazardSelected,
-            progress: progress,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _tabletLayout(
-    DigitalTwinStage? stage,
-    String hazard,
-    String? hazardDetail,
-    double progress,
-  ) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 7,
-          child: _viewer(widget.showProcedural, hazard, hazardDetail),
-        ),
-        SizedBox(
-          width: 260,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: _ControlPanel(
-                  manifest: widget.manifest,
-                  stages: widget.stages,
-                  viewLayer: widget.viewLayer,
-                  onViewLayerChanged: widget.onViewLayerChanged,
-                  hasProcedural: widget.hasProcedural,
-                  onPlayChanged: widget.onPlayChanged,
-                  onSpeedChanged: widget.onSpeedChanged,
-                  onHazardSelected: widget.onHazardSelected,
-                  progress: progress,
-                  compact: true,
-                ),
-              ),
-              const Divider(height: 1),
-              Expanded(
-                flex: 4,
-                child: _EngineeringPanel(
-                  manifest: widget.manifest,
-                  stage: stage,
-                  selectedComponent: widget.selectedComponent,
-                  onComponentSelected: widget.onComponentSelected,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _mobileLayout(DigitalTwinStage? stage, String hazard, String? hazardDetail) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        _viewer(widget.showProcedural, hazard, hazardDetail),
-        Positioned(
-          top: 8,
-          right: 8,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _IconChip(
-                icon: Icons.menu_book_outlined,
-                label: 'Guide',
-                onTap: () => setState(() => _engineeringOpen = true),
-              ),
-              const SizedBox(width: 8),
-              _IconChip(
-                icon: Icons.tune,
-                label: 'Controls',
-                onTap: () => _showMobileControls(context),
-              ),
-            ],
-          ),
-        ),
-        if (_engineeringOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () => setState(() => _engineeringOpen = false),
-              child: ColoredBox(
-                color: Colors.black54,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: DraggableScrollableSheet(
-                    initialChildSize: 0.55,
-                    minChildSize: 0.35,
-                    maxChildSize: 0.9,
-                    builder: (_, scroll) => Material(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            width: 40,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: AppColors.border,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
-                          Expanded(
-                            child: _EngineeringPanel(
-                              manifest: widget.manifest,
-                              stage: stage,
-                              selectedComponent: widget.selectedComponent,
-                              onComponentSelected: widget.onComponentSelected,
-                              scrollController: scroll,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
     );
   }
 
@@ -320,6 +274,274 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
             progress: progress,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _FloatingProgressHud extends StatelessWidget {
+  const _FloatingProgressHud({
+    required this.stage,
+    required this.progress,
+    required this.stageNum,
+    required this.total,
+    required this.compact,
+  });
+
+  final DigitalTwinStage? stage;
+  final double progress;
+  final int stageNum;
+  final int total;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.navy.withValues(alpha: 0.72),
+      borderRadius: BorderRadius.circular(12),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 320),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                stage?.timelineLabel ?? 'Stage $stageNum of $total',
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 2),
+              Text(
+                stage?.title ?? 'Digital Twin',
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(999),
+                child: LinearProgressIndicator(
+                  value: progress.clamp(0, 1),
+                  minHeight: 4,
+                  backgroundColor: Colors.white.withValues(alpha: 0.14),
+                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.orange),
+                ),
+              ),
+              if (!compact && stage != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  stage!.constructionActivity,
+                  style: const TextStyle(color: Colors.white70, fontSize: 11, height: 1.25),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DesktopDock extends StatelessWidget {
+  const _DesktopDock({
+    required this.onEngineering,
+    required this.onControls,
+  });
+
+  final VoidCallback onEngineering;
+  final VoidCallback onControls;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.navy.withValues(alpha: 0.82),
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _DockBtn(
+              icon: Icons.engineering_outlined,
+              label: 'Engineering',
+              tooltip: 'Open engineering panel',
+              onTap: onEngineering,
+            ),
+            const SizedBox(height: 8),
+            _DockBtn(
+              icon: Icons.tune,
+              label: 'Controls',
+              tooltip: 'Open timeline / view / hazards',
+              onTap: onControls,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MobileDock extends StatelessWidget {
+  const _MobileDock({
+    required this.onEngineering,
+    required this.onControls,
+  });
+
+  final VoidCallback onEngineering;
+  final VoidCallback onControls;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _IconChip(icon: Icons.menu_book_outlined, label: 'Guide', onTap: onEngineering),
+        const SizedBox(width: 8),
+        _IconChip(icon: Icons.tune, label: 'Controls', onTap: onControls),
+      ],
+    );
+  }
+}
+
+class _DockBtn extends StatelessWidget {
+  const _DockBtn({
+    required this.icon,
+    required this.label,
+    required this.tooltip,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final String tooltip;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      preferBelow: false,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 132,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white.withValues(alpha: 0.06),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: AppColors.orange, size: 20),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  label,
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RightDrawer extends StatelessWidget {
+  const _RightDrawer({
+    required this.open,
+    required this.width,
+    required this.onClose,
+    required this.child,
+    this.title,
+  });
+
+  final bool open;
+  final double width;
+  final VoidCallback onClose;
+  final Widget child;
+  final String? title;
+
+  @override
+  Widget build(BuildContext context) {
+    final top = MediaQuery.paddingOf(context).top;
+    return Stack(
+      children: [
+        if (open)
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: onClose,
+              child: ColoredBox(color: Colors.black.withValues(alpha: 0.35)),
+            ),
+          ),
+        AnimatedPositioned(
+          duration: const Duration(milliseconds: 240),
+          curve: Curves.easeOutCubic,
+          top: top + 58,
+          bottom: 12,
+          right: open ? 12 : -width - 24,
+          width: width,
+          child: Material(
+            elevation: 8,
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            child: Column(
+              children: [
+                _DrawerHeader(title: title ?? 'Engineering', onClose: onClose),
+                const Divider(height: 1),
+                Expanded(child: child),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({required this.title, required this.onClose});
+
+  final String title;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 10, 8, 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.navy,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          IconButton(
+            tooltip: 'Close',
+            onPressed: onClose,
+            icon: const Icon(Icons.close),
+          ),
+        ],
       ),
     );
   }
