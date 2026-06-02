@@ -1242,13 +1242,16 @@ class _InspectorPanel extends StatelessWidget {
         ],
         if (doc == null && (comp == null || comp.description.trim().isEmpty))
           _EmptyInline(tokens: tokens, body: 'No engineering data available for this component.')
-        else
-          ...doc.entries.map(
+        else ...[
+          if (comp != null && comp.description.trim().isNotEmpty)
+            _EmptyInline(tokens: tokens, body: comp.description),
+          ...?doc?.entries.map(
             (e) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: _InspectorRow(tokens: tokens, label: e.key, value: '${e.value}'),
             ),
           ),
+        ],
       ],
     );
   }
