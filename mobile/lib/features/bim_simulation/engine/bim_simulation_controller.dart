@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import '../../bim/camera_controller_pro.dart';
 import '../../bim/construction_assembly_animator.dart';
+import '../../bim/engineering_constraint_engine.dart';
 import '../../bim/engineering/engineering_model_generator.dart';
 import '../../bim/engineering/engineering_constraint_solver.dart';
 import 'bim_entity.dart';

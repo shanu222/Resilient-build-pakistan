@@ -84,14 +84,16 @@ class AdvancedInterlockingSceneBuilder {
     ];
     for (var i = 0; i < edges.length; i++) {
       final ed = edges[i];
-      final len = math.sqrt(math.pow(e.$3 - e.$1, 2) + math.pow(e.$4 - e.$2, 2));
+      final len = math.sqrt(
+        math.pow(ed.$4 - ed.$2, 2) + math.pow(ed.$3 - ed.$1, 2),
+      );
       e.add(BimEntity(
         id: 'footprint_$i',
         label: 'Footprint',
         mesh: BimMesh.box(width: len, height: 0.04, depth: 0.08),
         color: const Color(0xFF0F172A),
         category: BimEntityCategory.annotation,
-        position: BimVec3((e.$1 + e.$3) / 2 - len / 2, 0.04, (e.$2 + e.$4) / 2),
+        position: BimVec3((ed.$1 + ed.$3) / 2 - len / 2, 0.04, (ed.$2 + ed.$4) / 2),
         minStage: 0,
       ));
     }
@@ -341,7 +343,7 @@ class AdvancedInterlockingSceneBuilder {
       position: BimVec3(x, y, z),
       explodeGroup: 2,
       minStage: 7,
-      pickable: i.endsWith('0') || corner,
+      pickable: id.endsWith('0') || corner,
       componentId: 'interlocking_block',
       buildProgress: 0,
     );
