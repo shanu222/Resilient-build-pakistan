@@ -153,6 +153,7 @@ class _BimPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final projector = BimProjector(camera: controller.camera, viewportSize: size);
+    final selected = controller.selectedComponentId;
 
     // BIM viewport background — engineering gradient
     final bg = Rect.fromLTWH(0, 0, size.width, size.height);
@@ -229,6 +230,9 @@ class _BimPainter extends CustomPainter {
                 projector.depthAt(v2)) /
             3;
 
+        final entityKey = e.componentId ?? e.id;
+        final isSelected = selected != null && selected == entityKey;
+
         var color = e.color.withValues(alpha: e.opacity * controller.assemblyOpacity(e));
         if (controller.viewMode == BimVisualizationMode.foundation) {
           final isFound = e.id.contains('found') ||
@@ -250,6 +254,11 @@ class _BimPainter extends CustomPainter {
         if (controller.viewMode == BimVisualizationMode.structural) {
           color = _structuralTint(e, color);
         }
+        if (isSelected) {
+          // Selection highlight: vivid tint + stronger alpha, without changing geometry.
+          color = Color.lerp(color, const Color(0xFFF59E0B), 0.55)!
+              .withValues(alpha: (color.a * 1.15).clamp(0.0, 1.0));
+        }
 
         triangles.add(
           ProjectedTriangle(
@@ -258,7 +267,7 @@ class _BimPainter extends CustomPainter {
             p3: p2,
             depth: depth,
             color: color,
-            entityId: e.id,
+            entityId: entityKey,
             showEdges: true,
           ),
         );
@@ -278,9 +287,11 @@ class _BimPainter extends CustomPainter {
         canvas.drawPath(
           path,
           Paint()
-            ..color = const Color(0xFF0F172A).withValues(alpha: 0.25)
+            ..color = (selected != null && t.entityId == selected)
+                ? const Color(0xFFF59E0B).withValues(alpha: 0.75)
+                : const Color(0xFF0F172A).withValues(alpha: 0.25)
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 0.6,
+            ..strokeWidth = (selected != null && t.entityId == selected) ? 1.6 : 0.6,
         );
       }
     }

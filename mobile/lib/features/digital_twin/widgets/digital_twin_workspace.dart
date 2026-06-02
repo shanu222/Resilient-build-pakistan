@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_colors.dart';
+import 'dart:math' as math;
+
 import '../../../core/theme/app_page_transitions.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_theme_extensions.dart';
@@ -9,6 +11,7 @@ import '../../bim_simulation/engine/bim_simulation_controller.dart';
 import '../../bim_simulation/engine/rendering/bim_viewport.dart';
 import '../construction_stage_controller.dart';
 import '../digital_twin_viewport.dart';
+import '../domain/bim_component_registry.dart';
 import '../domain/digital_twin_manifest.dart';
 import 'hazard_simulation_overlay.dart';
 
@@ -34,6 +37,7 @@ class DigitalTwinWorkspace extends StatefulWidget {
     required this.viewLayer,
     required this.onViewLayerChanged,
     required this.showProcedural,
+    this.registry,
     this.bim,
     this.selectedComponent,
     this.onComponentSelected,
@@ -48,6 +52,7 @@ class DigitalTwinWorkspace extends StatefulWidget {
   final TwinViewLayer viewLayer;
   final ValueChanged<TwinViewLayer> onViewLayerChanged;
   final bool showProcedural;
+  final BimComponentRegistry? registry;
   final BimSimulationController? bim;
   final String? selectedComponent;
   final ValueChanged<String>? onComponentSelected;
@@ -89,7 +94,10 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
     final isDesktop = !(isMobile || isTablet);
     final tokens = context.appTokens;
     final drawerTargetWidth = isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth;
-    _drawerWidth = _drawerWidth.clamp(280, mathMax(280, MediaQuery.sizeOf(context).width * 0.55));
+    _drawerWidth = _drawerWidth.clamp(
+      280,
+      math.max(280, MediaQuery.sizeOf(context).width * 0.55),
+    );
     if (_drawerWidth < drawerTargetWidth - 10 || _drawerWidth > drawerTargetWidth + 160) {
       // Keep width reasonable when switching breakpoints.
       _drawerWidth = drawerTargetWidth;
@@ -217,6 +225,7 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
                 stage: stage,
                 hazardMode: widget.stages.hazardMode,
                 selectedComponent: widget.selectedComponent,
+                registry: widget.registry,
               ),
             ),
             _RightDrawer(
@@ -227,6 +236,7 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
               child: _ComponentTreePanel(
                 tokens: tokens,
                 manifest: widget.manifest,
+                registry: widget.registry,
                 selectedComponent: widget.selectedComponent,
                 onComponentSelected: widget.onComponentSelected,
               ),
@@ -410,6 +420,7 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
           stage: stage,
           hazardMode: widget.stages.hazardMode,
           selectedComponent: widget.selectedComponent,
+          registry: widget.registry,
         ),
       ),
     );
@@ -428,6 +439,7 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
         child: _ComponentTreePanel(
           tokens: ctx.appTokens,
           manifest: widget.manifest,
+          registry: widget.registry,
           selectedComponent: widget.selectedComponent,
           onComponentSelected: (id) {
             widget.onComponentSelected?.call(id);
@@ -448,8 +460,6 @@ enum _WorkspaceAction {
   inspector,
   measurements,
 }
-
-double mathMax(double a, double b) => a > b ? a : b;
 
 class _PlaybackDock extends StatelessWidget {
   const _PlaybackDock({
@@ -1193,6 +1203,7 @@ class _InspectorPanel extends StatelessWidget {
     required this.stage,
     required this.hazardMode,
     required this.selectedComponent,
+    required this.registry,
   });
 
   final AppThemeTokens tokens;
@@ -1200,6 +1211,7 @@ class _InspectorPanel extends StatelessWidget {
   final DigitalTwinStage? stage;
   final String hazardMode;
   final String? selectedComponent;
+  final BimComponentRegistry? registry;
 
   @override
   Widget build(BuildContext context) {
@@ -1211,17 +1223,24 @@ class _InspectorPanel extends StatelessWidget {
         icon: Icons.search_outlined,
       );
     }
+    final comp = registry?.byId(selectedComponent);
     final doc = manifest.components[selectedComponent] as Map<String, dynamic>?;
     return ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        _InspectorRow(tokens: tokens, label: 'Component', value: selectedComponent!.replaceAll('_', ' ')),
+        _InspectorRow(tokens: tokens, label: 'Component', value: comp?.name ?? selectedComponent!.replaceAll('_', ' ')),
+        if (comp != null)
+          _InspectorRow(tokens: tokens, label: 'Type', value: comp.type.name),
         _InspectorRow(tokens: tokens, label: 'Stage', value: stage?.title ?? '—'),
         _InspectorRow(tokens: tokens, label: 'Hazard mode', value: hazardMode == 'none' ? 'Normal' : hazardMode),
         const SizedBox(height: 12),
         Text('Details', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
         const SizedBox(height: 8),
-        if (doc == null)
+        if (comp != null && comp.engineeringNotes.trim().isNotEmpty) ...[
+          _EmptyInline(tokens: tokens, body: comp.engineeringNotes),
+          const SizedBox(height: 10),
+        ],
+        if (doc == null && (comp == null || comp.description.trim().isEmpty))
           _EmptyInline(tokens: tokens, body: 'No engineering data available for this component.')
         else
           ...doc.entries.map(
@@ -1263,19 +1282,21 @@ class _ComponentTreePanel extends StatelessWidget {
   const _ComponentTreePanel({
     required this.tokens,
     required this.manifest,
+    required this.registry,
     required this.selectedComponent,
     required this.onComponentSelected,
   });
 
   final AppThemeTokens tokens;
   final DigitalTwinManifest manifest;
+  final BimComponentRegistry? registry;
   final String? selectedComponent;
   final ValueChanged<String>? onComponentSelected;
 
   @override
   Widget build(BuildContext context) {
-    final ids = manifest.components.keys.toList()..sort();
-    if (ids.isEmpty) {
+    final reg = registry ?? BimComponentRegistry.fromManifest(manifest);
+    if (reg.components.isEmpty) {
       return _EmptyPanel(
         title: 'No components available',
         body: 'This model does not provide a component index.',
@@ -1284,19 +1305,15 @@ class _ComponentTreePanel extends StatelessWidget {
       );
     }
 
-    final grouped = <String, List<String>>{};
-    for (final id in ids) {
-      final group = _guessGroup(id);
-      grouped.putIfAbsent(group, () => []).add(id);
-    }
+    final grouped = reg.grouped();
 
     return ListView(
       padding: const EdgeInsets.all(12),
       children: grouped.entries.map((e) {
         return _TreeGroup(
           tokens: tokens,
-          title: e.key,
-          childrenIds: e.value,
+          title: _typeLabel(e.key),
+          childrenIds: e.value.map((c) => c.id).toList(),
           selected: selectedComponent,
           onSelect: onComponentSelected,
         );
@@ -1304,17 +1321,21 @@ class _ComponentTreePanel extends StatelessWidget {
     );
   }
 
-  String _guessGroup(String id) {
-    final s = id.toLowerCase();
-    if (s.contains('found') || s.contains('foot') || s.contains('plinth') || s.contains('base')) return 'Foundation';
-    if (s.contains('col')) return 'Columns';
-    if (s.contains('beam') || s.contains('lintel')) return 'Beams';
-    if (s.contains('wall') || s.contains('masonry') || s.contains('brick')) return 'Walls';
-    if (s.contains('roof') || s.contains('truss')) return 'Roof';
-    if (s.contains('band') || s.contains('tie')) return 'Bands';
-    if (s.contains('open') || s.contains('door') || s.contains('window')) return 'Openings';
-    return 'Other';
-  }
+  String _typeLabel(BimComponentType t) => switch (t) {
+        BimComponentType.foundation => 'Foundation',
+        BimComponentType.plinth => 'Plinth',
+        BimComponentType.columns => 'Columns',
+        BimComponentType.beams => 'Beams',
+        BimComponentType.walls => 'Walls',
+        BimComponentType.bands => 'Bands',
+        BimComponentType.openings => 'Openings',
+        BimComponentType.roofStructure => 'Roof structure',
+        BimComponentType.roofCover => 'Roof cover',
+        BimComponentType.drainage => 'Drainage',
+        BimComponentType.reinforcement => 'Reinforcement',
+        BimComponentType.connections => 'Connections',
+        BimComponentType.other => 'Other',
+      };
 }
 
 class _TreeGroup extends StatefulWidget {

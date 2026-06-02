@@ -7,6 +7,7 @@ import '../bim_simulation/engine/bim_visualization_mode.dart';
 import '../construction/construction_guide_screen.dart';
 import 'construction_stage_controller.dart';
 import 'digital_twin_engine.dart';
+import 'domain/bim_component_registry.dart';
 import 'domain/digital_twin_manifest.dart';
 import 'narration_controller.dart';
 import 'widgets/digital_twin_workspace.dart';
@@ -33,6 +34,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   DigitalTwinManifest? _manifest;
   ConstructionStageController? _stages;
   BimSimulationController? _bim;
+  BimComponentRegistry? _registry;
   final NarrationController _narration = NarrationController();
   late final Ticker _ticker;
   Duration? _lastTick;
@@ -89,10 +91,14 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       final bim = BimSimulationController(modelId: widget.modelId);
       await bim.loadDefinition();
       bim.addListener(_syncBimStage);
+      bim.addListener(_syncBimSelection);
       _bim = bim;
     }
 
     if (mounted) {
+      _registry = _bim != null
+          ? BimComponentRegistry.fromProceduralBim(_bim!)
+          : BimComponentRegistry.fromManifest(m);
       setState(() => _manifest = m);
       if (_hasProceduralBim) {
         _applyViewLayer(TwinViewLayer.structural);
@@ -117,6 +123,15 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     if (bim.stageIndex != stages.stageIndex ||
         (bim.stageProgress - stages.stageProgress).abs() > 0.02) {
       bim.setStage(stages.stageIndex, progress: stages.stageProgress);
+    }
+  }
+
+  void _syncBimSelection() {
+    final bim = _bim;
+    if (bim == null) return;
+    final picked = bim.selectedComponentId;
+    if (picked != null && picked != _selectedComponent) {
+      setState(() => _selectedComponent = picked);
     }
   }
 
@@ -182,6 +197,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   void dispose() {
     _stages?.removeListener(_onStageTick);
     _bim?.removeListener(_syncBimStage);
+    _bim?.removeListener(_syncBimSelection);
     _bim?.dispose();
     _ticker.dispose();
     _narration.dispose();
@@ -201,13 +217,17 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     Widget child = DigitalTwinWorkspace(
       manifest: _manifest!,
       stages: stages,
+      registry: _registry,
       hazardAnimPhase: _hazardAnimPhase,
       viewLayer: _viewLayer,
       onViewLayerChanged: _applyViewLayer,
       showProcedural: showProcedural,
       bim: _bim,
       selectedComponent: _selectedComponent,
-      onComponentSelected: (id) => setState(() => _selectedComponent = id),
+      onComponentSelected: (id) {
+        setState(() => _selectedComponent = id);
+        _bim?.selectComponent(id);
+      },
       onPlayChanged: (playing) {
         if (playing) {
           stages.play();

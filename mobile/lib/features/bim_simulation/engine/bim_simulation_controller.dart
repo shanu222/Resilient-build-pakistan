@@ -303,6 +303,11 @@ class BimSimulationController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectComponent(String? componentId) {
+    selectedComponentId = componentId;
+    notifyListeners();
+  }
+
   void _applyStageVisibility() {
     final si = stageIndex;
     final p = stageProgress;
