@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../bim_simulation/engine/bim_scene_registry.dart';
 import '../bim_simulation/engine/bim_simulation_controller.dart';
 import '../bim_simulation/engine/bim_visualization_mode.dart';
-import '../bim_simulation/ui/bim_simulation_screen.dart';
 import '../construction/construction_guide_screen.dart';
 import 'construction_stage_controller.dart';
 import 'digital_twin_engine.dart';
@@ -22,9 +21,6 @@ class DigitalTwinSimulationScreen extends StatefulWidget {
   static Future<Widget> forModel(String modelId) async {
     if (await DigitalTwinEngine.hasAssets(modelId)) {
       return DigitalTwinSimulationScreen(modelId: modelId);
-    }
-    if (BimSceneRegistry.hasBimSimulation(modelId)) {
-      return BimSimulationScreen(modelId: modelId);
     }
     return LegacyConstructionGuideScreen(modelId: modelId);
   }
@@ -72,6 +68,14 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       _syncHazardTicker();
       if (_hasProceduralBim) {
         _applyViewLayer(TwinViewLayer.structural);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          final size = MediaQuery.sizeOf(context);
+          _bim?.fitCamera(
+            viewportWidth: size.width,
+            viewportHeight: size.height * 0.55,
+          );
+        });
       }
     }
   }
@@ -90,8 +94,9 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     final stages = _stages;
     final bim = _bim;
     if (stages == null || bim == null) return;
-    if (bim.stageIndex != stages.stageIndex) {
-      bim.setStage(stages.stageIndex);
+    if (bim.stageIndex != stages.stageIndex ||
+        (bim.stageProgress - stages.stageProgress).abs() > 0.02) {
+      bim.setStage(stages.stageIndex, progress: stages.stageProgress);
     }
   }
 
@@ -103,8 +108,10 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       _narration.onStageEnter(stage, stages.stageProgress);
     }
     final bim = _bim;
-    if (bim != null && bim.stageIndex != stages.stageIndex) {
-      bim.setStage(stages.stageIndex);
+    if (bim != null) {
+      bim.setStage(stages.stageIndex, progress: stages.stageProgress);
+      bim.isPlaying = stages.isPlaying;
+      bim.playbackSpeed = stages.playbackSpeed;
     }
     if (stages.hazardMode != 'none') {
       _hazardAnimPhase = (_hazardAnimPhase + 0.015) % 1.0;
@@ -120,19 +127,37 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       case TwinViewLayer.glb:
         bim.viewMode = BimVisualizationMode.normal;
         bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
       case TwinViewLayer.structural:
         bim.viewMode = BimVisualizationMode.structural;
         bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
       case TwinViewLayer.exploded:
         bim.viewMode = BimVisualizationMode.exploded;
         bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
       case TwinViewLayer.crossSection:
         bim.viewMode = BimVisualizationMode.normal;
         bim.crossSectionEnabled = true;
+        bim.showStructuralGrid = false;
       case TwinViewLayer.loadTransfer:
         bim.viewMode = BimVisualizationMode.loadTransfer;
         bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
+      case TwinViewLayer.connections:
+        bim.viewMode = BimVisualizationMode.connection;
+        bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
+      case TwinViewLayer.grid:
+        bim.viewMode = BimVisualizationMode.normal;
+        bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = true;
+      case TwinViewLayer.blockAssembly:
+        bim.viewMode = BimVisualizationMode.blockAssembly;
+        bim.crossSectionEnabled = false;
+        bim.showStructuralGrid = false;
     }
+    bim.notifyListeners();
     if (mounted) setState(() {});
   }
 
@@ -140,7 +165,6 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     _tick?.cancel();
     _tick = Timer.periodic(const Duration(milliseconds: 50), (_) {
       _stages?.advance(0.05);
-      _bim?.tick(0.05);
       _bim?.advanceEnvironmentalEffects(0.05);
     });
   }
@@ -203,6 +227,8 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
         if (bim == null) return;
         switch (mode) {
           case 'earthquake':
+            bim.viewMode = BimVisualizationMode.earthquake;
+          case 'wind':
             bim.viewMode = BimVisualizationMode.earthquake;
           case 'flood':
             bim.viewMode = BimVisualizationMode.flood;

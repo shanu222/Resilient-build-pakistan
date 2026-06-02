@@ -6,6 +6,10 @@ import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/widgets/model_thumbnail.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_page_transitions.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/primary_button.dart';
@@ -497,16 +501,40 @@ class _RankedModelTile extends StatelessWidget {
           padding: AppSpacing.cardPadding,
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: rank == 1
-                    ? AppColors.orange.withValues(alpha: 0.15)
-                    : AppColors.muted,
-                child: Text(
-                  '#$rank',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: rank == 1 ? AppColors.orange : AppColors.navy,
-                  ),
+              SizedBox(
+                width: 56,
+                height: 56,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: ModelThumbnail(
+                        modelId: model.id,
+                        thumbnailAsset: model.resolvedThumbnailAsset,
+                        thumbnailPngFallback: model.thumbnailPngFallback,
+                        fit: BoxFit.cover,
+                        animate: false,
+                      ),
+                    ),
+                    Positioned(
+                      top: -4,
+                      left: -4,
+                      child: CircleAvatar(
+                        radius: 12,
+                        backgroundColor:
+                            rank == 1 ? AppColors.orange : AppColors.navy,
+                        child: Text(
+                          '$rank',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: AppSpacing.md),

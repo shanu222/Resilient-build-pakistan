@@ -4,36 +4,74 @@
       "id": "interlocking_brick_masonry",
       "name": "Interlocking Brick Masonry",
       "category": "Masonry",
-      "suitableRegions": ["punjab_plains", "islamabad_foot_hills"],
-      "hazardsCovered": ["earthquake", "wind", "moderate_flood"],
+      "suitableRegions": [
+        "punjab_plains",
+        "islamabad_foot_hills"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "moderate_flood"
+      ],
       "resilienceScore": 82,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 90,
       "estimatedMaterialCostPkr": 1850000,
       "estimatedLabourCostPkr": 650000,
-      "thumbnailGradient": ["#0F172A", "#334155"],
+      "thumbnailGradient": [
+        "#0F172A",
+        "#334155"
+      ],
       "model3dPath": "assets/models/interlocking_brick/base.glb",
       "pdfAsset": "assets/pdfs/interlocking_brick_guidelines.pdf",
-      "advantages": ["Dry-stack interlocking reduces mortar", "Good seismic ductility with bands", "Locally producible bricks"],
-      "limitations": ["Requires quality-controlled brick production", "Skilled masons for lintel bands"],
-      "resilienceFeatures": ["Horizontal reinforcement bands", "Corner interlocking", "Lightweight roof"],
+      "advantages": [
+        "Dry-stack interlocking reduces mortar",
+        "Good seismic ductility with bands",
+        "Locally producible bricks"
+      ],
+      "limitations": [
+        "Requires quality-controlled brick production",
+        "Skilled masons for lintel bands"
+      ],
+      "resilienceFeatures": [
+        "Horizontal reinforcement bands",
+        "Corner interlocking",
+        "Lightweight roof"
+      ],
       "engineeringSummary": "Interlocking bricks transfer loads through mechanical keys while RC bands provide earthquake resistance.",
-      "materialIds": ["burnt_brick", "cement", "steel_rebar", "sand"]
+      "materialIds": [
+        "burnt_brick",
+        "cement",
+        "steel_rebar",
+        "sand"
+      ],
+      "thumbnailAsset": "assets/images/models/interlocking_brick_masonry.webp"
     },
     {
       "id": "advanced_interlocking_brick_masonry",
       "name": "Advanced Interlocking Brick Masonry House",
       "category": "Masonry",
-      "suitableRegions": ["punjab_plains", "islamabad_foot_hills", "azad_kashmir"],
-      "hazardsCovered": ["earthquake", "wind", "moderate_flood"],
+      "suitableRegions": [
+        "punjab_plains",
+        "islamabad_foot_hills",
+        "azad_kashmir"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "moderate_flood"
+      ],
       "resilienceScore": 91,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 75,
       "estimatedMaterialCostPkr": 1920000,
       "estimatedLabourCostPkr": 620000,
-      "thumbnailGradient": ["#B45309", "#92400E"],
+      "thumbnailGradient": [
+        "#B45309",
+        "#92400E"
+      ],
       "model3dPath": "assets/models/advanced_interlocking/base.glb",
       "pdfAsset": "assets/pdfs/advanced_interlocking_guidelines.pdf",
       "advantages": [
@@ -52,322 +90,735 @@
         "DPC and waterproofing"
       ],
       "engineeringSummary": "Advanced interlocking hollow-block masonry with grouted vertical reinforcement and continuous RC bands for seismic box action and rapid construction.",
-      "materialIds": ["burnt_brick", "cement", "steel_rebar", "sand"]
+      "materialIds": [
+        "burnt_brick",
+        "cement",
+        "steel_rebar",
+        "sand"
+      ],
+      "thumbnailAsset": "assets/images/models/advanced_interlocking_brick_masonry.webp"
     },
     {
       "id": "bamboo_frame_wattle_daub",
       "name": "Bamboo Frame with Wattle and Daub",
       "category": "Timber / Bamboo",
-      "suitableRegions": ["kpk_mountain", "punjab_plains"],
-      "hazardsCovered": ["wind", "moderate_earthquake"],
+      "suitableRegions": [
+        "kpk_mountain",
+        "punjab_plains"
+      ],
+      "hazardsCovered": [
+        "wind",
+        "moderate_earthquake"
+      ],
       "resilienceScore": 74,
       "costCategory": "low",
       "complexity": "simple",
       "constructionDurationDays": 45,
       "estimatedMaterialCostPkr": 850000,
       "estimatedLabourCostPkr": 320000,
-      "thumbnailGradient": ["#16A34A", "#059669"],
+      "thumbnailGradient": [
+        "#16A34A",
+        "#059669"
+      ],
       "model3dPath": "assets/models/bamboo_wattle/base.glb",
       "pdfAsset": "assets/pdfs/bamboo_wattle_guidelines.pdf",
-      "advantages": ["Rapid construction", "Renewable bamboo", "Low embodied carbon"],
-      "limitations": ["Fire and termite protection required", "Not for high flood zones"],
-      "resilienceFeatures": ["Flexible frame", "Lightweight infill", "Raised plinth option"],
+      "advantages": [
+        "Rapid construction",
+        "Renewable bamboo",
+        "Low embodied carbon"
+      ],
+      "limitations": [
+        "Fire and termite protection required",
+        "Not for high flood zones"
+      ],
+      "resilienceFeatures": [
+        "Flexible frame",
+        "Lightweight infill",
+        "Raised plinth option"
+      ],
       "engineeringSummary": "Bamboo frame acts as ductile skeleton; wattle and daub provides enclosure with low seismic mass.",
-      "materialIds": ["bamboo", "mud_plaster", "lime", "thatch"]
+      "materialIds": [
+        "bamboo",
+        "mud_plaster",
+        "lime",
+        "thatch"
+      ],
+      "thumbnailAsset": "assets/images/models/bamboo_frame_wattle_daub.webp"
     },
     {
       "id": "cement_bamboo_frame",
       "name": "Cement Bamboo Frame",
       "category": "Hybrid",
-      "suitableRegions": ["coastal_sindh", "kpk_mountain"],
-      "hazardsCovered": ["wind", "earthquake", "moisture"],
+      "suitableRegions": [
+        "coastal_sindh",
+        "kpk_mountain"
+      ],
+      "hazardsCovered": [
+        "wind",
+        "earthquake",
+        "moisture"
+      ],
       "resilienceScore": 80,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 75,
       "estimatedMaterialCostPkr": 1450000,
       "estimatedLabourCostPkr": 520000,
-      "thumbnailGradient": ["#059669", "#10B981"],
+      "thumbnailGradient": [
+        "#059669",
+        "#10B981"
+      ],
       "model3dPath": "assets/models/cement_bamboo/base.glb",
       "pdfAsset": "assets/pdfs/cement_bamboo_guidelines.pdf",
-      "advantages": ["Bamboo replaced by treated poles in cement sockets", "Improved durability"],
-      "limitations": ["Bamboo treatment and curing critical"],
-      "resilienceFeatures": ["Cement-grouted connections", "Diagonal bracing", "Cement board cladding"],
+      "advantages": [
+        "Bamboo replaced by treated poles in cement sockets",
+        "Improved durability"
+      ],
+      "limitations": [
+        "Bamboo treatment and curing critical"
+      ],
+      "resilienceFeatures": [
+        "Cement-grouted connections",
+        "Diagonal bracing",
+        "Cement board cladding"
+      ],
       "engineeringSummary": "Composite system combining bamboo lightness with cement-grouted joints for moisture and pest resistance.",
-      "materialIds": ["bamboo", "cement", "wire_mesh", "cement_board"]
+      "materialIds": [
+        "bamboo",
+        "cement",
+        "wire_mesh",
+        "cement_board"
+      ],
+      "thumbnailAsset": "assets/images/models/cement_bamboo_frame.webp"
     },
     {
       "id": "confined_concrete_block_masonry",
       "name": "Confined Concrete Block Masonry",
       "category": "Masonry",
-      "suitableRegions": ["gb_hilly", "punjab_plains", "kpk_mountain", "azad_kashmir"],
-      "hazardsCovered": ["earthquake", "wind", "landslide"],
+      "suitableRegions": [
+        "gb_hilly",
+        "punjab_plains",
+        "kpk_mountain",
+        "azad_kashmir"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "landslide"
+      ],
       "resilienceScore": 88,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 100,
       "estimatedMaterialCostPkr": 2100000,
       "estimatedLabourCostPkr": 780000,
-      "thumbnailGradient": ["#7C3AED", "#8B5CF6"],
+      "thumbnailGradient": [
+        "#7C3AED",
+        "#8B5CF6"
+      ],
       "model3dPath": "assets/models/confined_block/base.glb",
       "pdfAsset": "assets/pdfs/confined_block_guidelines.pdf",
-      "advantages": ["Confining columns and tie beams", "Widely understood by masons", "High seismic performance"],
-      "limitations": ["Heavier than timber systems", "Quality of block and grout essential"],
-      "resilienceFeatures": ["Confined masonry panels", "RC tie columns", "Lintel band continuity"],
+      "advantages": [
+        "Confining columns and tie beams",
+        "Widely understood by masons",
+        "High seismic performance"
+      ],
+      "limitations": [
+        "Heavier than timber systems",
+        "Quality of block and grout essential"
+      ],
+      "resilienceFeatures": [
+        "Confined masonry panels",
+        "RC tie columns",
+        "Lintel band continuity"
+      ],
       "engineeringSummary": "Hollow concrete blocks confined by RC frame elements to achieve ductile seismic response.",
-      "materialIds": ["concrete_block", "cement", "steel_rebar", "sand"]
+      "materialIds": [
+        "concrete_block",
+        "cement",
+        "steel_rebar",
+        "sand"
+      ],
+      "thumbnailAsset": "assets/images/models/confined_concrete_block_masonry.webp"
     },
     {
       "id": "earthbag_masonry",
       "name": "Earthbag Masonry",
       "category": "Earth Construction",
-      "suitableRegions": ["gb_hilly", "balochistan_arid", "kpk_mountain"],
-      "hazardsCovered": ["earthquake", "wind", "thermal"],
+      "suitableRegions": [
+        "gb_hilly",
+        "balochistan_arid",
+        "kpk_mountain"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "thermal"
+      ],
       "resilienceScore": 79,
       "costCategory": "low",
       "complexity": "simple",
       "constructionDurationDays": 60,
       "estimatedMaterialCostPkr": 720000,
       "estimatedLabourCostPkr": 380000,
-      "thumbnailGradient": ["#B45309", "#D97706"],
+      "thumbnailGradient": [
+        "#B45309",
+        "#D97706"
+      ],
       "model3dPath": "assets/models/earthbag/base.glb",
       "pdfAsset": "assets/pdfs/earthbag_guidelines.pdf",
-      "advantages": ["Uses local soil", "Excellent thermal mass", "Bullet and blast resistance potential"],
-      "limitations": ["Moisture protection mandatory", "Barbed wire and tamping labour intensive"],
-      "resilienceFeatures": ["Barbed wire reinforcement", "Buttressed corners", "Waterproof plaster"],
+      "advantages": [
+        "Uses local soil",
+        "Excellent thermal mass",
+        "Bullet and blast resistance potential"
+      ],
+      "limitations": [
+        "Moisture protection mandatory",
+        "Barbed wire and tamping labour intensive"
+      ],
+      "resilienceFeatures": [
+        "Barbed wire reinforcement",
+        "Buttressed corners",
+        "Waterproof plaster"
+      ],
       "engineeringSummary": "Stabilized earth in geotextile bags with wire reinforcement creates monolithic walls with high mass damping.",
-      "materialIds": ["polypropylene_bags", "barbed_wire", "stabilized_earth", "lime_plaster"]
+      "materialIds": [
+        "polypropylene_bags",
+        "barbed_wire",
+        "stabilized_earth",
+        "lime_plaster"
+      ],
+      "thumbnailAsset": "assets/images/models/earthbag_masonry.webp"
     },
     {
       "id": "elevated_flood_resilient_house",
       "name": "Elevated Flood Resilient House",
       "category": "Flood Resilient",
-      "suitableRegions": ["sindh_riverine", "coastal_sindh"],
-      "hazardsCovered": ["flood", "river_proximity", "heavy_rain"],
+      "suitableRegions": [
+        "sindh_riverine",
+        "coastal_sindh"
+      ],
+      "hazardsCovered": [
+        "flood",
+        "river_proximity",
+        "heavy_rain"
+      ],
       "resilienceScore": 92,
       "costCategory": "high",
       "complexity": "complex",
       "constructionDurationDays": 120,
       "estimatedMaterialCostPkr": 3200000,
       "estimatedLabourCostPkr": 1100000,
-      "thumbnailGradient": ["#2563EB", "#06B6D4"],
+      "thumbnailGradient": [
+        "#2563EB",
+        "#06B6D4"
+      ],
       "model3dPath": "assets/models/elevated_flood/base.glb",
       "pdfAsset": "assets/pdfs/elevated_flood_guidelines.pdf",
-      "advantages": ["Living floor above design flood level", "Open ground storey for flow", "Elevated services"],
-      "limitations": ["Higher cost and stair access", "Requires accurate flood level data"],
-      "resilienceFeatures": ["Stilt / pile foundation", "Flood vents", "Waterproof lower enclosure"],
+      "advantages": [
+        "Living floor above design flood level",
+        "Open ground storey for flow",
+        "Elevated services"
+      ],
+      "limitations": [
+        "Higher cost and stair access",
+        "Requires accurate flood level data"
+      ],
+      "resilienceFeatures": [
+        "Stilt / pile foundation",
+        "Flood vents",
+        "Waterproof lower enclosure"
+      ],
       "engineeringSummary": "Structure elevated on columns above BFE with breakaway or open ground floor to pass flood flows.",
-      "materialIds": ["rc_frame", "steel_rebar", "waterproof_membrane", "piles"]
+      "materialIds": [
+        "rc_frame",
+        "steel_rebar",
+        "waterproof_membrane",
+        "piles"
+      ],
+      "thumbnailAsset": "assets/images/models/elevated_flood_resilient_house.webp"
     },
     {
       "id": "floating_amphibious_structure",
       "name": "Floating Amphibious Structure",
       "category": "Flood Resilient",
-      "suitableRegions": ["sindh_riverine"],
-      "hazardsCovered": ["flood", "river_proximity", "flash_flood"],
+      "suitableRegions": [
+        "sindh_riverine"
+      ],
+      "hazardsCovered": [
+        "flood",
+        "river_proximity",
+        "flash_flood"
+      ],
       "resilienceScore": 90,
       "costCategory": "premium",
       "complexity": "very_complex",
       "constructionDurationDays": 150,
       "estimatedMaterialCostPkr": 4500000,
       "estimatedLabourCostPkr": 1500000,
-      "thumbnailGradient": ["#0891B2", "#2563EB"],
+      "thumbnailGradient": [
+        "#0891B2",
+        "#2563EB"
+      ],
       "model3dPath": "assets/models/floating_amphibious/base.glb",
       "pdfAsset": "assets/pdfs/floating_amphibious_guidelines.pdf",
-      "advantages": ["Rises with flood water", "Minimal dry floodproofing", "Suitable for deep inundation"],
-      "limitations": ["Mooring and utility flex connections", "Specialized design required"],
-      "resilienceFeatures": ["Buoyancy chambers", "Flexible utilities", "Anchoring system"],
+      "advantages": [
+        "Rises with flood water",
+        "Minimal dry floodproofing",
+        "Suitable for deep inundation"
+      ],
+      "limitations": [
+        "Mooring and utility flex connections",
+        "Specialized design required"
+      ],
+      "resilienceFeatures": [
+        "Buoyancy chambers",
+        "Flexible utilities",
+        "Anchoring system"
+      ],
       "engineeringSummary": "Amphibious foundation allows structure to float during floods while anchored to guide posts.",
-      "materialIds": ["buoyancy_tanks", "light_steel_frame", "flex_pipes", "anchors"]
+      "materialIds": [
+        "buoyancy_tanks",
+        "light_steel_frame",
+        "flex_pipes",
+        "anchors"
+      ],
+      "thumbnailAsset": "assets/images/models/floating_amphibious_structure.webp"
     },
     {
       "id": "fly_ash_masonry",
       "name": "Fly Ash Masonry",
       "category": "Masonry",
-      "suitableRegions": ["punjab_plains", "balochistan_arid"],
-      "hazardsCovered": ["earthquake", "heat", "wind"],
+      "suitableRegions": [
+        "punjab_plains",
+        "balochistan_arid"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "heat",
+        "wind"
+      ],
       "resilienceScore": 81,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 95,
       "estimatedMaterialCostPkr": 1750000,
       "estimatedLabourCostPkr": 620000,
-      "thumbnailGradient": ["#64748B", "#94A3B8"],
+      "thumbnailGradient": [
+        "#64748B",
+        "#94A3B8"
+      ],
       "model3dPath": "assets/models/fly_ash/base.glb",
       "pdfAsset": "assets/pdfs/fly_ash_guidelines.pdf",
-      "advantages": ["Utilizes industrial by-product", "Lower carbon than burnt brick", "Good compressive strength"],
-      "limitations": ["Requires consistent mix design", "Curing and protection from rain"],
-      "resilienceFeatures": ["Reinforcement bands", "Plinth protection", "Cavity insulation option"],
+      "advantages": [
+        "Utilizes industrial by-product",
+        "Lower carbon than burnt brick",
+        "Good compressive strength"
+      ],
+      "limitations": [
+        "Requires consistent mix design",
+        "Curing and protection from rain"
+      ],
+      "resilienceFeatures": [
+        "Reinforcement bands",
+        "Plinth protection",
+        "Cavity insulation option"
+      ],
       "engineeringSummary": "Compressed fly ash blocks with cement stabilization provide sustainable masonry with seismic bands.",
-      "materialIds": ["fly_ash_block", "cement", "steel_rebar", "sand"]
+      "materialIds": [
+        "fly_ash_block",
+        "cement",
+        "steel_rebar",
+        "sand"
+      ],
+      "thumbnailAsset": "assets/images/models/fly_ash_masonry.webp"
     },
     {
       "id": "geogrid_reinforced_retaining_wall",
       "name": "Geogrid Reinforced Retaining Wall",
       "category": "Infrastructure",
-      "suitableRegions": ["gb_hilly", "kpk_mountain", "azad_kashmir"],
-      "hazardsCovered": ["landslide", "slope_failure"],
+      "suitableRegions": [
+        "gb_hilly",
+        "kpk_mountain",
+        "azad_kashmir"
+      ],
+      "hazardsCovered": [
+        "landslide",
+        "slope_failure"
+      ],
       "resilienceScore": 86,
       "costCategory": "high",
       "complexity": "complex",
       "constructionDurationDays": 45,
       "estimatedMaterialCostPkr": 980000,
       "estimatedLabourCostPkr": 420000,
-      "thumbnailGradient": ["#475569", "#334155"],
+      "thumbnailGradient": [
+        "#475569",
+        "#334155"
+      ],
       "model3dPath": "assets/models/geogrid_wall/base.glb",
       "pdfAsset": "assets/pdfs/geogrid_wall_guidelines.pdf",
-      "advantages": ["Flexible facing accommodates settlement", "Rapid installation on slopes"],
-      "limitations": ["Site-specific geotechnical design", "Drainage behind wall critical"],
-      "resilienceFeatures": ["Geogrid soil reinforcement", "Segmental facing", "Subsurface drainage"],
+      "advantages": [
+        "Flexible facing accommodates settlement",
+        "Rapid installation on slopes"
+      ],
+      "limitations": [
+        "Site-specific geotechnical design",
+        "Drainage behind wall critical"
+      ],
+      "resilienceFeatures": [
+        "Geogrid soil reinforcement",
+        "Segmental facing",
+        "Subsurface drainage"
+      ],
       "engineeringSummary": "Mechanically stabilized earth wall using geogrid layers to stabilize slopes for building platforms.",
-      "materialIds": ["geogrid", "segmental_blocks", "drain_pipe", "gravel"]
+      "materialIds": [
+        "geogrid",
+        "segmental_blocks",
+        "drain_pipe",
+        "gravel"
+      ],
+      "thumbnailAsset": "assets/images/models/geogrid_reinforced_retaining_wall.webp"
     },
     {
       "id": "light_gauge_steel_house",
       "name": "Light Gauge Steel House",
       "category": "Steel Frame",
-      "suitableRegions": ["gb_hilly", "kpk_mountain", "balochistan_arid", "coastal_sindh"],
-      "hazardsCovered": ["earthquake", "wind", "termite"],
+      "suitableRegions": [
+        "gb_hilly",
+        "kpk_mountain",
+        "balochistan_arid",
+        "coastal_sindh"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "termite"
+      ],
       "resilienceScore": 87,
       "costCategory": "high",
       "complexity": "moderate",
       "constructionDurationDays": 70,
       "estimatedMaterialCostPkr": 2650000,
       "estimatedLabourCostPkr": 890000,
-      "thumbnailGradient": ["#1E293B", "#475569"],
+      "thumbnailGradient": [
+        "#1E293B",
+        "#475569"
+      ],
       "model3dPath": "assets/models/lgs_house/base.glb",
       "pdfAsset": "assets/pdfs/lgs_house_guidelines.pdf",
-      "advantages": ["Lightweight seismic performance", "Prefabrication possible", "Termite proof"],
-      "limitations": ["Corrosion protection in coastal zones", "Skilled steel framers needed"],
-      "resilienceFeatures": ["Screw-fixed sheathing", "Diagonal bracing", "Lightweight roof"],
+      "advantages": [
+        "Lightweight seismic performance",
+        "Prefabrication possible",
+        "Termite proof"
+      ],
+      "limitations": [
+        "Corrosion protection in coastal zones",
+        "Skilled steel framers needed"
+      ],
+      "resilienceFeatures": [
+        "Screw-fixed sheathing",
+        "Diagonal bracing",
+        "Lightweight roof"
+      ],
       "engineeringSummary": "Cold-formed steel framing with sheathing diaphragm provides ductile lateral system.",
-      "materialIds": ["lgs_sections", "screws", "gypsum_board", "insulation"]
+      "materialIds": [
+        "lgs_sections",
+        "screws",
+        "gypsum_board",
+        "insulation"
+      ],
+      "thumbnailAsset": "assets/images/models/light_gauge_steel_house.webp"
     },
     {
       "id": "loh_kaat_timber_house",
       "name": "Loh-Kaat Timber House",
       "category": "Timber",
-      "suitableRegions": ["gb_hilly", "azad_kashmir"],
-      "hazardsCovered": ["earthquake", "snow", "wind"],
+      "suitableRegions": [
+        "gb_hilly",
+        "azad_kashmir"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "snow",
+        "wind"
+      ],
       "resilienceScore": 83,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 80,
       "estimatedMaterialCostPkr": 1680000,
       "estimatedLabourCostPkr": 580000,
-      "thumbnailGradient": ["#92400E", "#B45309"],
+      "thumbnailGradient": [
+        "#92400E",
+        "#B45309"
+      ],
       "model3dPath": "assets/models/loh_kaat/base.glb",
       "pdfAsset": "assets/pdfs/loh_kaat_guidelines.pdf",
-      "advantages": ["Traditional knowledge in GB", "Good thermal performance", "Ductile timber connections"],
-      "limitations": ["Fire treatment required", "Moisture and insect protection"],
-      "resilienceFeatures": ["Mortise-tenon with steel pins", "Stone plinth", "Steep roof for snow"],
+      "advantages": [
+        "Traditional knowledge in GB",
+        "Good thermal performance",
+        "Ductile timber connections"
+      ],
+      "limitations": [
+        "Fire treatment required",
+        "Moisture and insect protection"
+      ],
+      "resilienceFeatures": [
+        "Mortise-tenon with steel pins",
+        "Stone plinth",
+        "Steep roof for snow"
+      ],
       "engineeringSummary": "Traditional timber framing adapted with metal connectors and stone plinth for seismic and snow loads.",
-      "materialIds": ["deodar_timber", "steel_connectors", "stone", "insulation"]
+      "materialIds": [
+        "deodar_timber",
+        "steel_connectors",
+        "stone",
+        "insulation"
+      ],
+      "thumbnailAsset": "assets/images/models/loh_kaat_timber_house.webp"
     },
     {
       "id": "pre_fabricated_house",
       "name": "Pre-Fabricated House",
       "category": "Prefabricated",
-      "suitableRegions": ["punjab_plains", "islamabad_foot_hills", "balochistan_arid"],
-      "hazardsCovered": ["earthquake", "wind", "rapid_deployment"],
+      "suitableRegions": [
+        "punjab_plains",
+        "islamabad_foot_hills",
+        "balochistan_arid"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "wind",
+        "rapid_deployment"
+      ],
       "resilienceScore": 84,
       "costCategory": "high",
       "complexity": "moderate",
       "constructionDurationDays": 30,
       "estimatedMaterialCostPkr": 2900000,
       "estimatedLabourCostPkr": 450000,
-      "thumbnailGradient": ["#6366F1", "#8B5CF6"],
+      "thumbnailGradient": [
+        "#6366F1",
+        "#8B5CF6"
+      ],
       "model3dPath": "assets/models/prefab/base.glb",
       "pdfAsset": "assets/pdfs/prefab_guidelines.pdf",
-      "advantages": ["Factory quality control", "Fast on-site assembly", "Post-disaster deployment"],
-      "limitations": ["Transport logistics", "Foundation still site-specific"],
-      "resilienceFeatures": ["Modular panels", "Bolted connections", "QA in factory"],
+      "advantages": [
+        "Factory quality control",
+        "Fast on-site assembly",
+        "Post-disaster deployment"
+      ],
+      "limitations": [
+        "Transport logistics",
+        "Foundation still site-specific"
+      ],
+      "resilienceFeatures": [
+        "Modular panels",
+        "Bolted connections",
+        "QA in factory"
+      ],
       "engineeringSummary": "Factory-built modules assembled on site with engineered connections and standardized QC.",
-      "materialIds": ["prefab_panels", "bolts", "rc_foundation", "sealants"]
+      "materialIds": [
+        "prefab_panels",
+        "bolts",
+        "rc_foundation",
+        "sealants"
+      ],
+      "thumbnailAsset": "assets/images/models/pre_fabricated_house.webp"
     },
     {
       "id": "raised_plinth_flood_resilient_house",
       "name": "Raised Plinth Flood Resilient House",
       "category": "Flood Resilient",
-      "suitableRegions": ["sindh_riverine", "punjab_plains"],
-      "hazardsCovered": ["flood", "heavy_rain"],
+      "suitableRegions": [
+        "sindh_riverine",
+        "punjab_plains"
+      ],
+      "hazardsCovered": [
+        "flood",
+        "heavy_rain"
+      ],
       "resilienceScore": 86,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 100,
       "estimatedMaterialCostPkr": 2200000,
       "estimatedLabourCostPkr": 750000,
-      "thumbnailGradient": ["#0284C7", "#38BDF8"],
+      "thumbnailGradient": [
+        "#0284C7",
+        "#38BDF8"
+      ],
       "model3dPath": "assets/models/raised_plinth/base.glb",
       "pdfAsset": "assets/pdfs/raised_plinth_guidelines.pdf",
-      "advantages": ["Cost-effective flood mitigation", "Compatible with local masonry", "Community familiar design"],
-      "limitations": ["Limited protection above design flood depth", "Ramp/stair access"],
-      "resilienceFeatures": ["Raised plinth 0.6–1.5m", "Breathable walls", "Drainage around plinth"],
+      "advantages": [
+        "Cost-effective flood mitigation",
+        "Compatible with local masonry",
+        "Community familiar design"
+      ],
+      "limitations": [
+        "Limited protection above design flood depth",
+        "Ramp/stair access"
+      ],
+      "resilienceFeatures": [
+        "Raised plinth 0.6\u20131.5m",
+        "Breathable walls",
+        "Drainage around plinth"
+      ],
       "engineeringSummary": "Masonry structure on raised reinforced plinth above historical flood marks with improved drainage.",
-      "materialIds": ["burnt_brick", "rc_plinth", "steel_rebar", "drain_tile"]
+      "materialIds": [
+        "burnt_brick",
+        "rc_plinth",
+        "steel_rebar",
+        "drain_tile"
+      ],
+      "thumbnailAsset": "assets/images/models/raised_plinth_flood_resilient_house.webp"
     },
     {
       "id": "rat_trap_bond_masonry",
       "name": "Rat Trap Bond Masonry",
       "category": "Masonry",
-      "suitableRegions": ["punjab_plains", "islamabad_foot_hills"],
-      "hazardsCovered": ["earthquake", "thermal", "wind"],
+      "suitableRegions": [
+        "punjab_plains",
+        "islamabad_foot_hills"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "thermal",
+        "wind"
+      ],
       "resilienceScore": 80,
       "costCategory": "low",
       "complexity": "moderate",
       "constructionDurationDays": 85,
       "estimatedMaterialCostPkr": 1550000,
       "estimatedLabourCostPkr": 600000,
-      "thumbnailGradient": ["#DC2626", "#F97316"],
+      "thumbnailGradient": [
+        "#DC2626",
+        "#F97316"
+      ],
       "model3dPath": "assets/models/rat_trap_bond/base.glb",
       "pdfAsset": "assets/pdfs/rat_trap_bond_guidelines.pdf",
-      "advantages": ["~25% less bricks", "Cavity improves insulation", "Proven in India/Pakistan"],
-      "limitations": ["Mason training for bond pattern", "Lintels over openings critical"],
-      "resilienceFeatures": ["Vertical reinforcement at corners", "RC bands", "Cavity insulation"],
+      "advantages": [
+        "~25% less bricks",
+        "Cavity improves insulation",
+        "Proven in India/Pakistan"
+      ],
+      "limitations": [
+        "Mason training for bond pattern",
+        "Lintels over openings critical"
+      ],
+      "resilienceFeatures": [
+        "Vertical reinforcement at corners",
+        "RC bands",
+        "Cavity insulation"
+      ],
       "engineeringSummary": "Brick cavity wall bond reduces material use while maintaining strength with proper bands and lintels.",
-      "materialIds": ["burnt_brick", "cement", "steel_rebar", "insulation"]
+      "materialIds": [
+        "burnt_brick",
+        "cement",
+        "steel_rebar",
+        "insulation"
+      ],
+      "thumbnailAsset": "assets/images/models/rat_trap_bond_masonry.webp"
     },
     {
       "id": "reinforced_adobe_brick_structure",
       "name": "Reinforced Adobe Brick Structure",
       "category": "Earth Construction",
-      "suitableRegions": ["gb_hilly", "balochistan_arid", "kpk_mountain"],
-      "hazardsCovered": ["earthquake", "thermal", "wind"],
+      "suitableRegions": [
+        "gb_hilly",
+        "balochistan_arid",
+        "kpk_mountain"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "thermal",
+        "wind"
+      ],
       "resilienceScore": 78,
       "costCategory": "low",
       "complexity": "moderate",
       "constructionDurationDays": 70,
       "estimatedMaterialCostPkr": 980000,
       "estimatedLabourCostPkr": 410000,
-      "thumbnailGradient": ["#A16207", "#CA8A04"],
+      "thumbnailGradient": [
+        "#A16207",
+        "#CA8A04"
+      ],
       "model3dPath": "assets/models/reinforced_adobe/base.glb",
       "pdfAsset": "assets/pdfs/reinforced_adobe_guidelines.pdf",
-      "advantages": ["Local materials", "Low environmental impact", "Improved over unreinforced adobe"],
-      "limitations": ["Erosion without plaster", "Height limitations"],
-      "resilienceFeatures": ["Vertical cane/rebar", "Concrete bands", "Buttresses"],
+      "advantages": [
+        "Local materials",
+        "Low environmental impact",
+        "Improved over unreinforced adobe"
+      ],
+      "limitations": [
+        "Erosion without plaster",
+        "Height limitations"
+      ],
+      "resilienceFeatures": [
+        "Vertical cane/rebar",
+        "Concrete bands",
+        "Buttresses"
+      ],
       "engineeringSummary": "Adobe bricks strengthened with internal reinforcement and horizontal bands for seismic performance.",
-      "materialIds": ["adobe_brick", "bamboo_rebar", "cement", "lime_plaster"]
+      "materialIds": [
+        "adobe_brick",
+        "bamboo_rebar",
+        "cement",
+        "lime_plaster"
+      ],
+      "thumbnailAsset": "assets/images/models/reinforced_adobe_brick_structure.webp"
     },
     {
       "id": "timber_frame_lath_plaster",
       "name": "Timber Frame with Lath and Plaster",
       "category": "Timber",
-      "suitableRegions": ["gb_hilly", "kpk_mountain", "azad_kashmir"],
-      "hazardsCovered": ["earthquake", "snow", "wind"],
+      "suitableRegions": [
+        "gb_hilly",
+        "kpk_mountain",
+        "azad_kashmir"
+      ],
+      "hazardsCovered": [
+        "earthquake",
+        "snow",
+        "wind"
+      ],
       "resilienceScore": 82,
       "costCategory": "medium",
       "complexity": "moderate",
       "constructionDurationDays": 75,
       "estimatedMaterialCostPkr": 1720000,
       "estimatedLabourCostPkr": 560000,
-      "thumbnailGradient": ["#15803D", "#22C55E"],
+      "thumbnailGradient": [
+        "#15803D",
+        "#22C55E"
+      ],
       "model3dPath": "assets/models/timber_lath/base.glb",
       "pdfAsset": "assets/pdfs/timber_lath_guidelines.pdf",
-      "advantages": ["Light seismic mass", "Repairable infill", "Good insulation"],
-      "limitations": ["Fire and pest treatment", "Moisture management"],
-      "resilienceFeatures": ["Platform frame", "Flexible infill", "Light roof"],
+      "advantages": [
+        "Light seismic mass",
+        "Repairable infill",
+        "Good insulation"
+      ],
+      "limitations": [
+        "Fire and pest treatment",
+        "Moisture management"
+      ],
+      "resilienceFeatures": [
+        "Platform frame",
+        "Flexible infill",
+        "Light roof"
+      ],
       "engineeringSummary": "Timber platform frame with lath and plaster infill separates structure from enclosure for ductility.",
-      "materialIds": ["timber_frame", "lath", "lime_plaster", "insulation"]
+      "materialIds": [
+        "timber_frame",
+        "lath",
+        "lime_plaster",
+        "insulation"
+      ],
+      "thumbnailAsset": "assets/images/models/timber_frame_lath_plaster.webp"
     }
   ]
 }

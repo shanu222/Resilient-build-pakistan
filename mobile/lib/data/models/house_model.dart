@@ -14,6 +14,7 @@ class HouseModel extends Equatable {
     required this.estimatedMaterialCostPkr,
     required this.estimatedLabourCostPkr,
     required this.thumbnailGradient,
+    this.thumbnailAsset,
     required this.model3dPath,
     required this.pdfAsset,
     required this.advantages,
@@ -37,6 +38,7 @@ class HouseModel extends Equatable {
       estimatedMaterialCostPkr: json['estimatedMaterialCostPkr'] as int,
       estimatedLabourCostPkr: json['estimatedLabourCostPkr'] as int,
       thumbnailGradient: List<String>.from(json['thumbnailGradient'] as List),
+      thumbnailAsset: json['thumbnailAsset'] as String?,
       model3dPath: json['model3dPath'] as String,
       pdfAsset: json['pdfAsset'] as String,
       advantages: List<String>.from(json['advantages'] as List),
@@ -59,6 +61,7 @@ class HouseModel extends Equatable {
   final int estimatedMaterialCostPkr;
   final int estimatedLabourCostPkr;
   final List<String> thumbnailGradient;
+  final String? thumbnailAsset;
   final String model3dPath;
   final String pdfAsset;
   final List<String> advantages;
@@ -69,6 +72,12 @@ class HouseModel extends Equatable {
 
   int get totalEstimatedCostPkr =>
       estimatedMaterialCostPkr + estimatedLabourCostPkr;
+
+  /// Primary catalog image (WebP from engineering sheet); falls back to per-id path.
+  String get resolvedThumbnailAsset =>
+      thumbnailAsset ?? 'assets/images/models/$id.webp';
+
+  String get thumbnailPngFallback => 'assets/images/models/$id.png';
 
   @override
   List<Object?> get props => [id];

@@ -1,15 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
+import 'model_thumbnail.dart';
 
-class ModelCatalogCard extends StatelessWidget {
+class ModelCatalogCard extends StatefulWidget {
   const ModelCatalogCard({
     super.key,
     required this.modelId,
     required this.name,
     required this.description,
-    this.imageAsset,
+    this.thumbnailAsset,
+    this.thumbnailPngFallback,
+    this.thumbnailGradient,
     this.resilienceScore,
     this.costLabel,
     this.difficulty,
@@ -20,7 +24,9 @@ class ModelCatalogCard extends StatelessWidget {
   final String modelId;
   final String name;
   final String description;
-  final String? imageAsset;
+  final String? thumbnailAsset;
+  final String? thumbnailPngFallback;
+  final List<String>? thumbnailGradient;
   final int? resilienceScore;
   final String? costLabel;
   final String? difficulty;
@@ -28,133 +34,150 @@ class ModelCatalogCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap ?? () => context.push('/model/$modelId'),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AspectRatio(
-              aspectRatio: 16 / 10,
-              child: _Thumbnail(asset: imageAsset, name: name),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: theme.textTheme.titleMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    description,
-                    style: theme.textTheme.bodySmall,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (hazardTags.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: hazardTags
-                          .take(3)
-                          .map((h) => Chip(
-                                label: Text(h),
-                                visualDensity: VisualDensity.compact,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                              ))
-                          .toList(),
-                    ),
-                  ],
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      if (resilienceScore != null)
-                        _Metric(
-                          icon: Icons.shield_outlined,
-                          label: 'Resilience',
-                          value: '$resilienceScore%',
-                          color: AppColors.success,
-                        ),
-                      if (costLabel != null) ...[
-                        const SizedBox(width: 12),
-                        _Metric(
-                          icon: Icons.payments_outlined,
-                          label: 'Cost',
-                          value: costLabel!,
-                          color: AppColors.navy,
-                        ),
-                      ],
-                      if (difficulty != null) ...[
-                        const SizedBox(width: 12),
-                        _Metric(
-                          icon: Icons.construction_outlined,
-                          label: 'Level',
-                          value: difficulty!,
-                          color: AppColors.orange,
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: onTap ?? () => context.push('/model/$modelId'),
-                      child: const Text('View details'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<ModelCatalogCard> createState() => _ModelCatalogCardState();
 }
 
-class _Thumbnail extends StatelessWidget {
-  const _Thumbnail({this.asset, required this.name});
+class _ModelCatalogCardState extends State<ModelCatalogCard> {
+  bool _hovered = false;
 
-  final String? asset;
-  final String name;
+  List<Color>? get _gradientFallback {
+    final g = widget.thumbnailGradient;
+    if (g == null || g.length < 2) return null;
+    return [
+      Color(int.parse(g[0].replaceFirst('#', '0xFF'))),
+      Color(int.parse(g[1].replaceFirst('#', '0xFF'))),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.muted,
-      child: asset != null
-          ? Image.asset(
-              asset!,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _placeholder(),
-            )
-          : _placeholder(),
-    );
-  }
+    final theme = Theme.of(context);
+    final enableHover = kIsWeb;
 
-  Widget _placeholder() {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.navy, AppColors.navyMid],
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: _hovered ? 8 : 2,
+      shadowColor: Colors.black.withValues(alpha: 0.18),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: _hovered ? AppColors.orange.withValues(alpha: 0.35) : AppColors.border,
         ),
       ),
-      child: Center(
-        child: Icon(Icons.apartment_rounded, size: 48, color: Colors.white.withValues(alpha: 0.5)),
+      child: MouseRegion(
+        onEnter: enableHover ? (_) => setState(() => _hovered = true) : null,
+        onExit: enableHover ? (_) => setState(() => _hovered = false) : null,
+        child: InkWell(
+          onTap: widget.onTap ?? () => context.push('/model/${widget.modelId}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AspectRatio(
+                aspectRatio: 16 / 10,
+                child: AnimatedScale(
+                  scale: _hovered ? 1.04 : 1.0,
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutCubic,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.12),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ModelThumbnail(
+                      modelId: widget.modelId,
+                      thumbnailAsset: widget.thumbnailAsset,
+                      thumbnailPngFallback: widget.thumbnailPngFallback,
+                      gradientFallback: _gradientFallback,
+                      fit: BoxFit.cover,
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.name,
+                      style: theme.textTheme.titleMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      widget.description,
+                      style: theme.textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (widget.hazardTags.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: widget.hazardTags
+                            .take(3)
+                            .map(
+                              (h) => Chip(
+                                label: Text(h),
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        if (widget.resilienceScore != null)
+                          _Metric(
+                            icon: Icons.shield_outlined,
+                            label: 'Resilience',
+                            value: '${widget.resilienceScore}%',
+                            color: AppColors.success,
+                          ),
+                        if (widget.costLabel != null) ...[
+                          const SizedBox(width: 12),
+                          _Metric(
+                            icon: Icons.payments_outlined,
+                            label: 'Cost',
+                            value: widget.costLabel!,
+                            color: AppColors.navy,
+                          ),
+                        ],
+                        if (widget.difficulty != null) ...[
+                          const SizedBox(width: 12),
+                          _Metric(
+                            icon: Icons.construction_outlined,
+                            label: 'Level',
+                            value: widget.difficulty!,
+                            color: AppColors.orange,
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: widget.onTap ?? () => context.push('/model/${widget.modelId}'),
+                        child: const Text('View details'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

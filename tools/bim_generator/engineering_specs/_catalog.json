@@ -19,12 +19,13 @@
   ],
   "dimensions": {
     "buildingWidth": 6.0,
-    "buildingDepth": 4.0,
+    "buildingDepth": 8.0,
     "wallHeight": 3.0,
-    "trenchDepth": 0.8,
-    "footingDepth": 0.35,
-    "plinthHeight": 0.25,
+    "wallThickness": 0.23,
+    "trenchDepth": 1.0,
+    "footingDepth": 0.3,
+    "plinthHeight": 0.45,
     "bandHeight": 0.15,
-    "slabThickness": 0.12
+    "roofSlopeDegrees": 15
   }
 }

@@ -1,0 +1,71 @@
+{
+  "modelId": "advanced_interlocking_brick_masonry",
+  "displayName": "Advanced Interlocking Brick Masonry",
+  "archetype": "advanced_interlocking_v2",
+  "assemblyMode": "component",
+  "masterGlb": "assets/models/advanced_interlocking_brick_masonry/completed_house.glb",
+  "stageCount": 15,
+  "assemblyComponents": [
+    {"key": "site_layout", "glb": "assets/models/advanced_interlocking_brick_masonry/site_layout.glb", "stage": 0, "description": "Grid and footprint"},
+    {"key": "excavation", "glb": "assets/models/advanced_interlocking_brick_masonry/excavation.glb", "stage": 1, "description": "Foundation trenches"},
+    {"key": "foundation_rebar", "glb": "assets/models/advanced_interlocking_brick_masonry/foundation_rebar.glb", "stage": 2, "description": "Foundation reinforcement"},
+    {"key": "footing", "glb": "assets/models/advanced_interlocking_brick_masonry/footing.glb", "stage": 3, "description": "Strip footings"},
+    {"key": "foundation_wall", "glb": "assets/models/advanced_interlocking_brick_masonry/foundation_wall.glb", "stage": 4, "description": "Foundation masonry"},
+    {"key": "plinth_beam", "glb": "assets/models/advanced_interlocking_brick_masonry/plinth_beam.glb", "stage": 5, "description": "Plinth beam"},
+    {"key": "dpc_layer", "glb": "assets/models/advanced_interlocking_brick_masonry/dpc_layer.glb", "stage": 6, "description": "DPC membrane"},
+    {"key": "interlocking_blocks", "glb": "assets/models/advanced_interlocking_brick_masonry/interlocking_blocks.glb", "stage": 7, "description": "Hollow block courses"},
+    {"key": "vertical_rebar", "glb": "assets/models/advanced_interlocking_brick_masonry/vertical_rebar.glb", "stage": 8, "description": "Vertical reinforcement"},
+    {"key": "lintel_band", "glb": "assets/models/advanced_interlocking_brick_masonry/lintel_band.glb", "stage": 9, "description": "Lintel band"},
+    {"key": "roof_band", "glb": "assets/models/advanced_interlocking_brick_masonry/roof_band.glb", "stage": 10, "description": "Roof band"},
+    {"key": "roof_trusses", "glb": "assets/models/advanced_interlocking_brick_masonry/roof_trusses.glb", "stage": 11, "description": "Steel trusses"},
+    {"key": "roof_cover", "glb": "assets/models/advanced_interlocking_brick_masonry/roof_cover.glb", "stage": 12, "description": "Roof sheets"},
+    {"key": "completed_house", "glb": "assets/models/advanced_interlocking_brick_masonry/completed_house.glb", "stage": 14, "description": "Completed structure"}
+  ],
+  "stages": [
+    {"index": 0, "key": "site_layout", "title": "Site Layout", "timelineLabel": "Stage 1 of 15", "durationMs": 5000, "glb": "assets/models/advanced_interlocking_brick_masonry/site_layout.glb", "narration": "Stage 1. Site layout on 8×6 m grid.", "explanation": "Grid, footprint and dimensions established.", "engineeringPrinciple": "Accurate setting out ensures structural alignment.", "constructionActivity": "Site Layout", "inspectionChecklist": "Verify grid, setbacks, drainage.", "commonMistakes": ["Misaligned grid"], "resilienceBenefits": ["Correct load path geometry"], "highlights": ["Grid", "Footprint"]},
+    {"index": 1, "key": "excavation", "title": "Excavation", "timelineLabel": "Stage 2 of 15", "durationMs": 6000, "glb": "assets/models/advanced_interlocking_brick_masonry/excavation.glb", "narration": "Stage 2. Trenches to 1 m depth.", "explanation": "Excavation to bearing stratum.", "engineeringPrinciple": "Competent bearing required.", "constructionActivity": "Excavation", "inspectionChecklist": "Depth, soil class, safety.", "commonMistakes": ["Insufficient depth"], "resilienceBenefits": ["Stable foundation"], "highlights": ["Trenches", "Soil layers"]},
+    {"index": 2, "key": "foundation_reinforcement", "title": "Foundation Reinforcement", "timelineLabel": "Stage 3 of 15", "durationMs": 5500, "glb": "assets/models/advanced_interlocking_brick_masonry/foundation_rebar.glb", "narration": "Stage 3. Foundation rebar cages placed.", "explanation": "Reinforcement before concrete.", "engineeringPrinciple": "Ductile foundation base.", "constructionActivity": "Foundation Reinforcement", "inspectionChecklist": "Cover blocks, lap lengths.", "commonMistakes": ["Insufficient cover"], "resilienceBenefits": ["Foundation ductility"], "highlights": ["Rebar cages"]},
+    {"index": 3, "key": "footing_concrete", "title": "Footing Concrete", "timelineLabel": "Stage 4 of 15", "durationMs": 6500, "glb": "assets/models/advanced_interlocking_brick_masonry/footing.glb", "narration": "Stage 4. Strip footings cast.", "explanation": "Continuous footing under walls.", "engineeringPrinciple": "Load spread to soil.", "constructionActivity": "Footing Concrete", "inspectionChecklist": "Width, depth, grade.", "commonMistakes": ["Cold joints"], "resilienceBenefits": ["Uniform bearing"], "highlights": ["Strip footing"]},
+    {"index": 4, "key": "foundation_wall", "title": "Foundation Wall", "timelineLabel": "Stage 5 of 15", "durationMs": 6000, "glb": "assets/models/advanced_interlocking_brick_masonry/foundation_wall.glb", "narration": "Stage 5. Foundation wall masonry.", "explanation": "Masonry to plinth level.", "engineeringPrinciple": "Transfer to plinth beam.", "constructionActivity": "Foundation Wall", "inspectionChecklist": "Alignment, level.", "commonMistakes": ["Misaligned courses"], "resilienceBenefits": ["Wall base stability"], "highlights": ["Foundation masonry"]},
+    {"index": 5, "key": "plinth_beam", "title": "Plinth Beam", "timelineLabel": "Stage 6 of 15", "durationMs": 6500, "glb": "assets/models/advanced_interlocking_brick_masonry/plinth_beam.glb", "narration": "Stage 6. Plinth beam cast.", "explanation": "450 mm plinth RC beam.", "engineeringPrinciple": "Foundation tie beam.", "constructionActivity": "Plinth Beam", "inspectionChecklist": "Rebar, cover, continuity.", "commonMistakes": ["Open stirrups"], "resilienceBenefits": ["Settlement control"], "highlights": ["Plinth beam"]},
+    {"index": 6, "key": "dpc_layer", "title": "DPC Layer", "timelineLabel": "Stage 7 of 15", "durationMs": 4000, "glb": "assets/models/advanced_interlocking_brick_masonry/dpc_layer.glb", "narration": "Stage 7. DPC membrane installed.", "explanation": "Waterproof layer above plinth.", "engineeringPrinciple": "Moisture barrier.", "constructionActivity": "DPC Layer", "inspectionChecklist": "Continuity, overlap.", "commonMistakes": ["Gaps at corners"], "resilienceBenefits": ["Flood resilience"], "highlights": ["DPC"]},
+    {"index": 7, "key": "interlocking_blocks", "title": "Interlocking Blocks", "timelineLabel": "Stage 8 of 15", "durationMs": 10000, "glb": "assets/models/advanced_interlocking_brick_masonry/interlocking_blocks.glb", "narration": "Stage 8. Blocks laid course-by-course.", "explanation": "Hollow interlocking masonry.", "engineeringPrinciple": "Mechanical interlock.", "constructionActivity": "Interlocking Blocks", "inspectionChecklist": "Alignment, interlock.", "commonMistakes": ["Floating blocks"], "resilienceBenefits": ["Wall continuity"], "highlights": ["Course-by-course"]},
+    {"index": 8, "key": "vertical_reinforcement", "title": "Vertical Reinforcement", "timelineLabel": "Stage 9 of 15", "durationMs": 5500, "glb": "assets/models/advanced_interlocking_brick_masonry/vertical_rebar.glb", "narration": "Stage 9. Bars in hollow cores.", "explanation": "Vertical bars anchored and grouted.", "engineeringPrinciple": "Seismic ductility.", "constructionActivity": "Vertical Reinforcement", "inspectionChecklist": "Anchorage, grout fill.", "commonMistakes": ["Ungrouted cores"], "resilienceBenefits": ["Earthquake resistance"], "highlights": ["Hollow cores"]},
+    {"index": 9, "key": "lintel_band", "title": "Lintel Band", "timelineLabel": "Stage 10 of 15", "durationMs": 6000, "glb": "assets/models/advanced_interlocking_brick_masonry/lintel_band.glb", "narration": "Stage 10. Lintel band cast.", "explanation": "RC ring at opening level.", "engineeringPrinciple": "Horizontal tie.", "constructionActivity": "Lintel Band", "inspectionChecklist": "Continuity, rebar.", "commonMistakes": ["Corner gaps"], "resilienceBenefits": ["Wall tie"], "highlights": ["Lintel band"]},
+    {"index": 10, "key": "roof_band", "title": "Roof Band", "timelineLabel": "Stage 11 of 15", "durationMs": 6000, "glb": "assets/models/advanced_interlocking_brick_masonry/roof_band.glb", "narration": "Stage 11. Roof band cast.", "explanation": "Seismic perimeter band.", "engineeringPrinciple": "Box action.", "constructionActivity": "Roof Band", "inspectionChecklist": "Perimeter continuity.", "commonMistakes": ["Cold joints"], "resilienceBenefits": ["Box action"], "highlights": ["Roof band"]},
+    {"index": 11, "key": "roof_structure", "title": "Roof Structure", "timelineLabel": "Stage 12 of 15", "durationMs": 8000, "glb": "assets/models/advanced_interlocking_brick_masonry/roof_trusses.glb", "narration": "Stage 12. Steel trusses assembled.", "explanation": "Lightweight steel roof at 15°.", "engineeringPrinciple": "Diaphragm frame.", "constructionActivity": "Roof Structure", "inspectionChecklist": "Connections, bracing.", "commonMistakes": ["Missing bracing"], "resilienceBenefits": ["Low seismic mass"], "highlights": ["Trusses", "Purlins"]},
+    {"index": 12, "key": "roof_cover", "title": "Roof Cover", "timelineLabel": "Stage 13 of 15", "durationMs": 7000, "glb": "assets/models/advanced_interlocking_brick_masonry/roof_cover.glb", "narration": "Stage 13. Roof sheets installed.", "explanation": "Metal sheets and fasteners.", "engineeringPrinciple": "Roof diaphragm.", "constructionActivity": "Roof Cover", "inspectionChecklist": "Fixings, overlap.", "commonMistakes": ["Wind uplift"], "resilienceBenefits": ["Wind resistance"], "highlights": ["Roof sheets"]},
+    {"index": 13, "key": "final_inspection", "title": "Final Inspection", "timelineLabel": "Stage 14 of 15", "durationMs": 5500, "glb": "assets/models/advanced_interlocking_brick_masonry/completed_house.glb", "narration": "Stage 14. Structural inspection.", "explanation": "Load paths and reinforcement verified.", "engineeringPrinciple": "Quality assurance.", "constructionActivity": "Final Inspection", "inspectionChecklist": "Full structural checklist.", "commonMistakes": ["Skipped inspection"], "resilienceBenefits": ["Compliance"], "highlights": ["Load path"]},
+    {"index": 14, "key": "complete", "title": "Completed Structure", "timelineLabel": "Stage 15 of 15", "durationMs": 6000, "glb": "assets/models/advanced_interlocking_brick_masonry/completed_house.glb", "narration": "Stage 15. Structure complete.", "explanation": "Resilient house ready for occupancy.", "engineeringPrinciple": "NDMA compliant.", "constructionActivity": "Completed Structure", "inspectionChecklist": "Final certificate.", "commonMistakes": [], "resilienceBenefits": ["Full resilience"], "highlights": ["Completed house"]}
+  ],
+  "hazardSimulations": {
+    "earthquake": {
+      "title": "Earthquake",
+      "explanation": "Grouted cores, vertical bars and RC bands activate box action under seismic loading.",
+      "animationKey": "earthquake"
+    },
+    "wind": {
+      "title": "Wind",
+      "explanation": "Steel truss bracing and roof sheet fixings resist uplift and racking.",
+      "animationKey": "wind"
+    },
+    "flood": {
+      "title": "Moderate Flood",
+      "explanation": "450 mm plinth and DPC protect hollow block walls from capillary moisture rise.",
+      "animationKey": "flood"
+    }
+  },
+  "components": {
+    "footing": {"title": "Strip Footing", "loadTransfer": "To bearing soil"},
+    "foundation_wall": {"title": "Foundation Wall", "loadTransfer": "To footings"},
+    "plinth_beam": {"title": "Plinth Beam", "loadTransfer": "Foundation tie"},
+    "dpc": {"title": "DPC", "loadTransfer": "Moisture barrier"},
+    "interlocking_block": {"title": "Hollow Block", "loadTransfer": "Wall load path"},
+    "vertical_reinforcement": {"title": "Vertical Bars", "loadTransfer": "Seismic ductility"},
+    "grouted_core": {"title": "Grouted Core", "loadTransfer": "Reinforced pier"},
+    "lintel_band": {"title": "Lintel Band", "loadTransfer": "Horizontal tie"},
+    "roof_band": {"title": "Roof Band", "loadTransfer": "Box action"},
+    "roof_truss": {"title": "Steel Truss", "loadTransfer": "Roof diaphragm"},
+    "roof_cover": {"title": "Roof Sheet", "loadTransfer": "Weather envelope"}
+  }
+}

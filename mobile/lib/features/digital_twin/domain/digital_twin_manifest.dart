@@ -7,7 +7,8 @@ class DigitalTwinManifest {
     required this.stages,
     required this.hazardSimulations,
     required this.components,
-  });
+    List<DigitalTwinAssemblyComponent>? assemblyComponents,
+  }) : _assemblyComponents = assemblyComponents ?? const [];
 
   factory DigitalTwinManifest.fromJson(Map<String, dynamic> json) {
     return DigitalTwinManifest(
@@ -23,6 +24,12 @@ class DigitalTwinManifest {
       components: Map<String, dynamic>.from(
         json['components'] as Map? ?? {},
       ),
+      assemblyComponents: (json['assemblyComponents'] as List?)
+              ?.map((e) => DigitalTwinAssemblyComponent.fromJson(
+                    e as Map<String, dynamic>,
+                  ))
+              .toList() ??
+          const [],
     );
   }
 
@@ -32,6 +39,38 @@ class DigitalTwinManifest {
   final List<DigitalTwinStage> stages;
   final Map<String, dynamic> hazardSimulations;
   final Map<String, dynamic> components;
+
+  /// Component-based assembly GLBs (interlocking brick v2).
+  List<DigitalTwinAssemblyComponent> get assemblyComponents =>
+      _assemblyComponents;
+
+  final List<DigitalTwinAssemblyComponent> _assemblyComponents;
+
+  /// True when model uses per-component GLB assembly instead of cumulative stages.
+  bool get isComponentAssembly => _assemblyComponents.isNotEmpty;
+}
+
+class DigitalTwinAssemblyComponent {
+  DigitalTwinAssemblyComponent({
+    required this.key,
+    required this.glb,
+    required this.stage,
+    required this.description,
+  });
+
+  factory DigitalTwinAssemblyComponent.fromJson(Map<String, dynamic> json) {
+    return DigitalTwinAssemblyComponent(
+      key: json['key'] as String,
+      glb: json['glb'] as String,
+      stage: json['stage'] as int,
+      description: json['description'] as String? ?? '',
+    );
+  }
+
+  final String key;
+  final String glb;
+  final int stage;
+  final String description;
 }
 
 class DigitalTwinStage {

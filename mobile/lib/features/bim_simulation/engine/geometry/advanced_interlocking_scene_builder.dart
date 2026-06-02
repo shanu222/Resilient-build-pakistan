@@ -6,692 +6,708 @@ import 'advanced_interlocking_dimensions.dart';
 import 'bim_mesh.dart';
 import '../math/bim_vec3.dart';
 
-/// Procedural BIM scene — Model 16 Advanced Interlocking Brick Masonry.
+/// Engineering-grade procedural BIM — Advanced Interlocking Hollow Block House (8×6 m).
 class AdvancedInterlockingSceneBuilder {
   List<BimEntity> build() {
     final e = <BimEntity>[];
-        _site(e);
-    _settingOut(e);
+    _site(e);
     _excavation(e);
-    _pcc(e);
+    _foundationRebar(e);
     _footings(e);
-    _plinth(e);
-    _wallsAndBlocks(e);
-    _verticalBars(e);
+    _foundationWall(e);
+    _plinthBeam(e);
+    _dpc(e);
+    _interlockingWalls(e);
+    _verticalRebar(e);
     _groutCells(e);
-    _bands(e);
-    _roof(e);
-    _openingsAndFinish(e);
+    _lintelBand(e);
+    _roofBand(e);
+    _steelRoof(e);
+    _openings(e);
+    _inspectionMarkers(e);
     _comparisons(e);
     return e;
   }
 
   void _site(List<BimEntity> e) {
-    e.add(
-      BimEntity(
-        id: 'terrain',
-        label: 'Terrain',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.plotWidth,
-          height: 0.15,
-          depth: AdvancedInterlockingDimensions.plotDepth,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, -0.075, AdvancedInterlockingDimensions.centerZ + 1),
-        ),
-        color: const Color(0xFF8B7355),
-        category: BimEntityCategory.terrain,
-        minStage: 0,
-      ),
-    );
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'terrain',
+      label: 'Terrain',
+      mesh: BimMesh.box(width: d.plotWidth, height: 0.12, depth: d.plotDepth,
+          center: BimVec3(d.plotWidth / 2, -0.06, d.plotDepth / 2)),
+      color: const Color(0xFF8B7355),
+      category: BimEntityCategory.terrain,
+      minStage: 0,
+    ));
     _footprint(e);
-    e.add(
-      BimEntity(
-        id: 'drainage_arrow',
-        label: 'Drainage',
-        mesh: BimMesh.box(width: 2.5, height: 0.02, depth: 0.12),
-        color: const Color(0xFF0EA5E9),
-        category: BimEntityCategory.drainage,
-        position: BimVec3(1.5, 0.05, AdvancedInterlockingDimensions.plotDepth - 1.2),
+    for (var i = 0; i <= (d.buildingWidth / d.gridModule).ceil(); i++) {
+      e.add(BimEntity(
+        id: 'grid_x_$i',
+        label: 'Grid X$i',
+        mesh: BimMesh.box(width: 0.012, height: 0.008, depth: d.buildingDepth + 1.2),
+        color: const Color(0xFF64748B),
+        category: BimEntityCategory.grid,
+        position: BimVec3(i * d.gridModule, 0.025, -0.6),
         minStage: 0,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'load_zone_marker',
-        label: 'Load Zone',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.4,
-          height: 0.02,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.4,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, 0.04, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFFEF4444).withValues(alpha: 0.35),
-        category: BimEntityCategory.annotation,
+        buildProgress: 0,
+      ));
+    }
+    for (var i = 0; i <= (d.buildingDepth / d.gridModule).ceil(); i++) {
+      e.add(BimEntity(
+        id: 'grid_z_$i',
+        label: 'Grid Z$i',
+        mesh: BimMesh.box(width: d.buildingWidth + 1.2, height: 0.008, depth: 0.012),
+        color: const Color(0xFF64748B),
+        category: BimEntityCategory.grid,
+        position: BimVec3(-0.6, 0.025, i * d.gridModule),
         minStage: 0,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'north_arrow',
-        label: 'North',
-        mesh: BimMesh.box(width: 0.12, height: 0.02, depth: 1.0),
-        color: const Color(0xFFEF4444),
-        category: BimEntityCategory.annotation,
-        position: BimVec3(AdvancedInterlockingDimensions.plotWidth - 1.2, 0.05, AdvancedInterlockingDimensions.plotDepth - 1.5),
-        minStage: 0,
-      ),
-    );
+        buildProgress: 0,
+      ));
+    }
+    e.add(BimEntity(
+      id: 'dim_label',
+      label: '8m × 6m',
+      mesh: BimMesh.box(width: 1.2, height: 0.02, depth: 0.3),
+      color: const Color(0xFF0F172A),
+      category: BimEntityCategory.annotation,
+      position: BimVec3(d.centerX - 0.6, 0.05, -0.4),
+      minStage: 0,
+    ));
   }
 
   void _footprint(List<BimEntity> e) {
-    final y = 0.04;
+    final d = AdvancedInterlockingDimensions;
     final edges = [
-      (0.0, 0.0, AdvancedInterlockingDimensions.buildingWidth, 0.0),
-      (AdvancedInterlockingDimensions.buildingWidth, 0.0, AdvancedInterlockingDimensions.buildingWidth, AdvancedInterlockingDimensions.buildingDepth),
-      (AdvancedInterlockingDimensions.buildingWidth, AdvancedInterlockingDimensions.buildingDepth, 0.0, AdvancedInterlockingDimensions.buildingDepth),
-      (0.0, AdvancedInterlockingDimensions.buildingDepth, 0.0, 0.0),
+      (0.0, 0.0, d.buildingWidth, 0.0),
+      (d.buildingWidth, 0.0, d.buildingWidth, d.buildingDepth),
+      (d.buildingWidth, d.buildingDepth, 0.0, d.buildingDepth),
+      (0.0, d.buildingDepth, 0.0, 0.0),
     ];
     for (var i = 0; i < edges.length; i++) {
       final ed = edges[i];
-      final len = math.sqrt(
-        math.pow(ed.$3 - ed.$1, 2) + math.pow(ed.$4 - ed.$2, 2),
-      );
-      e.add(
-        BimEntity(
-          id: 'footprint_$i',
-          label: 'Footprint',
-          mesh: BimMesh.box(width: len, height: 0.04, depth: 0.08),
-          color: const Color(0xFF0F172A),
-          category: BimEntityCategory.annotation,
-          position: BimVec3((ed.$1 + ed.$3) / 2 - len / 2, y, (ed.$2 + ed.$4) / 2),
-          minStage: 0,
-        ),
-      );
-    }
-  }
-
-  void _settingOut(List<BimEntity> e) {
-    for (var i = 0; i <= 6; i++) {
-      e.add(
-        BimEntity(
-          id: 'grid_x_$i',
-          label: 'Grid',
-          mesh: BimMesh.box(
-            width: 0.02,
-            height: 0.01,
-            depth: AdvancedInterlockingDimensions.buildingDepth + 1,
-          ),
-          color: const Color(0xFF94A3B8),
-          category: BimEntityCategory.grid,
-          position: BimVec3(i * (AdvancedInterlockingDimensions.buildingWidth / 6), 0.03, -0.5),
-          minStage: 1,
-        ),
-      );
-    }
-    for (final c in _corners()) {
-      e.add(
-        BimEntity(
-          id: 'stake_${c.$1}_${c.$2}',
-          label: 'Stake',
-          mesh: BimMesh.cylinder(radius: 0.03, height: 1.2, segments: 8),
-          color: const Color(0xFFF97316),
-          category: BimEntityCategory.survey,
-          position: BimVec3(c.$1, 0, c.$2),
-          minStage: 1,
-        ),
-      );
+      final len = math.sqrt(math.pow(ed.$3 - ed.$1, 2) + math.pow(ed.$4 - ed.$2, 2));
+      e.add(BimEntity(
+        id: 'footprint_$i',
+        label: 'Footprint',
+        mesh: BimMesh.box(width: len, height: 0.04, depth: 0.08),
+        color: const Color(0xFF0F172A),
+        category: BimEntityCategory.annotation,
+        position: BimVec3((ed.$1 + ed.$3) / 2 - len / 2, 0.04, (ed.$2 + ed.$4) / 2),
+        minStage: 0,
+      ));
     }
   }
 
   void _excavation(List<BimEntity> e) {
-    final yBase = -AdvancedInterlockingDimensions.trenchDepth / 2;
+    final d = AdvancedInterlockingDimensions;
+    final yBase = d.trenchBottomY + d.trenchDepth / 2;
     final specs = [
-      (AdvancedInterlockingDimensions.centerX, yBase, 0.0, AdvancedInterlockingDimensions.buildingWidth + 0.5, AdvancedInterlockingDimensions.trenchDepth, AdvancedInterlockingDimensions.trenchWidth),
-      (AdvancedInterlockingDimensions.centerX, yBase, AdvancedInterlockingDimensions.buildingDepth, AdvancedInterlockingDimensions.buildingWidth + 0.5, AdvancedInterlockingDimensions.trenchDepth, AdvancedInterlockingDimensions.trenchWidth),
-      (0.0, yBase, AdvancedInterlockingDimensions.centerZ, AdvancedInterlockingDimensions.trenchWidth, AdvancedInterlockingDimensions.trenchDepth, AdvancedInterlockingDimensions.buildingDepth),
-      (AdvancedInterlockingDimensions.buildingWidth, yBase, AdvancedInterlockingDimensions.centerZ, AdvancedInterlockingDimensions.trenchWidth, AdvancedInterlockingDimensions.trenchDepth, AdvancedInterlockingDimensions.buildingDepth),
+      (d.centerX, yBase, 0.0, d.buildingWidth + d.trenchWidth * 2, d.trenchDepth, d.trenchWidth),
+      (d.centerX, yBase, d.buildingDepth, d.buildingWidth + d.trenchWidth * 2, d.trenchDepth, d.trenchWidth),
+      (0.0, yBase, d.centerZ, d.trenchWidth, d.trenchDepth, d.buildingDepth),
+      (d.buildingWidth, yBase, d.centerZ, d.trenchWidth, d.trenchDepth, d.buildingDepth),
     ];
     for (var i = 0; i < specs.length; i++) {
       final s = specs[i];
-      e.add(
-        BimEntity(
-          id: 'trench_$i',
-          label: 'Trench',
-          mesh: BimMesh.box(width: s.$4, height: s.$5, depth: s.$6),
-          color: const Color(0xFFA16207),
-          category: BimEntityCategory.excavation,
-          position: BimVec3(s.$1 - s.$4 / 2, s.$2, s.$3 - s.$6 / 2),
-          explodeGroup: 1,
-          minStage: 2,
-        ),
-      );
+      e.add(BimEntity(
+        id: 'trench_$i',
+        label: 'Excavation Trench',
+        mesh: BimMesh.box(width: s.$4, height: s.$5, depth: s.$6),
+        color: const Color(0xFFA16207),
+        category: BimEntityCategory.excavation,
+        position: BimVec3(s.$1 - s.$4 / 2, s.$2, s.$3 - s.$6 / 2),
+        explodeGroup: 1,
+        minStage: 1,
+        pickable: i == 0,
+        componentId: 'footing',
+        buildProgress: 0,
+      ));
     }
-    e.add(
-      BimEntity(
-        id: 'soil_profile',
-        label: 'Soil Profile',
-        mesh: BimMesh.box(width: 0.08, height: AdvancedInterlockingDimensions.trenchDepth + 0.3, depth: 0.5),
-        color: const Color(0xFF78716C),
-        category: BimEntityCategory.excavation,
-        position: BimVec3(-0.8, -AdvancedInterlockingDimensions.trenchDepth / 2, AdvancedInterlockingDimensions.centerZ),
-        minStage: 2,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'bearing_layer',
-        label: 'Bearing Stratum',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 1.5,
-          height: 0.2,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 1.5,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, -AdvancedInterlockingDimensions.trenchDepth + 0.1, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF57534E),
-        category: BimEntityCategory.excavation,
-        minStage: 2,
-        opacity: 0.85,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'excavator',
-        label: 'Excavator',
-        mesh: BimMesh.box(width: 1.8, height: 1.2, depth: 2.5),
-        color: const Color(0xFFFBBF24),
-        category: BimEntityCategory.equipment,
-        position: BimVec3(-1.5, 0.1, AdvancedInterlockingDimensions.buildingDepth + 1),
-        minStage: 2,
-      ),
-    );
+    e.add(BimEntity(
+      id: 'bearing_layer',
+      label: 'Bearing Stratum',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + 1.5, height: 0.18, depth: d.buildingDepth + 1.5,
+        center: BimVec3(d.centerX, d.trenchBottomY + 0.09, d.centerZ)),
+      color: const Color(0xFF57534E),
+      category: BimEntityCategory.excavation,
+      minStage: 1,
+      opacity: 0.85,
+    ));
+    e.add(BimEntity(
+      id: 'pcc_strip',
+      label: 'PCC Blinding',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + 0.5, height: d.pccThickness, depth: d.buildingDepth + 0.5,
+        center: BimVec3(d.centerX, d.trenchBottomY + d.pccThickness / 2, d.centerZ)),
+      color: const Color(0xFFD1D5DB),
+      category: BimEntityCategory.concrete,
+      explodeGroup: 1,
+      minStage: 1,
+      componentId: 'footing',
+      buildProgress: 0,
+    ));
   }
 
-  void _pcc(List<BimEntity> e) {
-    final y = -AdvancedInterlockingDimensions.trenchDepth + AdvancedInterlockingDimensions.pccThickness / 2;
-    e.add(
-      BimEntity(
-        id: 'pcc_strip',
-        label: 'PCC Layer',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.5,
-          height: AdvancedInterlockingDimensions.pccThickness,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.5,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, y, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFFD1D5DB),
-        category: BimEntityCategory.concrete,
+  void _foundationRebar(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final y = d.pccTopY + d.footingDepth * 0.35;
+    for (var i = 0; i < 12; i++) {
+      final t = i / 11;
+      e.add(BimEntity(
+        id: 'found_rebar_$i',
+        label: 'Foundation Rebar',
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.footingDepth * 0.6),
+        color: const Color(0xFFEA580C),
+        category: BimEntityCategory.rebar,
+        position: BimVec3(0.2 + t * (d.buildingWidth - 0.4), y, 0.15),
         explodeGroup: 1,
-        minStage: 3,
-      ),
-    );
+        minStage: 2,
+        pickable: i == 0,
+        componentId: 'vertical_reinforcement',
+        buildProgress: 0,
+      ));
+    }
+    for (final c in _corners(inset: 0.2)) {
+      e.add(BimEntity(
+        id: 'cover_block_${c.$1}_${c.$2}',
+        label: 'Cover Block',
+        mesh: BimMesh.box(width: 0.04, height: 0.04, depth: 0.04),
+        color: const Color(0xFF94A3B8),
+        category: BimEntityCategory.concrete,
+        position: BimVec3(c.$1, y - 0.02, c.$2),
+        minStage: 2,
+        buildProgress: 0,
+      ));
+    }
   }
 
   void _footings(List<BimEntity> e) {
-    final y = -AdvancedInterlockingDimensions.trenchDepth + AdvancedInterlockingDimensions.pccThickness + AdvancedInterlockingDimensions.footingDepth / 2;
-    e.add(
-      BimEntity(
-        id: 'footing_rebar_cage',
-        label: 'Footing Rebar',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + AdvancedInterlockingDimensions.footingWidth - 0.1,
-          height: AdvancedInterlockingDimensions.footingDepth * 0.7,
-          depth: AdvancedInterlockingDimensions.buildingDepth + AdvancedInterlockingDimensions.footingWidth - 0.1,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, y, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFFEA580C),
-        category: BimEntityCategory.rebar,
-        explodeGroup: 1,
-        minStage: 4,
-        opacity: 0.9,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'footing_concrete',
-        label: 'RCC Footing',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + AdvancedInterlockingDimensions.footingWidth,
-          height: AdvancedInterlockingDimensions.footingDepth,
-          depth: AdvancedInterlockingDimensions.buildingDepth + AdvancedInterlockingDimensions.footingWidth,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, y, AdvancedInterlockingDimensions.centerZ),
-        ),
+    final d = AdvancedInterlockingDimensions;
+    final y = d.pccTopY + d.footingDepth / 2;
+    final fw = d.footingWidth;
+    final specs = [
+      (d.centerX, y, 0.0, d.buildingWidth + fw, d.footingDepth, fw),
+      (d.centerX, y, d.buildingDepth, d.buildingWidth + fw, d.footingDepth, fw),
+      (0.0, y, d.centerZ, fw, d.footingDepth, d.buildingDepth + fw * 0.5),
+      (d.buildingWidth, y, d.centerZ, fw, d.footingDepth, d.buildingDepth + fw * 0.5),
+    ];
+    for (var i = 0; i < specs.length; i++) {
+      final s = specs[i];
+      e.add(BimEntity(
+        id: 'footing_$i',
+        label: 'Strip Footing',
+        mesh: BimMesh.box(width: s.$4, height: s.$5, depth: s.$6),
         color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
+        position: BimVec3(s.$1 - s.$4 / 2, s.$2, s.$3 - s.$6 / 2),
+        explodeGroup: 1,
+        minStage: 3,
+        pickable: i == 0,
+        componentId: 'footing',
+        buildProgress: 0,
+      ));
+    }
+  }
+
+  void _foundationWall(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    for (var course = 0; course < d.foundationCourses; course++) {
+      final y = d.footingTopY + course * d.blockHeight + d.blockHeight / 2;
+      e.add(BimEntity(
+        id: 'found_wall_$course',
+        label: 'Foundation Wall Course ${course + 1}',
+        mesh: BimMesh.box(
+          width: d.buildingWidth + d.wallThickness, height: d.blockHeight,
+          depth: d.buildingDepth + d.wallThickness,
+          center: BimVec3(d.centerX, y, d.centerZ)),
+        color: const Color(0xFFB45309),
+        category: BimEntityCategory.masonry,
         explodeGroup: 1,
         minStage: 4,
-      ),
-    );
-    for (var i = 0; i < 3; i++) {
-      e.add(
-        BimEntity(
-          id: 'found_masonry_$i',
-          label: 'Foundation Masonry',
-          mesh: BimMesh.box(
-            width: AdvancedInterlockingDimensions.buildingWidth + 0.2,
-            height: AdvancedInterlockingDimensions.blockHeight,
-            depth: AdvancedInterlockingDimensions.buildingDepth + 0.2,
-            center: BimVec3(
-              AdvancedInterlockingDimensions.centerX,
-              y + AdvancedInterlockingDimensions.footingDepth / 2 + AdvancedInterlockingDimensions.blockHeight * (i + 0.5),
-              AdvancedInterlockingDimensions.centerZ,
-            ),
-          ),
-          color: const Color(0xFFB45309),
-          category: BimEntityCategory.masonry,
-          explodeGroup: 1,
-          minStage: 4,
-        ),
-      );
+        componentId: 'foundation_wall',
+        buildProgress: 0,
+      ));
     }
   }
 
-  void _plinth(List<BimEntity> e) {
-    final baseY = -AdvancedInterlockingDimensions.trenchDepth + AdvancedInterlockingDimensions.pccThickness + AdvancedInterlockingDimensions.footingDepth + AdvancedInterlockingDimensions.blockHeight * 2;
-    e.add(
-      BimEntity(
-        id: 'plinth_formwork',
-        label: 'Plinth Formwork',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.35,
-          height: AdvancedInterlockingDimensions.plinthBeam + 0.06,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.35,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, baseY + AdvancedInterlockingDimensions.plinthBeam / 2, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFFDEB887),
-        category: BimEntityCategory.formwork,
-        minStage: 5,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'plinth_rebar',
+  void _plinthBeam(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final baseY = d.foundationWallTopY;
+    e.add(BimEntity(
+      id: 'plinth_formwork',
+      label: 'Plinth Formwork',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + 0.35, height: d.plinthBeam + 0.06, depth: d.buildingDepth + 0.35,
+        center: BimVec3(d.centerX, baseY + d.plinthBeam / 2, d.centerZ)),
+      color: const Color(0xFFDEB887),
+      category: BimEntityCategory.formwork,
+      minStage: 5,
+      buildProgress: 0,
+    ));
+    for (var i = 0; i < 10; i++) {
+      e.add(BimEntity(
+        id: 'plinth_rebar_$i',
         label: 'Plinth Rebar',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.15,
-          height: AdvancedInterlockingDimensions.plinthBeam * 0.5,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.15,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, baseY + AdvancedInterlockingDimensions.plinthBeam * 0.55, AdvancedInterlockingDimensions.centerZ),
-        ),
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.plinthBeam * 0.7),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
-        explodeGroup: 2,
+        position: BimVec3(0.2 + i * (d.buildingWidth - 0.4) / 9, baseY + d.plinthBeam * 0.3, 0.12),
         minStage: 5,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'plinth_concrete',
-        label: 'Plinth Band',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + AdvancedInterlockingDimensions.wallThickness * 0.5,
-          height: AdvancedInterlockingDimensions.plinthBeam,
-          depth: AdvancedInterlockingDimensions.buildingDepth + AdvancedInterlockingDimensions.wallThickness * 0.5,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, baseY + AdvancedInterlockingDimensions.plinthBeam / 2, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF6B7280),
-        category: BimEntityCategory.concrete,
-        explodeGroup: 2,
-        minStage: 5,
-        pickable: true,
-        componentId: 'plinth_band',
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'dpc_layer',
-        label: 'DPC',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.4,
-          height: AdvancedInterlockingDimensions.dpcThickness,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.4,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, baseY + AdvancedInterlockingDimensions.plinthBeam + AdvancedInterlockingDimensions.dpcThickness / 2, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF1E293B),
-        category: BimEntityCategory.finishing,
-        minStage: 5,
-      ),
-    );
+        pickable: i == 0,
+        componentId: 'plinth_beam',
+        buildProgress: 0,
+      ));
+    }
+    e.add(BimEntity(
+      id: 'plinth_concrete',
+      label: 'Plinth Beam',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + d.wallThickness * 0.5, height: d.plinthBeam,
+        depth: d.buildingDepth + d.wallThickness * 0.5,
+        center: BimVec3(d.centerX, baseY + d.plinthBeam / 2, d.centerZ)),
+      color: const Color(0xFF6B7280),
+      category: BimEntityCategory.concrete,
+      explodeGroup: 2,
+      minStage: 5,
+      pickable: true,
+      componentId: 'plinth_beam',
+      buildProgress: 0,
+    ));
   }
 
-  void _wallsAndBlocks(List<BimEntity> e) {
-    final courses = 12;
-    final baseY = AdvancedInterlockingDimensions.wallBaseY;
+  void _dpc(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'dpc_layer',
+      label: 'DPC Membrane',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + d.wallThickness, height: d.dpcThickness,
+        depth: d.buildingDepth + d.wallThickness,
+        center: BimVec3(d.centerX, d.wallBaseY - d.dpcThickness / 2, d.centerZ)),
+      color: const Color(0xFF1E293B),
+      category: BimEntityCategory.finishing,
+      minStage: 6,
+      pickable: true,
+      componentId: 'dpc',
+      buildProgress: 0,
+    ));
+  }
+
+  void _interlockingWalls(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final courses = (d.wallHeight / d.blockHeight).ceil();
     var idx = 0;
     for (var course = 0; course < courses; course++) {
-      final y = baseY + course * AdvancedInterlockingDimensions.blockHeight;
-      final minStage = course == 0 ? 6 : 8;
-      for (var bx = 0; bx < (AdvancedInterlockingDimensions.buildingWidth / AdvancedInterlockingDimensions.blockLength).ceil(); bx++) {
-        final x = bx * AdvancedInterlockingDimensions.blockLength + AdvancedInterlockingDimensions.blockLength / 2;
-        for (final z in [0.0, AdvancedInterlockingDimensions.buildingDepth - AdvancedInterlockingDimensions.blockWidth]) {
-          e.add(_block('blk_$idx', x, y, z, course, minStage));
-          idx++;
-        }
-      }
-      for (var bz = 1; bz < (AdvancedInterlockingDimensions.buildingDepth / AdvancedInterlockingDimensions.blockLength).ceil() - 1; bz++) {
-        final z = bz * AdvancedInterlockingDimensions.blockLength;
-        for (final x in [0.0, AdvancedInterlockingDimensions.buildingWidth - AdvancedInterlockingDimensions.blockWidth]) {
-          e.add(_block('blk_$idx', x, y, z, course, minStage));
-          idx++;
-        }
+      final y = d.wallBaseY + course * d.blockHeight;
+      final stagger = (course % 2) * d.blockLength / 2;
+      idx = _wallRun(e, idx, course, y, stagger, wall: _WallDir.front);
+      idx = _wallRun(e, idx, course, y, stagger, wall: _WallDir.back);
+      idx = _wallRun(e, idx, course, y, stagger, wall: _WallDir.left);
+      idx = _wallRun(e, idx, course, y, stagger, wall: _WallDir.right);
+      for (final c in _corners(inset: 0)) {
+        e.add(_hollowBlock('blk_corner_$idx', c.$1, y, c.$2, d.wallThickness, d.wallThickness, course, corner: true));
+        idx++;
       }
     }
-    e.add(
-      BimEntity(
-        id: 'block_lock_demo',
-        label: 'Interlock Detail',
-        mesh: BimMesh.box(width: AdvancedInterlockingDimensions.blockLength * 0.25, height: AdvancedInterlockingDimensions.blockHeight * 0.35, depth: AdvancedInterlockingDimensions.blockWidth * 0.4),
-        color: const Color(0xFF78350F),
-        category: BimEntityCategory.masonry,
-        position: BimVec3(AdvancedInterlockingDimensions.buildingWidth + 0.6, baseY + AdvancedInterlockingDimensions.blockHeight / 2, 0.5),
-        explodeGroup: 2,
-        minStage: 6,
-      ),
-    );
   }
 
-  BimEntity _block(
-    String id,
-    double x,
-    double y,
-    double z,
-    int course,
-    int minStage,
-  ) {
-        return BimEntity(
+  int _wallRun(List<BimEntity> e, int idx, int course, double y, double stagger,
+      {required _WallDir wall}) {
+    final d = AdvancedInterlockingDimensions;
+    final wt = d.wallThickness;
+    final bl = d.blockLength;
+    final alongX = wall == _WallDir.front || wall == _WallDir.back;
+    final run = (alongX ? d.buildingWidth : d.buildingDepth) - wt * 2;
+    final count = (run / bl).floor();
+    for (var b = 0; b < count; b++) {
+      final coord = wt + stagger + b * bl;
+      late double x, z, bw, bd;
+      switch (wall) {
+        case _WallDir.front:
+          x = coord; z = 0; bw = bl; bd = wt;
+        case _WallDir.back:
+          x = coord; z = d.buildingDepth - wt; bw = bl; bd = wt;
+        case _WallDir.left:
+          x = 0; z = coord; bw = wt; bd = bl;
+        case _WallDir.right:
+          x = d.buildingWidth - wt; z = coord; bw = wt; bd = bl;
+      }
+      e.add(_hollowBlock('blk_$idx', x, y, z, bw, bd, course));
+      idx++;
+    }
+    return idx;
+  }
+
+  BimEntity _hollowBlock(String id, double x, double y, double z,
+      double w, double depth, int course, {bool corner = false}) {
+    final d = AdvancedInterlockingDimensions;
+    return BimEntity(
       id: id,
-      label: 'Interlocking Block',
-      mesh: BimMesh.box(
-        width: AdvancedInterlockingDimensions.blockLength * 0.92,
-        height: AdvancedInterlockingDimensions.blockHeight,
-        depth: AdvancedInterlockingDimensions.blockWidth,
-      ),
-      color: Color.lerp(
-        const Color(0xFFD97706),
-        const Color(0xFF92400E),
-        (course % 4) / 4,
-      )!,
+      label: corner ? 'Corner Hollow Block' : 'Interlocking Hollow Block',
+      mesh: BimMesh.box(width: w * 0.94, height: d.blockHeight, depth: depth * 0.94),
+      color: Color.lerp(const Color(0xFFD97706), const Color(0xFF92400E), (course % 4) / 4)!,
       category: BimEntityCategory.masonry,
       position: BimVec3(x, y, z),
       explodeGroup: 2,
-      minStage: minStage,
-      pickable: id == 'blk_0',
+      minStage: 7,
+      pickable: id.endsWith('0') || corner,
       componentId: 'interlocking_block',
+      buildProgress: 0,
     );
   }
 
-  void _verticalBars(List<BimEntity> e) {
-    final baseY = AdvancedInterlockingDimensions.wallBaseY;
+  void _verticalRebar(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final barH = d.wallHeight + d.bandHeight * 2;
     var i = 0;
-    for (final c in _corners()) {
-      e.add(
-        BimEntity(
-          id: 'vbar_$i',
-          label: 'Vertical Bar',
-          mesh: BimMesh.cylinder(radius: AdvancedInterlockingDimensions.rebarRadius, height: AdvancedInterlockingDimensions.wallHeight),
-          color: const Color(0xFFEA580C),
-          category: BimEntityCategory.rebar,
-          position: BimVec3(c.$1, baseY, c.$2),
-          explodeGroup: 2,
-          minStage: 7,
-          pickable: i == 0,
-          componentId: 'vertical_reinforcement',
-        ),
-      );
+    for (final c in _corners(inset: d.wallThickness / 2)) {
+      e.add(BimEntity(
+        id: 'vbar_$i',
+        label: 'Vertical Bar Ø12',
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: barH),
+        color: const Color(0xFFEA580C),
+        category: BimEntityCategory.rebar,
+        position: BimVec3(c.$1, d.wallBaseY, c.$2),
+        explodeGroup: 2,
+        minStage: 8,
+        pickable: i == 0,
+        componentId: 'vertical_reinforcement',
+        buildProgress: 0,
+      ));
+      e.add(BimEntity(
+        id: 'core_void_$i',
+        label: 'Hollow Core',
+        mesh: BimMesh.cylinder(radius: d.coreDiameter / 2, height: d.blockHeight * 0.9, segments: 8),
+        color: const Color(0xFF451A03),
+        category: BimEntityCategory.masonry,
+        position: BimVec3(c.$1, d.wallBaseY + d.blockHeight / 2, c.$2),
+        minStage: 8,
+        opacity: 0.4,
+        buildProgress: 0,
+      ));
       i++;
     }
-    for (var j = 0; j < 3; j++) {
-      e.add(
-        BimEntity(
-          id: 'vbar_mid_$j',
-          label: 'Vertical Bar',
-          mesh: BimMesh.cylinder(radius: AdvancedInterlockingDimensions.rebarRadius, height: AdvancedInterlockingDimensions.wallHeight * 0.95),
-          color: const Color(0xFFEA580C),
-          category: BimEntityCategory.rebar,
-          position: BimVec3(AdvancedInterlockingDimensions.buildingWidth * (j + 1) / 4, baseY, AdvancedInterlockingDimensions.buildingDepth / 2),
-          minStage: 7,
-        ),
-      );
+    for (var j = 0; j < 4; j++) {
+      final positions = [
+        (d.centerX, 0.12),
+        (d.centerX, d.buildingDepth - 0.12),
+        (0.12, d.centerZ),
+        (d.buildingWidth - 0.12, d.centerZ),
+      ];
+      final p = positions[j];
+      e.add(BimEntity(
+        id: 'vbar_mid_$j',
+        label: 'Wall Bar',
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: barH * 0.98),
+        color: const Color(0xFFEA580C),
+        category: BimEntityCategory.rebar,
+        position: BimVec3(p.$1, d.wallBaseY, p.$2),
+        minStage: 8,
+        componentId: 'vertical_reinforcement',
+        buildProgress: 0,
+      ));
     }
   }
 
   void _groutCells(List<BimEntity> e) {
-    final baseY = AdvancedInterlockingDimensions.wallBaseY;
+    final d = AdvancedInterlockingDimensions;
     for (var i = 0; i < 4; i++) {
-      final c = _corners()[i];
-      e.add(
-        BimEntity(
-          id: 'grout_cell_$i',
-          label: 'Grouted Core',
-          mesh: BimMesh.cylinder(
-            radius: AdvancedInterlockingDimensions.coreDiameter / 2,
-            height: AdvancedInterlockingDimensions.wallHeight * 0.92,
-            segments: 10,
-          ),
-          color: const Color(0xFF9CA3AF),
-          category: BimEntityCategory.concrete,
-          position: BimVec3(c.$1, baseY + AdvancedInterlockingDimensions.wallHeight * 0.46, c.$2),
-          explodeGroup: 2,
-          minStage: 9,
-          pickable: i == 0,
-          componentId: 'grouted_core',
-        ),
-      );
-    }
-    e.add(
-      BimEntity(
-        id: 'grout_pour_hint',
-        label: 'Grout Pour',
-        mesh: BimMesh.box(width: 0.15, height: AdvancedInterlockingDimensions.wallHeight, depth: 0.15),
-        color: const Color(0xFF64748B),
+      final c = _corners(inset: d.wallThickness / 2)[i];
+      e.add(BimEntity(
+        id: 'grout_cell_$i',
+        label: 'Grouted Core',
+        mesh: BimMesh.cylinder(radius: d.coreDiameter / 2, height: d.wallHeight * 0.92, segments: 10),
+        color: const Color(0xFF9CA3AF),
         category: BimEntityCategory.concrete,
-        position: BimVec3(AdvancedInterlockingDimensions.centerX, baseY + AdvancedInterlockingDimensions.wallHeight / 2, 0.1),
-        minStage: 9,
-        opacity: 0.7,
-      ),
-    );
+        position: BimVec3(c.$1, d.wallBaseY + d.wallHeight * 0.46, c.$2),
+        explodeGroup: 2,
+        minStage: 8,
+        componentId: 'grouted_core',
+        buildProgress: 0,
+      ));
+    }
   }
 
-  void _bands(List<BimEntity> e) {
-    final lintelY = AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight - AdvancedInterlockingDimensions.bandHeight / 2;
-    e.add(
-      BimEntity(
-        id: 'lintel_rebar',
+  void _lintelBand(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final y = d.lintelBandY + d.bandHeight / 2;
+    e.add(BimEntity(
+      id: 'lintel_formwork',
+      label: 'Lintel Formwork',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + 0.3, height: d.bandHeight + 0.05, depth: d.buildingDepth + 0.3,
+        center: BimVec3(d.centerX, y, d.centerZ)),
+      color: const Color(0xFFDEB887),
+      category: BimEntityCategory.formwork,
+      minStage: 9,
+      buildProgress: 0,
+    ));
+    for (var i = 0; i < 14; i++) {
+      e.add(BimEntity(
+        id: 'lintel_rebar_$i',
         label: 'Lintel Rebar',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.2,
-          height: AdvancedInterlockingDimensions.bandHeight * 0.6,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.2,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, lintelY, AdvancedInterlockingDimensions.centerZ),
-        ),
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.bandHeight * 0.7),
         color: const Color(0xFFEA580C),
         category: BimEntityCategory.rebar,
-        minStage: 11,
-        opacity: 0.85,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'lintel_band',
-        label: 'Lintel Band',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + AdvancedInterlockingDimensions.wallThickness,
-          height: AdvancedInterlockingDimensions.bandHeight,
-          depth: AdvancedInterlockingDimensions.buildingDepth + AdvancedInterlockingDimensions.wallThickness,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, lintelY, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF9CA3AF),
-        category: BimEntityCategory.concrete,
-        explodeGroup: 3,
-        minStage: 11,
-        pickable: true,
+        position: BimVec3(0.15 + i * (d.buildingWidth - 0.3) / 13, d.lintelBandY + d.bandHeight * 0.3, 0.12),
+        minStage: 9,
+        pickable: i == 0,
         componentId: 'lintel_band',
-      ),
-    );
-    final roofBandY = AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight + AdvancedInterlockingDimensions.bandHeight * 0.5;
-    e.add(
-      BimEntity(
-        id: 'roof_band',
-        label: 'Roof Band',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + AdvancedInterlockingDimensions.wallThickness * 1.2,
-          height: AdvancedInterlockingDimensions.bandHeight,
-          depth: AdvancedInterlockingDimensions.buildingDepth + AdvancedInterlockingDimensions.wallThickness * 1.2,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, roofBandY, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF6B7280),
-        category: BimEntityCategory.concrete,
-        explodeGroup: 3,
-        minStage: 12,
-        pickable: true,
-        componentId: 'roof_band',
-      ),
-    );
-  }
-
-  void _roof(List<BimEntity> e) {
-    final slabY = AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight + AdvancedInterlockingDimensions.bandHeight * 1.2;
-    e.add(
-      BimEntity(
-        id: 'roof_shuttering',
-        label: 'Roof Formwork',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.3,
-          height: 0.04,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.3,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, slabY, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFFDEB887),
-        category: BimEntityCategory.formwork,
-        minStage: 13,
-      ),
-    );
-    for (var i = 0; i < 6; i++) {
-      e.add(
-        BimEntity(
-          id: 'slab_rebar_$i',
-          label: 'Slab Rebar',
-          mesh: BimMesh.cylinder(radius: AdvancedInterlockingDimensions.rebarRadius, height: AdvancedInterlockingDimensions.buildingWidth),
-          color: const Color(0xFFEA580C),
-          category: BimEntityCategory.rebar,
-          position: BimVec3(0, slabY + 0.03, i * (AdvancedInterlockingDimensions.buildingDepth / 5)),
-          explodeGroup: 3,
-          minStage: 13,
-        ),
-      );
+        buildProgress: 0,
+      ));
     }
-    e.add(
-      BimEntity(
-        id: 'roof_concrete',
-        label: 'RCC Roof Slab',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.3,
-          height: AdvancedInterlockingDimensions.slabThickness,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.3,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, slabY + AdvancedInterlockingDimensions.slabThickness / 2 + 0.04, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF9CA3AF),
-        category: BimEntityCategory.concrete,
-        explodeGroup: 3,
-        minStage: 13,
-      ),
-    );
+    e.add(BimEntity(
+      id: 'lintel_band',
+      label: 'Lintel Band',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + d.wallThickness, height: d.bandHeight,
+        depth: d.buildingDepth + d.wallThickness,
+        center: BimVec3(d.centerX, y, d.centerZ)),
+      color: const Color(0xFF9CA3AF),
+      category: BimEntityCategory.concrete,
+      explodeGroup: 3,
+      minStage: 9,
+      pickable: true,
+      componentId: 'lintel_band',
+      buildProgress: 0,
+    ));
   }
 
-  void _openingsAndFinish(List<BimEntity> e) {
-    e.add(
-      BimEntity(
-        id: 'door_frame',
-        label: 'Door Frame',
-        mesh: BimMesh.box(width: 1.0, height: 2.1, depth: 0.08),
-        color: const Color(0xFF78350F),
-        category: BimEntityCategory.finishing,
-        position: BimVec3(AdvancedInterlockingDimensions.centerX - 0.5, AdvancedInterlockingDimensions.wallBaseY, 0),
-        explodeGroup: 4,
+  void _roofBand(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    final y = d.roofBandY + d.bandHeight / 2;
+    for (var i = 0; i < 16; i++) {
+      e.add(BimEntity(
+        id: 'roof_band_rebar_$i',
+        label: 'Roof Band Rebar',
+        mesh: BimMesh.cylinder(radius: d.rebarRadius, height: d.bandHeight * 0.75),
+        color: const Color(0xFFEA580C),
+        category: BimEntityCategory.rebar,
+        position: BimVec3(0.12 + i * (d.buildingWidth - 0.24) / 15, d.roofBandY + d.bandHeight * 0.28, 0.1),
         minStage: 10,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'window_frame',
-        label: 'Window Frame',
-        mesh: BimMesh.box(width: 1.2, height: 1.0, depth: 0.06),
-        color: const Color(0xFF38BDF8),
-        category: BimEntityCategory.finishing,
-        position: BimVec3(AdvancedInterlockingDimensions.buildingWidth - 0.1, AdvancedInterlockingDimensions.wallBaseY + 1.2, AdvancedInterlockingDimensions.centerZ - 0.6),
-        explodeGroup: 4,
-        minStage: 10,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'waterproofing',
-        label: 'Waterproofing',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth + 0.5,
-          height: 0.015,
-          depth: AdvancedInterlockingDimensions.buildingDepth + 0.5,
-          center: BimVec3(
-            AdvancedInterlockingDimensions.centerX,
-            AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight + AdvancedInterlockingDimensions.bandHeight * 1.2 + AdvancedInterlockingDimensions.slabThickness + 0.02,
-            AdvancedInterlockingDimensions.centerZ,
-          ),
-        ),
-        color: const Color(0xFF0F172A),
-        category: BimEntityCategory.finishing,
-        minStage: 14,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'landscape',
-        label: 'Landscape',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.plotWidth,
-          height: 0.08,
-          depth: 1.5,
-          center: BimVec3(AdvancedInterlockingDimensions.centerX, 0.04, AdvancedInterlockingDimensions.plotDepth - 0.75),
-        ),
-        color: const Color(0xFF22C55E),
-        category: BimEntityCategory.finishing,
-        minStage: 15,
-      ),
-    );
+        componentId: 'roof_band',
+        buildProgress: 0,
+      ));
+    }
+    e.add(BimEntity(
+      id: 'roof_band',
+      label: 'Roof Band',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + d.wallThickness * 1.1, height: d.bandHeight,
+        depth: d.buildingDepth + d.wallThickness * 1.1,
+        center: BimVec3(d.centerX, y, d.centerZ)),
+      color: const Color(0xFF6B7280),
+      category: BimEntityCategory.concrete,
+      explodeGroup: 3,
+      minStage: 10,
+      pickable: true,
+      componentId: 'roof_band',
+      buildProgress: 0,
+    ));
+  }
+
+  void _steelRoof(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'wall_plate',
+      label: 'Wall Plate',
+      mesh: BimMesh.box(
+        width: d.buildingWidth + 0.1, height: 0.08, depth: d.buildingDepth + 0.1,
+        center: BimVec3(d.centerX, d.eaveY + 0.04, d.centerZ)),
+      color: const Color(0xFF64748B),
+      category: BimEntityCategory.timber,
+      minStage: 11,
+      componentId: 'roof_truss',
+      buildProgress: 0,
+    ));
+    final trussCount = (d.buildingWidth / d.trussSpacing).ceil() + 1;
+    for (var t = 0; t < trussCount; t++) {
+      final x = t * d.trussSpacing;
+      if (x > d.buildingWidth) break;
+      final rafterLen = (d.buildingDepth / 2 + 0.1) / math.cos(d.roofSlopeRadians);
+      e.add(BimEntity(
+        id: 'truss_${t}_bottom',
+        label: 'Truss Bottom Chord',
+        mesh: BimMesh.box(width: 0.08, height: 0.06, depth: d.buildingDepth + 0.15),
+        color: const Color(0xFF64748B),
+        category: BimEntityCategory.timber,
+        position: BimVec3(x, d.eaveY + 0.08, -0.05),
+        minStage: 11,
+        pickable: t == 0,
+        componentId: 'roof_truss',
+        buildProgress: 0,
+      ));
+      e.add(BimEntity(
+        id: 'truss_${t}_rafter_l',
+        label: 'Steel Rafter',
+        mesh: BimMesh.box(width: 0.06, height: rafterLen, depth: 0.06),
+        color: const Color(0xFF475569),
+        category: BimEntityCategory.timber,
+        position: BimVec3(x, d.eaveY + (d.ridgeY - d.eaveY) / 2, d.buildingDepth / 4),
+        minStage: 11,
+        componentId: 'roof_truss',
+        buildProgress: 0,
+      ));
+      e.add(BimEntity(
+        id: 'truss_${t}_rafter_r',
+        label: 'Steel Rafter',
+        mesh: BimMesh.box(width: 0.06, height: rafterLen, depth: 0.06),
+        color: const Color(0xFF475569),
+        category: BimEntityCategory.timber,
+        position: BimVec3(x, d.eaveY + (d.ridgeY - d.eaveY) / 2, d.buildingDepth * 3 / 4),
+        minStage: 11,
+        componentId: 'roof_truss',
+        buildProgress: 0,
+      ));
+      e.add(BimEntity(
+        id: 'truss_connector_$t',
+        label: 'Truss Connection',
+        mesh: BimMesh.box(width: 0.1, height: 0.04, depth: 0.1),
+        color: const Color(0xFFEA580C),
+        category: BimEntityCategory.concrete,
+        position: BimVec3(x, d.eaveY, 0.05),
+        minStage: 11,
+        componentId: 'roof_truss',
+        buildProgress: 0,
+      ));
+    }
+    e.add(BimEntity(
+      id: 'ridge_beam',
+      label: 'Ridge Beam',
+      mesh: BimMesh.box(width: d.buildingWidth + 0.12, height: 0.08, depth: 0.08),
+      color: const Color(0xFF64748B),
+      category: BimEntityCategory.timber,
+      position: BimVec3(0, d.ridgeY, d.centerZ),
+      minStage: 11,
+      componentId: 'roof_truss',
+      buildProgress: 0,
+    ));
+    for (var p = 0; p <= (d.buildingDepth / d.purlinSpacing).ceil(); p++) {
+      final z = p * d.purlinSpacing;
+      if (z > d.buildingDepth) break;
+      final py = d.eaveY + (z / d.buildingDepth) * (d.ridgeY - d.eaveY) * 2 * math.min(z / d.buildingDepth, 1 - z / d.buildingDepth) * 2;
+      e.add(BimEntity(
+        id: 'purlin_$p',
+        label: 'Purlin',
+        mesh: BimMesh.box(width: d.buildingWidth + 0.15, height: 0.05, depth: 0.07),
+        color: const Color(0xFF475569),
+        category: BimEntityCategory.timber,
+        position: BimVec3(-0.08, py + 0.03, z),
+        minStage: 11,
+        componentId: 'roof_truss',
+        buildProgress: 0,
+      ));
+    }
+    e.add(BimEntity(
+      id: 'roof_bracing',
+      label: 'Roof Bracing',
+      mesh: BimMesh.box(width: 0.04, height: 0.04, depth: d.buildingDepth * 0.7),
+      color: const Color(0xFF64748B),
+      category: BimEntityCategory.wire,
+      position: BimVec3(d.centerX, d.ridgeY - 0.12, d.centerZ),
+      minStage: 11,
+      componentId: 'roof_truss',
+      buildProgress: 0,
+    ));
+    final rows = (d.buildingDepth / d.purlinSpacing).ceil();
+    for (var row = 0; row < rows; row++) {
+      for (var col = 0; col < 4; col++) {
+        final z = row * d.purlinSpacing;
+        final x = col * (d.buildingWidth / 4);
+        final sy = d.eaveY + (z / d.buildingDepth) * (d.ridgeY - d.eaveY);
+        e.add(BimEntity(
+          id: 'roof_sheet_${row}_$col',
+          label: 'Roof Sheet',
+          mesh: BimMesh.box(width: d.buildingWidth / 4 + 0.04, height: 0.001, depth: d.purlinSpacing + 0.04),
+          color: const Color(0xFF334155),
+          category: BimEntityCategory.finishing,
+          position: BimVec3(x, sy + 0.04, z),
+          explodeGroup: 4,
+          minStage: 12,
+          pickable: row == 0 && col == 0,
+          componentId: 'roof_cover',
+          buildProgress: 0,
+        ));
+      }
+    }
+  }
+
+  void _openings(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'door_frame',
+      label: 'Door Frame',
+      mesh: BimMesh.box(width: 1.0, height: 2.1, depth: 0.06),
+      color: const Color(0xFF78350F),
+      category: BimEntityCategory.finishing,
+      position: BimVec3(d.centerX - 0.5, d.wallBaseY, 0),
+      minStage: 12,
+      buildProgress: 0,
+    ));
+    e.add(BimEntity(
+      id: 'window_frame',
+      label: 'Window Frame',
+      mesh: BimMesh.box(width: 1.2, height: 1.0, depth: 0.05),
+      color: const Color(0xFF38BDF8),
+      category: BimEntityCategory.finishing,
+      position: BimVec3(d.buildingWidth - 0.08, d.wallBaseY + 1.2, d.centerZ - 0.6),
+      minStage: 12,
+      buildProgress: 0,
+    ));
+  }
+
+  void _inspectionMarkers(List<BimEntity> e) {
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'load_path_marker',
+      label: 'Load Path',
+      mesh: BimMesh.box(width: 0.1, height: 0.1, depth: 0.1),
+      color: const Color(0xFFEF4444),
+      category: BimEntityCategory.annotation,
+      position: BimVec3(d.centerX, d.ridgeY, d.centerZ),
+      minStage: 13,
+      opacity: 0.85,
+      buildProgress: 0,
+    ));
   }
 
   void _comparisons(List<BimEntity> e) {
-    e.add(
-      BimEntity(
-        id: 'conventional_masonry_ghost',
-        label: 'Conventional Masonry (fails)',
-        mesh: BimMesh.box(
-          width: AdvancedInterlockingDimensions.buildingWidth * 0.85,
-          height: AdvancedInterlockingDimensions.wallHeight,
-          depth: AdvancedInterlockingDimensions.wallThickness,
-          center: BimVec3(AdvancedInterlockingDimensions.buildingWidth + 1.8, AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight / 2, AdvancedInterlockingDimensions.centerZ),
-        ),
-        color: const Color(0xFF78716C),
-        category: BimEntityCategory.masonry,
-        minStage: 15,
-        opacity: 0.35,
-      ),
-    );
-    e.add(
-      BimEntity(
-        id: 'wall_separation_hint',
-        label: 'Wall Separation',
-        mesh: BimMesh.box(width: 0.06, height: AdvancedInterlockingDimensions.wallHeight * 0.6, depth: 0.06),
-        color: const Color(0xFFEF4444),
-        category: BimEntityCategory.annotation,
-        position: BimVec3(AdvancedInterlockingDimensions.buildingWidth + 1.4, AdvancedInterlockingDimensions.wallBaseY + AdvancedInterlockingDimensions.wallHeight * 0.5, AdvancedInterlockingDimensions.centerZ),
-        minStage: 15,
-        opacity: 0.5,
-      ),
-    );
+    final d = AdvancedInterlockingDimensions;
+    e.add(BimEntity(
+      id: 'conventional_masonry_ghost',
+      label: 'Conventional Masonry (fails)',
+      mesh: BimMesh.box(
+        width: d.buildingWidth * 0.4, height: d.wallHeight, depth: d.wallThickness,
+        center: BimVec3(d.buildingWidth + 2.5, d.wallBaseY + d.wallHeight / 2, d.centerZ)),
+      color: const Color(0xFF78716C),
+      category: BimEntityCategory.masonry,
+      minStage: 14,
+      opacity: 0.25,
+    ));
+    e.add(BimEntity(
+      id: 'landscape',
+      label: 'Completed House',
+      mesh: BimMesh.box(
+        width: d.plotWidth, height: 0.06, depth: 1.2,
+        center: BimVec3(d.plotWidth / 2, 0.03, d.plotDepth - 0.6)),
+      color: const Color(0xFF22C55E),
+      category: BimEntityCategory.finishing,
+      minStage: 14,
+      buildProgress: 0,
+    ));
   }
 
-  List<(double, double)> _corners() => [
-        (0.12, 0.12),
-        (AdvancedInterlockingDimensions.buildingWidth - 0.12, 0.12),
-        (AdvancedInterlockingDimensions.buildingWidth - 0.12, AdvancedInterlockingDimensions.buildingDepth - 0.12),
-        (0.12, AdvancedInterlockingDimensions.buildingDepth - 0.12),
-      ];
+  List<(double, double)> _corners({double inset = 0.12}) {
+    final d = AdvancedInterlockingDimensions;
+    return [
+      (inset, inset),
+      (d.buildingWidth - inset, inset),
+      (d.buildingWidth - inset, d.buildingDepth - inset),
+      (inset, d.buildingDepth - inset),
+    ];
+  }
 }
+
+enum _WallDir { front, back, left, right }

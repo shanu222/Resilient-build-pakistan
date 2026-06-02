@@ -13,7 +13,16 @@ import 'hazard_simulation_overlay.dart';
 
 export 'hazard_simulation_overlay.dart' show HazardSimulationOverlay;
 
-enum TwinViewLayer { glb, structural, exploded, crossSection, loadTransfer }
+enum TwinViewLayer {
+  glb,
+  structural,
+  exploded,
+  crossSection,
+  loadTransfer,
+  connections,
+  grid,
+  blockAssembly,
+}
 
 /// Production Digital Twin workspace — L: engineering · C: BIM · R: controls · Bottom: progress.
 class DigitalTwinWorkspace extends StatefulWidget {
@@ -429,14 +438,14 @@ class _ControlPanel extends StatelessWidget {
           Wrap(
             spacing: 6,
             runSpacing: 6,
-            children: TwinViewLayer.values.map((layer) {
-              final selected = viewLayer == layer;
-              return ChoiceChip(
-                label: Text(_layerLabel(layer), style: const TextStyle(fontSize: 11)),
-                selected: selected,
-                onSelected: (_) => onViewLayerChanged(layer),
-              );
-            }).toList(),
+            children: [
+              for (final layer in _layersForModel(manifest.modelId))
+                ChoiceChip(
+                  label: Text(_layerLabel(layer), style: const TextStyle(fontSize: 11)),
+                  selected: viewLayer == layer,
+                  onSelected: (_) => onViewLayerChanged(layer),
+                ),
+            ],
           )
         else
           Text(
@@ -486,12 +495,30 @@ class _ControlPanel extends StatelessWidget {
     );
   }
 
+  static List<TwinViewLayer> _layersForModel(String modelId) {
+    const base = [
+      TwinViewLayer.structural,
+      TwinViewLayer.exploded,
+      TwinViewLayer.crossSection,
+      TwinViewLayer.loadTransfer,
+      TwinViewLayer.connections,
+      TwinViewLayer.grid,
+    ];
+    if (modelId == 'advanced_interlocking_brick_masonry') {
+      return [...base, TwinViewLayer.blockAssembly];
+    }
+    return base;
+  }
+
   static String _layerLabel(TwinViewLayer layer) => switch (layer) {
         TwinViewLayer.glb => '3D',
         TwinViewLayer.structural => 'Structural',
         TwinViewLayer.exploded => 'Exploded',
         TwinViewLayer.crossSection => 'Section',
         TwinViewLayer.loadTransfer => 'Load path',
+        TwinViewLayer.connections => 'Connections',
+        TwinViewLayer.grid => 'Grid',
+        TwinViewLayer.blockAssembly => 'Blocks',
       };
 }
 

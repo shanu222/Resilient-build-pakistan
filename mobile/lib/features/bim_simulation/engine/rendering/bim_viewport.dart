@@ -223,7 +223,7 @@ class _BimPainter extends CustomPainter {
                 projector.depthAt(v2)) /
             3;
 
-        var color = e.color.withValues(alpha: e.opacity);
+        var color = e.color.withValues(alpha: e.opacity * controller.assemblyOpacity(e));
         if (controller.viewMode == BimVisualizationMode.structural) {
           color = _structuralTint(e, color);
         }
@@ -282,6 +282,7 @@ class _BimPainter extends CustomPainter {
         reinforcedAdobe: controller.isReinforcedAdobe,
         timberFrameLath: controller.isTimberFrameLath,
         advancedInterlocking: controller.isAdvancedInterlocking,
+        interlockingBrick: controller.isInterlockingBrick,
       );
       _drawFoundationReactions(canvas, projector);
     }
@@ -608,16 +609,37 @@ class _BimPainter extends CustomPainter {
     bool reinforcedAdobe = false,
     bool timberFrameLath = false,
     bool advancedInterlocking = false,
+    bool interlockingBrick = false,
   }) {
+    if (interlockingBrick) {
+      final cx = 3.0;
+      final cz = 4.0;
+      final roof = projector.project(BimVec3(cx, 4.8, cz));
+      final band = projector.project(BimVec3(cx, 3.6, cz));
+      final wall = projector.project(BimVec3(cx, 2.0, cz));
+      final plinth = projector.project(BimVec3(cx, 0.45, cz));
+      final foot = projector.project(BimVec3(cx, -0.35, cz));
+      final soil = projector.project(BimVec3(cx, -1.0, cz));
+      _arrow(canvas, roof, band, 'Roof → band', const Color(0xFFEF4444));
+      _arrow(canvas, band, wall, 'Bands → walls', const Color(0xFFF97316));
+      _arrow(canvas, wall, plinth, 'Walls → plinth', const Color(0xFFEA580C));
+      _arrow(canvas, plinth, foot, 'Plinth → footings', const Color(0xFF64748B));
+      _arrow(canvas, foot, soil, 'Foundation → soil', const Color(0xFF22C55E));
+      return;
+    }
     if (advancedInterlocking) {
-      final roof = projector.project(const BimVec3(3, 4.2, 2));
-      final wall = projector.project(const BimVec3(3, 2.4, 2));
-      final core = projector.project(const BimVec3(3, 1.8, 2));
-      final plinth = projector.project(const BimVec3(3, 0.35, 2));
-      final soil = projector.project(const BimVec3(3, -0.5, 2));
-      _arrow(canvas, roof, wall, 'Roof slab', const Color(0xFFEF4444));
-      _arrow(canvas, wall, core, 'Walls → grouted cores', const Color(0xFFF97316));
-      _arrow(canvas, core, plinth, 'Bands / plinth', const Color(0xFFEA580C));
+      const cx = 4.0;
+      const cz = 3.0;
+      final roof = projector.project(BimVec3(cx, 4.9, cz));
+      final band = projector.project(BimVec3(cx, 3.6, cz));
+      final wall = projector.project(BimVec3(cx, 2.0, cz));
+      final core = projector.project(BimVec3(cx, 1.5, cz));
+      final plinth = projector.project(BimVec3(cx, 0.45, cz));
+      final soil = projector.project(BimVec3(cx, -0.5, cz));
+      _arrow(canvas, roof, band, 'Steel roof → band', const Color(0xFFEF4444));
+      _arrow(canvas, band, wall, 'Bands → hollow blocks', const Color(0xFFF97316));
+      _arrow(canvas, wall, core, 'Grouted cores', const Color(0xFFEA580C));
+      _arrow(canvas, core, plinth, 'Plinth beam', const Color(0xFF64748B));
       _arrow(canvas, plinth, soil, 'Footings → soil', const Color(0xFF22C55E));
       return;
     }

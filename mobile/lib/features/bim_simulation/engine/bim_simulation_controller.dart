@@ -157,6 +157,11 @@ class BimSimulationController extends ChangeNotifier {
     return ConstructionAssemblyAnimator.assemblyRotation(e, e.buildProgress);
   }
 
+  double assemblyOpacity(BimEntity e) {
+    if (!assemblyAnimationEnabled) return 1.0;
+    return ConstructionAssemblyAnimator.assemblyOpacity(e, e.buildProgress);
+  }
+
   void setStage(int index, {double progress = 0}) {
     stageIndex = index.clamp(0, stages.length - 1);
     stageProgress = progress.clamp(0.0, 1.0);
@@ -527,6 +532,21 @@ class BimSimulationController extends ChangeNotifier {
   }
 
   void _applyConnectionViewFilters(BimEntity e) {
+    if (isAdvancedInterlocking) {
+      if (e.id.contains('truss') ||
+          e.id.contains('connector') ||
+          e.id.contains('purlin') ||
+          e.id.contains('ridge') ||
+          e.id.contains('bracing') ||
+          e.id == 'wall_plate') {
+        e.opacity = 1;
+      } else if (e.category == BimEntityCategory.rebar) {
+        e.opacity = 0.35;
+      } else {
+        e.opacity = 0.12;
+      }
+      return;
+    }
     if (!isLightGaugeSteel) {
       e.opacity = 1;
       return;
@@ -1070,4 +1090,6 @@ class BimSimulationController extends ChangeNotifier {
 
   bool get isAdvancedInterlocking =>
       modelId == 'advanced_interlocking_brick_masonry';
+
+  bool get isInterlockingBrick => modelId == 'interlocking_brick_masonry';
 }

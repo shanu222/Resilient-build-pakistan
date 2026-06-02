@@ -68,7 +68,10 @@ class BimSceneBounds {
       e.category == BimEntityCategory.excavation ||
       e.category == BimEntityCategory.grid ||
       e.category == BimEntityCategory.survey ||
+      e.category == BimEntityCategory.equipment ||
       e.id.contains('ghost') ||
+      e.id.contains('lock_demo') ||
+      e.id.contains('separation_hint') ||
       e.id.contains('river') ||
       e.id.contains('flood_water');
 }

@@ -6,6 +6,7 @@ import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/widgets/model_thumbnail.dart';
 import '../../core/widgets/responsive_page.dart';
 import '../../core/widgets/section_header.dart';
 import '../../data/models/house_model.dart';
@@ -132,7 +133,7 @@ class _ModelDetailBody extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                   const SectionHeader(
                     title: 'Construction timeline',
-                    subtitle: '13-stage cumulative BIM sequence in Digital Twin',
+                    subtitle: '15-stage engineering Digital Twin — 8×6 m interlocking hollow block house',
                   ),
                   const SizedBox(height: AppSpacing.md),
                   _TimelinePreview(stages: ModelDetailsScreen._timelineStages),
@@ -207,90 +208,130 @@ class _HeroHeader extends StatelessWidget {
   final Color c1;
   final Color c2;
 
+  static double _heroHeight(BuildContext context) {
+    if (AppBreakpoints.isDesktop(context)) return 320;
+    if (AppBreakpoints.isTablet(context)) return 280;
+    return 220;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [c1, c2],
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: AppBreakpoints.pagePadding(context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    final height = _heroHeight(context);
+
+    return SizedBox(
+      height: height,
+      width: double.infinity,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ModelThumbnail(
+            modelId: house.id,
+            thumbnailAsset: house.resolvedThumbnailAsset,
+            thumbnailPngFallback: house.thumbnailPngFallback,
+            gradientFallback: [c1, c2],
+            fit: BoxFit.cover,
+            animate: true,
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withValues(alpha: 0.35),
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.72),
+                ],
+                stops: const [0, 0.45, 1],
+              ),
+            ),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: AppBreakpoints.pagePadding(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   IconButton(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => context.pop(),
                   ),
-                  Expanded(
-                    child: Text(
-                      house.name,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Row(
-                children: [
-                  Expanded(
-                    child: Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: house.hazardsCovered
-                          .map(
-                            (h) => Chip(
-                              label: Text(h, style: const TextStyle(fontSize: 11)),
-                              backgroundColor: Colors.white.withValues(alpha: 0.15),
-                              labelStyle: const TextStyle(color: Colors.white),
-                              side: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              house.name,
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    shadows: const [
+                                      Shadow(
+                                        blurRadius: 8,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                  ),
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.white30),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          '${house.resilienceScore}%',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
-                          ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: house.hazardsCovered
+                                  .map(
+                                    (h) => Chip(
+                                      label: Text(h, style: const TextStyle(fontSize: 11)),
+                                      backgroundColor: Colors.white.withValues(alpha: 0.15),
+                                      labelStyle: const TextStyle(color: Colors.white),
+                                      side: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
                         ),
-                        const Text(
-                          'Resilience',
-                          style: TextStyle(color: Colors.white70, fontSize: 11),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.white30),
                         ),
-                      ],
-                    ),
+                        child: Column(
+                          children: [
+                            Text(
+                              '${house.resilienceScore}%',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            const Text(
+                              'Resilience',
+                              style: TextStyle(color: Colors.white70, fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: AppSpacing.md),
                 ],
               ),
-              const SizedBox(height: AppSpacing.lg),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

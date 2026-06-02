@@ -2,131 +2,131 @@
   "modelId": "interlocking_brick_masonry",
   "stageCount": 12,
   "resilienceSummary": {
-    "earthquakeResistance": 85,
-    "floodResistance": 45,
-    "windResistance": 70,
-    "overall": 78
+    "earthquakeResistance": 88,
+    "floodResistance": 48,
+    "windResistance": 74,
+    "overall": 82
   },
   "stages": [
     {
       "index": 0,
       "key": "site_analysis",
       "title": "Site Analysis",
-      "timelineLabel": "Stage 1 of 11",
+      "timelineLabel": "Stage 1 of 12",
       "durationMs": 5000,
-      "narration": "Stage 1. Site analysis. Construction begins with site selection and layout. Proper orientation, drainage, and bearing capacity are verified before construction.",
-      "explanation": "Construction begins with site selection and layout. Proper orientation, drainage and bearing capacity are verified before construction.",
-      "highlights": ["North Arrow", "Building Grid", "Property Boundary"]
+      "narration": "Stage 1. Site analysis. A 6 by 8 meter resilient interlocking brick house is laid out on a structural grid with verified bearing capacity and drainage.",
+      "explanation": "Construction begins with site selection and layout. Proper orientation, drainage and bearing capacity are verified before excavation.",
+      "highlights": ["North Arrow", "Structural Grid", "6×8 m Footprint"]
     },
     {
       "index": 1,
       "key": "setting_out",
       "title": "Setting Out",
-      "timelineLabel": "Stage 2 of 11",
+      "timelineLabel": "Stage 2 of 12",
       "durationMs": 4500,
-      "narration": "Stage 2. Setting out. Grid lines and building corners are established on site.",
-      "explanation": "Setting out transfers design dimensions from drawings to the field.",
-      "highlights": ["Right angles", "Wall centerlines", "Foundation lines"]
+      "narration": "Stage 2. Setting out. Grid lines at 1 meter modules establish wall centerlines and foundation trenches aligned to the structural grid.",
+      "explanation": "Setting out transfers design dimensions from drawings to the field with right-angle verification.",
+      "highlights": ["Grid module 1 m", "Wall centerlines", "Foundation lines"]
     },
     {
       "index": 2,
       "key": "excavation",
       "title": "Excavation",
-      "timelineLabel": "Stage 3 of 11",
+      "timelineLabel": "Stage 3 of 12",
       "durationMs": 6000,
-      "narration": "Stage 3. Excavation. Foundation trenches are cut to competent bearing strata.",
-      "explanation": "Excavation reaches competent bearing strata capable of supporting structural loads.",
-      "highlights": ["Load transfer arrows", "Soil bearing layer"]
+      "narration": "Stage 3. Excavation. Trenches are cut to 1 meter depth to competent bearing stratum for strip footings on all four sides.",
+      "explanation": "Excavation reaches competent bearing strata capable of supporting structural loads from the 6×8 m envelope.",
+      "highlights": ["Trench depth 1 m", "Bearing stratum", "Load transfer arrows"]
     },
     {
       "index": 3,
       "key": "pcc_layer",
-      "title": "PCC Layer",
-      "timelineLabel": "Stage 4 of 11",
+      "title": "PCC Blinding",
+      "timelineLabel": "Stage 4 of 12",
       "durationMs": 4000,
-      "narration": "Stage 4. Plain cement concrete is placed to form a level working platform in the trenches.",
-      "explanation": "PCC creates a clean, level and stable working platform while preventing contamination of structural concrete.",
-      "highlights": ["Concrete thickness", "Level indicators"]
+      "narration": "Stage 4. Plain cement concrete blinding is placed in trenches to create a level working platform.",
+      "explanation": "75 mm PCC creates a clean, level bearing plane while preventing contamination of structural concrete.",
+      "highlights": ["PCC thickness 75 mm", "Level indicators"]
     },
     {
       "index": 4,
       "key": "foundation_construction",
-      "title": "Foundation Construction",
-      "timelineLabel": "Stage 5 of 11",
+      "title": "Footings & Foundation Wall",
+      "timelineLabel": "Stage 5 of 12",
       "durationMs": 7000,
-      "narration": "Stage 5. Foundation masonry and footings transfer building loads to the soil.",
-      "explanation": "The foundation transfers all structural loads into the supporting soil.",
-      "highlights": ["Roof load", "Wall load", "Foundation load", "Soil reaction"]
+      "narration": "Stage 5. Strip footings and foundation wall masonry transfer building loads to bearing soil.",
+      "explanation": "600 mm wide strip footings with 300 mm depth spread wall loads; foundation wall rises to plinth level.",
+      "highlights": ["Strip footings", "Foundation wall courses", "Soil reaction"]
     },
     {
       "index": 5,
       "key": "plinth_beam",
-      "title": "Plinth Beam",
-      "timelineLabel": "Stage 6 of 11",
+      "title": "Plinth Beam & DPC",
+      "timelineLabel": "Stage 6 of 12",
       "durationMs": 6500,
-      "narration": "Stage 6. Plinth beam reinforcement and concrete tie the foundation system together.",
-      "explanation": "Plinth beams tie the structure together and reduce differential settlement.",
-      "highlights": ["Reinforcement details", "Concrete cover", "Load path"]
+      "narration": "Stage 6. Plinth beam formwork, reinforcement cage and concrete tie the foundation. DPC layer prevents moisture rise.",
+      "explanation": "450 mm plinth height with 230 mm RC plinth beam ties the structure and reduces differential settlement.",
+      "highlights": ["Reinforcement cage", "DPC layer", "Load path continuity"]
     },
     {
       "index": 6,
       "key": "vertical_reinforcement",
       "title": "Vertical Reinforcement",
-      "timelineLabel": "Stage 7 of 11",
+      "timelineLabel": "Stage 7 of 12",
       "durationMs": 5000,
-      "narration": "Stage 7. Twelve millimeter vertical bars are placed and anchored into the plinth beam.",
-      "explanation": "Vertical reinforcement improves seismic performance and prevents wall separation.",
-      "highlights": ["Earthquake forces", "Lateral load arrows", "Resistance mechanism"]
+      "narration": "Stage 7. Twelve millimeter vertical bars at corners, mid-walls and openings are anchored into the plinth beam.",
+      "explanation": "Vertical reinforcement improves seismic performance, connects to lintel and roof bands, and prevents wall separation.",
+      "highlights": ["Corner bars", "Opening reinforcement", "Anchorage into footing"]
     },
     {
       "index": 7,
       "key": "interlocking_walls",
       "title": "Interlocking Brick Walls",
-      "timelineLabel": "Stage 8 of 11",
-      "durationMs": 9000,
-      "narration": "Stage 8. Interlocking brick masonry walls are now being constructed. The interlocking geometry improves alignment, reduces mortar consumption and enhances structural stability.",
-      "explanation": "Interlocking masonry improves load transfer and reduces dependence on mortar joints.",
-      "highlights": ["Interlocking mechanism", "Compression force paths", "Stress distribution"]
+      "timelineLabel": "Stage 8 of 12",
+      "durationMs": 10000,
+      "narration": "Stage 8. Interlocking brick courses are laid course-by-course with corner interlocking. Each block snaps into place with no floating or overlapping units.",
+      "explanation": "230 mm thick interlocking masonry with staggered bond improves load transfer and reduces mortar dependence.",
+      "highlights": ["Course-by-course", "Corner interlock", "Compression load paths"]
     },
     {
       "index": 8,
       "key": "lintel_band",
       "title": "Lintel Band",
-      "timelineLabel": "Stage 9 of 11",
-      "durationMs": 5500,
-      "narration": "Stage 9. Reinforced concrete lintel band is cast around the structure at opening level.",
-      "explanation": "Lintel bands provide continuity and significantly improve earthquake performance.",
-      "highlights": ["Wall separation prevention", "Band continuity"]
+      "timelineLabel": "Stage 9 of 12",
+      "durationMs": 6000,
+      "narration": "Stage 9. Reinforced concrete lintel band — formwork, rebar cage, concrete pour and completed band at opening level.",
+      "explanation": "150 mm lintel band provides horizontal continuity at 2.1 m, preventing wall separation during seismic loading.",
+      "highlights": ["Formwork", "Rebar cage", "Continuous ring beam"]
     },
     {
       "index": 9,
       "key": "roof_band",
       "title": "Roof Band",
-      "timelineLabel": "Stage 10 of 11",
-      "durationMs": 5500,
-      "narration": "Stage 10. Roof band reinforcement creates box action for seismic load sharing.",
-      "explanation": "Roof bands create box action behavior which allows walls to work together during seismic loading.",
-      "highlights": ["Box action", "Load redistribution"]
+      "timelineLabel": "Stage 10 of 12",
+      "durationMs": 6000,
+      "narration": "Stage 10. Seismic roof band with rebar, formwork and concrete creates box action at wall top.",
+      "explanation": "Roof band at 3 m wall height connects vertical bars and enables box action for earthquake load sharing.",
+      "highlights": ["Box action", "Bar continuity", "Seismic tie"]
     },
     {
       "index": 10,
-      "key": "roof_slab",
-      "title": "Roof Slab",
-      "timelineLabel": "Stage 11 of 11",
+      "key": "roof_structure",
+      "title": "Roof Structure",
+      "timelineLabel": "Stage 11 of 12",
       "durationMs": 8000,
-      "narration": "Stage 11. Roof slab shuttering, reinforcement and concrete complete the structural frame.",
-      "explanation": "The roof slab distributes loads uniformly to supporting walls and reinforcement.",
-      "highlights": ["Roof to walls", "Walls to foundation", "Foundation to soil"]
+      "narration": "Stage 11. Timber trusses, purlins, bracing and connections are assembled on the wall plate. 15 degree roof slope.",
+      "explanation": "Trusses at 2 m spacing with purlins and bracing form a lightweight diaphragm transferring loads to walls.",
+      "highlights": ["Trusses", "Purlins", "Bracing", "15° slope"]
     },
     {
       "index": 11,
-      "key": "complete",
-      "title": "Complete Structure",
-      "timelineLabel": "Final",
-      "durationMs": 6000,
-      "narration": "Construction complete. The interlocking brick masonry structure is ready for finishing and occupancy.",
-      "explanation": "Fully assembled resilient single-storey house with engineered bands and roof diaphragm.",
-      "highlights": ["Resilience score", "Quality inspection"]
+      "key": "roof_covering",
+      "title": "Roof Covering & Complete",
+      "timelineLabel": "Stage 12 of 12",
+      "durationMs": 7000,
+      "narration": "Stage 12. Roof sheets are placed panel-by-panel. Construction complete — resilient 6×8 m interlocking brick house ready for occupancy.",
+      "explanation": "Metal roof sheets complete the diaphragm. Full load path: roof → walls → plinth → footings → soil.",
+      "highlights": ["Roof sheets", "Connections", "Final inspection"]
     }
   ],
   "components": {
@@ -135,45 +135,70 @@
       "purpose": "Transfers vertical loads from walls and roof to bearing soil.",
       "loadMechanism": "Strip footing spreads pressure; PCC provides uniform bearing plane.",
       "failureModes": ["Bearing failure", "Differential settlement", "Moisture ingress"],
-      "inspection": ["Trench depth", "PCC thickness", "Footing width", "Soil bearing test"]
+      "inspection": ["Trench depth 1 m", "PCC thickness 75 mm", "Footing width 600 mm", "Soil bearing test"]
+    },
+    "footing": {
+      "title": "Strip Footing",
+      "purpose": "Spreads wall loads over a wider bearing area in competent soil.",
+      "loadMechanism": "Concrete strip under all load-bearing walls; 300 mm depth minimum.",
+      "failureModes": ["Insufficient width", "Weak bearing stratum", "Waterlogged trench"],
+      "inspection": ["Width and depth", "Reinforcement cover", "Concrete grade M15+"]
     },
     "plinth_beam": {
       "title": "Plinth Beam",
-      "purpose": "Ties foundation elements and supports wall loads.",
-      "reinforcement": "4–6 bars 12–16mm with stirrups @ 150mm c/c",
-      "function": "Reduces cracking and aligns wall base",
-      "mistakes": ["Insufficient cover", "Open stirraps", "Cold joints"]
+      "purpose": "Ties foundation elements and supports wall loads at 450 mm plinth height.",
+      "reinforcement": "4–6 bars 12–16 mm with stirrups @ 150 mm c/c",
+      "function": "Reduces cracking, aligns wall base, anchors vertical bars",
+      "mistakes": ["Insufficient cover", "Open stirrups", "Cold joints"]
+    },
+    "dpc": {
+      "title": "Damp Proof Course",
+      "purpose": "Prevents capillary rise of moisture into wall masonry.",
+      "loadMechanism": "Continuous membrane at plinth level; no structural load.",
+      "failureModes": ["Discontinuity at corners", "Damage during wall construction"],
+      "inspection": ["Full perimeter continuity", "Overlap at joints", "Level alignment"]
+    },
+    "wall": {
+      "title": "Interlocking Brick Wall",
+      "purpose": "Primary load-bearing envelope — 230 mm thick, 3 m height.",
+      "compression": "Bearing stress distributed through interlock keys",
+      "jointMechanism": "Dry-stack keys reduce sliding between courses",
+      "loadTransfer": "Compression to lintel band and roof band"
     },
     "vertical_reinforcement": {
       "title": "Vertical Reinforcement",
       "purpose": "Provides ductility and holds walls together under earthquake.",
-      "anchorage": "L-bar into plinth beam with 40× bar diameter development length",
-      "developmentLength": "≥ 480mm for 12mm bar",
-      "seismicRole": "Prevents out-of-plane collapse and corner separation"
-    },
-    "interlocking_brick": {
-      "title": "Interlocking Masonry Unit",
-      "purpose": "Primary load-bearing wall with mechanical interlock.",
-      "compression": "Bearing stress distributed through interlock keys",
-      "jointMechanism": "Dry-stack keys reduce sliding between courses",
-      "loadTransfer": "Compression arching to bands at lintel and roof levels"
+      "anchorage": "L-bar into plinth beam with 480 mm development length",
+      "developmentLength": "≥ 480 mm for 12 mm bar",
+      "seismicRole": "Connects footing to lintel and roof bands; prevents corner separation"
     },
     "lintel_band": {
       "title": "Lintel Band",
-      "purpose": "Horizontal tie resisting wall separation during seismic shaking.",
-      "earthquakeMechanism": "Continuous ring beam keeps walls acting as a box"
+      "purpose": "Horizontal tie at opening level resisting wall separation during seismic shaking.",
+      "earthquakeMechanism": "Continuous 150 mm RC ring beam at 2.1 m keeps walls acting as a box"
     },
     "roof_band": {
       "title": "Roof Band",
-      "purpose": "Creates box action with lintel band under roof diaphragm.",
-      "boxAction": "Walls cannot move independently; inertia forces shared"
+      "purpose": "Seismic tie at wall top creating box action with lintel band.",
+      "boxAction": "Walls cannot move independently; inertia forces shared through diaphragm"
     },
-    "roof_slab": {
-      "title": "Roof Slab",
-      "purpose": "Rigid diaphragm distributing lateral and gravity loads.",
-      "rebarLayout": "Main bars along short span; distribution bars @ 2× slab thickness",
-      "concreteCover": "20mm bottom, 15mm top (exposure class moderate)",
-      "loadTransfer": "Slab → walls → plinth → foundation → soil"
+    "roof_structure": {
+      "title": "Roof Structure",
+      "purpose": "Timber trusses, purlins and bracing at 15° slope.",
+      "loadMechanism": "Trusses span 6 m width; purlins transfer sheet loads to trusses",
+      "inspection": ["Truss connections", "Wall plate anchorage", "Bracing continuity"]
+    },
+    "roof_truss": {
+      "title": "Roof Truss",
+      "purpose": "Primary roof framing element spanning building width.",
+      "loadMechanism": "Bottom chord in tension; rafters carry purlin and sheet loads",
+      "inspection": ["Joint nailing/bolting", "Verticality", "Spacing @ 2 m"]
+    },
+    "roof_cover": {
+      "title": "Roof Covering",
+      "purpose": "Metal sheets completing the roof diaphragm.",
+      "loadMechanism": "Sheets span between purlins; wind uplift resisted by fixings",
+      "inspection": ["Screw spacing", "Overlap at ridges", "Eave detailing"]
     }
   }
 }

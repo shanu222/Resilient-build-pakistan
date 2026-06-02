@@ -1,0 +1,232 @@
+{
+  "sheet": "D:\\Resilient Build Pakistan\\Resilient-build-pakistan\\mobile\\assets\\images\\model_sheet.png",
+  "extracted": [
+    "interlocking_brick_masonry",
+    "cement_bamboo_frame",
+    "bamboo_frame_wattle_daub",
+    "fly_ash_masonry",
+    "confined_concrete_block_masonry",
+    "earthbag_masonry",
+    "elevated_flood_resilient_house",
+    "floating_amphibious_structure",
+    "raised_plinth_flood_resilient_house",
+    "geogrid_reinforced_retaining_wall",
+    "light_gauge_steel_house",
+    "loh_kaat_timber_house",
+    "pre_fabricated_house",
+    "reinforced_adobe_brick_structure",
+    "advanced_interlocking_brick_masonry",
+    "rat_trap_bond_masonry",
+    "timber_frame_lath_plaster"
+  ],
+  "missing": [],
+  "optimization": [
+    {
+      "model": "interlocking_brick_masonry",
+      "webp_kb": 12,
+      "quality": 82
+    },
+    {
+      "model": "cement_bamboo_frame",
+      "webp_kb": 15,
+      "quality": 82
+    },
+    {
+      "model": "bamboo_frame_wattle_daub",
+      "webp_kb": 14,
+      "quality": 82
+    },
+    {
+      "model": "fly_ash_masonry",
+      "webp_kb": 11,
+      "quality": 82
+    },
+    {
+      "model": "confined_concrete_block_masonry",
+      "webp_kb": 14,
+      "quality": 82
+    },
+    {
+      "model": "earthbag_masonry",
+      "webp_kb": 12,
+      "quality": 82
+    },
+    {
+      "model": "elevated_flood_resilient_house",
+      "webp_kb": 8,
+      "quality": 82
+    },
+    {
+      "model": "floating_amphibious_structure",
+      "webp_kb": 8,
+      "quality": 82
+    },
+    {
+      "model": "raised_plinth_flood_resilient_house",
+      "webp_kb": 7,
+      "quality": 82
+    },
+    {
+      "model": "geogrid_reinforced_retaining_wall",
+      "webp_kb": 11,
+      "quality": 82
+    },
+    {
+      "model": "light_gauge_steel_house",
+      "webp_kb": 10,
+      "quality": 82
+    },
+    {
+      "model": "loh_kaat_timber_house",
+      "webp_kb": 12,
+      "quality": 82
+    },
+    {
+      "model": "pre_fabricated_house",
+      "webp_kb": 8,
+      "quality": 82
+    },
+    {
+      "model": "reinforced_adobe_brick_structure",
+      "webp_kb": 10,
+      "quality": 82
+    },
+    {
+      "model": "advanced_interlocking_brick_masonry",
+      "webp_kb": 13,
+      "quality": 82
+    },
+    {
+      "model": "rat_trap_bond_masonry",
+      "webp_kb": 12,
+      "quality": 82
+    },
+    {
+      "model": "timber_frame_lath_plaster",
+      "webp_kb": 13,
+      "quality": 82
+    }
+  ],
+  "mapping": {
+    "interlocking_brick_masonry": {
+      "grid": "row1_col1",
+      "png": "mobile\\assets\\images\\models\\interlocking_brick_masonry.png",
+      "webp": "assets/images/models/interlocking_brick_masonry.webp",
+      "webp_kb": 12,
+      "webp_quality": 82
+    },
+    "cement_bamboo_frame": {
+      "grid": "row1_col2",
+      "png": "mobile\\assets\\images\\models\\cement_bamboo_frame.png",
+      "webp": "assets/images/models/cement_bamboo_frame.webp",
+      "webp_kb": 15,
+      "webp_quality": 82
+    },
+    "bamboo_frame_wattle_daub": {
+      "grid": "row1_col3",
+      "png": "mobile\\assets\\images\\models\\bamboo_frame_wattle_daub.png",
+      "webp": "assets/images/models/bamboo_frame_wattle_daub.webp",
+      "webp_kb": 14,
+      "webp_quality": 82
+    },
+    "fly_ash_masonry": {
+      "grid": "row1_col4",
+      "png": "mobile\\assets\\images\\models\\fly_ash_masonry.png",
+      "webp": "assets/images/models/fly_ash_masonry.webp",
+      "webp_kb": 11,
+      "webp_quality": 82
+    },
+    "confined_concrete_block_masonry": {
+      "grid": "row1_col5",
+      "png": "mobile\\assets\\images\\models\\confined_concrete_block_masonry.png",
+      "webp": "assets/images/models/confined_concrete_block_masonry.webp",
+      "webp_kb": 14,
+      "webp_quality": 82
+    },
+    "earthbag_masonry": {
+      "grid": "row1_col6",
+      "png": "mobile\\assets\\images\\models\\earthbag_masonry.png",
+      "webp": "assets/images/models/earthbag_masonry.webp",
+      "webp_kb": 12,
+      "webp_quality": 82
+    },
+    "elevated_flood_resilient_house": {
+      "grid": "row2_col1",
+      "png": "mobile\\assets\\images\\models\\elevated_flood_resilient_house.png",
+      "webp": "assets/images/models/elevated_flood_resilient_house.webp",
+      "webp_kb": 8,
+      "webp_quality": 82
+    },
+    "floating_amphibious_structure": {
+      "grid": "row2_col2",
+      "png": "mobile\\assets\\images\\models\\floating_amphibious_structure.png",
+      "webp": "assets/images/models/floating_amphibious_structure.webp",
+      "webp_kb": 8,
+      "webp_quality": 82
+    },
+    "raised_plinth_flood_resilient_house": {
+      "grid": "row2_col3",
+      "png": "mobile\\assets\\images\\models\\raised_plinth_flood_resilient_house.png",
+      "webp": "assets/images/models/raised_plinth_flood_resilient_house.webp",
+      "webp_kb": 7,
+      "webp_quality": 82
+    },
+    "geogrid_reinforced_retaining_wall": {
+      "grid": "row2_col4",
+      "png": "mobile\\assets\\images\\models\\geogrid_reinforced_retaining_wall.png",
+      "webp": "assets/images/models/geogrid_reinforced_retaining_wall.webp",
+      "webp_kb": 11,
+      "webp_quality": 82
+    },
+    "light_gauge_steel_house": {
+      "grid": "row2_col6",
+      "png": "mobile\\assets\\images\\models\\light_gauge_steel_house.png",
+      "webp": "assets/images/models/light_gauge_steel_house.webp",
+      "webp_kb": 10,
+      "webp_quality": 82
+    },
+    "loh_kaat_timber_house": {
+      "grid": "row3_col1",
+      "png": "mobile\\assets\\images\\models\\loh_kaat_timber_house.png",
+      "webp": "assets/images/models/loh_kaat_timber_house.webp",
+      "webp_kb": 12,
+      "webp_quality": 82
+    },
+    "pre_fabricated_house": {
+      "grid": "row3_col2",
+      "png": "mobile\\assets\\images\\models\\pre_fabricated_house.png",
+      "webp": "assets/images/models/pre_fabricated_house.webp",
+      "webp_kb": 8,
+      "webp_quality": 82
+    },
+    "reinforced_adobe_brick_structure": {
+      "grid": "row3_col3",
+      "png": "mobile\\assets\\images\\models\\reinforced_adobe_brick_structure.png",
+      "webp": "assets/images/models/reinforced_adobe_brick_structure.webp",
+      "webp_kb": 10,
+      "webp_quality": 82
+    },
+    "advanced_interlocking_brick_masonry": {
+      "grid": "row3_col4",
+      "png": "mobile\\assets\\images\\models\\advanced_interlocking_brick_masonry.png",
+      "webp": "assets/images/models/advanced_interlocking_brick_masonry.webp",
+      "webp_kb": 13,
+      "webp_quality": 82
+    },
+    "rat_trap_bond_masonry": {
+      "grid": "row3_col5",
+      "png": "mobile\\assets\\images\\models\\rat_trap_bond_masonry.png",
+      "webp": "assets/images/models/rat_trap_bond_masonry.webp",
+      "webp_kb": 12,
+      "webp_quality": 82
+    },
+    "timber_frame_lath_plaster": {
+      "grid": "row3_col6",
+      "png": "mobile\\assets\\images\\models\\timber_frame_lath_plaster.png",
+      "webp": "assets/images/models/timber_frame_lath_plaster.webp",
+      "webp_kb": 13,
+      "webp_quality": 82
+    }
+  },
+  "count": 17
+}
