@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/widgets/brand_icon.dart';
 import '../../core/widgets/government_footer.dart';
 import '../../core/widgets/government_header.dart';
+import '../../shared/widgets/app_brand_logo.dart';
 
 /// Adaptive shell: bottom nav (mobile) · navigation rail (tablet/desktop).
 class AppShell extends StatelessWidget {
@@ -114,18 +114,12 @@ class _SidebarBranding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = AppBreakpoints.isDesktop(context);
+    final isTablet = AppBreakpoints.isTablet(context);
+    final logoSize = isDesktop ? 72.0 : (isTablet ? 64.0 : 56.0);
     return Column(
       children: [
-        Container(
-          width: 56,
-          height: 56,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.orange.withValues(alpha: 0.18),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: const Center(child: BrandIcon(size: 32)),
-        ),
+        Center(child: AppBrandLogo(size: logoSize)),
         const SizedBox(height: 10),
         const Text(
           'Resilient Build Pakistan',

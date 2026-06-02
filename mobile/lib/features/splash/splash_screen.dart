@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/primary_button.dart';
+import '../../shared/widgets/app_brand_logo.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -26,23 +27,9 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.orange, AppColors.orangeLight],
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.orange.withValues(alpha: 0.4),
-                        blurRadius: 24,
-                        offset: const Offset(0, 12),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.apartment, size: 96, color: Colors.white),
-                ).animate().scale(duration: 800.ms, curve: Curves.easeOut),
+                const AppBrandLogo(size: 120)
+                    .animate()
+                    .scale(duration: 800.ms, curve: Curves.easeOut),
                 const SizedBox(height: 32),
                 const Text(
                   'ResilientBuild Pakistan',

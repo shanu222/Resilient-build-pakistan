@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../providers/app_providers.dart';
+import '../../shared/widgets/app_brand_logo.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -17,6 +18,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _page = 0;
 
+  static const _brandSlideIndex = 2;
   static const _slides = [
     (
       title: 'Location-Based Construction Intelligence',
@@ -63,7 +65,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             gradient: LinearGradient(colors: s.colors),
                             borderRadius: BorderRadius.circular(24),
                           ),
-                          child: Icon(s.icon, size: 80, color: Colors.white),
+                          child: i == _brandSlideIndex
+                              ? const Center(child: AppBrandLogo(size: 96))
+                              : Icon(s.icon, size: 80, color: Colors.white),
                         ),
                         const SizedBox(height: 32),
                         Text(
