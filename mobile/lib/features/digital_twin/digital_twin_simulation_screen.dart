@@ -264,16 +264,16 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     // Desktop keyboard shortcuts.
     child = Shortcuts(
       shortcuts: <ShortcutActivator, Intent>{
-        const SingleActivator(LogicalKeyboardKey.space): const ActivateIntent(),
-        const SingleActivator(LogicalKeyboardKey.arrowLeft):
+        SingleActivator(LogicalKeyboardKey.space): const ActivateIntent(),
+        SingleActivator(LogicalKeyboardKey.arrowLeft):
             const DirectionalFocusIntent(TraversalDirection.left),
-        const SingleActivator(LogicalKeyboardKey.arrowRight):
+        SingleActivator(LogicalKeyboardKey.arrowRight):
             const DirectionalFocusIntent(TraversalDirection.right),
-        const SingleActivator(LogicalKeyboardKey.keyR): const _RestartIntent(),
-        const SingleActivator(LogicalKeyboardKey.keyF): const _FitIntent(),
-        const SingleActivator(LogicalKeyboardKey.keyG): const _GridIntent(),
-        const SingleActivator(LogicalKeyboardKey.keyE): const _ExplodedIntent(),
-        const SingleActivator(LogicalKeyboardKey.keyS): const _SectionIntent(),
+        SingleActivator(LogicalKeyboardKey.keyR): const _RestartIntent(),
+        SingleActivator(LogicalKeyboardKey.keyF): const _FitIntent(),
+        SingleActivator(LogicalKeyboardKey.keyG): const _GridIntent(),
+        SingleActivator(LogicalKeyboardKey.keyE): const _ExplodedIntent(),
+        SingleActivator(LogicalKeyboardKey.keyS): const _SectionIntent(),
       },
       child: Actions(
         actions: <Type, Action<Intent>>{
