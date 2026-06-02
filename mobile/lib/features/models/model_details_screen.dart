@@ -176,8 +176,7 @@ class _ModelDetailBody extends StatelessWidget {
                   const SizedBox(height: AppSpacing.md),
                   OutlinedButton.icon(
                     onPressed: () {
-                      Navigator.push(
-                        context,
+                      Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute<void>(
                           builder: (_) => ConstructionGuidelinesScreen(house: house),
                         ),

@@ -268,7 +268,7 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                           subtitle: Text('Model reference guide · ${h.category}'),
                           trailing: const Icon(Icons.arrow_forward_ios, size: 14),
                           onTap: () {
-                            Navigator.of(context).push(
+                            Navigator.of(context, rootNavigator: true).push(
                               MaterialPageRoute(
                                 builder: (_) => ConstructionGuidelinesScreen(house: h),
                               ),
