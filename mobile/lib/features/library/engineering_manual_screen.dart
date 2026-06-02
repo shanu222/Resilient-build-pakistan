@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'dart:typed_data';
 
 import 'engineering_manual_generator.dart';
 
@@ -17,13 +18,12 @@ class EngineeringManualScreen extends StatefulWidget {
 
 class _EngineeringManualScreenState extends State<EngineeringManualScreen> {
   final PdfViewerController _controller = PdfViewerController();
-  late final Future<List<int>> _bytes = _build();
+  late final Future<Uint8List> _bytes = _build();
 
-  Future<List<int>> _build() async {
-    final data = await EngineeringManualGenerator.generatePdf(
+  Future<Uint8List> _build() async {
+    return EngineeringManualGenerator.generatePdf(
       title: 'Construction Guidelines & Engineering Manual',
     );
-    return data;
   }
 
   @override
@@ -32,7 +32,7 @@ class _EngineeringManualScreenState extends State<EngineeringManualScreen> {
       appBar: AppBar(
         title: const Text('Engineering manual', style: TextStyle(fontSize: 16)),
       ),
-      body: FutureBuilder<List<int>>(
+      body: FutureBuilder<Uint8List>(
         future: _bytes,
         builder: (context, snap) {
           if (!snap.hasData) {

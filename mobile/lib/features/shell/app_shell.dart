@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/layout/app_breakpoints.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/widgets/brand_icon.dart';
+import '../../core/widgets/government_footer.dart';
+import '../../core/widgets/government_header.dart';
 
 /// Adaptive shell: bottom nav (mobile) · navigation rail (tablet/desktop).
 class AppShell extends StatelessWidget {
@@ -40,67 +43,53 @@ class AppShell extends StatelessWidget {
 
     if (useRail) {
       return Scaffold(
-        body: Row(
+        appBar: const GovernmentHeader(),
+        body: Column(
           children: [
-            NavigationRail(
-              extended: AppBreakpoints.isLargeDesktop(context),
-              minExtendedWidth: 200,
-              selectedIndex: index,
-              onDestinationSelected: (i) => context.go(_paths[i]),
-              labelType: AppBreakpoints.isLargeDesktop(context)
-                  ? NavigationRailLabelType.none
-                  : NavigationRailLabelType.all,
-              leading: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.orange.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(Icons.shield, color: AppColors.orange),
+            Expanded(
+              child: Row(
+                children: [
+                  NavigationRail(
+                    extended: AppBreakpoints.isLargeDesktop(context),
+                    minExtendedWidth: 220,
+                    selectedIndex: index,
+                    onDestinationSelected: (i) => context.go(_paths[i]),
+                    labelType: AppBreakpoints.isLargeDesktop(context)
+                        ? NavigationRailLabelType.none
+                        : NavigationRailLabelType.all,
+                    leading: const Padding(
+                      padding: EdgeInsets.only(top: 16, bottom: 8),
+                      child: _SidebarBranding(),
                     ),
-                    if (AppBreakpoints.isLargeDesktop(context)) ...[
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Resilient Build',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const Text(
-                        'Pakistan',
-                        style: TextStyle(color: Colors.white54, fontSize: 10),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ],
-                ),
+                    destinations: _destinations
+                        .map(
+                          (d) => NavigationRailDestination(
+                            icon: Icon(d.$1),
+                            selectedIcon: Icon(d.$2),
+                            label: Text(d.$3),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  const VerticalDivider(width: 1, thickness: 1),
+                  Expanded(child: child),
+                ],
               ),
-              destinations: _destinations
-                  .map(
-                    (d) => NavigationRailDestination(
-                      icon: Icon(d.$1),
-                      selectedIcon: Icon(d.$2),
-                      label: Text(d.$3),
-                    ),
-                  )
-                  .toList(),
             ),
-            const VerticalDivider(width: 1, thickness: 1),
-            Expanded(child: child),
+            const GovernmentFooter(version: '1.0.0+1'),
           ],
         ),
       );
     }
 
     return Scaffold(
-      body: child,
+      appBar: const GovernmentHeader(),
+      body: Column(
+        children: [
+          Expanded(child: child),
+          const GovernmentFooter(version: '1.0.0+1'),
+        ],
+      ),
       bottomNavigationBar: hideNav
           ? null
           : NavigationBar(
@@ -116,6 +105,50 @@ class AppShell extends StatelessWidget {
                   )
                   .toList(),
             ),
+    );
+  }
+}
+
+class _SidebarBranding extends StatelessWidget {
+  const _SidebarBranding();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 56,
+          height: 56,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.orange.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: const Center(child: BrandIcon(size: 32)),
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          'Resilient Build Pakistan',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            height: 1.1,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          'Government of Pakistan',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 10),
+        ),
+        Text(
+          'NDMA',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 10),
+        ),
+      ],
     );
   }
 }
