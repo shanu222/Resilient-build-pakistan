@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import '../bim_simulation/engine/bim_scene_registry.dart';
 import '../bim_simulation/engine/bim_simulation_controller.dart';
@@ -262,79 +264,82 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     );
 
     // Desktop keyboard shortcuts.
-    child = Shortcuts(
-      shortcuts: <ShortcutActivator, Intent>{
-        SingleActivator(LogicalKeyboardKey.space): const ActivateIntent(),
-        SingleActivator(LogicalKeyboardKey.arrowLeft):
-            const DirectionalFocusIntent(TraversalDirection.left),
-        SingleActivator(LogicalKeyboardKey.arrowRight):
-            const DirectionalFocusIntent(TraversalDirection.right),
-        SingleActivator(LogicalKeyboardKey.keyR): const _RestartIntent(),
-        SingleActivator(LogicalKeyboardKey.keyF): const _FitIntent(),
-        SingleActivator(LogicalKeyboardKey.keyG): const _GridIntent(),
-        SingleActivator(LogicalKeyboardKey.keyE): const _ExplodedIntent(),
-        SingleActivator(LogicalKeyboardKey.keyS): const _SectionIntent(),
-      },
-      child: Actions(
-        actions: <Type, Action<Intent>>{
-          ActivateIntent: CallbackAction<ActivateIntent>(
-            onInvoke: (_) {
-              if (stages.isPlaying) {
-                stages.pause();
-              } else {
-                stages.play();
-              }
-              _bim?.isPlaying = stages.isPlaying;
-              return null;
-            },
-          ),
-          DirectionalFocusIntent: CallbackAction<DirectionalFocusIntent>(
-            onInvoke: (intent) {
-              if (intent.direction == TraversalDirection.left) {
-                stages.previousStage();
-              } else if (intent.direction == TraversalDirection.right) {
-                stages.nextStage();
-              }
-              return null;
-            },
-          ),
-          _RestartIntent: CallbackAction<_RestartIntent>(
-            onInvoke: (_) {
-              stages.restart();
-              return null;
-            },
-          ),
-          _FitIntent: CallbackAction<_FitIntent>(
-            onInvoke: (_) {
-              final bim = _bim;
-              if (bim == null) return null;
-              final size = MediaQuery.sizeOf(context);
-              bim.fitCamera(viewportWidth: size.width, viewportHeight: size.height);
-              return null;
-            },
-          ),
-          _GridIntent: CallbackAction<_GridIntent>(
-            onInvoke: (_) {
-              _bim?.toggleStructuralGrid();
-              return null;
-            },
-          ),
-          _ExplodedIntent: CallbackAction<_ExplodedIntent>(
-            onInvoke: (_) {
-              _applyViewLayer(TwinViewLayer.exploded);
-              return null;
-            },
-          ),
-          _SectionIntent: CallbackAction<_SectionIntent>(
-            onInvoke: (_) {
-              _applyViewLayer(TwinViewLayer.crossSection);
-              return null;
-            },
-          ),
+    // Build stability is higher priority than shortcuts; disable on Web if toolchain rejects key constants.
+    if (!kIsWeb) {
+      child = Shortcuts(
+        shortcuts: <ShortcutActivator, Intent>{
+          SingleActivator(LogicalKeyboardKey.space): const ActivateIntent(),
+          SingleActivator(LogicalKeyboardKey.arrowLeft):
+              const DirectionalFocusIntent(TraversalDirection.left),
+          SingleActivator(LogicalKeyboardKey.arrowRight):
+              const DirectionalFocusIntent(TraversalDirection.right),
+          SingleActivator(LogicalKeyboardKey.keyR): const _RestartIntent(),
+          SingleActivator(LogicalKeyboardKey.keyF): const _FitIntent(),
+          SingleActivator(LogicalKeyboardKey.keyG): const _GridIntent(),
+          SingleActivator(LogicalKeyboardKey.keyE): const _ExplodedIntent(),
+          SingleActivator(LogicalKeyboardKey.keyS): const _SectionIntent(),
         },
-        child: Focus(autofocus: true, child: child),
-      ),
-    );
+        child: Actions(
+          actions: <Type, Action<Intent>>{
+            ActivateIntent: CallbackAction<ActivateIntent>(
+              onInvoke: (_) {
+                if (stages.isPlaying) {
+                  stages.pause();
+                } else {
+                  stages.play();
+                }
+                _bim?.isPlaying = stages.isPlaying;
+                return null;
+              },
+            ),
+            DirectionalFocusIntent: CallbackAction<DirectionalFocusIntent>(
+              onInvoke: (intent) {
+                if (intent.direction == TraversalDirection.left) {
+                  stages.previousStage();
+                } else if (intent.direction == TraversalDirection.right) {
+                  stages.nextStage();
+                }
+                return null;
+              },
+            ),
+            _RestartIntent: CallbackAction<_RestartIntent>(
+              onInvoke: (_) {
+                stages.restart();
+                return null;
+              },
+            ),
+            _FitIntent: CallbackAction<_FitIntent>(
+              onInvoke: (_) {
+                final bim = _bim;
+                if (bim == null) return null;
+                final size = MediaQuery.sizeOf(context);
+                bim.fitCamera(viewportWidth: size.width, viewportHeight: size.height);
+                return null;
+              },
+            ),
+            _GridIntent: CallbackAction<_GridIntent>(
+              onInvoke: (_) {
+                _bim?.toggleStructuralGrid();
+                return null;
+              },
+            ),
+            _ExplodedIntent: CallbackAction<_ExplodedIntent>(
+              onInvoke: (_) {
+                _applyViewLayer(TwinViewLayer.exploded);
+                return null;
+              },
+            ),
+            _SectionIntent: CallbackAction<_SectionIntent>(
+              onInvoke: (_) {
+                _applyViewLayer(TwinViewLayer.crossSection);
+                return null;
+              },
+            ),
+          },
+          child: Focus(autofocus: true, child: child),
+        ),
+      );
+    }
 
     return child;
   }
