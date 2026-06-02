@@ -252,23 +252,30 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         autofocus: true,
         child: Shortcuts(
           shortcuts: const <ShortcutActivator, Intent>{
-            SingleActivator(LogicalKeyboardKey.space): _PlaybackKeyIntent.toggle(),
-            SingleActivator(LogicalKeyboardKey.arrowLeft): _PlaybackKeyIntent.previous(),
-            SingleActivator(LogicalKeyboardKey.arrowRight): _PlaybackKeyIntent.next(),
+            SingleActivator(LogicalKeyboardKey.space): _PlaybackToggleIntent(),
+            SingleActivator(LogicalKeyboardKey.arrowLeft): _PlaybackPreviousIntent(),
+            SingleActivator(LogicalKeyboardKey.arrowRight): _PlaybackNextIntent(),
           },
           child: Actions(
             actions: <Type, Action<Intent>>{
-              _PlaybackKeyIntent: CallbackAction<_PlaybackKeyIntent>(
-                onInvoke: (intent) {
+              _PlaybackToggleIntent: CallbackAction<_PlaybackToggleIntent>(
+                onInvoke: (_) {
                   _showPlaybackDock();
-                  switch (intent.action) {
-                    case _PlaybackKeyAction.toggle:
-                      _c.togglePlay();
-                    case _PlaybackKeyAction.previous:
-                      if (_c.stageIndex > 0) _c.previousStage();
-                    case _PlaybackKeyAction.next:
-                      if (_c.stageIndex < _c.stages.length - 1) _c.nextStage();
-                  }
+                  _c.togglePlay();
+                  return null;
+                },
+              ),
+              _PlaybackPreviousIntent: CallbackAction<_PlaybackPreviousIntent>(
+                onInvoke: (_) {
+                  _showPlaybackDock();
+                  if (_c.stageIndex > 0) _c.previousStage();
+                  return null;
+                },
+              ),
+              _PlaybackNextIntent: CallbackAction<_PlaybackNextIntent>(
+                onInvoke: (_) {
+                  _showPlaybackDock();
+                  if (_c.stageIndex < _c.stages.length - 1) _c.nextStage();
                   return null;
                 },
               ),
@@ -419,16 +426,16 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
   }
 }
 
-enum _PlaybackKeyAction { toggle, previous, next }
+class _PlaybackToggleIntent extends Intent {
+  const _PlaybackToggleIntent();
+}
 
-class _PlaybackKeyIntent extends Intent {
-  const _PlaybackKeyIntent(this.action);
+class _PlaybackPreviousIntent extends Intent {
+  const _PlaybackPreviousIntent();
+}
 
-  const _PlaybackKeyIntent.toggle() : action = _PlaybackKeyAction.toggle;
-  const _PlaybackKeyIntent.previous() : action = _PlaybackKeyAction.previous;
-  const _PlaybackKeyIntent.next() : action = _PlaybackKeyAction.next;
-
-  final _PlaybackKeyAction action;
+class _PlaybackNextIntent extends Intent {
+  const _PlaybackNextIntent();
 }
 
 class _StageHud extends StatelessWidget {
