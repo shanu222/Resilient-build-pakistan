@@ -1,0 +1,68 @@
+{
+  "provinces": [
+    {
+      "id": "punjab",
+      "name": "Punjab",
+      "districts": [
+        { "id": "lahore", "name": "Lahore", "lat": 31.5204, "lng": 74.3587, "regionId": "punjab_plains" },
+        { "id": "faisalabad", "name": "Faisalabad", "lat": 31.418, "lng": 73.079, "regionId": "punjab_plains" },
+        { "id": "multan", "name": "Multan", "lat": 30.1575, "lng": 71.5249, "regionId": "punjab_plains" },
+        { "id": "rawalpindi", "name": "Rawalpindi", "lat": 33.5651, "lng": 73.0169, "regionId": "islamabad_foot_hills" },
+        { "id": "gujranwala", "name": "Gujranwala", "lat": 32.1877, "lng": 74.1945, "regionId": "punjab_plains" }
+      ]
+    },
+    {
+      "id": "sindh",
+      "name": "Sindh",
+      "districts": [
+        { "id": "karachi", "name": "Karachi", "lat": 24.8607, "lng": 67.0011, "regionId": "sindh_riverine" },
+        { "id": "hyderabad", "name": "Hyderabad", "lat": 25.396, "lng": 68.3578, "regionId": "sindh_riverine" },
+        { "id": "sukkur", "name": "Sukkur", "lat": 27.7052, "lng": 68.8574, "regionId": "sindh_riverine" },
+        { "id": "thatta", "name": "Thatta", "lat": 24.7471, "lng": 67.9235, "regionId": "sindh_riverine" }
+      ]
+    },
+    {
+      "id": "kpk",
+      "name": "Khyber Pakhtunkhwa",
+      "districts": [
+        { "id": "peshawar", "name": "Peshawar", "lat": 34.0151, "lng": 71.5249, "regionId": "kpk_mountain" },
+        { "id": "abbottabad", "name": "Abbottabad", "lat": 34.1688, "lng": 73.2215, "regionId": "kpk_mountain" },
+        { "id": "swat", "name": "Swat", "lat": 35.2227, "lng": 72.4258, "regionId": "kpk_mountain" },
+        { "id": "chitral", "name": "Chitral", "lat": 35.8518, "lng": 71.7864, "regionId": "gb_hilly" }
+      ]
+    },
+    {
+      "id": "balochistan",
+      "name": "Balochistan",
+      "districts": [
+        { "id": "quetta", "name": "Quetta", "lat": 30.1798, "lng": 66.975, "regionId": "balochistan_arid" },
+        { "id": "gwadar", "name": "Gwadar", "lat": 25.1264, "lng": 62.3225, "regionId": "coastal_sindh" },
+        { "id": "zhob", "name": "Zhob", "lat": 31.3417, "lng": 69.4486, "regionId": "balochistan_arid" }
+      ]
+    },
+    {
+      "id": "gb",
+      "name": "Gilgit-Baltistan",
+      "districts": [
+        { "id": "gilgit", "name": "Gilgit", "lat": 35.9208, "lng": 74.3144, "regionId": "gb_hilly" },
+        { "id": "skardu", "name": "Skardu", "lat": 35.2971, "lng": 75.633, "regionId": "gb_hilly" },
+        { "id": "hunza", "name": "Hunza", "lat": 36.3167, "lng": 74.65, "regionId": "gb_hilly" }
+      ]
+    },
+    {
+      "id": "ajk",
+      "name": "Azad Jammu & Kashmir",
+      "districts": [
+        { "id": "muzaffarabad", "name": "Muzaffarabad", "lat": 34.37, "lng": 73.47, "regionId": "azad_kashmir" },
+        { "id": "mirpur", "name": "Mirpur", "lat": 33.1484, "lng": 73.7519, "regionId": "azad_kashmir" }
+      ]
+    },
+    {
+      "id": "ict",
+      "name": "Islamabad Capital Territory",
+      "districts": [
+        { "id": "islamabad", "name": "Islamabad", "lat": 33.6844, "lng": 73.0479, "regionId": "islamabad_foot_hills" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "standardStages": [
+    { "id": 1, "key": "site_layout", "name": "Site Layout", "duration": "2-3 days", "color": "#6B7280" },
+    { "id": 2, "key": "excavation", "name": "Excavation", "duration": "3-5 days", "color": "#B45309" },
+    { "id": 3, "key": "foundation", "name": "Foundation", "duration": "7-10 days", "color": "#57534E" },
+    { "id": 4, "key": "plinth", "name": "Plinth", "duration": "5-7 days", "color": "#334155" },
+    { "id": 5, "key": "wall_construction", "name": "Wall Construction", "duration": "14-21 days", "color": "#78716C" },
+    { "id": 6, "key": "lintels", "name": "Lintels", "duration": "3-5 days", "color": "#A8A29E" },
+    { "id": 7, "key": "columns", "name": "Columns", "duration": "10-14 days", "color": "#52525B" },
+    { "id": 8, "key": "beams", "name": "Beams", "duration": "7-10 days", "color": "#525252" },
+    { "id": 9, "key": "roof", "name": "Roof", "duration": "10-14 days", "color": "#B91C1C" },
+    { "id": 10, "key": "finishing", "name": "Finishing", "duration": "14-21 days", "color": "#16A34A" },
+    { "id": 11, "key": "completed", "name": "Completed House", "duration": "—", "color": "#0F172A" }
+  ],
+  "modelStages": {
+    "elevated_flood_resilient_house": {
+      "stageModels": {
+        "site_layout": "assets/models/elevated_flood/stage_01_site.glb",
+        "excavation": "assets/models/elevated_flood/stage_02_excavation.glb",
+        "foundation": "assets/models/elevated_flood/stage_03_foundation.glb",
+        "plinth": "assets/models/elevated_flood/stage_04_plinth.glb",
+        "wall_construction": "assets/models/elevated_flood/stage_05_walls.glb",
+        "lintels": "assets/models/elevated_flood/stage_06_lintels.glb",
+        "columns": "assets/models/elevated_flood/stage_07_columns.glb",
+        "beams": "assets/models/elevated_flood/stage_08_beams.glb",
+        "roof": "assets/models/elevated_flood/stage_09_roof.glb",
+        "finishing": "assets/models/elevated_flood/stage_10_finishing.glb",
+        "completed": "assets/models/elevated_flood/stage_11_complete.glb"
+      }
+    },
+    "default": {
+      "stageModels": {
+        "site_layout": "assets/models/generic/stage_01_site.glb",
+        "excavation": "assets/models/generic/stage_02_excavation.glb",
+        "foundation": "assets/models/generic/stage_03_foundation.glb",
+        "plinth": "assets/models/generic/stage_04_plinth.glb",
+        "wall_construction": "assets/models/generic/stage_05_walls.glb",
+        "lintels": "assets/models/generic/stage_06_lintels.glb",
+        "columns": "assets/models/generic/stage_07_columns.glb",
+        "beams": "assets/models/generic/stage_08_beams.glb",
+        "roof": "assets/models/generic/stage_09_roof.glb",
+        "finishing": "assets/models/generic/stage_10_finishing.glb",
+        "completed": "assets/models/generic/stage_11_complete.glb"
+      }
+    }
+  }
+}

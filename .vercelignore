@@ -1,0 +1,10 @@
+# Vercel — ignore non-production paths (Flutter Web deploys from mobile/)
+node_modules
+dist
+.pub-cache
+mobile/build
+tools/bim_generator/preview/node_modules
+.git
+*.log
+.env
+.env.*

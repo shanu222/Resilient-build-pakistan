@@ -1,0 +1,92 @@
+{
+  "scoreDimensions": [
+    "floodResistance",
+    "earthquakeResistance",
+    "landslideResistance",
+    "windResistance",
+    "moistureResistance",
+    "thermalEfficiency"
+  ],
+  "modelScores": {
+    "interlocking_brick_masonry": {
+      "floodResistance": 55,
+      "earthquakeResistance": 85,
+      "landslideResistance": 70,
+      "windResistance": 75,
+      "moistureResistance": 65,
+      "thermalEfficiency": 72
+    },
+    "advanced_interlocking_brick_masonry": {
+      "floodResistance": 58,
+      "earthquakeResistance": 92,
+      "landslideResistance": 72,
+      "windResistance": 78,
+      "moistureResistance": 70,
+      "thermalEfficiency": 74
+    },
+    "elevated_flood_resilient_house": {
+      "floodResistance": 95,
+      "earthquakeResistance": 70,
+      "landslideResistance": 60,
+      "windResistance": 80,
+      "moistureResistance": 88,
+      "thermalEfficiency": 68
+    },
+    "floating_amphibious_structure": {
+      "floodResistance": 98,
+      "earthquakeResistance": 65,
+      "landslideResistance": 55,
+      "windResistance": 75,
+      "moistureResistance": 90,
+      "thermalEfficiency": 65
+    },
+    "confined_concrete_block_masonry": {
+      "floodResistance": 60,
+      "earthquakeResistance": 90,
+      "landslideResistance": 75,
+      "windResistance": 80,
+      "moistureResistance": 70,
+      "thermalEfficiency": 68
+    },
+    "earthbag_masonry": {
+      "floodResistance": 50,
+      "earthquakeResistance": 78,
+      "landslideResistance": 72,
+      "windResistance": 70,
+      "moistureResistance": 62,
+      "thermalEfficiency": 85
+    },
+    "light_gauge_steel_house": {
+      "floodResistance": 65,
+      "earthquakeResistance": 88,
+      "landslideResistance": 70,
+      "windResistance": 90,
+      "moistureResistance": 75,
+      "thermalEfficiency": 70
+    },
+    "raised_plinth_flood_resilient_house": {
+      "floodResistance": 88,
+      "earthquakeResistance": 72,
+      "landslideResistance": 65,
+      "windResistance": 78,
+      "moistureResistance": 82,
+      "thermalEfficiency": 70
+    },
+    "rat_trap_bond_masonry": {
+      "floodResistance": 58,
+      "earthquakeResistance": 82,
+      "landslideResistance": 68,
+      "windResistance": 76,
+      "moistureResistance": 68,
+      "thermalEfficiency": 80
+    }
+  },
+  "defaultScores": {
+    "floodResistance": 60,
+    "earthquakeResistance": 75,
+    "landslideResistance": 65,
+    "windResistance": 72,
+    "moistureResistance": 68,
+    "thermalEfficiency": 70
+  }
+}

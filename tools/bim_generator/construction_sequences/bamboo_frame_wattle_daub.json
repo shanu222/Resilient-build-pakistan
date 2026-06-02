@@ -1,0 +1,368 @@
+{
+  "modelId": "bamboo_frame_wattle_daub",
+  "displayName": "Bamboo Wattle & Daub",
+  "archetype": "timber_wattle",
+  "masterGlb": "assets/models/bamboo_frame_wattle_daub/construction_master.glb",
+  "stageCount": 13,
+  "stages": [
+    {
+      "index": 0,
+      "key": "site",
+      "title": "Site Layout",
+      "timelineLabel": "Stage 1 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_00_site.glb",
+      "narration": "Stage 1. Site Layout. Site layout establishes grid, drainage and structural reference before excavation.",
+      "explanation": "Site layout establishes grid, drainage and structural reference before excavation.",
+      "engineeringPrinciple": "Site layout establishes grid, drainage and structural reference before excavation.",
+      "constructionActivity": "Site Layout",
+      "inspectionChecklist": "Verify setbacks and runoff.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 1,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 2 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_01_excavation.glb",
+      "narration": "Stage 2. Excavation. Excavation to competent bearing; trenches align with foundation footprint.",
+      "explanation": "Excavation to competent bearing; trenches align with foundation footprint.",
+      "engineeringPrinciple": "Excavation to competent bearing; trenches align with foundation footprint.",
+      "constructionActivity": "Excavation",
+      "inspectionChecklist": "Check depth and soil class.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 2,
+      "key": "foundation",
+      "title": "Foundation",
+      "timelineLabel": "Stage 3 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_02_foundation.glb",
+      "narration": "Stage 3. Foundation. Foundation spreads loads through footings and plinth beam.",
+      "explanation": "Foundation spreads loads through footings and plinth beam.",
+      "engineeringPrinciple": "Foundation spreads loads through footings and plinth beam.",
+      "constructionActivity": "Foundation",
+      "inspectionChecklist": "Rebar cover and continuity.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 3,
+      "key": "foundation_reinforcement",
+      "title": "Foundation Reinforcement",
+      "timelineLabel": "Stage 4 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_03_foundation_reinforcement.glb",
+      "narration": "Stage 4. Foundation Reinforcement. Foundation reinforcement cages placed before concrete pour.",
+      "explanation": "Foundation reinforcement cages placed before concrete pour.",
+      "engineeringPrinciple": "Foundation reinforcement cages placed before concrete pour.",
+      "constructionActivity": "Foundation Reinforcement",
+      "inspectionChecklist": "Lap lengths and cover.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 4,
+      "key": "columns",
+      "title": "Columns / Structural Supports",
+      "timelineLabel": "Stage 5 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_04_columns.glb",
+      "narration": "Stage 5. Columns / Structural Supports. Columns erected on grid from plinth to beam level.",
+      "explanation": "Columns erected on grid from plinth to beam level.",
+      "engineeringPrinciple": "Columns erected on grid from plinth to beam level.",
+      "constructionActivity": "Columns / Structural Supports",
+      "inspectionChecklist": "Verticality and base plates.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 5,
+      "key": "beams",
+      "title": "Beams",
+      "timelineLabel": "Stage 6 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_05_beams.glb",
+      "narration": "Stage 6. Beams. Beams connect column heads; continuous ring at wall top.",
+      "explanation": "Beams connect column heads; continuous ring at wall top.",
+      "engineeringPrinciple": "Beams connect column heads; continuous ring at wall top.",
+      "constructionActivity": "Beams",
+      "inspectionChecklist": "Level and anchorage.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 6,
+      "key": "walls",
+      "title": "Wall Construction",
+      "timelineLabel": "Stage 7 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_06_walls.glb",
+      "narration": "Stage 7. Wall Construction. Walls built on foundation perimeter between supports.",
+      "explanation": "Walls built on foundation perimeter between supports.",
+      "engineeringPrinciple": "Walls built on foundation perimeter between supports.",
+      "constructionActivity": "Wall Construction",
+      "inspectionChecklist": "Bond and verticality.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 7,
+      "key": "openings",
+      "title": "Openings",
+      "timelineLabel": "Stage 8 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_07_openings.glb",
+      "narration": "Stage 8. Openings. Door and window openings framed with lintels.",
+      "explanation": "Door and window openings framed with lintels.",
+      "engineeringPrinciple": "Door and window openings framed with lintels.",
+      "constructionActivity": "Openings",
+      "inspectionChecklist": "Diagonal bracing at openings.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 8,
+      "key": "bands",
+      "title": "Bands / Bracing / Reinforcement",
+      "timelineLabel": "Stage 9 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_08_bands.glb",
+      "narration": "Stage 9. Bands / Bracing / Reinforcement. Seismic bands and bracing tie the box.",
+      "explanation": "Seismic bands and bracing tie the box.",
+      "engineeringPrinciple": "Seismic bands and bracing tie the box.",
+      "constructionActivity": "Bands / Bracing / Reinforcement",
+      "inspectionChecklist": "Continuous pour at corners.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 9,
+      "key": "roof_structure",
+      "title": "Roof Structure",
+      "timelineLabel": "Stage 10 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_09_roof_structure.glb",
+      "narration": "Stage 10. Roof Structure. Roof trusses and rafters on wall plates.",
+      "explanation": "Roof trusses and rafters on wall plates.",
+      "engineeringPrinciple": "Roof trusses and rafters on wall plates.",
+      "constructionActivity": "Roof Structure",
+      "inspectionChecklist": "Connections and bracing.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 10,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 11 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_10_roof_covering.glb",
+      "narration": "Stage 11. Roof Covering. Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "explanation": "Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "engineeringPrinciple": "Roof covering \u2014 slab or sheets \u2014 completes diaphragm.",
+      "constructionActivity": "Roof Covering",
+      "inspectionChecklist": "Anchors and waterproofing.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 11,
+      "key": "finishing",
+      "title": "Finishing",
+      "timelineLabel": "Stage 12 of 13",
+      "durationMs": 5000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_11_finishing.glb",
+      "narration": "Stage 12. Finishing. Plaster, drainage and landscape finishing.",
+      "explanation": "Plaster, drainage and landscape finishing.",
+      "engineeringPrinciple": "Plaster, drainage and landscape finishing.",
+      "constructionActivity": "Finishing",
+      "inspectionChecklist": "DPC and services.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    },
+    {
+      "index": 12,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Stage 13 of 13",
+      "durationMs": 6000,
+      "glb": "assets/models/bamboo_frame_wattle_daub/stage_12_complete.glb",
+      "narration": "Stage 13. Completed Structure. Completed resilient structure ready for occupancy.",
+      "explanation": "Completed resilient structure ready for occupancy.",
+      "engineeringPrinciple": "Completed resilient structure ready for occupancy.",
+      "constructionActivity": "Completed Structure",
+      "inspectionChecklist": "Final inspection checklist.",
+      "commonMistakes": [
+        "Misaligned grid",
+        "Skipped inspection"
+      ],
+      "resilienceBenefits": [
+        "Structural continuity",
+        "Resilience compliance"
+      ],
+      "highlights": [
+        "Cumulative build",
+        "Engineering sequence"
+      ]
+    }
+  ],
+  "hazardSimulations": {
+    "earthquake": {
+      "title": "Earthquake",
+      "explanation": "Frame and bands activate ductile load paths.",
+      "animationKey": "earthquake"
+    },
+    "wind": {
+      "title": "Wind",
+      "explanation": "Roof anchorage resists uplift.",
+      "animationKey": "wind"
+    }
+  },
+  "components": {
+    "foundation": {
+      "title": "Foundation",
+      "loadTransfer": "To bearing soil"
+    },
+    "column": {
+      "title": "Column",
+      "loadTransfer": "Vertical load path"
+    },
+    "beam": {
+      "title": "Beam",
+      "loadTransfer": "Wall-to-wall tie"
+    },
+    "wall": {
+      "title": "Wall",
+      "loadTransfer": "Lateral resistance"
+    },
+    "roof": {
+      "title": "Roof",
+      "loadTransfer": "Diaphragm"
+    }
+  }
+}

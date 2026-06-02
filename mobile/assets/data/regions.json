@@ -1,0 +1,120 @@
+{
+  "regions": [
+    {
+      "id": "gb_hilly",
+      "name": "Gilgit-Baltistan Hilly",
+      "province": "Gilgit-Baltistan",
+      "bounds": { "minLat": 34.5, "maxLat": 37.5, "minLng": 72.0, "maxLng": 77.0 },
+      "climate": "Alpine / Cold Semi-Arid",
+      "defaultHazards": ["earthquake", "landslide", "glof", "wind", "snow"],
+      "recommendedModelIds": [
+        "confined_concrete_block_masonry",
+        "earthbag_masonry",
+        "light_gauge_steel_house",
+        "loh_kaat_timber_house",
+        "reinforced_adobe_brick_structure",
+        "timber_frame_lath_plaster"
+      ]
+    },
+    {
+      "id": "sindh_riverine",
+      "name": "Sindh Riverine",
+      "province": "Sindh",
+      "bounds": { "minLat": 23.5, "maxLat": 28.5, "minLng": 66.5, "maxLng": 71.0 },
+      "climate": "Arid / Subtropical",
+      "defaultHazards": ["flood", "river_proximity", "wind", "heat"],
+      "recommendedModelIds": [
+        "elevated_flood_resilient_house",
+        "floating_amphibious_structure",
+        "raised_plinth_flood_resilient_house"
+      ]
+    },
+    {
+      "id": "punjab_plains",
+      "name": "Punjab Plains",
+      "province": "Punjab",
+      "bounds": { "minLat": 28.5, "maxLat": 33.0, "minLng": 70.0, "maxLng": 75.5 },
+      "climate": "Semi-Arid Continental",
+      "defaultHazards": ["flood", "earthquake", "wind", "heat"],
+      "recommendedModelIds": [
+        "interlocking_brick_masonry",
+        "advanced_interlocking_brick_masonry",
+        "rat_trap_bond_masonry",
+        "fly_ash_masonry",
+        "confined_concrete_block_masonry",
+        "pre_fabricated_house"
+      ]
+    },
+    {
+      "id": "kpk_mountain",
+      "name": "KPK Mountain & Valley",
+      "province": "Khyber Pakhtunkhwa",
+      "bounds": { "minLat": 33.0, "maxLat": 36.5, "minLng": 70.5, "maxLng": 74.5 },
+      "climate": "Humid Subtropical / Alpine",
+      "defaultHazards": ["earthquake", "landslide", "flood", "wind"],
+      "recommendedModelIds": [
+        "confined_concrete_block_masonry",
+        "timber_frame_lath_plaster",
+        "light_gauge_steel_house",
+        "reinforced_adobe_brick_structure",
+        "earthbag_masonry"
+      ]
+    },
+    {
+      "id": "balochistan_arid",
+      "name": "Balochistan Arid",
+      "province": "Balochistan",
+      "bounds": { "minLat": 24.5, "maxLat": 32.0, "minLng": 60.5, "maxLng": 70.5 },
+      "climate": "Arid / Desert",
+      "defaultHazards": ["wind", "heat", "earthquake", "flash_flood"],
+      "recommendedModelIds": [
+        "earthbag_masonry",
+        "fly_ash_masonry",
+        "pre_fabricated_house",
+        "light_gauge_steel_house"
+      ]
+    },
+    {
+      "id": "coastal_sindh",
+      "name": "Coastal Sindh & Makran",
+      "province": "Sindh / Balochistan",
+      "bounds": { "minLat": 23.0, "maxLat": 26.0, "minLng": 62.0, "maxLng": 68.5 },
+      "climate": "Coastal Arid",
+      "defaultHazards": ["wind", "cyclone", "flood", "salinity"],
+      "recommendedModelIds": [
+        "light_gauge_steel_house",
+        "elevated_flood_resilient_house",
+        "pre_fabricated_house",
+        "cement_bamboo_frame"
+      ]
+    },
+    {
+      "id": "azad_kashmir",
+      "name": "Azad Jammu & Kashmir",
+      "province": "AJK",
+      "bounds": { "minLat": 33.0, "maxLat": 35.5, "minLng": 73.0, "maxLng": 75.5 },
+      "climate": "Humid Subtropical / Alpine",
+      "defaultHazards": ["earthquake", "landslide", "flood", "glof"],
+      "recommendedModelIds": [
+        "confined_concrete_block_masonry",
+        "timber_frame_lath_plaster",
+        "loh_kaat_timber_house",
+        "light_gauge_steel_house"
+      ]
+    },
+    {
+      "id": "islamabad_foot_hills",
+      "name": "Islamabad & Potohar Foothills",
+      "province": "ICT / Punjab",
+      "bounds": { "minLat": 33.0, "maxLat": 34.2, "minLng": 72.5, "maxLng": 73.8 },
+      "climate": "Humid Subtropical",
+      "defaultHazards": ["earthquake", "landslide", "flood", "wind"],
+      "recommendedModelIds": [
+        "confined_concrete_block_masonry",
+        "rat_trap_bond_masonry",
+        "interlocking_brick_masonry",
+        "pre_fabricated_house"
+      ]
+    }
+  ]
+}

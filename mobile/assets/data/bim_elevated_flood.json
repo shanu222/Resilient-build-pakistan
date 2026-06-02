@@ -1,0 +1,206 @@
+{
+  "modelId": "elevated_flood_resilient_house",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "floodResistance": 95,
+    "windResistance": 80,
+    "earthquakeResistance": 70,
+    "durability": 88,
+    "overall": 89
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Construction begins by identifying historical flood levels and safe platform elevation.",
+      "explanation": "Construction begins by identifying historical flood levels and safe platform elevation.",
+      "highlights": ["River", "Flood zone", "High flood mark", "Safe building level"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Survey grid and column locations are established for the elevated platform.",
+      "explanation": "Column locations are established to safely transfer loads into the ground.",
+      "highlights": ["Column grid", "Platform boundary"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 3. Excavation. Footing pits are excavated to competent bearing strata below erosion-prone layers.",
+      "explanation": "Foundations must extend below erosion-prone layers to prevent failure during flooding.",
+      "highlights": ["Bearing layer", "Potential scour zone"]
+    },
+    {
+      "index": 3,
+      "key": "rcc_footings",
+      "title": "RCC Footings",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 4. Reinforced concrete footings are cast with assembled rebar cages and vibrated concrete.",
+      "explanation": "Footings distribute loads and resist overturning forces during floods.",
+      "highlights": ["Load dispersion", "Soil pressure"]
+    },
+    {
+      "index": 4,
+      "key": "scour_protection",
+      "title": "Scour Protection",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 5. Stone pitching and riprap are placed around foundations to resist scour during flood events.",
+      "explanation": "Scour protection prevents soil erosion around foundation elements.",
+      "highlights": ["Floodwater flow", "Scour prevention"]
+    },
+    {
+      "index": 5,
+      "key": "rcc_columns",
+      "title": "RCC Column Construction",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 7000,
+      "narration": "Stage 6. Reinforced concrete columns are now being constructed. These columns elevate the living platform above floodwaters while transferring structural loads safely into the foundations.",
+      "explanation": "Columns elevate the structure above flood levels and transfer loads to the foundation.",
+      "highlights": ["Load path", "Compression forces"]
+    },
+    {
+      "index": 6,
+      "key": "platform_beams",
+      "title": "Elevated Platform Beams",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 7. Platform beams are cast to connect columns and form the elevated structural frame.",
+      "explanation": "The platform beam system creates a stable elevated structural framework.",
+      "highlights": ["Structural continuity", "Load redistribution"]
+    },
+    {
+      "index": 7,
+      "key": "elevated_slab",
+      "title": "Elevated Floor Slab",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 7000,
+      "narration": "Stage 8. The elevated floor slab is formed with reinforcement mesh, poured concrete, and curing.",
+      "explanation": "The elevated slab forms the primary habitable platform above flood waters.",
+      "highlights": ["Flood level comparison", "Safe occupancy level"]
+    },
+    {
+      "index": 8,
+      "key": "lightweight_walls",
+      "title": "Lightweight Wall Construction",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 9. Lightweight wall panels are installed on the elevated platform to reduce structural demand.",
+      "explanation": "Lightweight wall systems reduce structural loads and improve resilience.",
+      "highlights": ["Weight comparison", "Heavy vs lightweight walls"]
+    },
+    {
+      "index": 9,
+      "key": "openings",
+      "title": "Window and Door Installation",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 10. Doors and windows are installed above the design flood elevation.",
+      "explanation": "Openings must be elevated above expected flood levels.",
+      "highlights": ["Flood elevation reference"]
+    },
+    {
+      "index": 10,
+      "key": "roof_structure",
+      "title": "Roof Structure",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 11. Lightweight roof trusses are assembled and connected on the elevated structure.",
+      "explanation": "Lightweight roofs reduce structural demand and improve safety.",
+      "highlights": ["Load transfer"]
+    },
+    {
+      "index": 11,
+      "key": "roof_covering",
+      "title": "Roof Covering",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 12. CGI sheets are installed with proper fasteners to resist wind uplift.",
+      "explanation": "Proper roof anchorage protects against uplift during storms.",
+      "highlights": ["Wind uplift", "Anchorage action"]
+    },
+    {
+      "index": 12,
+      "key": "flood_staircase",
+      "title": "Flood Escape Staircase",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 13. The flood escape staircase and handrails provide safe access and evacuation routes.",
+      "explanation": "Safe access and evacuation routes are essential during emergencies.",
+      "highlights": ["Evacuation path", "Handrails"]
+    },
+    {
+      "index": 13,
+      "key": "waterproofing",
+      "title": "Waterproofing System",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 14. Moisture barriers and protective coatings are applied to vulnerable elements.",
+      "explanation": "Waterproofing protects materials from long-term moisture damage.",
+      "highlights": ["Moisture penetration", "Protection mechanism"]
+    },
+    {
+      "index": 14,
+      "key": "drainage",
+      "title": "Drainage System",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 15. Surface drains and channels direct rainfall away from the structure and foundations.",
+      "explanation": "Proper drainage reduces foundation saturation and prolongs service life.",
+      "highlights": ["Rainfall simulation", "Water movement"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The elevated flood-resilient house keeps the habitable floor above design flood level while open ground storey allows flood flows to pass safely.",
+      "explanation": "Fully elevated structure suitable for riverine and flood-prone regions.",
+      "highlights": ["Resilience scores", "National deployment"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "RCC Footing",
+      "loadTransfer": "Spreads column reactions to bearing soil below scour zone.",
+      "scourResistance": "Combined with riprap to limit erosion at column bases.",
+      "failureModes": ["Bearing failure", "Overturning", "Scour undermining"]
+    },
+    "rcc_column": {
+      "title": "RCC Column",
+      "compressionBehavior": "Primary vertical load-carrying elements in elevation system.",
+      "floodForceResistance": "Sized for hydrostatic and debris impact at lower levels."
+    },
+    "platform_beam": {
+      "title": "Platform Beam",
+      "loadRedistribution": "Connects columns and distributes slab and wall loads.",
+      "continuity": "Forms rigid frame at habitable platform level."
+    },
+    "elevated_slab": {
+      "title": "Elevated Floor Slab",
+      "safeOccupancyLevel": "Finished floor above design flood level (BFE + freeboard).",
+      "loadPath": "Slab → platform beams → columns → footings → soil"
+    },
+    "scour_protection": {
+      "title": "Scour Protection",
+      "erosionPrevention": "Riprap and stone pitching dissipate flow energy at foundations.",
+      "hydraulicPerformance": "Reduces local velocity and prevents undermining."
+    },
+    "waterproofing": {
+      "title": "Waterproofing Layer",
+      "moistureProtection": "Barriers limit capillary rise and splash wetting.",
+      "durabilityImprovement": "Extends service life of walls and connections."
+    }
+  }
+}

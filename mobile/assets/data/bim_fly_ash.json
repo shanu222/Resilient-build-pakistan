@@ -1,0 +1,200 @@
+{
+  "modelId": "fly_ash_masonry",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 80,
+    "floodResistance": 60,
+    "thermalEfficiency": 88,
+    "durability": 90,
+    "overall": 84
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Construction begins with proper site selection and foundation planning.",
+      "explanation": "Construction begins with proper site selection and foundation planning.",
+      "highlights": ["Property boundary", "Building footprint", "Load zones"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Survey grid lines and wall centerlines are established on site.",
+      "explanation": "Accurate setting out ensures dimensional control and structural alignment.",
+      "highlights": ["Survey grid", "Wall centerlines", "Corner markers"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Excavation. Foundation trenches are cut to expose competent bearing strata.",
+      "explanation": "Excavation removes weak soil and reaches competent bearing strata.",
+      "highlights": ["Load transfer zone", "Bearing layer"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_layer",
+      "title": "PCC Layer",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 4000,
+      "narration": "Stage 4. Plain cement concrete is placed to form a level, clean working base.",
+      "explanation": "PCC provides a stable base and prevents contamination of structural concrete.",
+      "highlights": ["Layer thickness", "Level surface"]
+    },
+    {
+      "index": 4,
+      "key": "footings",
+      "title": "RCC Footings",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 5. Reinforced concrete footings are cast with assembled rebar cages and compacted concrete.",
+      "explanation": "Footings distribute structural loads safely into the ground.",
+      "highlights": ["Load dispersion", "Soil pressure"]
+    },
+    {
+      "index": 5,
+      "key": "foundation_masonry",
+      "title": "Foundation Masonry",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 6. Foundation masonry courses are laid in cement mortar above the footings.",
+      "explanation": "Foundation masonry transfers wall loads into the footing system.",
+      "highlights": ["Load path", "Compression forces"]
+    },
+    {
+      "index": 6,
+      "key": "plinth_band",
+      "title": "Plinth Band",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 7. The reinforced concrete plinth band is cast continuously around the structure.",
+      "explanation": "Plinth bands improve structural continuity and reduce differential settlement.",
+      "highlights": ["Load redistribution", "Structural continuity"]
+    },
+    {
+      "index": 7,
+      "key": "fly_ash_walls",
+      "title": "Fly Ash Brick Wall Construction",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 7500,
+      "narration": "Stage 8. Fly ash brick masonry walls are now being constructed. The uniform geometry of fly ash bricks improves alignment, reduces construction errors and enhances structural performance.",
+      "explanation": "Fly ash bricks provide uniform geometry, high strength and improved durability.",
+      "highlights": ["Brick geometry", "Load transfer", "Compression zones"]
+    },
+    {
+      "index": 8,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 9. Door and window frames are installed with reinforcement detailing around openings.",
+      "explanation": "Openings require careful detailing to avoid stress concentration.",
+      "highlights": ["Stress flow around openings"]
+    },
+    {
+      "index": 9,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 10. A continuous reinforced concrete lintel band is cast at opening head level.",
+      "explanation": "Lintel bands tie walls together and improve earthquake resistance.",
+      "highlights": ["Wall integration", "Seismic force redistribution"]
+    },
+    {
+      "index": 10,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 11. The roof-level reinforced concrete band is cast to complete the ring beam.",
+      "explanation": "Roof bands create box action behavior during seismic loading.",
+      "highlights": ["Box action mechanism"]
+    },
+    {
+      "index": 11,
+      "key": "roof_slab",
+      "title": "RCC Roof Slab",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 7000,
+      "narration": "Stage 12. The RCC roof slab is formed with reinforcement, poured concrete, vibration, and curing.",
+      "explanation": "The roof slab distributes loads and stabilizes the entire structure.",
+      "highlights": ["Roof → walls", "Foundation", "Soil"]
+    },
+    {
+      "index": 12,
+      "key": "damp_proof_course",
+      "title": "Damp Proof Course",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 13. The damp proof course and waterproofing membrane are applied to prevent moisture rise.",
+      "explanation": "The damp proof course prevents moisture from rising into walls.",
+      "highlights": ["Capillary action prevention"]
+    },
+    {
+      "index": 13,
+      "key": "plastering",
+      "title": "Plastering",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 14. Internal and external plaster finishes are applied for durability and weather resistance.",
+      "explanation": "Plaster improves durability and weather resistance.",
+      "highlights": ["Internal plaster", "External plaster"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Fly ash masonry provides sustainable, thermally efficient, and seismically improved residential construction.",
+      "explanation": "Fully completed fly ash masonry house with continuous bands and RCC roof.",
+      "highlights": ["Resilience scores", "Thermal efficiency"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "RCC Footing",
+      "loadTransfer": "Spreads wall reactions to bearing soil.",
+      "soilPressure": "Uniform bearing pressure below pad footings."
+    },
+    "fly_ash_brick": {
+      "title": "Fly Ash Brick",
+      "materialProperties": "Class F fly ash binder with uniform kiln-cured units.",
+      "compressiveStrength": "Typically 7–10 MPa for load-bearing masonry.",
+      "thermalPerformance": "Lower thermal conductivity than solid clay brick."
+    },
+    "plinth_band": {
+      "title": "Plinth Band",
+      "structuralContinuity": "Ties walls at plinth level for load redistribution.",
+      "settlementControl": "Reduces differential movement between wall panels."
+    },
+    "lintel_band": {
+      "title": "Lintel Band",
+      "earthquakeResistance": "Continuous RC band improves in-plane wall action.",
+      "wallIntegration": "Connects wall segments above openings."
+    },
+    "roof_band": {
+      "title": "Roof Band",
+      "boxActionBehavior": "Ring beam with slab creates diaphragm box action."
+    },
+    "roof_slab": {
+      "title": "RCC Roof Slab",
+      "loadDistribution": "Distributes gravity and lateral loads to bearing walls.",
+      "reinforcementLayout": "Main and distribution reinforcement per span."
+    },
+    "damp_proof_course": {
+      "title": "Damp Proof Course",
+      "moistureProtection": "Impermeable layer blocks capillary moisture rise.",
+      "durabilityBenefits": "Protects masonry from damp-related deterioration."
+    }
+  }
+}

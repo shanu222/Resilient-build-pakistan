@@ -1,0 +1,195 @@
+{
+  "modelId": "light_gauge_steel_house",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "earthquakeResistance": 94,
+    "windResistance": 88,
+    "floodResistance": 65,
+    "durability": 90,
+    "overall": 91
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Light gauge steel structures require accurate layout because structural members are prefabricated.",
+      "explanation": "Light gauge steel structures require accurate layout because structural members are prefabricated.",
+      "highlights": ["Site grid", "Building geometry"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Building lines and anchor bolt locations are marked on the foundation grid.",
+      "explanation": "Setting out establishes exact member locations and alignment.",
+      "highlights": ["Building lines", "Anchor locations"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing strata.",
+      "explanation": "Foundations transfer building loads safely into the ground.",
+      "highlights": ["Bearing strata", "Load transfer path"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_footings",
+      "title": "PCC and Footings",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 4. Plain cement concrete and reinforced concrete footings are placed to support the steel frame.",
+      "explanation": "Footings distribute loads and support the lightweight steel frame.",
+      "highlights": ["Load dispersion", "Soil reaction"]
+    },
+    {
+      "index": 4,
+      "key": "anchor_bolts",
+      "title": "Anchor Bolt Installation",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 5. Anchor bolts are installed and aligned to transfer frame loads into the foundation.",
+      "explanation": "Anchor bolts transfer loads from the steel frame into the foundation.",
+      "highlights": ["Connection mechanism", "Load transfer"]
+    },
+    {
+      "index": 5,
+      "key": "floor_tracks",
+      "title": "Steel Floor Tracks",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 6. Galvanized base tracks are fixed to anchor bolts to establish the structural footprint.",
+      "explanation": "Base tracks establish the structural footprint and support wall framing.",
+      "highlights": ["Frame layout"]
+    },
+    {
+      "index": 6,
+      "key": "wall_studs",
+      "title": "Steel Wall Studs",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 7. Cold-formed steel studs rise vertically and connect to base and top tracks.",
+      "explanation": "Steel studs act as the primary vertical structural members.",
+      "highlights": ["Compression forces", "Load path"]
+    },
+    {
+      "index": 7,
+      "key": "steel_beams",
+      "title": "Steel Beams",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 8. Steel beams connect wall frames and transfer roof loads to supporting walls.",
+      "explanation": "Steel beams transfer roof loads into supporting wall systems.",
+      "highlights": ["Load transfer", "Connection behavior"]
+    },
+    {
+      "index": 8,
+      "key": "bracing",
+      "title": "Steel Bracing System",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 9. Steel bracing members are now installed. These elements resist horizontal earthquake and wind forces and significantly improve structural stability.",
+      "explanation": "Bracing resists lateral earthquake and wind forces.",
+      "highlights": ["Without bracing", "With bracing comparison"]
+    },
+    {
+      "index": 9,
+      "key": "roof_truss",
+      "title": "Roof Truss Assembly",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 10. Triangulated roof trusses are assembled and connected to the wall frames.",
+      "explanation": "Triangulated roof trusses efficiently distribute loads.",
+      "highlights": ["Compression members", "Tension members"]
+    },
+    {
+      "index": 10,
+      "key": "roof_installation",
+      "title": "Roof Installation",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 11. Purlins and lightweight roof sheets are installed with self-drilling fasteners.",
+      "explanation": "Lightweight roofing reduces earthquake forces acting on the structure.",
+      "highlights": ["Weight comparison"]
+    },
+    {
+      "index": 11,
+      "key": "exterior_sheathing",
+      "title": "Exterior Sheathing",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 12. Exterior sheathing panels are fixed to the frame to develop diaphragm stiffness.",
+      "explanation": "Sheathing improves stiffness and load distribution.",
+      "highlights": ["Composite action"]
+    },
+    {
+      "index": 12,
+      "key": "insulation",
+      "title": "Insulation System",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 13. Insulation fills wall cavities to improve thermal comfort and energy efficiency.",
+      "explanation": "Insulation improves thermal comfort and energy efficiency.",
+      "highlights": ["Heat transfer reduction"]
+    },
+    {
+      "index": 13,
+      "key": "interior_finishes",
+      "title": "Interior Finishes",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 14. Interior boards, doors, and windows complete the habitable enclosure.",
+      "explanation": "Interior systems improve usability and durability.",
+      "highlights": ["Doors", "Windows"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Light gauge steel structures perform well because they are lightweight, ductile and capable of dissipating seismic energy.",
+      "explanation": "Cold-formed steel house with braced frame and sheathed diaphragm.",
+      "highlights": ["Resilience scores", "Modular construction"]
+    }
+  ],
+  "components": {
+    "anchor_bolt": {
+      "title": "Anchor Bolt",
+      "loadTransfer": "Transfers uplift and shear from track to footing.",
+      "upliftResistance": "Designed for tension from wind and seismic overturning."
+    },
+    "steel_stud": {
+      "title": "Steel Wall Stud",
+      "compressionBehavior": "Primary vertical load-carrying cold-formed member.",
+      "bucklingResistance": "Braced against lateral buckling by sheathing and tracks."
+    },
+    "steel_beam": {
+      "title": "Steel Beam",
+      "bendingBehavior": "Flexural member spanning between wall lines.",
+      "loadTransfer": "Transfers roof and floor loads to studs and columns."
+    },
+    "steel_bracing": {
+      "title": "Steel Bracing",
+      "earthquakeResistance": "Provides lateral stiffness and energy dissipation path.",
+      "windResistance": "Resists wind suction and pressure on envelope."
+    },
+    "roof_truss": {
+      "title": "Roof Truss",
+      "forceDistribution": "Triangulation distributes gravity and lateral loads.",
+      "triangulation": "Tension chords and compression struts work together."
+    },
+    "sheathing_panel": {
+      "title": "Sheathing Panel",
+      "stiffnessContribution": "Develops in-plane diaphragm action with frame.",
+      "compositeAction": "Composite wall resists racking and drift."
+    }
+  }
+}

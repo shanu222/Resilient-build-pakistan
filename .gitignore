@@ -1,0 +1,29 @@
+# Duplicate extraction output at repo root (canonical: mobile/assets/)
+/assets/
+
+# Flutter
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+.pub-cache/
+
+# Node
+node_modules/
+dist/
+
+# Env & secrets
+.env
+.env.*
+*.pem
+*.keystore
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db

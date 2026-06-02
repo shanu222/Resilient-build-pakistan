@@ -1,0 +1,190 @@
+{
+  "modelId": "raised_plinth_flood_resilient_house",
+  "stageCount": 15,
+  "resilienceSummary": {
+    "floodResistance": 90,
+    "windResistance": 75,
+    "earthquakeResistance": 68,
+    "durability": 85,
+    "overall": 84
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Raised plinth houses are designed to keep living spaces above expected flood levels.",
+      "explanation": "Raised plinth houses are designed to keep living spaces above expected flood levels.",
+      "highlights": ["Flood zones", "Flood depths", "Safe building elevation"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. The building footprint and plinth boundary are marked on site.",
+      "explanation": "Plinth dimensions and elevations are established before construction.",
+      "highlights": ["Plinth boundary", "Foundation grid"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 15",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing soil.",
+      "explanation": "Excavation creates a stable base for the foundation system.",
+      "highlights": ["Bearing soil", "Load transfer zone"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_footings",
+      "title": "PCC and Footings",
+      "timelineLabel": "Stage 4 of 15",
+      "durationMs": 6500,
+      "narration": "Stage 4. PCC blinding and reinforced concrete footings are constructed.",
+      "explanation": "Footings safely transfer structural loads into the ground.",
+      "highlights": ["Load distribution", "Soil pressure"]
+    },
+    {
+      "index": 4,
+      "key": "foundation_masonry",
+      "title": "Foundation Masonry",
+      "timelineLabel": "Stage 5 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 5. Foundation masonry is built to support the raised plinth and superstructure.",
+      "explanation": "The foundation system supports the raised plinth and superstructure.",
+      "highlights": ["Foundation wall", "Mortar joints"]
+    },
+    {
+      "index": 5,
+      "key": "earth_fill",
+      "title": "Engineered Earth Fill",
+      "timelineLabel": "Stage 6 of 15",
+      "durationMs": 7000,
+      "narration": "Stage 6. Engineered earth fill is now being placed and compacted in layers. Proper compaction is essential to minimize future settlement and maintain the design flood elevation.",
+      "explanation": "The raised plinth is constructed using compacted engineered fill.",
+      "highlights": ["Compaction process", "Density increase", "Settlement reduction"]
+    },
+    {
+      "index": 6,
+      "key": "retaining_edge",
+      "title": "Plinth Retaining Edge",
+      "timelineLabel": "Stage 7 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 7. The plinth retaining edge is constructed to stabilize the fill and resist erosion.",
+      "explanation": "The retaining edge prevents erosion and maintains plinth integrity.",
+      "highlights": ["Soil confinement", "Erosion control"]
+    },
+    {
+      "index": 7,
+      "key": "plinth_beam",
+      "title": "Plinth Beam",
+      "timelineLabel": "Stage 8 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 8. The reinforced plinth beam is cast to tie the structure and distribute loads.",
+      "explanation": "The plinth beam ties the structure together and distributes loads.",
+      "highlights": ["Load redistribution", "Structural continuity"]
+    },
+    {
+      "index": 8,
+      "key": "dpc",
+      "title": "Damp Proof Course",
+      "timelineLabel": "Stage 9 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 9. The damp proof course and waterproof membrane are installed above the plinth.",
+      "explanation": "The damp proof course prevents moisture from rising into walls.",
+      "highlights": ["Capillary action prevention"]
+    },
+    {
+      "index": 9,
+      "key": "masonry_walls",
+      "title": "Masonry Wall Construction",
+      "timelineLabel": "Stage 10 of 15",
+      "durationMs": 7500,
+      "narration": "Stage 10. Masonry walls rise course by course above the raised plinth.",
+      "explanation": "The masonry walls provide gravity load support and enclosure.",
+      "highlights": ["Compression forces", "Load path"]
+    },
+    {
+      "index": 10,
+      "key": "openings",
+      "title": "Window and Door Installation",
+      "timelineLabel": "Stage 11 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 11. Door and window frames are installed above the design flood level.",
+      "explanation": "Openings are located above expected floodwater levels.",
+      "highlights": ["Flood-safe openings"]
+    },
+    {
+      "index": 11,
+      "key": "roof",
+      "title": "Roof Construction",
+      "timelineLabel": "Stage 12 of 15",
+      "durationMs": 6000,
+      "narration": "Stage 12. The lightweight roof frame and CGI sheeting are installed.",
+      "explanation": "The roof transfers loads into supporting walls.",
+      "highlights": ["Load path"]
+    },
+    {
+      "index": 12,
+      "key": "drainage",
+      "title": "Drainage System",
+      "timelineLabel": "Stage 13 of 15",
+      "durationMs": 5000,
+      "narration": "Stage 13. Surface drainage channels direct runoff away from the foundation and plinth.",
+      "explanation": "Proper drainage protects foundations and reduces saturation.",
+      "highlights": ["Rainfall simulation", "Water movement"]
+    },
+    {
+      "index": 13,
+      "key": "waterproofing",
+      "title": "Waterproofing System",
+      "timelineLabel": "Stage 14 of 15",
+      "durationMs": 4500,
+      "narration": "Stage 14. External waterproofing and protective coatings are applied.",
+      "explanation": "Waterproofing improves durability and flood resilience.",
+      "highlights": ["Moisture penetration prevention"]
+    },
+    {
+      "index": 14,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The elevated plinth prevents floodwaters from entering occupied spaces while drainage and waterproofing protect durability.",
+      "explanation": "Flood-resilient raised plinth house ready for occupancy.",
+      "highlights": ["Resilience scores", "Safe occupancy level"]
+    }
+  ],
+  "components": {
+    "footing": {
+      "title": "RCC Footing",
+      "loadTransfer": "Spreads column and wall loads to bearing soil.",
+      "settlementControl": "Sized for allowable bearing pressure and uniform settlement."
+    },
+    "raised_plinth": {
+      "title": "Raised Plinth Fill",
+      "floodProtection": "Elevates floor level above design flood depth.",
+      "compactionRequirements": "Layered fill compacted to engineered density."
+    },
+    "plinth_beam": {
+      "title": "RCC Plinth Beam",
+      "structuralContinuity": "Ties wall bases and distributes eccentric loads.",
+      "loadDistribution": "Redistributes wall loads to foundation masonry."
+    },
+    "damp_proof_course": {
+      "title": "Damp Proof Course",
+      "moistureControl": "Blocks capillary rise from plinth into walls.",
+      "durabilityBenefits": "Reduces damp-related deterioration of masonry."
+    },
+    "drainage_channel": {
+      "title": "Drainage Channel",
+      "waterDiversion": "Collects and conveys surface runoff away from plinth.",
+      "floodProtection": "Limits saturation and erosion at plinth toe."
+    }
+  }
+}

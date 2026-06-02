@@ -1,0 +1,212 @@
+{
+  "modelId": "confined_concrete_block_masonry",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "earthquakeResistance": 94,
+    "windResistance": 82,
+    "floodResistance": 55,
+    "durability": 88,
+    "overall": 90
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Confined masonry begins with proper site preparation and foundation planning.",
+      "explanation": "Confined masonry begins with proper site preparation and foundation planning.",
+      "highlights": ["Site boundary", "Building grid", "Load zones"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Grid lines and tie-column positions are marked on site.",
+      "explanation": "Setting out establishes structural geometry and confinement locations.",
+      "highlights": ["Tie-column positions", "Wall alignments"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to stable bearing strata.",
+      "explanation": "Excavation reaches stable bearing strata capable of supporting structural loads.",
+      "highlights": ["Soil profile", "Load transfer arrows"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_layer",
+      "title": "PCC Layer",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 4000,
+      "narration": "Stage 4. Plain cement concrete is placed to form a level working base.",
+      "explanation": "PCC provides a clean and stable base for structural concrete.",
+      "highlights": ["Layer thickness", "Level indicators"]
+    },
+    {
+      "index": 4,
+      "key": "rcc_footings",
+      "title": "RCC Footings",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 7000,
+      "narration": "Stage 5. Reinforced concrete footings are cast with rebar cages, stirrups, and vibrated concrete.",
+      "explanation": "Footings distribute building loads safely into the supporting soil.",
+      "highlights": ["Load dispersion", "Soil reaction"]
+    },
+    {
+      "index": 5,
+      "key": "plinth_beam",
+      "title": "Plinth Beam",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 6. The plinth beam is cast to tie footings and support tie-columns and walls.",
+      "explanation": "The plinth beam ties the structure together and controls differential settlement.",
+      "highlights": ["Structural continuity", "Load distribution"]
+    },
+    {
+      "index": 6,
+      "key": "tie_column_reinforcement",
+      "title": "Tie Column Reinforcement",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 7. Vertical reinforcement cages for tie-columns are erected at corners and wall intersections.",
+      "explanation": "Tie columns are the primary confinement elements that improve seismic performance.",
+      "highlights": ["Lateral force resistance", "Anchorage details"]
+    },
+    {
+      "index": 7,
+      "key": "block_wall_construction",
+      "title": "Concrete Block Wall Construction",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 9000,
+      "narration": "Stage 8. Concrete blocks are laid course-by-course in mortar. Tie-column cavities remain open for later casting.",
+      "explanation": "Masonry walls provide gravity load support while confinement improves seismic behavior.",
+      "highlights": ["Compression forces", "Wall load transfer"]
+    },
+    {
+      "index": 8,
+      "key": "casting_tie_columns",
+      "title": "Casting of Tie Columns",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 9. Reinforced concrete tie columns are now being cast. These elements confine the masonry walls and significantly improve seismic resistance by preventing brittle failure.",
+      "explanation": "Tie columns confine masonry and prevent brittle wall failure.",
+      "highlights": ["Without confinement", "With confinement", "Comparison"]
+    },
+    {
+      "index": 9,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 10. Door and window frames are installed with reinforcement around openings.",
+      "explanation": "Openings create stress concentrations and require proper confinement.",
+      "highlights": ["Stress flow around openings"]
+    },
+    {
+      "index": 10,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 11. Continuous lintel band concrete is cast around the structure.",
+      "explanation": "Lintel bands connect walls and improve earthquake resistance.",
+      "highlights": ["Wall tying action", "Load redistribution"]
+    },
+    {
+      "index": 11,
+      "key": "tie_beam_system",
+      "title": "Tie Beam System",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 12. Horizontal tie beams connect all tie-columns forming a continuous load path.",
+      "explanation": "Tie beams create a continuous load path throughout the structure.",
+      "highlights": ["Load transfer network", "Structural continuity"]
+    },
+    {
+      "index": 12,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 13. Roof-level ring beam is cast to create box action during seismic events.",
+      "explanation": "Roof bands create box action behavior during seismic events.",
+      "highlights": ["Box action mechanism", "Force redistribution"]
+    },
+    {
+      "index": 13,
+      "key": "rcc_roof_slab",
+      "title": "RCC Roof Slab",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 8000,
+      "narration": "Stage 14. Roof slab formwork, reinforcement, concrete placement, and curing complete the structural frame.",
+      "explanation": "The roof slab distributes loads and ties the structure together.",
+      "highlights": ["Roof → tie beams", "Tie columns", "Footings", "Soil"]
+    },
+    {
+      "index": 14,
+      "key": "finishing",
+      "title": "Finishing Works",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 15. Plaster, doors, windows, floor finish, and painting are completed.",
+      "explanation": "Finishing improves durability and serviceability.",
+      "highlights": ["Plaster", "Doors", "Windows"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Confined concrete block masonry provides ductile earthquake-resistant performance through tie-columns and continuous bands.",
+      "explanation": "Fully confined masonry house with integrated RC frame elements.",
+      "highlights": ["Resilience scores", "National deployment"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "RCC Footing",
+      "loadDistribution": "Spreads column and wall reactions over bearing area.",
+      "settlementPrevention": "Stiff plinth beam reduces differential movement.",
+      "failureModes": ["Bearing failure", "Punching shear", "Inadequate cover"]
+    },
+    "tie_column": {
+      "title": "Tie Column",
+      "confinementAction": "RC column encases masonry panel edges preventing out-of-plane failure.",
+      "seismicRole": "Provides ductility and holds walls in compression during shaking.",
+      "ductility": "Proper detailing with ties allows controlled deformation."
+    },
+    "tie_beam": {
+      "title": "Tie Beam",
+      "forceRedistribution": "Connects tie-columns horizontally distributing inertia forces.",
+      "continuity": "Creates closed frame at plinth, lintel, and roof levels."
+    },
+    "concrete_block_wall": {
+      "title": "Concrete Block Wall",
+      "compressionBehavior": "Bearing walls work primarily in compression under gravity loads.",
+      "loadTransfer": "Loads pass to plinth, bands, and tie-columns."
+    },
+    "lintel_band": {
+      "title": "Lintel Band",
+      "wallIntegration": "Continuous RC band at opening heads ties wall panels.",
+      "seismicProtection": "Prevents separation of walls at lintel level during earthquakes."
+    },
+    "roof_band": {
+      "title": "Roof Band",
+      "boxAction": "Ring beam with roof slab creates rigid diaphragm.",
+      "earthquakePerformance": "Forces shared among all walls in plan."
+    },
+    "roof_slab": {
+      "title": "RCC Roof Slab",
+      "reinforcementLayout": "Main and distribution bars per span direction.",
+      "loadPath": "Slab → roof band → tie columns → footings → soil"
+    }
+  }
+}

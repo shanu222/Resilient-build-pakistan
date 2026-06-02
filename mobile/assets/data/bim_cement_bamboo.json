@@ -1,0 +1,211 @@
+{
+  "modelId": "cement_bamboo_frame",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "earthquakeResistance": 88,
+    "windResistance": 82,
+    "thermalEfficiency": 80,
+    "floodResistance": 55,
+    "overall": 82
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 1. Site analysis. Bamboo structures require proper site drainage and foundation preparation to maximize durability.",
+      "explanation": "Bamboo structures require proper site drainage and foundation preparation to maximize durability.",
+      "highlights": ["Water flow arrows", "Drainage paths", "Building footprint"]
+    },
+    {
+      "index": 1,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 2. Setting out. Building grid and column positions are marked on site.",
+      "explanation": "Setting out establishes the exact structural geometry.",
+      "highlights": ["Grid intersections", "Column locations"]
+    },
+    {
+      "index": 2,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 3. Foundation trenches are excavated to competent bearing soil.",
+      "explanation": "Excavation removes weak surface material and provides stable support.",
+      "highlights": ["Bearing soil layer", "Load transfer zone"]
+    },
+    {
+      "index": 3,
+      "key": "pcc_foundation",
+      "title": "PCC and Foundation",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 4. Plain cement concrete, strip footings, and foundation beams distribute loads to the soil.",
+      "explanation": "Foundations distribute structural loads safely into the soil.",
+      "highlights": ["Roof load", "Wall load", "Foundation load", "Soil reaction"]
+    },
+    {
+      "index": 4,
+      "key": "bamboo_treatment",
+      "title": "Bamboo Treatment",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 5. Bamboo poles are treated against insects, fungi, and moisture before erection.",
+      "explanation": "Untreated bamboo deteriorates rapidly. Proper treatment protects against insects, fungi and moisture.",
+      "highlights": ["Before treatment", "After treatment"]
+    },
+    {
+      "index": 5,
+      "key": "column_erection",
+      "title": "Bamboo Column Erection",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 6. Treated bamboo columns are erected and anchored to the foundation beam.",
+      "explanation": "Columns provide the primary vertical load path.",
+      "highlights": ["Compression forces", "Base connections"]
+    },
+    {
+      "index": 6,
+      "key": "beam_installation",
+      "title": "Bamboo Beam Installation",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 7. Horizontal bamboo beams connect columns and transfer roof loads.",
+      "explanation": "Bamboo beams transfer roof loads into columns.",
+      "highlights": ["Load transfer", "Joint behavior"]
+    },
+    {
+      "index": 7,
+      "key": "cross_bracing",
+      "title": "Cross Bracing System",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 8. Diagonal bamboo bracing is now installed. These members resist horizontal earthquake forces and significantly increase frame stability.",
+      "explanation": "Cross bracing prevents lateral sway during earthquakes.",
+      "highlights": ["Without bracing", "With bracing", "Comparison"]
+    },
+    {
+      "index": 8,
+      "key": "wall_frame",
+      "title": "Bamboo Wall Frame",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 9. Secondary bamboo members complete the wall framing grid.",
+      "explanation": "The wall frame distributes loads and supports plaster skin.",
+      "highlights": ["Load distribution", "Structural continuity"]
+    },
+    {
+      "index": 9,
+      "key": "wire_mesh",
+      "title": "Wire Mesh Installation",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 10. Galvanized wire mesh is fixed to the bamboo frame across all wall panels.",
+      "explanation": "Wire mesh controls cracking and improves wall integrity.",
+      "highlights": ["Crack control", "Stress distribution"]
+    },
+    {
+      "index": 10,
+      "key": "cement_plaster",
+      "title": "Cement Plaster Application",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 11. Cement mortar plaster is applied to create a stiff composite wall with the mesh and frame.",
+      "explanation": "Cement plaster creates a composite wall system with improved stiffness.",
+      "highlights": ["Composite action", "Mesh and plaster interaction"]
+    },
+    {
+      "index": 11,
+      "key": "roof_truss",
+      "title": "Roof Truss Assembly",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 12. Triangulated bamboo roof trusses are assembled on the ground and lifted into place.",
+      "explanation": "Triangulated trusses efficiently transfer roof loads.",
+      "highlights": ["Compression members", "Tension members", "Load paths"]
+    },
+    {
+      "index": 12,
+      "key": "roof_installation",
+      "title": "Roof Installation",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 13. Lightweight CGI roofing sheets are installed on bamboo purlins.",
+      "explanation": "Lightweight roofing significantly reduces earthquake forces.",
+      "highlights": ["Heavy vs lightweight roof", "Seismic mass"]
+    },
+    {
+      "index": 13,
+      "key": "roof_anchorage",
+      "title": "Roof Anchorage",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 14. Roof anchors and tie-downs connect the roof diaphragm to the frame.",
+      "explanation": "Anchorage prevents roof uplift during high winds and earthquakes.",
+      "highlights": ["Wind uplift", "Anchorage resistance"]
+    },
+    {
+      "index": 14,
+      "key": "finishing",
+      "title": "Finishing Works",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 15. Doors, windows, floor finish, and protective coatings are completed.",
+      "explanation": "Finishing improves durability and serviceability.",
+      "highlights": ["Doors", "Windows", "Floor finish"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. The cement bamboo frame is a lightweight, ductile system well suited to seismic regions.",
+      "explanation": "Fully assembled treated bamboo frame with composite plaster walls and anchored lightweight roof.",
+      "highlights": ["Resilience scores", "National deployment ready"]
+    }
+  ],
+  "components": {
+    "foundation": {
+      "title": "Foundation System",
+      "purpose": "Transfers gravity and lateral loads from frame to bearing soil.",
+      "loadTransfer": "Strip footing and grade beam spread column reactions; PCC provides uniform bearing.",
+      "failureModes": ["Bearing failure", "Punching at column bases", "Moisture ingress"]
+    },
+    "bamboo_column": {
+      "title": "Bamboo Column",
+      "compressionBehavior": "Hollow bamboo acts primarily in axial compression with slenderness limits.",
+      "connectionDetails": "Bolted or strapped base shoe to RC plinth; top pinned to beam with steel bracket."
+    },
+    "bamboo_beam": {
+      "title": "Bamboo Beam",
+      "bendingBehavior": "Double-pole or bundled bamboo resists bending under roof loads.",
+      "loadTransfer": "Roof → beam → column → foundation → soil"
+    },
+    "cross_bracing": {
+      "title": "Cross Bracing",
+      "lateralResistance": "Diagonals form trussed panel resisting racking deformation.",
+      "earthquakePerformance": "Reduces inter-storey drift and protects infill plaster from cracking."
+    },
+    "wire_mesh": {
+      "title": "Wire Mesh",
+      "crackControl": "Mesh restrains shrinkage cracks in cement plaster.",
+      "compositeAction": "Mesh ties plaster skin to bamboo frame for in-plane shear transfer."
+    },
+    "roof_truss": {
+      "title": "Roof Truss",
+      "forceDistribution": "Top chord compression, bottom chord tension under gravity load.",
+      "triangulation": "Triangulated geometry makes truss stable and determinate."
+    },
+    "roof_anchorage": {
+      "title": "Roof Anchorage",
+      "upliftResistance": "Straps and bolts resist wind and seismic uplift on lightweight CGI roof.",
+      "earthquakePerformance": "Maintains roof diaphragm connection to wall frame during shaking."
+    }
+  }
+}

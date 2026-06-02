@@ -1,0 +1,31 @@
+{
+  "models": [
+    { "id": "interlocking_brick_masonry", "archetype": "masonry_bands", "displayName": "Interlocking Brick Masonry" },
+    { "id": "bamboo_frame_wattle_daub", "archetype": "timber_wattle", "displayName": "Bamboo Wattle & Daub" },
+    { "id": "cement_bamboo_frame", "archetype": "bamboo_frame", "displayName": "Cement Bamboo Frame" },
+    { "id": "confined_concrete_block_masonry", "archetype": "masonry_bands", "displayName": "Confined Concrete Block" },
+    { "id": "earthbag_masonry", "archetype": "earthbag", "displayName": "Earthbag Masonry" },
+    { "id": "elevated_flood_resilient_house", "archetype": "elevated_rc", "displayName": "Elevated Flood House" },
+    { "id": "floating_amphibious_structure", "archetype": "amphibious", "displayName": "Floating Amphibious House" },
+    { "id": "fly_ash_masonry", "archetype": "masonry_bands", "displayName": "Fly Ash Masonry" },
+    { "id": "geogrid_reinforced_retaining_wall", "archetype": "geogrid", "displayName": "Geogrid Retaining Wall" },
+    { "id": "light_gauge_steel_house", "archetype": "steel_frame", "displayName": "Light Gauge Steel House" },
+    { "id": "loh_kaat_timber_house", "archetype": "timber_bands", "displayName": "Loh-Kaat Timber House" },
+    { "id": "pre_fabricated_house", "archetype": "prefab", "displayName": "Pre-Fabricated House" },
+    { "id": "raised_plinth_flood_resilient_house", "archetype": "raised_plinth", "displayName": "Raised Plinth House" },
+    { "id": "rat_trap_bond_masonry", "archetype": "masonry_bands", "displayName": "Rat Trap Bond Masonry" },
+    { "id": "reinforced_adobe_brick_structure", "archetype": "adobe_bands", "displayName": "Reinforced Adobe" },
+    { "id": "timber_frame_lath_plaster", "archetype": "timber_frame", "displayName": "Timber Frame Lath & Plaster" }
+  ],
+  "dimensions": {
+    "buildingWidth": 6.0,
+    "buildingDepth": 8.0,
+    "wallHeight": 3.0,
+    "wallThickness": 0.23,
+    "trenchDepth": 1.0,
+    "footingDepth": 0.3,
+    "plinthHeight": 0.45,
+    "bandHeight": 0.15,
+    "roofSlopeDegrees": 15
+  }
+}

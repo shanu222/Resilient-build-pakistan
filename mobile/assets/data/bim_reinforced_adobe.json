@@ -1,0 +1,202 @@
+{
+  "modelId": "reinforced_adobe_brick_structure",
+  "stageCount": 16,
+  "resilienceSummary": {
+    "earthquakeResistance": 90,
+    "thermalPerformance": 95,
+    "sustainability": 98,
+    "floodResistance": 55,
+    "overall": 89
+  },
+  "stages": [
+    {
+      "index": 0,
+      "key": "site_analysis",
+      "title": "Site Analysis",
+      "timelineLabel": "Stage 1 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 1. Site analysis. Reinforced adobe structures are suitable for seismic regions when proper reinforcement systems are used.",
+      "explanation": "Reinforced adobe structures are suitable for seismic regions when proper reinforcement systems are used.",
+      "highlights": ["Seismic zone", "Terrain", "Drainage"]
+    },
+    {
+      "index": 1,
+      "key": "soil_selection",
+      "title": "Soil Selection",
+      "timelineLabel": "Stage 2 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 2. Soil selection. Suitable clay-sand proportions are identified for stabilized adobe production.",
+      "explanation": "Proper soil selection is critical for adobe performance.",
+      "highlights": ["Clay content", "Sand content", "Stabilization requirements"]
+    },
+    {
+      "index": 2,
+      "key": "adobe_manufacturing",
+      "title": "Adobe Brick Manufacturing",
+      "timelineLabel": "Stage 3 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 3. Stabilized adobe bricks are manufactured with cement and lime additives, then molded and cured.",
+      "explanation": "Stabilization significantly increases strength and durability.",
+      "highlights": ["Traditional vs stabilized adobe"]
+    },
+    {
+      "index": 3,
+      "key": "setting_out",
+      "title": "Setting Out",
+      "timelineLabel": "Stage 4 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 4. Building layout and wall centerlines are established on site.",
+      "explanation": "Accurate layout controls geometry and reinforcement placement.",
+      "highlights": ["Wall centerlines", "Foundation grid"]
+    },
+    {
+      "index": 4,
+      "key": "excavation",
+      "title": "Excavation",
+      "timelineLabel": "Stage 5 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 5. Foundation trenches are excavated to competent bearing soil.",
+      "explanation": "Excavation creates a stable base for structural loads.",
+      "highlights": ["Bearing soil", "Load transfer"]
+    },
+    {
+      "index": 5,
+      "key": "pcc_footings",
+      "title": "PCC and Footings",
+      "timelineLabel": "Stage 6 of 16",
+      "durationMs": 6500,
+      "narration": "Stage 6. PCC blinding and reinforced concrete footings are constructed.",
+      "explanation": "Footings safely transfer loads into the soil.",
+      "highlights": ["Load dispersion", "Soil pressure"]
+    },
+    {
+      "index": 6,
+      "key": "plinth_band",
+      "title": "Plinth Band",
+      "timelineLabel": "Stage 7 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 7. The reinforced concrete plinth band is cast to tie the structure together.",
+      "explanation": "The plinth band ties the entire structure together.",
+      "highlights": ["Structural continuity"]
+    },
+    {
+      "index": 7,
+      "key": "adobe_walls",
+      "title": "Adobe Wall Construction",
+      "timelineLabel": "Stage 8 of 16",
+      "durationMs": 7500,
+      "narration": "Stage 8. Stabilized adobe bricks are laid course by course to form load-bearing walls.",
+      "explanation": "Adobe walls provide gravity load support and thermal mass.",
+      "highlights": ["Compression forces", "Load path"]
+    },
+    {
+      "index": 8,
+      "key": "vertical_reinforcement",
+      "title": "Vertical Reinforcement",
+      "timelineLabel": "Stage 9 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 9. Vertical steel bars are inserted and anchored into the plinth band.",
+      "explanation": "Vertical reinforcement improves seismic resistance.",
+      "highlights": ["Lateral force resistance"]
+    },
+    {
+      "index": 9,
+      "key": "wire_mesh",
+      "title": "Wire Mesh Installation",
+      "timelineLabel": "Stage 10 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 10. Wire mesh reinforcement is now being installed. This mesh distributes stresses, controls cracking and significantly improves earthquake performance.",
+      "explanation": "Wire mesh improves wall integrity and controls cracking.",
+      "highlights": ["Crack prevention mechanism"]
+    },
+    {
+      "index": 10,
+      "key": "openings",
+      "title": "Window and Door Openings",
+      "timelineLabel": "Stage 11 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 11. Door and window frames are installed with additional opening reinforcement.",
+      "explanation": "Openings require additional reinforcement because they interrupt load paths.",
+      "highlights": ["Stress redistribution"]
+    },
+    {
+      "index": 11,
+      "key": "lintel_band",
+      "title": "Lintel Band",
+      "timelineLabel": "Stage 12 of 16",
+      "durationMs": 5500,
+      "narration": "Stage 12. The continuous lintel band is cast to tie walls at opening level.",
+      "explanation": "Lintel bands tie walls together and improve earthquake performance.",
+      "highlights": ["Force redistribution"]
+    },
+    {
+      "index": 12,
+      "key": "roof_band",
+      "title": "Roof Band",
+      "timelineLabel": "Stage 13 of 16",
+      "durationMs": 5000,
+      "narration": "Stage 13. The roof-level ring beam is cast to complete the box action system.",
+      "explanation": "Roof bands create box action behavior.",
+      "highlights": ["Box action mechanism"]
+    },
+    {
+      "index": 13,
+      "key": "roof_system",
+      "title": "Lightweight Roof System",
+      "timelineLabel": "Stage 14 of 16",
+      "durationMs": 6000,
+      "narration": "Stage 14. Lightweight timber trusses and CGI sheeting are installed.",
+      "explanation": "Lightweight roofs reduce seismic forces acting on adobe walls.",
+      "highlights": ["Weight comparison"]
+    },
+    {
+      "index": 14,
+      "key": "plaster",
+      "title": "Protective Plaster",
+      "timelineLabel": "Stage 15 of 16",
+      "durationMs": 4500,
+      "narration": "Stage 15. Protective plaster and waterproof coating are applied to the adobe walls.",
+      "explanation": "Adobe requires protection from moisture and weathering.",
+      "highlights": ["Water resistance", "Durability improvement"]
+    },
+    {
+      "index": 15,
+      "key": "complete",
+      "title": "Completed Structure",
+      "timelineLabel": "Final",
+      "durationMs": 6500,
+      "narration": "Construction complete. Reinforcement transforms brittle adobe into a resilient seismic structure suitable for mountain and arid regions.",
+      "explanation": "Completed reinforced adobe house ready for occupancy.",
+      "highlights": ["Resilience scores", "Sustainability"]
+    }
+  ],
+  "components": {
+    "adobe_brick": {
+      "title": "Stabilized Adobe Brick",
+      "materialProperties": "Cement or lime stabilized earthen unit with improved compressive strength.",
+      "thermalMass": "High thermal mass moderates indoor temperature swings."
+    },
+    "wire_mesh": {
+      "title": "Wire Mesh Reinforcement",
+      "crackControl": "Distributes tensile stresses and limits crack propagation.",
+      "seismicResistance": "Improves wall ductility and out-of-plane stability."
+    },
+    "vertical_reinforcement": {
+      "title": "Vertical Reinforcement",
+      "loadTransfer": "Anchored to plinth band and connects to upper bands.",
+      "earthquakeResistance": "Provides tensile capacity against lateral shaking."
+    },
+    "plinth_band": {
+      "title": "RCC Plinth Band",
+      "structuralContinuity": "Ties wall bases and distributes settlement effects."
+    },
+    "lintel_band": {
+      "title": "RCC Lintel Band",
+      "wallIntegration": "Continuous tie beam integrates walls above openings."
+    },
+    "roof_band": {
+      "title": "RCC Roof Band",
+      "boxAction": "Ring beam completes box action for lateral load resistance."
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.dart_tool/
+.packages
+build/
+*.iml
+.idea/
+.vscode/
+*.lock
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+lib/firebase_options.dart
+*.g.dart
+*.freezed.dart
