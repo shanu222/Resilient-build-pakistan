@@ -72,6 +72,10 @@ class BimSimulationController extends ChangeNotifier {
   ConstraintValidationResult? validationResult;
   bool showStructuralGrid = false;
   bool assemblyAnimationEnabled = true;
+
+  /// When true, [tick] is driven by an external clock (e.g. GLB Digital Twin screen).
+  /// The viewport ticker only runs environmental effects, not stage progression.
+  bool externallyDrivenPlayback = false;
   late final BimScenePackage _package;
   BimVec3 _sceneCenter = BimVec3.zero;
   double _sceneRadius = 8;
@@ -183,10 +187,11 @@ class BimSimulationController extends ChangeNotifier {
 
   void setScrub(double globalProgress) {
     if (stages.isEmpty) return;
+    pause();
     final total = stages.length;
-    final pos = globalProgress.clamp(0.0, 0.999) * total;
+    final pos = globalProgress.clamp(0.0, 1.0) * total;
     stageIndex = pos.floor().clamp(0, total - 1);
-    stageProgress = pos - stageIndex;
+    stageProgress = (pos - stageIndex).clamp(0.0, 1.0);
     _applyStageVisibility();
     notifyListeners();
   }
@@ -195,9 +200,12 @@ class BimSimulationController extends ChangeNotifier {
       stages.isEmpty ? 0 : (stageIndex + stageProgress) / stages.length;
 
   void tick(double dt) {
-    if (!isPlaying || stages.isEmpty) return;
+    if (!isPlaying || stages.isEmpty || externallyDrivenPlayback) return;
     final stage = currentStage!;
-    final step = dt / (stage.durationMs / playbackSpeed);
+    final cappedDt = dt.clamp(0.0, 0.05);
+    final durationSec = stage.durationMs / 1000.0;
+    if (durationSec <= 0) return;
+    final step = cappedDt / (durationSec / playbackSpeed);
     stageProgress += step;
     if (stageProgress >= 1) {
       stageProgress = 0;
@@ -270,9 +278,24 @@ class BimSimulationController extends ChangeNotifier {
     }
   }
 
-  void togglePlay() {
-    isPlaying = !isPlaying;
+  void play() {
+    if (stages.isEmpty) return;
+    isPlaying = true;
     notifyListeners();
+  }
+
+  void pause() {
+    if (!isPlaying) return;
+    isPlaying = false;
+    notifyListeners();
+  }
+
+  void togglePlay() {
+    if (isPlaying) {
+      pause();
+    } else {
+      play();
+    }
   }
 
   void setPlaybackSpeed(double s) {
@@ -290,7 +313,6 @@ class BimSimulationController extends ChangeNotifier {
 
   void stop() {
     isPlaying = false;
-    stageProgress = 0;
     notifyListeners();
   }
 

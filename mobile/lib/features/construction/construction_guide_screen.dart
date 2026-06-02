@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -43,9 +42,11 @@ class LegacyConstructionGuideScreen extends ConsumerStatefulWidget {
 }
 
 class _LegacyConstructionGuideScreenState
-    extends ConsumerState<LegacyConstructionGuideScreen> {
+    extends ConsumerState<LegacyConstructionGuideScreen>
+    with SingleTickerProviderStateMixin {
   List<Map<String, dynamic>> _stages = [];
-  Timer? _playTimer;
+  Ticker? _playTicker;
+  Duration? _lastTick;
 
   @override
   void initState() {
@@ -61,32 +62,52 @@ class _LegacyConstructionGuideScreenState
 
   @override
   void dispose() {
-    _playTimer?.cancel();
+    _playTicker?.dispose();
     super.dispose();
+  }
+
+  void _onPlayTick(Duration elapsed) {
+    if (_lastTick == null) {
+      _lastTick = elapsed;
+      return;
+    }
+    final dt = (elapsed - _lastTick!).inMicroseconds / 1e6;
+    _lastTick = elapsed;
+    final sim = ref.read(constructionSimulationProvider);
+    final stepSec = (1.5 / sim.playbackSpeed).clamp(0.25, 8.0);
+    _stageElapsed += dt;
+    if (_stageElapsed < stepSec) return;
+    _stageElapsed = 0;
+    if (sim.currentStageIndex >= _stages.length - 1) {
+      _stopPlayTicker();
+      ref.read(constructionSimulationProvider.notifier).togglePlay();
+      return;
+    }
+    ref
+        .read(constructionSimulationProvider.notifier)
+        .setStage(sim.currentStageIndex + 1);
+  }
+
+  double _stageElapsed = 0;
+
+  void _stopPlayTicker() {
+    _playTicker?.stop();
+    _lastTick = null;
+    _stageElapsed = 0;
   }
 
   void _togglePlay() {
     final sim = ref.read(constructionSimulationProvider);
     if (sim.isPlaying) {
-      _playTimer?.cancel();
+      _stopPlayTicker();
       ref.read(constructionSimulationProvider.notifier).togglePlay();
       return;
     }
     ref.read(constructionSimulationProvider.notifier).togglePlay();
-    _playTimer = Timer.periodic(
-      Duration(milliseconds: (1500 / sim.playbackSpeed).round()),
-      (_) {
-        final s = ref.read(constructionSimulationProvider);
-        if (s.currentStageIndex >= _stages.length - 1) {
-          _playTimer?.cancel();
-          ref.read(constructionSimulationProvider.notifier).togglePlay();
-          return;
-        }
-        ref
-            .read(constructionSimulationProvider.notifier)
-            .setStage(s.currentStageIndex + 1);
-      },
-    );
+    _playTicker ??= createTicker(_onPlayTick);
+    _lastTick = null;
+    _stageElapsed = 0;
+    _playTicker!.start();
   }
 
   @override

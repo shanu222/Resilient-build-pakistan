@@ -92,7 +92,8 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     if (_hasProceduralBim) {
       final bim = BimSimulationController(modelId: widget.modelId);
       await bim.loadDefinition();
-      bim.addListener(_syncBimStage);
+      bim.externallyDrivenPlayback = true;
+      bim.isPlaying = false;
       bim.addListener(_syncBimSelection);
       _bim = bim;
     }
@@ -109,22 +110,12 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
           final size = MediaQuery.sizeOf(context);
           _bim?.fitCamera(
             viewportWidth: size.width,
-            viewportHeight: size.height * 0.55,
+            viewportHeight: size.height,
           );
         });
       }
       _lastTick = null;
       _ticker.start();
-    }
-  }
-
-  void _syncBimStage() {
-    final stages = _stages;
-    final bim = _bim;
-    if (stages == null || bim == null) return;
-    if (bim.stageIndex != stages.stageIndex ||
-        (bim.stageProgress - stages.stageProgress).abs() > 0.02) {
-      bim.setStage(stages.stageIndex, progress: stages.stageProgress);
     }
   }
 
@@ -146,9 +137,10 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     }
     final bim = _bim;
     if (bim != null) {
-      bim.setStage(stages.stageIndex, progress: stages.stageProgress);
-      bim.isPlaying = stages.isPlaying;
+      bim.externallyDrivenPlayback = true;
+      bim.isPlaying = false;
       bim.playbackSpeed = stages.playbackSpeed;
+      bim.setStage(stages.stageIndex, progress: stages.stageProgress);
     }
     if (mounted) setState(() {});
   }
@@ -198,7 +190,6 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   @override
   void dispose() {
     _stages?.removeListener(_onStageTick);
-    _bim?.removeListener(_syncBimStage);
     _bim?.removeListener(_syncBimSelection);
     _bim?.dispose();
     _ticker.dispose();
@@ -236,7 +227,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
         } else {
           stages.pause();
         }
-        _bim?.isPlaying = stages.isPlaying;
+        _bim?.isPlaying = false;
       },
       onSpeedChanged: (s) {
         stages.setPlaybackSpeed(s);
@@ -288,7 +279,7 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
                 } else {
                   stages.play();
                 }
-                _bim?.isPlaying = stages.isPlaying;
+                _bim?.isPlaying = false;
                 return null;
               },
             ),

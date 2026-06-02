@@ -9,6 +9,8 @@ void main() {
       const ProviderScope(child: ResilientBuildApp()),
     );
     await tester.pump();
+    // Flush flutter_animate timers on splash.
+    await tester.pump(const Duration(seconds: 2));
     expect(find.byType(MaterialApp), findsOneWidget);
   });
 }

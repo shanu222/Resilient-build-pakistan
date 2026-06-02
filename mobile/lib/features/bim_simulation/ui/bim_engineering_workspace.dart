@@ -1,8 +1,9 @@
-import 'dart:async';
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
+import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_extensions.dart';
 import '../../../core/widgets/government_header.dart';
@@ -12,18 +13,6 @@ import '../engine/bim_simulation_controller.dart';
 import '../engine/bim_visualization_mode.dart';
 import '../engine/rendering/bim_viewport.dart';
 import 'bim_toolbar.dart';
-
-/// Responsive breakpoints for BIM fullscreen shell (spec: 768 / 1200).
-bool bimShellIsMobile(BuildContext context) =>
-    MediaQuery.sizeOf(context).width < 768;
-
-bool bimShellIsTablet(BuildContext context) {
-  final w = MediaQuery.sizeOf(context).width;
-  return w >= 768 && w < 1200;
-}
-
-bool bimShellIsDesktop(BuildContext context) =>
-    MediaQuery.sizeOf(context).width >= 1200;
 
 String _validationSummary(ConstraintValidationResult? result) {
   if (result == null) return 'Validation pending.';
@@ -47,14 +36,16 @@ class BimEngineeringWorkspace extends StatefulWidget {
       _BimEngineeringWorkspaceState();
 }
 
-class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
+class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
+    with SingleTickerProviderStateMixin {
   static const double _drawerWidth = 390;
 
   bool _leftOpen = false;
   bool _rightOpen = false;
   bool _timelineOpen = false;
   bool _playbackVisible = true;
-  Timer? _playbackHideTimer;
+  double _playbackIdleSec = 0;
+  late final Ticker _idleTicker;
   int _leftTab = 0;
   int _rightTab = 0;
 
@@ -63,15 +54,25 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
   @override
   void initState() {
     super.initState();
+    _idleTicker = createTicker(_onIdleTick)..start();
     _c.addListener(_onController);
-    _armPlaybackVisibility();
   }
 
   @override
   void dispose() {
-    _playbackHideTimer?.cancel();
+    _idleTicker.dispose();
     _c.removeListener(_onController);
     super.dispose();
+  }
+
+  void _onIdleTick(Duration elapsed) {
+    if (!_playbackVisible || _c.isPlaying) return;
+    final dt = elapsed.inMicroseconds / 1e6;
+    _playbackIdleSec += dt;
+    if (_playbackIdleSec >= 5 && mounted) {
+      setState(() => _playbackVisible = false);
+      _playbackIdleSec = 0;
+    }
   }
 
   void _onController() {
@@ -79,22 +80,11 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
     if (_c.isPlaying) _showPlayback();
   }
 
-  void _armPlaybackVisibility() {
-    _playbackHideTimer?.cancel();
-    if (_c.isPlaying) {
-      setState(() => _playbackVisible = true);
-      return;
-    }
-    _playbackHideTimer = Timer(const Duration(seconds: 5), () {
-      if (mounted && !_c.isPlaying) {
-        setState(() => _playbackVisible = false);
-      }
-    });
-  }
-
   void _showPlayback() {
-    setState(() => _playbackVisible = true);
-    _armPlaybackVisibility();
+    setState(() {
+      _playbackVisible = true;
+      _playbackIdleSec = 0;
+    });
   }
 
   void _onUserInteraction() {
@@ -111,7 +101,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
 
   Future<void> _openMobileSheet(String id) async {
     _onUserInteraction();
-    final mobile = bimShellIsMobile(context);
+    final mobile = AppBreakpoints.isMobile(context);
     if (!mobile) return;
 
     await showModalBottomSheet<void>(
@@ -159,7 +149,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
 
   void _dockAction(String action) {
     _onUserInteraction();
-    final mobile = bimShellIsMobile(context);
+    final mobile = AppBreakpoints.isMobile(context);
 
     switch (action) {
       case 'components':
@@ -216,9 +206,11 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.appTokens;
-    final mobile = bimShellIsMobile(context);
+    final mobile = AppBreakpoints.isMobile(context);
     final stage = _c.currentStage;
-    final headerH = mobile ? 56.0 : (bimShellIsTablet(context) ? 64.0 : 72.0);
+    final headerH = mobile
+        ? 56.0
+        : (AppBreakpoints.isTablet(context) ? 64.0 : 72.0);
 
     return PopScope(
       canPop: true,
@@ -575,7 +567,7 @@ class _SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.appTokens;
-  final top = (bimShellIsMobile(context) ? 56.0 : 72.0) + 8;
+  final top = (AppBreakpoints.isMobile(context) ? 56.0 : 72.0) + 8;
 
     return Positioned(
       top: top,
@@ -1161,7 +1153,8 @@ class _BimPlaybackDock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mobile = bimShellIsMobile(context);
+    final mobile = AppBreakpoints.isMobile(context);
+    final tokens = context.appTokens;
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) {
@@ -1169,6 +1162,12 @@ class _BimPlaybackDock extends StatelessWidget {
         final stageNum = controller.stageIndex + 1;
         final value = controller.globalProgress;
         final speed = controller.playbackSpeed;
+        final labelStyle = TextStyle(
+          color: tokens.textOnGlassMuted,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+        );
+        final iconColor = tokens.textOnGlass;
 
         return GlassCard(
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -1185,20 +1184,12 @@ class _BimPlaybackDock extends StatelessWidget {
                   children: [
                     Text(
                       total == 0 ? 'No stages' : 'Stage $stageNum / $total',
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: labelStyle,
                     ),
                     const Spacer(),
                     Text(
                       '${(value * 100).round()}% · ${speed.toStringAsFixed(speed == speed.roundToDouble() ? 0 : 2)}×',
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: labelStyle.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ],
                 ),
@@ -1207,14 +1198,13 @@ class _BimPlaybackDock extends StatelessWidget {
                   data: SliderTheme.of(context).copyWith(
                     trackHeight: 3,
                     activeTrackColor: AppColors.orange,
-                    inactiveTrackColor: Colors.white24,
+                    inactiveTrackColor: tokens.textOnGlass.withValues(alpha: 0.18),
                     thumbColor: AppColors.orange,
                   ),
                   child: Slider(
                     value: value.clamp(0, 1),
                     onChanged: (v) {
                       onInteraction();
-                      controller.isPlaying = false;
                       controller.setScrub(v);
                     },
                   ),
@@ -1230,7 +1220,7 @@ class _BimPlaybackDock extends StatelessWidget {
                               controller.previousStage();
                             }
                           : null,
-                      icon: const Icon(Icons.skip_previous, color: Colors.white),
+                      icon: Icon(Icons.skip_previous, color: iconColor),
                     ),
                     IconButton(
                       tooltip: controller.isPlaying ? 'Pause' : 'Play',
@@ -1254,7 +1244,7 @@ class _BimPlaybackDock extends StatelessWidget {
                               controller.nextStage();
                             }
                           : null,
-                      icon: const Icon(Icons.skip_next, color: Colors.white),
+                      icon: Icon(Icons.skip_next, color: iconColor),
                     ),
                     IconButton(
                       tooltip: 'Restart',
@@ -1262,7 +1252,7 @@ class _BimPlaybackDock extends StatelessWidget {
                         onInteraction();
                         controller.restart();
                       },
-                      icon: const Icon(Icons.restart_alt, color: Colors.white),
+                      icon: Icon(Icons.restart_alt, color: iconColor),
                     ),
                     if (!mobile)
                       IconButton(
@@ -1271,15 +1261,15 @@ class _BimPlaybackDock extends StatelessWidget {
                           onInteraction();
                           controller.stop();
                         },
-                        icon: const Icon(Icons.stop_circle_outlined, color: Colors.white),
+                        icon: Icon(Icons.stop_circle_outlined, color: iconColor),
                       ),
                     const SizedBox(width: 4),
                     DropdownButtonHideUnderline(
                       child: DropdownButton<double>(
-                        dropdownColor: AppColors.navy,
+                        dropdownColor: tokens.primary,
                         value: speed.clamp(0.25, 4.0),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: tokens.textOnGlass,
                           fontWeight: FontWeight.w800,
                           fontSize: 12,
                         ),

@@ -483,6 +483,7 @@ class _PlaybackDock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = AppBreakpoints.isMobile(context);
+    final tokens = context.appTokens;
     return AnimatedBuilder(
       animation: stages,
       builder: (context, _) {
@@ -491,9 +492,15 @@ class _PlaybackDock extends StatelessWidget {
         final value = stages.progressNormalized;
         final speed = stages.playbackSpeed;
         final hazard = stages.hazardMode;
+        final labelStyle = TextStyle(
+          color: tokens.textOnGlassMuted,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+        );
+        final iconColor = tokens.textOnGlass;
 
         return Material(
-          color: AppColors.navy.withValues(alpha: 0.78),
+          color: tokens.playbackSurface,
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -502,14 +509,11 @@ class _PlaybackDock extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      'Stage $stageNum / $total',
-                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w800),
-                    ),
+                    Text('Stage $stageNum / $total', style: labelStyle),
                     const Spacer(),
                     Text(
                       '${(value * 100).round()}%  ·  ${speed.toStringAsFixed(speed == speed.roundToDouble() ? 0 : 2)}×  ·  ${hazard == "none" ? "Normal" : hazard}',
-                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w700),
+                      style: labelStyle.copyWith(fontWeight: FontWeight.w700),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -518,7 +522,7 @@ class _PlaybackDock extends StatelessWidget {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Text('1', style: TextStyle(color: Colors.white.withValues(alpha: 0.55), fontSize: 10)),
+                    Text('1', style: TextStyle(color: tokens.textOnGlassMuted, fontSize: 10)),
                     const SizedBox(width: 8),
                     Expanded(
                       child: SliderTheme(
@@ -527,7 +531,7 @@ class _PlaybackDock extends StatelessWidget {
                           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
                           overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
                           activeTrackColor: AppColors.orange,
-                          inactiveTrackColor: Colors.white.withValues(alpha: 0.18),
+                          inactiveTrackColor: tokens.textOnGlass.withValues(alpha: 0.18),
                           thumbColor: AppColors.orange,
                         ),
                         child: Slider(
@@ -537,7 +541,7 @@ class _PlaybackDock extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text('$total', style: TextStyle(color: Colors.white.withValues(alpha: 0.55), fontSize: 10)),
+                    Text('$total', style: TextStyle(color: tokens.textOnGlassMuted, fontSize: 10)),
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -547,7 +551,7 @@ class _PlaybackDock extends StatelessWidget {
                     IconButton(
                       tooltip: 'Previous stage',
                       onPressed: stages.stageIndex > 0 ? onPrev : null,
-                      icon: const Icon(Icons.skip_previous, color: Colors.white),
+                      icon: Icon(Icons.skip_previous, color: iconColor),
                     ),
                     IconButton(
                       tooltip: stages.isPlaying ? 'Pause' : 'Play',
@@ -561,28 +565,32 @@ class _PlaybackDock extends StatelessWidget {
                     IconButton(
                       tooltip: 'Next stage',
                       onPressed: stages.stageIndex < total - 1 ? onNext : null,
-                      icon: const Icon(Icons.skip_next, color: Colors.white),
+                      icon: Icon(Icons.skip_next, color: iconColor),
                     ),
                     const SizedBox(width: 4),
                     if (!isMobile) ...[
                       IconButton(
                         tooltip: 'Restart',
                         onPressed: onRestart,
-                        icon: const Icon(Icons.restart_alt, color: Colors.white),
+                        icon: Icon(Icons.restart_alt, color: iconColor),
                       ),
                       IconButton(
                         tooltip: 'Stop',
                         onPressed: onStop,
-                        icon: const Icon(Icons.stop_circle_outlined, color: Colors.white),
+                        icon: Icon(Icons.stop_circle_outlined, color: iconColor),
                       ),
                     ],
                     const SizedBox(width: 6),
                     DropdownButtonHideUnderline(
                       child: DropdownButton<double>(
-                        dropdownColor: AppColors.navy,
+                        dropdownColor: tokens.primary,
                         value: speed.clamp(0.25, 4.0),
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
-                        iconEnabledColor: Colors.white70,
+                        style: TextStyle(
+                          color: tokens.textOnGlass,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
+                        ),
+                        iconEnabledColor: tokens.textOnGlassMuted,
                         items: const [
                           DropdownMenuItem(value: 0.25, child: Text('0.25×')),
                           DropdownMenuItem(value: 0.5, child: Text('0.5×')),

@@ -57,10 +57,10 @@ class _BimViewportState extends State<BimViewport>
     if (_lastTick != null) {
       final dt = (elapsed - _lastTick!).inMicroseconds / 1e6;
       final c = widget.controller;
-      c.advanceEnvironmentalEffects(dt);
-      if (c.isPlaying ||
-          (c.stageIndex == c.stages.length - 1 && c.stageProgress > 0)) {
-        c.tick(dt);
+      final cappedDt = dt.clamp(0.0, 0.05);
+      c.advanceEnvironmentalEffects(cappedDt);
+      if (!c.externallyDrivenPlayback && c.isPlaying) {
+        c.tick(cappedDt);
       }
     }
     _lastTick = elapsed;

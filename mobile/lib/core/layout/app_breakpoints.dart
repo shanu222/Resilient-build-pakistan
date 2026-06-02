@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// Responsive breakpoints — mobile / tablet / desktop / large desktop.
+/// Responsive breakpoints (production spec).
+///
+/// Mobile: 0–767 · Tablet: 768–1199 · Desktop: 1200+
 abstract final class AppBreakpoints {
-  static const mobile = 600.0;
-  static const tablet = 1024.0;
-  static const desktop = 1440.0;
+  static const mobile = 768.0;
+  static const tablet = 1200.0;
+  static const largeDesktop = 1440.0;
 
   static bool isMobile(BuildContext context) =>
       MediaQuery.sizeOf(context).width < mobile;
@@ -18,12 +20,13 @@ abstract final class AppBreakpoints {
       MediaQuery.sizeOf(context).width >= tablet;
 
   static bool isLargeDesktop(BuildContext context) =>
-      MediaQuery.sizeOf(context).width >= desktop;
+      MediaQuery.sizeOf(context).width >= largeDesktop;
 
   static double contentMaxWidth(BuildContext context) {
     final w = MediaQuery.sizeOf(context).width;
-    if (w >= desktop) return 1280;
-    if (w >= tablet) return 960;
+    if (w >= largeDesktop) return 1280;
+    if (w >= tablet) return 1080;
+    if (w >= mobile) return 960;
     return w;
   }
 
@@ -42,8 +45,8 @@ abstract final class AppBreakpoints {
 
   static int catalogColumns(BuildContext context) {
     final w = MediaQuery.sizeOf(context).width;
-    if (w >= desktop) return 3;
-    if (w >= tablet) return 2;
+    if (w >= tablet) return 3;
+    if (w >= mobile) return 2;
     return 1;
   }
 }

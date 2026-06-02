@@ -109,8 +109,10 @@ class ConstructionStageController extends ChangeNotifier {
   void advance(double dtSeconds) {
     if (!isPlaying || manifest.stages.isEmpty) return;
     final stage = currentStage!;
+    final cappedDt = dtSeconds.clamp(0.0, 0.05);
     final durationSec = (stage.durationMs / 1000.0) / playbackSpeed;
-    final delta = dtSeconds / durationSec;
+    if (durationSec <= 0) return;
+    final delta = cappedDt / durationSec;
 
     if (playbackDirection == PlaybackDirection.forward) {
       stageProgress += delta;
@@ -149,10 +151,14 @@ class ConstructionStageController extends ChangeNotifier {
   }
 
   void scrub(double normalized) {
+    if (playbackState == PlaybackState.playing) {
+      playbackState = PlaybackState.paused;
+    }
     final total = manifest.stages.length;
-    final pos = normalized.clamp(0, 1) * total;
+    if (total == 0) return;
+    final pos = normalized.clamp(0.0, 1.0) * total;
     stageIndex = pos.floor().clamp(0, total - 1);
-    stageProgress = (pos - stageIndex).toDouble();
+    stageProgress = (pos - stageIndex).clamp(0.0, 1.0);
     notifyListeners();
   }
 }
