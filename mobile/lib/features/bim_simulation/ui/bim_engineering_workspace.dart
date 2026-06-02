@@ -2,6 +2,7 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_colors.dart';
@@ -77,18 +78,38 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
 
   void _onController() {
     if (mounted) setState(() {});
-    if (_c.isPlaying) _showPlayback();
+    if (_c.isPlaying) _showPlaybackDock();
   }
 
-  void _showPlayback() {
-    setState(() {
-      _playbackVisible = true;
-      _playbackIdleSec = 0;
-    });
+  void _showPlaybackDock() {
+    if (!mounted) return;
+    if (!_playbackVisible) {
+      setState(() => _playbackVisible = true);
+    }
+    if (_c.isPlaying) return;
+    _restartAutoHideTimer();
   }
 
-  void _onUserInteraction() {
-    _showPlayback();
+  void _restartAutoHideTimer() {
+    _playbackIdleSec = 0;
+  }
+
+  void _onUserInteraction() => _showPlaybackDock();
+
+  Widget _viewerInteractionCapture({required Widget child}) {
+    final desktop = !AppBreakpoints.isMobile(context);
+    Widget wrapped = Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (_) => _showPlaybackDock(),
+      child: child,
+    );
+    if (desktop) {
+      wrapped = MouseRegion(
+        onHover: (_) => _showPlaybackDock(),
+        child: wrapped,
+      );
+    }
+    return wrapped;
   }
 
   void _closeDrawers() {
@@ -125,6 +146,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         'left' => 'Components & stages',
         'right' => 'Engineering workspace',
         'timeline' => 'Construction timeline',
+        'playback' => 'Playback controls',
         _ => 'Panel',
       };
 
@@ -143,6 +165,14 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
           scroll: scroll,
         ),
       'timeline' => _TimelinePanel(controller: _c, scroll: scroll),
+      'playback' => SingleChildScrollView(
+          controller: scroll,
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          child: _BimPlaybackDock(
+            controller: _c,
+            onInteraction: _showPlaybackDock,
+          ),
+        ),
       _ => const SizedBox.shrink(),
     };
   }
@@ -187,6 +217,7 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         }
         break;
       case 'timeline':
+        _showPlaybackDock();
         if (mobile) {
           _openMobileSheet('timeline');
         } else {
@@ -198,7 +229,10 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
         }
         break;
       case 'playback':
-        _showPlayback();
+        _showPlaybackDock();
+        if (mobile) {
+          _openMobileSheet('playback');
+        }
         break;
     }
   }
@@ -214,18 +248,43 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
 
     return PopScope(
       canPop: true,
-      child: Scaffold(
+      child: Focus(
+        autofocus: true,
+        child: Shortcuts(
+          shortcuts: const <ShortcutActivator, Intent>{
+            SingleActivator(LogicalKeyboardKey.space): _PlaybackKeyIntent.toggle,
+            SingleActivator(LogicalKeyboardKey.arrowLeft): _PlaybackKeyIntent.previous,
+            SingleActivator(LogicalKeyboardKey.arrowRight): _PlaybackKeyIntent.next,
+          },
+          child: Actions(
+            actions: <Type, Action<Intent>>{
+              _PlaybackKeyIntent: CallbackAction<_PlaybackKeyIntent>(
+                onInvoke: (intent) {
+                  _showPlaybackDock();
+                  switch (intent.action) {
+                    case _PlaybackKeyAction.toggle:
+                      _c.togglePlay();
+                    case _PlaybackKeyAction.previous:
+                      if (_c.stageIndex > 0) _c.previousStage();
+                    case _PlaybackKeyAction.next:
+                      if (_c.stageIndex < _c.stages.length - 1) _c.nextStage();
+                  }
+                  return null;
+                },
+              ),
+            },
+            child: Scaffold(
         backgroundColor: tokens.viewerBackground,
-        body: Listener(
-          onPointerDown: (_) => _onUserInteraction(),
-          child: Stack(
+        body: Stack(
             fit: StackFit.expand,
             children: [
               // Primary layer — fullscreen viewer (never shrunk by drawers).
               RepaintBoundary(
-                child: BimViewport(
-                  controller: _c,
-                  showEmbeddedToolbar: false,
+                child: _viewerInteractionCapture(
+                  child: BimViewport(
+                    controller: _c,
+                    showEmbeddedToolbar: false,
+                  ),
                 ),
               ),
 
@@ -339,12 +398,12 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
                   alignment: Alignment.bottomCenter,
                   child: AnimatedOpacity(
                     opacity: _playbackVisible || _c.isPlaying ? 1 : 0,
-                    duration: const Duration(milliseconds: 220),
+                    duration: const Duration(milliseconds: 200),
                     child: IgnorePointer(
                       ignoring: !_playbackVisible && !_c.isPlaying,
                       child: _BimPlaybackDock(
                         controller: _c,
-                        onInteraction: _showPlayback,
+                        onInteraction: _showPlaybackDock,
                       ),
                     ),
                   ),
@@ -353,9 +412,24 @@ class _BimEngineeringWorkspaceState extends State<BimEngineeringWorkspace>
             ],
           ),
         ),
+            ),
+          ),
+        ),
       ),
     );
   }
+}
+
+enum _PlaybackKeyAction { toggle, previous, next }
+
+class _PlaybackKeyIntent extends Intent {
+  const _PlaybackKeyIntent(this.action);
+
+  const _PlaybackKeyIntent.toggle() : action = _PlaybackKeyAction.toggle;
+  const _PlaybackKeyIntent.previous() : action = _PlaybackKeyAction.previous;
+  const _PlaybackKeyIntent.next() : action = _PlaybackKeyAction.next;
+
+  final _PlaybackKeyAction action;
 }
 
 class _StageHud extends StatelessWidget {
@@ -454,7 +528,12 @@ class _DesktopDock extends StatelessWidget {
           _DockBtn(icon: Icons.search, label: 'Inspector', onTap: () => onAction('inspector')),
           const Divider(height: 12),
           _DockBtn(icon: Icons.timeline, label: 'Timeline', onTap: () => onAction('timeline')),
-          _DockBtn(icon: Icons.play_circle_outline, label: 'Playback', onTap: () => onAction('playback')),
+          _DockBtn(
+            icon: Icons.play_circle_outline,
+            label: 'Playback',
+            tooltip: 'Playback Controls',
+            onTap: () => onAction('playback'),
+          ),
         ],
       ),
     );
@@ -482,7 +561,11 @@ class _MobileFabDockState extends State<_MobileFabDock> {
           _mini(Icons.account_tree_outlined, 'Components', 'components'),
           _mini(Icons.analytics_outlined, 'Analysis', 'analysis'),
           _mini(Icons.timeline, 'Timeline', 'timeline'),
-          _mini(Icons.play_circle_outline, 'Playback', 'playback'),
+          _mini(
+            Icons.play_circle_outline,
+            'Playback Controls',
+            'playback',
+          ),
           const SizedBox(height: 8),
         ],
         FloatingActionButton(
@@ -528,16 +611,22 @@ class _MobileFabDockState extends State<_MobileFabDock> {
 }
 
 class _DockBtn extends StatelessWidget {
-  const _DockBtn({required this.icon, required this.label, required this.onTap});
+  const _DockBtn({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.tooltip,
+  });
 
   final IconData icon;
   final String label;
+  final String? tooltip;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: label,
+      message: tooltip ?? label,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
