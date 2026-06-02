@@ -4,6 +4,7 @@ import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_page_transitions.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/theme/app_theme_extensions.dart';
 import '../../bim_simulation/engine/bim_simulation_controller.dart';
 import '../../bim_simulation/engine/rendering/bim_viewport.dart';
 import '../construction_stage_controller.dart';
@@ -63,11 +64,14 @@ class DigitalTwinWorkspace extends StatefulWidget {
 
 class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
   bool _engineeringOpen = false; // used for mobile sheet
-  bool _rightPanelOpen = false; // desktop/tablet drawer
-  bool _controlsOpen = false; // desktop/tablet controls drawer
+  bool _workspaceOpen = false; // desktop/tablet engineering workspace drawer
+  bool _timelineOpen = false; // desktop/tablet timeline drawer
+  bool _inspectorOpen = false; // desktop/tablet inspector drawer
+  bool _componentsOpen = false; // desktop/tablet components drawer
 
   static const double _desktopDrawerWidth = 390;
   static const double _tabletDrawerWidth = 340;
+  double _drawerWidth = _desktopDrawerWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +87,13 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
     final isMobile = AppBreakpoints.isMobile(context);
     final isTablet = AppBreakpoints.isTablet(context);
     final isDesktop = !(isMobile || isTablet);
+    final tokens = context.appTokens;
+    final drawerTargetWidth = isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth;
+    _drawerWidth = _drawerWidth.clamp(280, mathMax(280, MediaQuery.sizeOf(context).width * 0.55));
+    if (_drawerWidth < drawerTargetWidth - 10 || _drawerWidth > drawerTargetWidth + 160) {
+      // Keep width reasonable when switching breakpoints.
+      _drawerWidth = drawerTargetWidth;
+    }
 
     // Viewer focus: panels never consume permanent space.
     // Use drawers/sheets instead of side columns.
@@ -93,7 +104,9 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
         fit: StackFit.expand,
         children: [
           // Fullscreen viewer is always dominant.
-          _viewer(widget.showProcedural, hazard, hazardDetail),
+          RepaintBoundary(
+            child: _viewer(widget.showProcedural, hazard, hazardDetail),
+          ),
 
           // Header overlays viewer (doesn't shrink it).
           Positioned(
@@ -141,56 +154,81 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
             ),
           ),
 
-          // Floating action dock.
+          // Floating analysis summary (top-right).
+          Positioned(
+            top: isMobile ? 118 : 110,
+            right: 12,
+            child: _AnalysisSummaryCard(
+              tokens: tokens,
+              hazardModes: widget.manifest.hazardSimulations.keys.toList(),
+            ),
+          ),
+
+          // Floating action dock (professional workspace dock).
           Positioned(
             top: isMobile ? 72 : 82,
             right: 12,
             child: isMobile
-                ? _MobileDock(
-                    onEngineering: () => setState(() => _engineeringOpen = true),
-                    onControls: () => _showMobileControls(context),
+                ? _MobileFabDock(
+                    onAction: (action) => _openMobileAction(action),
                   )
                 : _DesktopDock(
-                    onEngineering: () => setState(() {
-                      _rightPanelOpen = true;
-                      _controlsOpen = false;
-                    }),
-                    onControls: () => setState(() {
-                      _controlsOpen = true;
-                      _rightPanelOpen = false;
-                    }),
+                    onAction: (action) => setState(() => _openDesktopAction(action)),
                   ),
           ),
 
           // Desktop/tablet drawers.
           if (!isMobile) ...[
             _RightDrawer(
-              open: _rightPanelOpen,
-              width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
-              onClose: () => setState(() => _rightPanelOpen = false),
-              child: _EngineeringPanel(
+              open: _workspaceOpen,
+              width: _drawerWidth,
+              onClose: () => setState(() => _workspaceOpen = false),
+              onResize: (w) => setState(() => _drawerWidth = w),
+              title: 'Engineering workspace',
+              child: _EngineeringWorkspace(
+                tokens: tokens,
                 manifest: widget.manifest,
+                stages: widget.stages,
                 stage: stage,
+                progress: progress,
                 selectedComponent: widget.selectedComponent,
                 onComponentSelected: widget.onComponentSelected,
               ),
             ),
             _RightDrawer(
-              open: _controlsOpen,
+              open: _timelineOpen,
               width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
-              onClose: () => setState(() => _controlsOpen = false),
-              title: 'Controls & timeline',
-              child: _ControlPanel(
+              onClose: () => setState(() => _timelineOpen = false),
+              title: 'Timeline',
+              child: _TimelinePanel(
+                tokens: tokens,
                 manifest: widget.manifest,
                 stages: widget.stages,
-                viewLayer: widget.viewLayer,
-                onViewLayerChanged: widget.onViewLayerChanged,
-                hasProcedural: widget.hasProcedural,
-                onPlayChanged: widget.onPlayChanged,
-                onSpeedChanged: widget.onSpeedChanged,
-                onHazardSelected: widget.onHazardSelected,
-                progress: progress,
-                compact: isTablet,
+              ),
+            ),
+            _RightDrawer(
+              open: _inspectorOpen,
+              width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
+              onClose: () => setState(() => _inspectorOpen = false),
+              title: 'Inspector',
+              child: _InspectorPanel(
+                tokens: tokens,
+                manifest: widget.manifest,
+                stage: stage,
+                hazardMode: widget.stages.hazardMode,
+                selectedComponent: widget.selectedComponent,
+              ),
+            ),
+            _RightDrawer(
+              open: _componentsOpen,
+              width: isDesktop ? _desktopDrawerWidth : _tabletDrawerWidth,
+              onClose: () => setState(() => _componentsOpen = false),
+              title: 'Components',
+              child: _ComponentTreePanel(
+                tokens: tokens,
+                manifest: widget.manifest,
+                selectedComponent: widget.selectedComponent,
+                onComponentSelected: widget.onComponentSelected,
               ),
             ),
           ],
@@ -296,7 +334,122 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
       ),
     );
   }
+
+  void _openDesktopAction(_WorkspaceAction action) {
+    // Only one drawer open at a time (professional workspace behavior).
+    _workspaceOpen = false;
+    _timelineOpen = false;
+    _inspectorOpen = false;
+    _componentsOpen = false;
+
+    switch (action) {
+      case _WorkspaceAction.analysis:
+        _workspaceOpen = true;
+      case _WorkspaceAction.timeline:
+        _timelineOpen = true;
+      case _WorkspaceAction.inspector:
+        _inspectorOpen = true;
+      case _WorkspaceAction.components:
+        _componentsOpen = true;
+      case _WorkspaceAction.documentation:
+        _workspaceOpen = true;
+      case _WorkspaceAction.measurements:
+        _workspaceOpen = true;
+      case _WorkspaceAction.simulation:
+        _workspaceOpen = true;
+    }
+  }
+
+  void _openMobileAction(_WorkspaceAction action) {
+    switch (action) {
+      case _WorkspaceAction.timeline:
+        _showTimelineSheet(context);
+      case _WorkspaceAction.inspector:
+        _showInspectorSheet(context);
+      case _WorkspaceAction.components:
+        _engineeringOpen = false;
+        _showComponentsSheet(context);
+      default:
+        _engineeringOpen = true;
+    }
+  }
+
+  void _showTimelineSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.72,
+        child: _TimelinePanel(
+          tokens: ctx.appTokens,
+          manifest: widget.manifest,
+          stages: widget.stages,
+        ),
+      ),
+    );
+  }
+
+  void _showInspectorSheet(BuildContext context) {
+    final stage = widget.stages.currentStage;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.55,
+        child: _InspectorPanel(
+          tokens: ctx.appTokens,
+          manifest: widget.manifest,
+          stage: stage,
+          hazardMode: widget.stages.hazardMode,
+          selectedComponent: widget.selectedComponent,
+        ),
+      ),
+    );
+  }
+
+  void _showComponentsSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.72,
+        child: _ComponentTreePanel(
+          tokens: ctx.appTokens,
+          manifest: widget.manifest,
+          selectedComponent: widget.selectedComponent,
+          onComponentSelected: (id) {
+            widget.onComponentSelected?.call(id);
+            Navigator.maybePop(ctx);
+          },
+        ),
+      ),
+    );
+  }
 }
+
+enum _WorkspaceAction {
+  analysis,
+  timeline,
+  simulation,
+  documentation,
+  components,
+  inspector,
+  measurements,
+}
+
+double mathMax(double a, double b) => a > b ? a : b;
 
 class _PlaybackDock extends StatelessWidget {
   const _PlaybackDock({
@@ -518,13 +671,9 @@ class _FloatingProgressHud extends StatelessWidget {
 }
 
 class _DesktopDock extends StatelessWidget {
-  const _DesktopDock({
-    required this.onEngineering,
-    required this.onControls,
-  });
+  const _DesktopDock({required this.onAction});
 
-  final VoidCallback onEngineering;
-  final VoidCallback onControls;
+  final void Function(_WorkspaceAction action) onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -537,17 +686,38 @@ class _DesktopDock extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _DockBtn(
-              icon: Icons.engineering_outlined,
-              label: 'Engineering',
-              tooltip: 'Open engineering panel',
-              onTap: onEngineering,
+              icon: Icons.analytics_outlined,
+              label: 'Analysis',
+              tooltip: 'Engineering overview & resilience analysis',
+              onTap: () => onAction(_WorkspaceAction.analysis),
             ),
             const SizedBox(height: 8),
             _DockBtn(
-              icon: Icons.tune,
-              label: 'Controls',
-              tooltip: 'Open timeline / view / hazards',
-              onTap: onControls,
+              icon: Icons.calendar_month_outlined,
+              label: 'Timeline',
+              tooltip: 'Construction stages timeline',
+              onTap: () => onAction(_WorkspaceAction.timeline),
+            ),
+            const SizedBox(height: 8),
+            _DockBtn(
+              icon: Icons.warning_amber_outlined,
+              label: 'Simulation',
+              tooltip: 'Hazard modes and simulation context',
+              onTap: () => onAction(_WorkspaceAction.simulation),
+            ),
+            const SizedBox(height: 8),
+            _DockBtn(
+              icon: Icons.account_tree_outlined,
+              label: 'Components',
+              tooltip: 'Component tree & selection',
+              onTap: () => onAction(_WorkspaceAction.components),
+            ),
+            const SizedBox(height: 8),
+            _DockBtn(
+              icon: Icons.search_outlined,
+              label: 'Inspector',
+              tooltip: 'Inspect selected component and stage context',
+              onTap: () => onAction(_WorkspaceAction.inspector),
             ),
           ],
         ),
@@ -556,24 +726,124 @@ class _DesktopDock extends StatelessWidget {
   }
 }
 
-class _MobileDock extends StatelessWidget {
-  const _MobileDock({
-    required this.onEngineering,
-    required this.onControls,
-  });
+class _MobileFabDock extends StatefulWidget {
+  const _MobileFabDock({required this.onAction});
 
-  final VoidCallback onEngineering;
-  final VoidCallback onControls;
+  final void Function(_WorkspaceAction action) onAction;
+
+  @override
+  State<_MobileFabDock> createState() => _MobileFabDockState();
+}
+
+class _MobileFabDockState extends State<_MobileFabDock> {
+  bool _open = false;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        _IconChip(icon: Icons.menu_book_outlined, label: 'Guide', onTap: onEngineering),
-        const SizedBox(width: 8),
-        _IconChip(icon: Icons.tune, label: 'Controls', onTap: onControls),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 160),
+          child: _open
+              ? Material(
+                  key: const ValueKey('menu'),
+                  color: AppColors.navy.withValues(alpha: 0.86),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        _MiniAction(
+                          icon: Icons.analytics_outlined,
+                          label: 'Analysis',
+                          onTap: () {
+                            setState(() => _open = false);
+                            widget.onAction(_WorkspaceAction.analysis);
+                          },
+                        ),
+                        _MiniAction(
+                          icon: Icons.calendar_month_outlined,
+                          label: 'Timeline',
+                          onTap: () {
+                            setState(() => _open = false);
+                            widget.onAction(_WorkspaceAction.timeline);
+                          },
+                        ),
+                        _MiniAction(
+                          icon: Icons.account_tree_outlined,
+                          label: 'Components',
+                          onTap: () {
+                            setState(() => _open = false);
+                            widget.onAction(_WorkspaceAction.components);
+                          },
+                        ),
+                        _MiniAction(
+                          icon: Icons.search_outlined,
+                          label: 'Inspector',
+                          onTap: () {
+                            setState(() => _open = false);
+                            widget.onAction(_WorkspaceAction.inspector);
+                          },
+                        ),
+                        _MiniAction(
+                          icon: Icons.tune,
+                          label: 'Controls',
+                          onTap: () {
+                            setState(() => _open = false);
+                            widget.onAction(_WorkspaceAction.simulation);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+        const SizedBox(height: 10),
+        FloatingActionButton(
+          heroTag: 'dt_fab',
+          backgroundColor: AppColors.orange,
+          onPressed: () => setState(() => _open = !_open),
+          child: Icon(_open ? Icons.close : Icons.menu),
+        ),
       ],
+    );
+  }
+}
+
+class _MiniAction extends StatelessWidget {
+  const _MiniAction({required this.icon, required this.label, required this.onTap});
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 18, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -634,6 +904,7 @@ class _RightDrawer extends StatelessWidget {
     required this.onClose,
     required this.child,
     this.title,
+    this.onResize,
   });
 
   final bool open;
@@ -641,6 +912,7 @@ class _RightDrawer extends StatelessWidget {
   final VoidCallback onClose;
   final Widget child;
   final String? title;
+  final ValueChanged<double>? onResize;
 
   @override
   Widget build(BuildContext context) {
@@ -669,12 +941,791 @@ class _RightDrawer extends StatelessWidget {
               children: [
                 _DrawerHeader(title: title ?? 'Engineering', onClose: onClose),
                 const Divider(height: 1),
-                Expanded(child: child),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      child,
+                      if (onResize != null)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: _ResizeHandle(onResize: onResize!),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ResizeHandle extends StatefulWidget {
+  const _ResizeHandle({required this.onResize});
+  final ValueChanged<double> onResize;
+
+  @override
+  State<_ResizeHandle> createState() => _ResizeHandleState();
+}
+
+class _ResizeHandleState extends State<_ResizeHandle> {
+  double? _startX;
+  double? _startW;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.resizeLeftRight,
+      child: GestureDetector(
+        onHorizontalDragStart: (d) {
+          _startX = d.globalPosition.dx;
+          _startW = (context.findRenderObject() as RenderBox?)?.size.width;
+        },
+        onHorizontalDragUpdate: (d) {
+          if (_startX == null) return;
+          // Dragging left increases width.
+          final delta = _startX! - d.globalPosition.dx;
+          final base = _startW ?? 380;
+          widget.onResize((base + delta).clamp(280, MediaQuery.sizeOf(context).width * 0.65));
+        },
+        child: Container(
+          width: 10,
+          color: Colors.transparent,
+          child: Center(
+            child: Container(
+              width: 3,
+              height: 42,
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(99),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AnalysisSummaryCard extends StatelessWidget {
+  const _AnalysisSummaryCard({
+    required this.tokens,
+    required this.hazardModes,
+  });
+
+  final AppThemeTokens tokens;
+  final List<String> hazardModes;
+
+  @override
+  Widget build(BuildContext context) {
+    final supported = hazardModes.where((h) => h != 'none').toList();
+    return Material(
+      color: tokens.glassBackground.withValues(alpha: 0.55),
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: 220,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: tokens.glassBorder.withValues(alpha: 0.65)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.10),
+              blurRadius: 18,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Analysis summary',
+              style: TextStyle(
+                color: tokens.textOnPrimary,
+                fontWeight: FontWeight.w900,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(height: 8),
+            _kv(tokens, 'Overall', 'No data'),
+            _kv(tokens, 'Earthquake', supported.contains('earthquake') ? 'Available' : '—'),
+            _kv(tokens, 'Flood', supported.contains('flood') ? 'Available' : '—'),
+            _kv(tokens, 'Wind', supported.contains('wind') ? 'Available' : '—'),
+            _kv(tokens, 'Landslide', supported.contains('landslide') ? 'Available' : '—'),
+            _kv(tokens, 'Thermal', 'No data'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _kv(AppThemeTokens tokens, String k, String v) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(k, style: TextStyle(color: tokens.textOnPrimary.withValues(alpha: 0.75), fontSize: 11)),
+          ),
+          Text(v, style: TextStyle(color: tokens.textOnPrimary, fontSize: 11, fontWeight: FontWeight.w800)),
+        ],
+      ),
+    );
+  }
+}
+
+class _TimelinePanel extends StatelessWidget {
+  const _TimelinePanel({
+    required this.tokens,
+    required this.manifest,
+    required this.stages,
+  });
+
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final ConstructionStageController stages;
+
+  @override
+  Widget build(BuildContext context) {
+    if (manifest.stages.isEmpty) {
+      return _EmptyPanel(
+        title: 'No timeline available',
+        body: 'Construction sequence unavailable for this model.',
+        tokens: tokens,
+        icon: Icons.calendar_month_outlined,
+      );
+    }
+    return AnimatedBuilder(
+      animation: stages,
+      builder: (context, _) {
+        return ListView.separated(
+          padding: const EdgeInsets.all(12),
+          itemCount: manifest.stages.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 8),
+          itemBuilder: (_, i) {
+            final s = manifest.stages[i];
+            final active = i == stages.stageIndex;
+            return InkWell(
+              onTap: () => stages.setStage(i),
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: active
+                      ? tokens.primary.withValues(alpha: 0.10)
+                      : tokens.card.withValues(alpha: 0.85),
+                  border: Border.all(
+                    color: active
+                        ? AppColors.orange.withValues(alpha: 0.9)
+                        : tokens.border.withValues(alpha: 0.7),
+                    width: active ? 2 : 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 28,
+                      height: 28,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: active
+                            ? AppColors.orange.withValues(alpha: 0.9)
+                            : tokens.chipBackground,
+                      ),
+                      child: Text(
+                        '${i + 1}',
+                        style: TextStyle(
+                          color: active ? Colors.white : tokens.textPrimary,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s.title,
+                            style: TextStyle(
+                              color: tokens.textPrimary,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            s.constructionActivity,
+                            style: TextStyle(
+                              color: tokens.textSecondary,
+                              fontSize: 11,
+                              height: 1.2,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (active)
+                      const Icon(Icons.play_arrow, color: AppColors.orange),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _InspectorPanel extends StatelessWidget {
+  const _InspectorPanel({
+    required this.tokens,
+    required this.manifest,
+    required this.stage,
+    required this.hazardMode,
+    required this.selectedComponent,
+  });
+
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final DigitalTwinStage? stage;
+  final String hazardMode;
+  final String? selectedComponent;
+
+  @override
+  Widget build(BuildContext context) {
+    if (selectedComponent == null) {
+      return _EmptyPanel(
+        title: 'No component selected',
+        body: 'Select a component from the Components panel to inspect details.',
+        tokens: tokens,
+        icon: Icons.search_outlined,
+      );
+    }
+    final doc = manifest.components[selectedComponent] as Map<String, dynamic>?;
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        _InspectorRow(tokens: tokens, label: 'Component', value: selectedComponent!.replaceAll('_', ' ')),
+        _InspectorRow(tokens: tokens, label: 'Stage', value: stage?.title ?? '—'),
+        _InspectorRow(tokens: tokens, label: 'Hazard mode', value: hazardMode == 'none' ? 'Normal' : hazardMode),
+        const SizedBox(height: 12),
+        Text('Details', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        if (doc == null)
+          _EmptyInline(tokens: tokens, body: 'No engineering data available for this component.')
+        else
+          ...doc.entries.map(
+            (e) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _InspectorRow(tokens: tokens, label: e.key, value: '${e.value}'),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _InspectorRow extends StatelessWidget {
+  const _InspectorRow({required this.tokens, required this.label, required this.value});
+  final AppThemeTokens tokens;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 110,
+          child: Text(label, style: TextStyle(color: tokens.textSecondary, fontSize: 11)),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(value, style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w800, fontSize: 12)),
+        ),
+      ],
+    );
+  }
+}
+
+class _ComponentTreePanel extends StatelessWidget {
+  const _ComponentTreePanel({
+    required this.tokens,
+    required this.manifest,
+    required this.selectedComponent,
+    required this.onComponentSelected,
+  });
+
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final String? selectedComponent;
+  final ValueChanged<String>? onComponentSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ids = manifest.components.keys.toList()..sort();
+    if (ids.isEmpty) {
+      return _EmptyPanel(
+        title: 'No components available',
+        body: 'This model does not provide a component index.',
+        tokens: tokens,
+        icon: Icons.account_tree_outlined,
+      );
+    }
+
+    final grouped = <String, List<String>>{};
+    for (final id in ids) {
+      final group = _guessGroup(id);
+      grouped.putIfAbsent(group, () => []).add(id);
+    }
+
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: grouped.entries.map((e) {
+        return _TreeGroup(
+          tokens: tokens,
+          title: e.key,
+          childrenIds: e.value,
+          selected: selectedComponent,
+          onSelect: onComponentSelected,
+        );
+      }).toList(),
+    );
+  }
+
+  String _guessGroup(String id) {
+    final s = id.toLowerCase();
+    if (s.contains('found') || s.contains('foot') || s.contains('plinth') || s.contains('base')) return 'Foundation';
+    if (s.contains('col')) return 'Columns';
+    if (s.contains('beam') || s.contains('lintel')) return 'Beams';
+    if (s.contains('wall') || s.contains('masonry') || s.contains('brick')) return 'Walls';
+    if (s.contains('roof') || s.contains('truss')) return 'Roof';
+    if (s.contains('band') || s.contains('tie')) return 'Bands';
+    if (s.contains('open') || s.contains('door') || s.contains('window')) return 'Openings';
+    return 'Other';
+  }
+}
+
+class _TreeGroup extends StatefulWidget {
+  const _TreeGroup({
+    required this.tokens,
+    required this.title,
+    required this.childrenIds,
+    required this.selected,
+    required this.onSelect,
+  });
+
+  final AppThemeTokens tokens;
+  final String title;
+  final List<String> childrenIds;
+  final String? selected;
+  final ValueChanged<String>? onSelect;
+
+  @override
+  State<_TreeGroup> createState() => _TreeGroupState();
+}
+
+class _TreeGroupState extends State<_TreeGroup> {
+  bool _open = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: widget.tokens.card.withValues(alpha: 0.90),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: widget.tokens.border.withValues(alpha: 0.75)),
+      ),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () => setState(() => _open = !_open),
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 10, 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(color: widget.tokens.textPrimary, fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  Text(
+                    '${widget.childrenIds.length}',
+                    style: TextStyle(color: widget.tokens.textSecondary, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(_open ? Icons.expand_less : Icons.expand_more, color: widget.tokens.textSecondary),
+                ],
+              ),
+            ),
+          ),
+          if (_open)
+            ...widget.childrenIds.map((id) {
+              final active = id == widget.selected;
+              return InkWell(
+                onTap: () => widget.onSelect?.call(id),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                  decoration: BoxDecoration(
+                    color: active
+                        ? AppColors.orange.withValues(alpha: 0.12)
+                        : Colors.transparent,
+                    border: Border(
+                      top: BorderSide(color: widget.tokens.border.withValues(alpha: 0.55)),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        active ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                        size: 16,
+                        color: active ? AppColors.orange : widget.tokens.textSecondary,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          id.replaceAll('_', ' '),
+                          style: TextStyle(
+                            color: widget.tokens.textPrimary,
+                            fontWeight: active ? FontWeight.w900 : FontWeight.w700,
+                            fontSize: 12,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+        ],
+      ),
+    );
+  }
+}
+
+class _EngineeringWorkspace extends StatelessWidget {
+  const _EngineeringWorkspace({
+    required this.tokens,
+    required this.manifest,
+    required this.stages,
+    required this.stage,
+    required this.progress,
+    required this.selectedComponent,
+    required this.onComponentSelected,
+  });
+
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final ConstructionStageController stages;
+  final DigitalTwinStage? stage;
+  final double progress;
+  final String? selectedComponent;
+  final ValueChanged<String>? onComponentSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 5,
+      child: Column(
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: TabBar(
+              isScrollable: true,
+              labelColor: tokens.textPrimary,
+              unselectedLabelColor: tokens.textSecondary,
+              indicatorColor: AppColors.orange,
+              tabs: const [
+                Tab(text: 'Overview'),
+                Tab(text: 'Hazards'),
+                Tab(text: 'Materials'),
+                Tab(text: 'Notes'),
+                Tab(text: 'Compliance'),
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          Expanded(
+            child: TabBarView(
+              children: [
+                _WorkspaceOverview(tokens: tokens, manifest: manifest, stage: stage, progress: progress),
+                _WorkspaceHazards(tokens: tokens, stages: stages, manifest: manifest),
+                _WorkspaceMaterials(tokens: tokens, manifest: manifest, selectedComponent: selectedComponent),
+                _WorkspaceNotes(tokens: tokens, stage: stage),
+                _WorkspaceCompliance(tokens: tokens),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WorkspaceOverview extends StatelessWidget {
+  const _WorkspaceOverview({
+    required this.tokens,
+    required this.manifest,
+    required this.stage,
+    required this.progress,
+  });
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final DigitalTwinStage? stage;
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        Text('Engineering overview', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        _EmptyInline(tokens: tokens, body: 'No resilience score data available in the current manifest.'),
+        const SizedBox(height: 12),
+        Text('Current stage', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 6),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: tokens.card.withValues(alpha: 0.92),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: tokens.border.withValues(alpha: 0.7)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(stage?.title ?? '—', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 6),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(999),
+                child: LinearProgressIndicator(
+                  value: progress.clamp(0, 1),
+                  minHeight: 4,
+                  backgroundColor: tokens.border.withValues(alpha: 0.25),
+                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.orange),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                stage?.engineeringPrinciple ?? 'No engineering data available.',
+                style: TextStyle(color: tokens.textSecondary, fontSize: 12, height: 1.25),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WorkspaceHazards extends StatelessWidget {
+  const _WorkspaceHazards({required this.tokens, required this.stages, required this.manifest});
+  final AppThemeTokens tokens;
+  final ConstructionStageController stages;
+  final DigitalTwinManifest manifest;
+
+  @override
+  Widget build(BuildContext context) {
+    final hazards = manifest.hazardSimulations.keys.toList();
+    if (hazards.isEmpty) {
+      return _EmptyPanel(
+        title: 'No hazard simulations',
+        body: 'This model does not provide hazard simulation metadata.',
+        tokens: tokens,
+        icon: Icons.warning_amber_outlined,
+      );
+    }
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        Text('Hazard performance', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _HazardChip(tokens: tokens, label: 'Normal', active: stages.hazardMode == 'none', onTap: () => stages.setHazardMode('none')),
+            if (hazards.contains('earthquake'))
+              _HazardChip(tokens: tokens, label: 'Earthquake', active: stages.hazardMode == 'earthquake', onTap: () => stages.setHazardMode('earthquake')),
+            if (hazards.contains('flood'))
+              _HazardChip(tokens: tokens, label: 'Flood', active: stages.hazardMode == 'flood', onTap: () => stages.setHazardMode('flood')),
+            if (hazards.contains('wind'))
+              _HazardChip(tokens: tokens, label: 'Wind', active: stages.hazardMode == 'wind', onTap: () => stages.setHazardMode('wind')),
+            if (hazards.contains('landslide'))
+              _HazardChip(tokens: tokens, label: 'Landslide', active: stages.hazardMode == 'landslide', onTap: () => stages.setHazardMode('landslide')),
+          ],
+        ),
+        const SizedBox(height: 12),
+        _EmptyInline(tokens: tokens, body: 'Detailed hazard scoring is not available in the current manifest.'),
+      ],
+    );
+  }
+}
+
+class _HazardChip extends StatelessWidget {
+  const _HazardChip({required this.tokens, required this.label, required this.active, required this.onTap});
+  final AppThemeTokens tokens;
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(999),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(999),
+          color: active ? AppColors.orange.withValues(alpha: 0.14) : tokens.chipBackground,
+          border: Border.all(color: active ? AppColors.orange : tokens.border.withValues(alpha: 0.7), width: active ? 2 : 1),
+        ),
+        child: Text(label, style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900, fontSize: 12)),
+      ),
+    );
+  }
+}
+
+class _WorkspaceMaterials extends StatelessWidget {
+  const _WorkspaceMaterials({required this.tokens, required this.manifest, required this.selectedComponent});
+  final AppThemeTokens tokens;
+  final DigitalTwinManifest manifest;
+  final String? selectedComponent;
+
+  @override
+  Widget build(BuildContext context) {
+    if (selectedComponent == null) {
+      return _EmptyPanel(
+        title: 'No component selected',
+        body: 'Select a component to view material information.',
+        tokens: tokens,
+        icon: Icons.layers_outlined,
+      );
+    }
+    final doc = manifest.components[selectedComponent] as Map<String, dynamic>?;
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        Text('Materials', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        if (doc == null)
+          _EmptyInline(tokens: tokens, body: 'No material information available for this component.')
+        else
+          ...doc.entries.map((e) => _InspectorRow(tokens: tokens, label: e.key, value: '${e.value}')),
+      ],
+    );
+  }
+}
+
+class _WorkspaceNotes extends StatelessWidget {
+  const _WorkspaceNotes({required this.tokens, required this.stage});
+  final AppThemeTokens tokens;
+  final DigitalTwinStage? stage;
+
+  @override
+  Widget build(BuildContext context) {
+    if (stage == null) {
+      return _EmptyPanel(
+        title: 'No stage active',
+        body: 'Stage notes will appear when a stage is selected.',
+        tokens: tokens,
+        icon: Icons.note_outlined,
+      );
+    }
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: [
+        Text('Engineering notes', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        Text(stage!.explanation, style: TextStyle(color: tokens.textSecondary, height: 1.35)),
+        const SizedBox(height: 12),
+        Text('Inspection checklist', style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        if (stage!.inspectionChecklist.trim().isEmpty)
+          _EmptyInline(tokens: tokens, body: 'No inspection checklist provided for this stage.')
+        else
+          Text(stage!.inspectionChecklist, style: TextStyle(color: tokens.textSecondary, height: 1.35)),
+      ],
+    );
+  }
+}
+
+class _WorkspaceCompliance extends StatelessWidget {
+  const _WorkspaceCompliance({required this.tokens});
+  final AppThemeTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    return _EmptyPanel(
+      title: 'Compliance information',
+      body: 'No compliance data available for this model yet.',
+      tokens: tokens,
+      icon: Icons.verified_outlined,
+    );
+  }
+}
+
+class _EmptyPanel extends StatelessWidget {
+  const _EmptyPanel({required this.title, required this.body, required this.tokens, required this.icon});
+  final String title;
+  final String body;
+  final AppThemeTokens tokens;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 42, color: tokens.textSecondary),
+            const SizedBox(height: 10),
+            Text(title, style: TextStyle(color: tokens.textPrimary, fontWeight: FontWeight.w900)),
+            const SizedBox(height: 6),
+            Text(body, style: TextStyle(color: tokens.textSecondary), textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyInline extends StatelessWidget {
+  const _EmptyInline({required this.tokens, required this.body});
+  final AppThemeTokens tokens;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: tokens.card.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: tokens.border.withValues(alpha: 0.7)),
+      ),
+      child: Text(body, style: TextStyle(color: tokens.textSecondary, height: 1.3)),
     );
   }
 }
