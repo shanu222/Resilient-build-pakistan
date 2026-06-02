@@ -24,7 +24,7 @@
         "#334155"
       ],
       "model3dPath": "assets/models/interlocking_brick/base.glb",
-      "pdfAsset": "assets/pdfs/interlocking_brick_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/interlocking_brick_masonry_manual.pdf",
       "advantages": [
         "Dry-stack interlocking reduces mortar",
         "Good seismic ductility with bands",
@@ -73,7 +73,7 @@
         "#92400E"
       ],
       "model3dPath": "assets/models/advanced_interlocking/base.glb",
-      "pdfAsset": "assets/pdfs/advanced_interlocking_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/advanced_interlocking_brick_masonry_manual.pdf",
       "advantages": [
         "Faster dry-stack interlocking construction",
         "Grouted cores with vertical reinforcement",
@@ -121,7 +121,7 @@
         "#059669"
       ],
       "model3dPath": "assets/models/bamboo_wattle/base.glb",
-      "pdfAsset": "assets/pdfs/bamboo_wattle_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/bamboo_frame_wattle_daub_manual.pdf",
       "advantages": [
         "Rapid construction",
         "Renewable bamboo",
@@ -169,7 +169,7 @@
         "#10B981"
       ],
       "model3dPath": "assets/models/cement_bamboo/base.glb",
-      "pdfAsset": "assets/pdfs/cement_bamboo_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/cement_bamboo_frame_manual.pdf",
       "advantages": [
         "Bamboo replaced by treated poles in cement sockets",
         "Improved durability"
@@ -217,7 +217,7 @@
         "#8B5CF6"
       ],
       "model3dPath": "assets/models/confined_block/base.glb",
-      "pdfAsset": "assets/pdfs/confined_block_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/confined_concrete_block_masonry_manual.pdf",
       "advantages": [
         "Confining columns and tie beams",
         "Widely understood by masons",
@@ -266,7 +266,7 @@
         "#D97706"
       ],
       "model3dPath": "assets/models/earthbag/base.glb",
-      "pdfAsset": "assets/pdfs/earthbag_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/earthbag_masonry_manual.pdf",
       "advantages": [
         "Uses local soil",
         "Excellent thermal mass",
@@ -314,7 +314,7 @@
         "#06B6D4"
       ],
       "model3dPath": "assets/models/elevated_flood/base.glb",
-      "pdfAsset": "assets/pdfs/elevated_flood_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/elevated_flood_resilient_house_manual.pdf",
       "advantages": [
         "Living floor above design flood level",
         "Open ground storey for flow",
@@ -361,7 +361,7 @@
         "#2563EB"
       ],
       "model3dPath": "assets/models/floating_amphibious/base.glb",
-      "pdfAsset": "assets/pdfs/floating_amphibious_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/floating_amphibious_structure_manual.pdf",
       "advantages": [
         "Rises with flood water",
         "Minimal dry floodproofing",
@@ -409,7 +409,7 @@
         "#94A3B8"
       ],
       "model3dPath": "assets/models/fly_ash/base.glb",
-      "pdfAsset": "assets/pdfs/fly_ash_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/fly_ash_masonry_manual.pdf",
       "advantages": [
         "Utilizes industrial by-product",
         "Lower carbon than burnt brick",
@@ -457,7 +457,7 @@
         "#334155"
       ],
       "model3dPath": "assets/models/geogrid_wall/base.glb",
-      "pdfAsset": "assets/pdfs/geogrid_wall_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/geogrid_reinforced_retaining_wall_manual.pdf",
       "advantages": [
         "Flexible facing accommodates settlement",
         "Rapid installation on slopes"
@@ -506,7 +506,7 @@
         "#475569"
       ],
       "model3dPath": "assets/models/lgs_house/base.glb",
-      "pdfAsset": "assets/pdfs/lgs_house_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/light_gauge_steel_house_manual.pdf",
       "advantages": [
         "Lightweight seismic performance",
         "Prefabrication possible",
@@ -554,7 +554,7 @@
         "#B45309"
       ],
       "model3dPath": "assets/models/loh_kaat/base.glb",
-      "pdfAsset": "assets/pdfs/loh_kaat_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/loh_kaat_timber_house_manual.pdf",
       "advantages": [
         "Traditional knowledge in GB",
         "Good thermal performance",
@@ -603,7 +603,7 @@
         "#8B5CF6"
       ],
       "model3dPath": "assets/models/prefab/base.glb",
-      "pdfAsset": "assets/pdfs/prefab_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/pre_fabricated_house_manual.pdf",
       "advantages": [
         "Factory quality control",
         "Fast on-site assembly",
@@ -650,7 +650,7 @@
         "#38BDF8"
       ],
       "model3dPath": "assets/models/raised_plinth/base.glb",
-      "pdfAsset": "assets/pdfs/raised_plinth_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/raised_plinth_flood_resilient_house_manual.pdf",
       "advantages": [
         "Cost-effective flood mitigation",
         "Compatible with local masonry",
@@ -698,7 +698,7 @@
         "#F97316"
       ],
       "model3dPath": "assets/models/rat_trap_bond/base.glb",
-      "pdfAsset": "assets/pdfs/rat_trap_bond_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/rat_trap_bond_masonry_manual.pdf",
       "advantages": [
         "~25% less bricks",
         "Cavity improves insulation",
@@ -747,7 +747,7 @@
         "#CA8A04"
       ],
       "model3dPath": "assets/models/reinforced_adobe/base.glb",
-      "pdfAsset": "assets/pdfs/reinforced_adobe_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/reinforced_adobe_brick_structure_manual.pdf",
       "advantages": [
         "Local materials",
         "Low environmental impact",
@@ -796,7 +796,7 @@
         "#22C55E"
       ],
       "model3dPath": "assets/models/timber_lath/base.glb",
-      "pdfAsset": "assets/pdfs/timber_lath_guidelines.pdf",
+      "pdfAsset": "assets/pdfs/timber_frame_lath_plaster_manual.pdf",
       "advantages": [
         "Light seismic mass",
         "Repairable infill",

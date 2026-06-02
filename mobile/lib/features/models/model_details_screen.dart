@@ -12,8 +12,8 @@ import '../../core/widgets/section_header.dart';
 import '../../data/models/house_model.dart';
 import '../../data/models/resilience_dimensions.dart';
 import '../../providers/app_providers.dart';
-import '../library/engineering_manual_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
+import '../pdf/model_manual_screen.dart';
 
 class ModelDetailsScreen extends ConsumerWidget {
   const ModelDetailsScreen({super.key, required this.modelId});
@@ -178,14 +178,12 @@ class _ModelDetailBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (_) => EngineeringManualScreen(
-                            initialSearch: house.name,
-                          ),
+                          builder: (_) => ModelManualScreen(house: house),
                         ),
                       );
                     },
                     icon: const Icon(Icons.picture_as_pdf_outlined),
-                    label: const Text('Engineering guidelines (manual)'),
+                    label: const Text('Engineering manual (this model)'),
                   ),
                   const SizedBox(height: 100),
                 ],

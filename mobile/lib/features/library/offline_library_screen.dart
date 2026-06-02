@@ -8,7 +8,6 @@ import '../../core/widgets/section_header.dart';
 import '../../providers/app_providers.dart';
 import '../downloads/download_center_screen.dart';
 import '../pdf/pdf_viewer_screen.dart';
-import 'engineering_manual_screen.dart';
 
 /// Bundled PDFs, engineering manuals, and offline references.
 class OfflineLibraryScreen extends ConsumerStatefulWidget {
@@ -270,7 +269,9 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => EngineeringManualScreen(
+                                builder: (_) => PdfViewerScreen(
+                                  assetPath: h.pdfAsset,
+                                  title: '${h.name} — Engineering Manual',
                                   initialSearch: h.name,
                                 ),
                               ),
@@ -309,9 +310,10 @@ class _OfflineLibraryScreenState extends ConsumerState<OfflineLibraryScreen> {
   }
 
   void _openManual(BuildContext context, String topicTitle) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => EngineeringManualScreen(initialSearch: topicTitle),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Open a model manual from “Model Reference Guides” to view engineering PDFs.'),
+        backgroundColor: AppColors.navy,
       ),
     );
   }

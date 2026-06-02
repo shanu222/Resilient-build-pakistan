@@ -43,6 +43,10 @@ ensure_icon "${ROOT}/mobile/web/icons/Icon-maskable-512.png"
 
 cd "${ROOT}/mobile"
 flutter pub get
+
+echo "==> Generating engineering manuals (17 PDFs)..."
+flutter pub run tool/generate_model_manuals.dart
+
 flutter build web \
   --release \
   --base-href / \
