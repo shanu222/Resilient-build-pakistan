@@ -1,4 +1,5 @@
 import '../../bim_simulation/engine/bim_entity.dart';
+import '../../bim_simulation/engine/geometry/bim_mesh.dart';
 import '../../bim_simulation/engine/math/bim_vec3.dart';
 import '../../bim_simulation/engine/rendering/bim_scene_bounds.dart';
 
