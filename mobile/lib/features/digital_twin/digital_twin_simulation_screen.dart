@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../bim_simulation/engine/bim_scene_registry.dart';
 import '../bim_simulation/engine/bim_simulation_controller.dart';
@@ -35,8 +34,8 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   ConstructionStageController? _stages;
   BimSimulationController? _bim;
   final NarrationController _narration = NarrationController();
-  Timer? _tick;
-  Timer? _hazardTick;
+  late final Ticker _ticker;
+  Duration? _lastTick;
   String? _selectedComponent;
   TwinViewLayer _viewLayer = TwinViewLayer.structural;
   double _hazardAnimPhase = 0;
@@ -46,7 +45,37 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
   @override
   void initState() {
     super.initState();
+    _ticker = Ticker(_onTick);
     _load();
+  }
+
+  void _onTick(Duration elapsed) {
+    final stages = _stages;
+    if (!mounted || stages == null) return;
+    if (_lastTick == null) {
+      _lastTick = elapsed;
+      return;
+    }
+    final dt = (elapsed - _lastTick!).inMicroseconds / 1e6;
+    _lastTick = elapsed;
+
+    // Runtime FPS estimate (best-effort, for HUD).
+    stages.reportFrameTime(dt);
+
+    // Playback simulation (single source of truth is ConstructionStageController).
+    stages.advance(dt);
+
+    // Hazard overlay animation should not interrupt playback.
+    if (stages.hazardMode != 'none') {
+      _hazardAnimPhase = (_hazardAnimPhase + dt * 0.30) % 1.0;
+    }
+
+    // BIM environmental effects (procedural viewport is already ticker-driven internally,
+    // but these effects are lightweight and should follow the same dt).
+    _bim?.advanceEnvironmentalEffects(dt);
+
+    // Sync BIM + narration to stage state.
+    _onStageTick();
   }
 
   Future<void> _load() async {
@@ -65,7 +94,6 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
 
     if (mounted) {
       setState(() => _manifest = m);
-      _syncHazardTicker();
       if (_hasProceduralBim) {
         _applyViewLayer(TwinViewLayer.structural);
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -77,16 +105,8 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
           );
         });
       }
-    }
-  }
-
-  void _syncHazardTicker() {
-    _hazardTick?.cancel();
-    if (_stages?.hazardMode != 'none') {
-      _hazardTick = Timer.periodic(const Duration(milliseconds: 50), (_) {
-        _hazardAnimPhase = (_hazardAnimPhase + 0.015) % 1.0;
-        if (mounted) setState(() {});
-      });
+      _lastTick = null;
+      _ticker.start();
     }
   }
 
@@ -112,9 +132,6 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       bim.setStage(stages.stageIndex, progress: stages.stageProgress);
       bim.isPlaying = stages.isPlaying;
       bim.playbackSpeed = stages.playbackSpeed;
-    }
-    if (stages.hazardMode != 'none') {
-      _hazardAnimPhase = (_hazardAnimPhase + 0.015) % 1.0;
     }
     if (mounted) setState(() {});
   }
@@ -161,26 +178,12 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
     if (mounted) setState(() {});
   }
 
-  void _startTicker() {
-    _tick?.cancel();
-    _tick = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      _stages?.advance(0.05);
-      _bim?.advanceEnvironmentalEffects(0.05);
-    });
-  }
-
-  void _stopTicker() {
-    _tick?.cancel();
-    _tick = null;
-  }
-
   @override
   void dispose() {
     _stages?.removeListener(_onStageTick);
     _bim?.removeListener(_syncBimStage);
     _bim?.dispose();
-    _stopTicker();
-    _hazardTick?.cancel();
+    _ticker.dispose();
     _narration.dispose();
     super.dispose();
   }
@@ -193,9 +196,11 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
 
     final showProcedural = _viewLayer != TwinViewLayer.glb && _bim != null;
 
-    return DigitalTwinWorkspace(
+    final stages = _stages!;
+
+    Widget child = DigitalTwinWorkspace(
       manifest: _manifest!,
-      stages: _stages!,
+      stages: stages,
       hazardAnimPhase: _hazardAnimPhase,
       viewLayer: _viewLayer,
       onViewLayerChanged: _applyViewLayer,
@@ -204,25 +209,20 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
       selectedComponent: _selectedComponent,
       onComponentSelected: (id) => setState(() => _selectedComponent = id),
       onPlayChanged: (playing) {
-        final stages = _stages!;
         if (playing) {
-          if (!stages.isPlaying) stages.togglePlay();
-          _bim?.isPlaying = true;
-          _startTicker();
+          stages.play();
         } else {
-          _stopTicker();
-          if (stages.isPlaying) stages.togglePlay();
-          _bim?.isPlaying = false;
+          stages.pause();
         }
+        _bim?.isPlaying = stages.isPlaying;
       },
       onSpeedChanged: (s) {
-        _stages!.setPlaybackSpeed(s);
+        stages.setPlaybackSpeed(s);
         _bim?.playbackSpeed = s;
       },
       onHazardSelected: (mode) {
-        _stages!.setHazardMode(mode);
+        stages.setHazardMode(mode);
         _hazardAnimPhase = 0;
-        _syncHazardTicker();
         final bim = _bim;
         if (bim == null) return;
         switch (mode) {
@@ -240,5 +240,100 @@ class _DigitalTwinSimulationScreenState extends State<DigitalTwinSimulationScree
         if (mounted) setState(() {});
       },
     );
+
+    // Desktop keyboard shortcuts.
+    child = Shortcuts(
+      shortcuts: const <ShortcutActivator, Intent>{
+        SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+        SingleActivator(LogicalKeyboardKey.arrowLeft): DirectionalFocusIntent(TraversalDirection.left),
+        SingleActivator(LogicalKeyboardKey.arrowRight): DirectionalFocusIntent(TraversalDirection.right),
+        SingleActivator(LogicalKeyboardKey.keyR): _RestartIntent(),
+        SingleActivator(LogicalKeyboardKey.keyF): _FitIntent(),
+        SingleActivator(LogicalKeyboardKey.keyG): _GridIntent(),
+        SingleActivator(LogicalKeyboardKey.keyE): _ExplodedIntent(),
+        SingleActivator(LogicalKeyboardKey.keyS): _SectionIntent(),
+      },
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              if (stages.isPlaying) {
+                stages.pause();
+              } else {
+                stages.play();
+              }
+              _bim?.isPlaying = stages.isPlaying;
+              return null;
+            },
+          ),
+          DirectionalFocusIntent: CallbackAction<DirectionalFocusIntent>(
+            onInvoke: (intent) {
+              if (intent.direction == TraversalDirection.left) {
+                stages.previousStage();
+              } else if (intent.direction == TraversalDirection.right) {
+                stages.nextStage();
+              }
+              return null;
+            },
+          ),
+          _RestartIntent: CallbackAction<_RestartIntent>(
+            onInvoke: (_) {
+              stages.restart();
+              return null;
+            },
+          ),
+          _FitIntent: CallbackAction<_FitIntent>(
+            onInvoke: (_) {
+              final bim = _bim;
+              if (bim == null) return null;
+              final size = MediaQuery.sizeOf(context);
+              bim.fitCamera(viewportWidth: size.width, viewportHeight: size.height);
+              return null;
+            },
+          ),
+          _GridIntent: CallbackAction<_GridIntent>(
+            onInvoke: (_) {
+              _bim?.toggleStructuralGrid();
+              return null;
+            },
+          ),
+          _ExplodedIntent: CallbackAction<_ExplodedIntent>(
+            onInvoke: (_) {
+              _applyViewLayer(TwinViewLayer.exploded);
+              return null;
+            },
+          ),
+          _SectionIntent: CallbackAction<_SectionIntent>(
+            onInvoke: (_) {
+              _applyViewLayer(TwinViewLayer.crossSection);
+              return null;
+            },
+          ),
+        },
+        child: Focus(autofocus: true, child: child),
+      ),
+    );
+
+    return child;
   }
+}
+
+class _RestartIntent extends Intent {
+  const _RestartIntent();
+}
+
+class _FitIntent extends Intent {
+  const _FitIntent();
+}
+
+class _GridIntent extends Intent {
+  const _GridIntent();
+}
+
+class _ExplodedIntent extends Intent {
+  const _ExplodedIntent();
+}
+
+class _SectionIntent extends Intent {
+  const _SectionIntent();
 }

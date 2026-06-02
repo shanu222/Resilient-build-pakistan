@@ -6,7 +6,11 @@ import '../../core/utils/web_asset_url.dart';
 import 'construction_stage_controller.dart';
 import 'widgets/hazard_simulation_overlay.dart';
 
-/// GLB construction viewer — smooth stage cross-fade, hazard overlays.
+/// GLB construction viewer — hazard overlays + stage HUD.
+///
+/// Important: keep the `ModelViewer` instance stable to preserve user interaction
+/// state as much as the underlying web component allows. Avoid `AnimatedSwitcher`
+/// and widget keys that force disposal/recreation.
 class DigitalTwinViewport extends StatelessWidget {
   const DigitalTwinViewport({
     super.key,
@@ -19,44 +23,41 @@ class DigitalTwinViewport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = controller.currentStage;
-    final glb = controller.currentGlbPath;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 450),
-          switchInCurve: Curves.easeOutCubic,
-          switchOutCurve: Curves.easeInCubic,
-          layoutBuilder: (current, previous) => Stack(
-            fit: StackFit.expand,
-            children: [...previous, if (current != null) current],
-          ),
-          child: ModelViewer(
-            key: ValueKey<String>(glb),
-            src: webAssetUrl(glb),
-            alt: stage?.title ?? 'Construction model',
-            ar: false,
-            autoRotate: !controller.isPlaying,
-            cameraControls: true,
-            backgroundColor: AppColors.viewerBg,
-            loading: Loading.eager,
-            relatedCss: '''
-              .userInputWrapper { display: none; }
-            ''',
-          ),
-        ),
-        if (hazardOverlay != null) hazardOverlay!,
-        Positioned(
-          top: 12,
-          left: 12,
-          child: _StageBadge(
-            label: stage?.timelineLabel ?? '',
-            title: stage?.title ?? '',
-          ),
-        ),
-      ],
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final stage = controller.currentStage;
+        final glb = controller.currentGlbPath;
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            RepaintBoundary(
+              child: ModelViewer(
+                // Intentionally no key: avoid widget disposal which resets state.
+                src: webAssetUrl(glb),
+                alt: stage?.title ?? 'Construction model',
+                ar: false,
+                autoRotate: !controller.isPlaying,
+                cameraControls: true,
+                backgroundColor: AppColors.viewerBg,
+                loading: Loading.eager,
+                relatedCss: '''
+                  .userInputWrapper { display: none; }
+                ''',
+              ),
+            ),
+            if (hazardOverlay != null) hazardOverlay!,
+            Positioned(
+              top: 12,
+              left: 12,
+              child: _StageBadge(
+                label: stage?.timelineLabel ?? '',
+                title: stage?.title ?? '',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

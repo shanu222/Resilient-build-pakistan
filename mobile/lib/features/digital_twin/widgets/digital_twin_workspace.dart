@@ -122,6 +122,25 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
             ),
           ),
 
+          // Floating playback dock (bidirectional scrubber + transport + speed).
+          Positioned(
+            left: 12,
+            right: 12,
+            bottom: isMobile ? 18 : 16,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: _PlaybackDock(
+                stages: widget.stages,
+                onPlayChanged: widget.onPlayChanged,
+                onSpeedChanged: widget.onSpeedChanged,
+                onPrev: widget.stages.previousStage,
+                onNext: widget.stages.nextStage,
+                onRestart: widget.stages.restart,
+                onStop: widget.stages.stop,
+              ),
+            ),
+          ),
+
           // Floating action dock.
           Positioned(
             top: isMobile ? 72 : 82,
@@ -275,6 +294,153 @@ class _DigitalTwinWorkspaceState extends State<DigitalTwinWorkspace> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _PlaybackDock extends StatelessWidget {
+  const _PlaybackDock({
+    required this.stages,
+    required this.onPlayChanged,
+    required this.onSpeedChanged,
+    required this.onPrev,
+    required this.onNext,
+    required this.onRestart,
+    required this.onStop,
+  });
+
+  final ConstructionStageController stages;
+  final void Function(bool playing) onPlayChanged;
+  final void Function(double speed) onSpeedChanged;
+  final VoidCallback onPrev;
+  final VoidCallback onNext;
+  final VoidCallback onRestart;
+  final VoidCallback onStop;
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = AppBreakpoints.isMobile(context);
+    return AnimatedBuilder(
+      animation: stages,
+      builder: (context, _) {
+        final total = stages.manifest.stages.length;
+        final stageNum = stages.stageIndex + 1;
+        final value = stages.progressNormalized;
+        final speed = stages.playbackSpeed;
+        final hazard = stages.hazardMode;
+
+        return Material(
+          color: AppColors.navy.withValues(alpha: 0.78),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Stage $stageNum / $total',
+                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w800),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${(value * 100).round()}%  ·  ${speed.toStringAsFixed(speed == speed.roundToDouble() ? 0 : 2)}×  ·  ${hazard == "none" ? "Normal" : hazard}',
+                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w700),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text('1', style: TextStyle(color: Colors.white.withValues(alpha: 0.55), fontSize: 10)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          trackHeight: 3,
+                          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+                          overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
+                          activeTrackColor: AppColors.orange,
+                          inactiveTrackColor: Colors.white.withValues(alpha: 0.18),
+                          thumbColor: AppColors.orange,
+                        ),
+                        child: Slider(
+                          value: value.clamp(0, 1),
+                          onChanged: stages.scrub,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text('$total', style: TextStyle(color: Colors.white.withValues(alpha: 0.55), fontSize: 10)),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      tooltip: 'Previous stage',
+                      onPressed: stages.stageIndex > 0 ? onPrev : null,
+                      icon: const Icon(Icons.skip_previous, color: Colors.white),
+                    ),
+                    IconButton(
+                      tooltip: stages.isPlaying ? 'Pause' : 'Play',
+                      onPressed: () => onPlayChanged(!stages.isPlaying),
+                      icon: Icon(
+                        stages.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                        color: AppColors.orange,
+                        size: isMobile ? 40 : 44,
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Next stage',
+                      onPressed: stages.stageIndex < total - 1 ? onNext : null,
+                      icon: const Icon(Icons.skip_next, color: Colors.white),
+                    ),
+                    const SizedBox(width: 4),
+                    if (!isMobile) ...[
+                      IconButton(
+                        tooltip: 'Restart',
+                        onPressed: onRestart,
+                        icon: const Icon(Icons.restart_alt, color: Colors.white),
+                      ),
+                      IconButton(
+                        tooltip: 'Stop',
+                        onPressed: onStop,
+                        icon: const Icon(Icons.stop_circle_outlined, color: Colors.white),
+                      ),
+                    ],
+                    const SizedBox(width: 6),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton<double>(
+                        dropdownColor: AppColors.navy,
+                        value: speed.clamp(0.25, 4.0),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 12),
+                        iconEnabledColor: Colors.white70,
+                        items: const [
+                          DropdownMenuItem(value: 0.25, child: Text('0.25×')),
+                          DropdownMenuItem(value: 0.5, child: Text('0.5×')),
+                          DropdownMenuItem(value: 1.0, child: Text('1×')),
+                          DropdownMenuItem(value: 2.0, child: Text('2×')),
+                          DropdownMenuItem(value: 4.0, child: Text('4×')),
+                        ],
+                        onChanged: (s) {
+                          if (s == null) return;
+                          stages.setPlaybackSpeed(s);
+                          onSpeedChanged(s);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
